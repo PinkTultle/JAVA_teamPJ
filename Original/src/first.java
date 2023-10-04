@@ -7,6 +7,8 @@ public class first {
 		System.out.print("마스터\n");
 		
 
+		
+		System.out.print(false);
 	}
 
 }
