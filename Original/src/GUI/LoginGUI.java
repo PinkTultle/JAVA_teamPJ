@@ -123,7 +123,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 		txtId = new JTextField();
 		txtId.setFont(new Font("맑은 고딕", Font.PLAIN, 23));
 		txtId.setText("Id");
-		txtId.setBounds(30, 49, 370, 60);
+		txtId.setBounds(30, 49, 370, 50);
 		txtId.addFocusListener(new FocusListener() {
 
 			@Override
@@ -152,7 +152,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 		txtPassword.setText("Password");
 		txtPassword.setFont(new Font("맑은 고딕", Font.PLAIN, 23));
 		txtPassword.setColumns(10);
-		txtPassword.setBounds(30, 119, 370, 60);
+		txtPassword.setBounds(30, 109, 370, 50);
 		txtPassword.setEchoChar((char) 0);
 		txtPassword.addFocusListener(new FocusListener() {
 
@@ -183,6 +183,15 @@ public class LoginGUI extends JFrame implements ActionListener {
 		removefirstfocus.setBounds(-200, 10, 116, 21);
 		panel_1_1.add(removefirstfocus);
 		removefirstfocus.setColumns(10);
+
+		JButton btnNewButton_2 = new JButton("아이디/비밀번호 찾기");
+		btnNewButton_2.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+		btnNewButton_2.setBounds(256, 165, 162, 23);
+		btnNewButton_2.setBorderPainted(false);
+		btnNewButton_2.setFocusPainted(false);
+		btnNewButton_2.setContentAreaFilled(false);
+		btnNewButton_2.addMouseListener(listener_btn);
+		panel_1_1.add(btnNewButton_2);
 
 		JLabel lblNewLabel = new JLabel("렌트 프로그램");
 		lblNewLabel.setForeground(new Color(255, 255, 255));

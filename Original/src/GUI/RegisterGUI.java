@@ -33,7 +33,6 @@ public class RegisterGUI extends JFrame {
 	private MyJT textField_4;
 	private MyJT textField_5;
 	private MyJT textField_6;
-	private MyJT textField_7;
 
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
@@ -43,6 +42,7 @@ public class RegisterGUI extends JFrame {
 
 	private boolean male = false;
 	private boolean female = false;
+	private JTextField textField_TEL[] = new JTextField[2];
 
 	/**
 	 * Launch the application.
@@ -74,6 +74,24 @@ public class RegisterGUI extends JFrame {
 		contentPane.setLayout(null);
 
 		ML_btn listener_btn = new ML_btn();
+		KeyAdapter KA = new KeyAdapter() {
+			public void keyTyped(KeyEvent k) {
+				JTextField jt = (JTextField) k.getSource();
+				if ("1234567890".indexOf(k.getKeyChar()) == -1) { // 숫자로 입력 제한
+					k.consume();
+				}
+				if (jt.getText().length() == 3 && "1234567890".indexOf(k.getKeyChar()) != -1) { // 포커스 이동
+					if (k.getSource() == textField_TEL[0]) {
+						textField_TEL[1].requestFocus();
+					} else {
+						removefirstfocus.requestFocus();
+					}
+				}
+				if (jt.getText().length() > 3) { // 글자 수 제한
+					k.consume();
+				}
+			}
+		};
 
 		JLabel lblNewLabel = new JLabel("회원가입");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -104,7 +122,7 @@ public class RegisterGUI extends JFrame {
 		textField = new MyJT("아이디");
 		textField.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		textField.setText("아이디");
-		textField.setBounds(28, 10, 360, 38);
+		textField.setBounds(28, 10, 282, 38);
 		textField.addFocusListener(new MyFL_T(textField));
 		panel_2.add(textField);
 		textField.setColumns(10);
@@ -159,47 +177,13 @@ public class RegisterGUI extends JFrame {
 		textField_5.addFocusListener(new MyFL_T(textField_5));
 		panel_2.add(textField_5);
 
-		textField_6 = new MyJT("전화");
+		textField_6 = new MyJT("이메일");
 		textField_6.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		textField_6.setText("전화");
+		textField_6.setText("이메일");
 		textField_6.setColumns(10);
-		textField_6.setBounds(28, 298, 282, 38);
+		textField_6.setBounds(28, 346, 360, 38);
 		textField_6.addFocusListener(new MyFL_T(textField_6));
-
-		// 키 입력 확인
-		textField_6.addKeyListener(new KeyAdapter() {
-			public void keyTyped(KeyEvent k) {
-				// 글자 수 제한
-				if (textField_6.getText().length() > 12) {
-					k.consume();
-				}
-				// '-' 자동 제거
-				if (!textField_6.getText().isEmpty()) {
-					if (textField_6.getText().charAt(textField_6.getText().length() - 1) == '-') {
-						textField_6.setText(textField_6.getText().substring(0, textField_6.getText().length() - 1));
-					}
-				}
-				// 숫자로만 작성가능하도록 제한
-				if ("1234567890".indexOf(k.getKeyChar()) != -1) {
-					// 중간에 '-' 추가
-					if (textField_6.getText().length() == 3 || textField_6.getText().length() == 8) {
-						textField_6.setText(textField_6.getText() + '-');
-					}
-				} else {
-					k.consume();
-				}
-			}
-		});
-
 		panel_2.add(textField_6);
-
-		textField_7 = new MyJT("이메일");
-		textField_7.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		textField_7.setText("이메일");
-		textField_7.setColumns(10);
-		textField_7.setBounds(28, 346, 360, 38);
-		textField_7.addFocusListener(new MyFL_T(textField_7));
-		panel_2.add(textField_7);
 
 		btnNewButton = new JButton("남자");
 		btnNewButton.addMouseListener(listener_btn);
@@ -252,6 +236,51 @@ public class RegisterGUI extends JFrame {
 		btnNewButton_4.setBackground(new Color(31, 66, 121));
 		btnNewButton_4.setBounds(332, 395, 75, 30);
 		panel_2.add(btnNewButton_4);
+
+		JButton btnNewButton_5 = new JButton("중복");
+		btnNewButton_5.setForeground(Color.BLACK);
+		btnNewButton_5.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		btnNewButton_5.setFocusPainted(false);
+		btnNewButton_5.setBorder(bf.createLineBorder(new Color(128, 128, 128)));
+		btnNewButton_5.setBackground(Color.WHITE);
+		btnNewButton_5.setBounds(322, 10, 66, 38);
+		panel_2.add(btnNewButton_5);
+
+		JTextField textField_8 = new JTextField();
+		textField_8.setEnabled(false);
+		textField_8.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		textField_8.setBounds(28, 298, 60, 38);
+		textField_8.setText("010");
+		textField_8.setHorizontalAlignment(JTextField.CENTER);
+		panel_2.add(textField_8);
+
+		textField_TEL[0] = new JTextField();
+		textField_TEL[0].setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		textField_TEL[0].setColumns(10);
+		textField_TEL[0].setBounds(117, 298, 82, 38);
+		textField_TEL[0].addFocusListener(new MyFL_TEL(textField_TEL[0]));
+		textField_TEL[0].addKeyListener(KA);
+		panel_2.add(textField_TEL[0]);
+
+		textField_TEL[1] = new JTextField();
+		textField_TEL[1].setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		textField_TEL[1].setColumns(10);
+		textField_TEL[1].setBounds(228, 298, 82, 38);
+		textField_TEL[1].addFocusListener(new MyFL_TEL(textField_TEL[1]));
+		textField_TEL[1].addKeyListener(KA);
+		panel_2.add(textField_TEL[1]);
+
+		JLabel lblNewLabel_1 = new JLabel("-");
+		lblNewLabel_1.setFont(new Font("돋움", Font.PLAIN, 15));
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setBounds(93, 312, 19, 15);
+		panel_2.add(lblNewLabel_1);
+
+		JLabel lblNewLabel_1_1 = new JLabel("-");
+		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1_1.setFont(new Font("돋움", Font.PLAIN, 15));
+		lblNewLabel_1_1.setBounds(204, 312, 19, 15);
+		panel_2.add(lblNewLabel_1_1);
 	}
 
 	class MyJT extends JTextField {
@@ -339,6 +368,25 @@ public class RegisterGUI extends JFrame {
 			if (!passwordField.isTyped) {
 				passwordField.setText(passwordField.init);
 			}
+		}
+	}
+
+	class MyFL_TEL implements FocusListener {
+		private JTextField textField;
+
+		public MyFL_TEL(JTextField textField) {
+			// TODO Auto-generated constructor stub
+			this.textField = textField;
+		}
+
+		@Override
+		public void focusGained(FocusEvent e) {
+			textField.setHorizontalAlignment(JTextField.LEFT);
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) {
+			textField.setHorizontalAlignment(JTextField.CENTER);
 		}
 	}
 
