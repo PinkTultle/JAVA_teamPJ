@@ -1,0 +1,112 @@
+-- 회원 테이블
+CREATE TABLE 회원 (
+    아이디 VARCHAR2(50) PRIMARY KEY,
+    비밀번호 VARCHAR2(40),
+    별명 VARCHAR2(50),
+    이름 VARCHAR2(30),
+    생년월일 VARCHAR2(30),
+    성별 VARCHAR2(10),
+    전화번호 VARCHAR2(30),
+    주소 VARCHAR2(100),
+    이메일 VARCHAR2(100),
+    대여상태 VARCHAR2(20),
+    연체유무 VARCHAR2(1),
+    은행 VARCHAR2(30),
+    계좌번호 NUMBER(30)
+);
+
+-- 물품목록 테이블
+CREATE TABLE 물품목록 (
+    물품코드 NUMBER PRIMARY KEY,
+    카테고리 VARCHAR2(50),
+    물품명 VARCHAR2(100),
+    렌트기한 DATE,
+    모델명 VARCHAR2(100),
+    대여료 NUMBER,
+    보증금 NUMBER,
+    첨부 BLOB,
+    설명 VARCHAR2(200),
+    소유주 VARCHAR2(50) NOT NULL,
+    대여상태 VARCHAR2(20),
+    예약자 VARCHAR2(50),
+    대여자 VARCHAR2(50),
+    
+    CONSTRAINT FK_물품_회원_소유자 FOREIGN KEY(소유주) REFERENCES 회원(아이디),
+    CONSTRAINT FK_물품_회원_대여자 FOREIGN KEY(대여자) REFERENCES 회원(아이디)
+);
+
+-- 대여 기록 테이블
+CREATE TABLE 대여기록 (
+    물품코드 NUMBER PRIMARY KEY,
+    물품명 VARCHAR2(100),
+    대여시작날짜 DATE,
+    대여반납예정일 DATE,
+    소유자 VARCHAR2(50),
+    대여자 VARCHAR2(50),
+    반납상태 VARCHAR2(20),
+    
+    CONSTRAINT FK_물품목록_대여기록 FOREIGN KEY(물품코드) REFERENCES 물품목록(물품코드),
+    CONSTRAINT FK_회원_대여기록_소유자 FOREIGN KEY(소유자) REFERENCES 회원(아이디),
+    CONSTRAINT FK_회원_대여기록_대여자 FOREIGN KEY(대여자) REFERENCES 회원(아이디)
+);
+
+
+-- 신고 기록 테이블
+CREATE TABLE 신고기록 (
+    신고번호 NUMBER PRIMARY KEY,
+    물품코드 NUMBER,
+    물품명 VARCHAR2(50),
+    신고분류 VARCHAR2(50),
+    처리상태 VARCHAR2(20),
+    신고메세지 VARCHAR2(200),
+    
+    CONSTRAINT FK_물품목록_신고기록 FOREIGN KEY(물품코드) REFERENCES 물품목록(물품코드)
+    
+);
+
+
+
+
+
+-- 회원 데이터     
+INSERT INTO 회원 VALUES ('asd1', 'pa1', '사용자1', '김철수', '1990-05-15', '남성', '010-1234-5678', '서울시 강남구', 'user1@example.com', '대여가능', 'N', '국민은행', 1234567890);
+INSERT INTO 회원 VALUES ('asd2', 'pa2', '사용자2', '이영희', '1985-08-20', '여성', '010-9876-5432', '서울시 강동구', 'user2@example.com', '대여중', 'N', '우리은행', 9876543210);
+INSERT INTO 회원 VALUES ('asd3', 'pa3', '사용자3', '박철수', '1993-02-10', '남성', '010-5555-7777', '부산시 해운대구', 'user3@example.com', '대여가능', 'N', '신한은행', 1357924680);
+INSERT INTO 회원 VALUES ('asd4', 'pa4', '사용자4', '정영희', '1980-12-25', '여성', '010-2222-8888', '인천시 남동구', 'user4@example.com', '대여중', 'N', '하나은행', 2468135790);
+INSERT INTO 회원 VALUES ('asd5', 'pa5', '사용자5', '이철수', '1975-07-30', '남성', '010-3333-9999', '대구시 중구', 'user5@example.com', '대여가능', 'N', '농협은행', 987654321);
+
+
+-- 물품 데이터 더미
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 대여상태, 예약자, 대여자, 소유주)
+VALUES (1, '전자제품', '노트북', TO_DATE('2023-10-25', 'YYYY-MM-DD'), 'Dell XPS 15', 3000, 50, '대여중', NULL, 'asd4', 'asd1');
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 대여상태, 예약자, 대여자, 소유주)
+VALUES (2, '가전제품', '냉장고', TO_DATE('2023-10-20', 'YYYY-MM-DD'), 'Samsung RS27T5200', 4000, 60, '대여가능', NULL, NULL, 'asd2');
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 대여상태, 예약자, 대여자, 소유주)
+VALUES (3, '의류', '드레스', TO_DATE('2023-10-28', 'YYYY-MM-DD'), 'Elegant Evening Gown', 2500, 30, '대여중', NULL, 'asd1', 'asd3');
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 대여상태, 예약자, 대여자, 소유주)
+VALUES (4, '스포츠용품', '자전거', TO_DATE('2023-10-22', 'YYYY-MM-DD'), 'Trek FX 3 Disc', 2000, 25, '대여가능', NULL, NULL, 'asd4');
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 대여상태, 예약자, 대여자, 소유주)
+VALUES (5, '도서', '소설책', TO_DATE('2023-10-27', 'YYYY-MM-DD'), 'The Great Gatsby', 1500, 20, '대여가능', NULL, 'asd5', 'asd5');
+
+
+-- 대여기록 데이터 더미
+INSERT INTO 대여기록 (물품코드, 물품명, 대여시작날짜, 대여반납예정일, 소유자, 대여자, 반납상태)
+VALUES (1, '노트북', TO_DATE('2023-10-15', 'YYYY-MM-DD'), TO_DATE('2023-10-25', 'YYYY-MM-DD'), 'asd1', 'asd4', '대여중');
+INSERT INTO 대여기록 (물품코드, 물품명, 대여시작날짜, 대여반납예정일, 소유자, 대여자, 반납상태)
+VALUES (3, '드레스', TO_DATE('2023-10-18', 'YYYY-MM-DD'), TO_DATE('2023-10-28', 'YYYY-MM-DD'), 'asd3', 'asd4', '대여중');
+INSERT INTO 대여기록 (물품코드, 물품명, 대여시작날짜, 대여반납예정일, 소유자, 대여자, 반납상태)
+VALUES (5, '소설', TO_DATE('2023-10-17', 'YYYY-MM-DD'), TO_DATE('2023-10-27', 'YYYY-MM-DD'), 'asd5', 'asd1', '대여중');
+
+
+-- 신고 기록 추가
+INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지)
+VALUES (1, 2, '냉장고', '파손된 물품', '처리완료', '물품 파손 신고');
+INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지)
+VALUES (2, 4, '자전거', '허위물품', '처리중', '허위 물품 신고합니다!');
+INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지)
+VALUES (3, 5, '소설', '연락두절', '처리완료', '연락두절!');
+INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지)
+VALUES (4, 2, '냉장고', '기타', '처리중', '냉장고에 음식물쓰레기 있습니다.');
+INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지)
+VALUES (5, 1, '노트북', '과한금액/보증금', '신청', '적혀있는 금액보다 더 달라고 합니다.');
+
