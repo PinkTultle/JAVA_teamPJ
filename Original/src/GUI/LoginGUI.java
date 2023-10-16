@@ -3,6 +3,7 @@ package GUI;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,13 +13,17 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
-public class LoginGUI extends JFrame implements ActionListener {
+public class LoginGUI  extends JFrame implements ActionListener {
+	
+	UserDTO userDTO ;
+	UserDAO userDAO ;
 
 	private JPasswordField passwordField;
 	private JTextArea textArea_ID;
 	private JPanel panel;
 	private JButton btn_Login;
 	private JButton btn_Register;
+	
 
 	/**
 	 * Launch the application.
@@ -42,6 +47,8 @@ public class LoginGUI extends JFrame implements ActionListener {
 	public LoginGUI() {
 		setTitle("로그인");
 		setBounds(100, 100, 322, 112);
+		
+		userDAO = new UserDAO();
 
 		panel = new JPanel();
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -75,12 +82,39 @@ public class LoginGUI extends JFrame implements ActionListener {
 		lblNewLabel_1.setBounds(10, 49, 57, 15);
 		panel.add(lblNewLabel_1);
 	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btn_Login) {
-			// 로그인 버튼 눌렀을때
-			// db 와 비교 필요
+			
+			String id = textArea_ID.getText();
+			String pw = new String(passwordField.getPassword());
+			
+			userDTO = new UserDTO();
+			
+			userDTO.setId(id);
+			userDTO.setPw(pw);
+			
+			try {
+				int n = userDAO.checkLogin(userDTO);
+				
+				if(n==0) {
+					//로그인 성공
+					System.out.println("로그인 성공");
+				}else if(n==1) {
+					//비밀번호 불일치
+					System.out.println("비밀번호 재확인");
+				}else if(n==-1) {
+					//아이디 없음
+					System.out.println("아이디 없음");
+				}
+				
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			} // 로그인 확인
+			
+			
 		}
 		if (e.getSource() == btn_Register) {
 			// 회원가입 버튼 눌렀을때
@@ -88,6 +122,9 @@ public class LoginGUI extends JFrame implements ActionListener {
 			frame.setVisible(true);
 		}
 	}
+	
+	
+	
 }
 
 // 해당 소스는 swing frame 을 완전히 종료할 수 없습니다.
