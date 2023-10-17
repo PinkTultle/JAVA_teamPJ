@@ -2,7 +2,9 @@ package GUI;
 
 import java.awt.EventQueue;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTree;
@@ -17,8 +19,9 @@ import javax.swing.border.TitledBorder;
 public class Main_frame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel Banner;
-
+	
+	private JPanel contentPane, Baener, FunctionPane;
+	private JLabel LOGO;
 	/**
 	 * Launch the application.
 	 */
@@ -37,6 +40,8 @@ public class Main_frame extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * 메인 프레임 위에 콘텐츠 팬
+	 * 그위 배너 팬과 기능 팬 올림
 	 */
 	public Main_frame() {
 		setTitle("랜트 프로그램!");
@@ -46,15 +51,30 @@ public class Main_frame extends JFrame {
 		setResizable(false);
 		//화면 중앙에 출력
 		setLocationRelativeTo(null);
-
 		
-		Banner = new JPanel();
-		Banner.setBackground(Color.LIGHT_GRAY);
-		Banner.setToolTipText("안녕!");
-		Banner.setBorder(new TitledBorder(null, "\u314D\u3147\u3134\u314D", TitledBorder.LEFT, TitledBorder.TOP, null, null));
-
-		setContentPane(Banner);
-		Banner.setLayout(new CardLayout(0, 0));
+		//콘텐츠 패널 설정
+		//이 위에 배너와 기능 패널 올라감
+		contentPane = new JPanel();
+		contentPane.setBackground(Color.LIGHT_GRAY);
+		contentPane.setToolTipText("콘텐츠 팬");
+		contentPane.setLayout(new CardLayout());
+		
+		//배널 패널 설정
+		Baener = new JPanel();
+		Baener.setBorder(new EmptyBorder(100, 100, 100, 100));
+		Baener.setBackground(Color.CYAN);
+		Baener.setToolTipText("배너 패널");
+		
+		contentPane.add(Baener);
+		
+		FunctionPane = new JPanel();
+		FunctionPane.setBackground(Color.red);
+		FunctionPane.setToolTipText("기능 패널");
+		
+		contentPane.add(FunctionPane);
+		
+		setContentPane(contentPane);
+		contentPane.setLayout(new CardLayout(0, 0));
 	}
 
 }
