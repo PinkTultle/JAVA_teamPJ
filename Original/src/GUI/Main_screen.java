@@ -16,6 +16,7 @@ public class Main_screen {
 		// TODO Auto-generated method stub
 		
 		Mainframe MF = new Mainframe();
+		
 
 	}
 
@@ -24,11 +25,11 @@ public class Main_screen {
 
 class Mainframe extends JFrame{
 	
-	private JPanel Operating_Area = null;
+	//private JPanel Operating_Area = null;
 	
 	public Mainframe() {
 		
-		setSize(900, 600);
+		setSize(1050, 600);
 		setLocationRelativeTo(null);
 		setTitle("메인 프레임");
 		
