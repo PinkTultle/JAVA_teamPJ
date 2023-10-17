@@ -10,6 +10,7 @@ public class UserDTO { // 로그인 ,회원가입 등 유저 정보
 	private String gender; // 남성, 여성으로 입력해야 db 오류 안남
 	private int tel; // ex) 01012345678
 	private String address;
+	private String email;
 	private String rentalstatus; // ex) 대여가능, 대여중
 	private String bank; // ex) 하나은행
 	private int accountnumber; // ex) 1357924684
@@ -103,6 +104,16 @@ public class UserDTO { // 로그인 ,회원가입 등 유저 정보
 	}
 	public void setAccountnumber(int accountnumber) {
 		this.accountnumber = accountnumber;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	

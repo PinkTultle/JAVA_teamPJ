@@ -1,6 +1,5 @@
 package JDBC;
 
-import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -33,7 +32,7 @@ public class UserDAO { // 회원 관련 db 기능
 	}
 	
 	
-	public int checkLogin(UserDTO dto) throws SQLException {
+	public int checkLogin(UserDTO dto) throws SQLException { // 로그인 
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null; //결과 담는 곳
@@ -66,6 +65,48 @@ public class UserDAO { // 회원 관련 db 기능
 		}
 		
 		
+		
+		
+	}
+	
+	public int userInsert(UserDTO dto) throws SQLException { // 회원가입
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		int rs = 0; 
+		String sql = " INSERT INTO 회원 (아이디, 비밀번호, 별명, 이름, 생년월일, 성별, 전화번호, 주소, 이메일, 대여상태 ) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, '대여가능') ";
+		
+		String tel1 = Integer.toString(dto.getTel()).substring(0, 4); // 전화번호 중간 4자리
+		String tel2 = Integer.toString(dto.getTel()).substring(5); // 전화번호 마지막 4자리
+		
+		String tel = "010-"+ tel1 + "-"+ tel2;
+		
+		try {
+			con = getConn();
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getId());
+			pstmt.setString(2, dto.getPw());
+			pstmt.setString(3, dto.getNickname());
+			pstmt.setString(4, dto.getName());
+			pstmt.setInt(5, dto.getBirth());
+			pstmt.setString(6, dto.getGender());
+			pstmt.setString(7, tel);
+			pstmt.setString(8, dto.getAddress());
+			pstmt.setString(9, dto.getEmail());
+			
+
+			rs = pstmt.executeUpdate();
+			
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			pstmt.close();
+			con.close();
+		}
+		return rs; // 리턴값 1이상이면 회원가입 성공,  0이면 실패
 		
 		
 	}
