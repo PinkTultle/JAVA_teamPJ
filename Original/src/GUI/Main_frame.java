@@ -3,25 +3,33 @@ package GUI;
 import java.awt.EventQueue;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTree;
+import javax.swing.SwingConstants;
+
 import java.awt.FlowLayout;
+import java.awt.Font;
+
 import javax.swing.border.CompoundBorder;
+
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.border.BevelBorder;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
+import net.miginfocom.swing.SwingComponentWrapper;
+
 public class Main_frame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel contentPane, Baener, FunctionPane;
-	private JLabel LOGO;
 	/**
 	 * Launch the application.
 	 */
@@ -46,7 +54,7 @@ public class Main_frame extends JFrame {
 	public Main_frame() {
 		setTitle("랜트 프로그램!");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1050, 600);
+		setSize(1050, 600);
 		//사이즈 조절 off
 		setResizable(false);
 		//화면 중앙에 출력
@@ -57,13 +65,11 @@ public class Main_frame extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setToolTipText("콘텐츠 팬");
-		contentPane.setLayout(new CardLayout());
+		contentPane.setLayout(new BorderLayout());
 		
 		//배널 패널 설정
-		Baener = new JPanel();
-		Baener.setBorder(new EmptyBorder(100, 100, 100, 100));
-		Baener.setBackground(Color.CYAN);
-		Baener.setToolTipText("배너 패널");
+		Baener = new Baener_pane();
+		
 		
 		contentPane.add(Baener);
 		
@@ -74,7 +80,38 @@ public class Main_frame extends JFrame {
 		contentPane.add(FunctionPane);
 		
 		setContentPane(contentPane);
-		contentPane.setLayout(new CardLayout(0, 0));
+		
 	}
-
 }
+
+//배너 패널 클래스
+//로고 레이블과 버튼을 올릴 패널을 멤버로 가진다.
+class Baener_pane extends JPanel {
+
+	private JLabel LOGO;
+	private JPanel MenuBar;
+	private Font LFont;
+	
+	public Baener_pane() {
+		// TODO Auto-generated constructor stub
+		
+		//패버 패널 옵션 설정
+		setSize(1050, 150);
+		setLocation(0, 0);
+		
+		setBorder(new EmptyBorder(100, 100, 100, 100));
+		setBackground(Color.CYAN);
+		setToolTipText("배너 패널");
+		
+		
+		//로고 초기설정
+		LOGO = new JLabel("렌트");
+		LFont = new Font("HY강B", Font.BOLD + Font.ITALIC , 30);
+		LOGO.setFont(LFont);
+		add(LOGO);
+		
+	}
+}
+
+
+
