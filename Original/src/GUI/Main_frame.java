@@ -99,16 +99,23 @@ class Baener_pane extends JPanel {
 		setSize(1050, 150);
 		setLocation(0, 0);
 		
-		setBorder(new EmptyBorder(100, 100, 100, 100));
+		setLayout(null);
 		setBackground(Color.CYAN);
 		setToolTipText("배너 패널");
 		
 		
 		//로고 초기설정
 		LOGO = new JLabel("렌트");
-		LFont = new Font("HY강B", Font.BOLD + Font.ITALIC , 30);
+		LFont = new Font("맑은 고딕", Font.PLAIN + Font.BOLD, 34);
 		LOGO.setFont(LFont);
+		LOGO.setBounds(40, 0, 150, 150);
 		add(LOGO);
+		
+		MenuBar = new JPanel();
+		MenuBar.setBounds(100, 75, 600, 150);
+		MenuBar.setBackground(Color.green);
+		
+		
 		
 	}
 }
