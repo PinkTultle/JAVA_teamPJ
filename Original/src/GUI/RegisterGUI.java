@@ -69,6 +69,8 @@ public class RegisterGUI extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 191, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLocationRelativeTo(null);
+
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
