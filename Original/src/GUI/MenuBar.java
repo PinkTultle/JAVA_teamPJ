@@ -5,7 +5,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-
 public class MenuBar extends JPanel implements ActionListener{
 	
 	private static final Frame MenuBar = null;
@@ -41,33 +40,16 @@ public class MenuBar extends JPanel implements ActionListener{
 	}
 	
 	
+	//메인 프레임의 버튼 바 클릭 이벤트
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
+		//버튼의 TEXT를 가져오기위해 버튼 객체로 변환
 		JButton b = (JButton)e.getSource();
-		JDialog jd = new JDialog( MenuBar, true);
 		
-		switch(b.getText()) {
-		case "홈" :{
-			jd.setTitle(b.getText());
-			jd.show();
-			break;
-			}
-		case "목록" :{
-			jd.setTitle(b.getText());
-			jd.show();
-			break;
-			}
-		case "신청관리" :{
-			jd.setTitle(b.getText());
-			jd.show();
-			break;
-			}
-		case "마이페이지" :{
-			jd.setTitle(b.getText());
-			jd.show();
-			}
-		}
+		//버튼 객체의 TEXT를 불러와 Main_frame.java의 main(string text) 함수 호출
+		Main_frame.main(b.getText());
+		
 	}
 }
