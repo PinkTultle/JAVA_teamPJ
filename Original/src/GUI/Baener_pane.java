@@ -5,7 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-public class Baener_pane extends JPanel implements ActionListener {
+public class Baener_pane extends JPanel {
 	
 	private JLabel LOGO;
 	private JPanel MenuBar;
@@ -37,12 +37,5 @@ public class Baener_pane extends JPanel implements ActionListener {
 		MenuBar = new MenuBar();
 		
 		add(MenuBar);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-		//JDialog ja = new JDialog();
 	}
 }
