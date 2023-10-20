@@ -121,7 +121,6 @@ public class RegisterGUI extends JFrame {
 
 		textField = new MyJT("아이디");
 		textField.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		textField.setText("아이디");
 		textField.setBounds(28, 10, 282, 38);
 		textField.addFocusListener(new MyFL_T(textField));
 		panel_2.add(textField);
@@ -130,7 +129,6 @@ public class RegisterGUI extends JFrame {
 		textField_1 = new MyPT("비밀번호");
 		textField_1.setEchoChar((char) 0);
 		textField_1.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		textField_1.setText("비밀번호");
 		textField_1.setColumns(10);
 		textField_1.setBounds(28, 58, 360, 38);
 		textField_1.addFocusListener(new MyFL_P(textField_1));
@@ -138,7 +136,6 @@ public class RegisterGUI extends JFrame {
 
 		textField_2 = new MyJT("별명");
 		textField_2.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		textField_2.setText("별명");
 		textField_2.setColumns(10);
 		textField_2.setBounds(28, 106, 360, 38);
 		textField_2.addFocusListener(new MyFL_T(textField_2));
@@ -146,7 +143,6 @@ public class RegisterGUI extends JFrame {
 
 		textField_3 = new MyJT("이름");
 		textField_3.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		textField_3.setText("이름");
 		textField_3.setColumns(10);
 		textField_3.setBounds(28, 154, 360, 38);
 		textField_3.addFocusListener(new MyFL_T(textField_3));
@@ -154,7 +150,6 @@ public class RegisterGUI extends JFrame {
 
 		textField_4 = new MyJT("생년월일 8자리");
 		textField_4.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		textField_4.setText("생년월일 8자리");
 		textField_4.setColumns(10);
 		textField_4.setBounds(28, 202, 184, 38);
 		textField_4.addFocusListener(new MyFL_T(textField_4));
@@ -283,7 +278,7 @@ public class RegisterGUI extends JFrame {
 		panel_2.add(lblNewLabel_1_1);
 	}
 
-	class MyJT extends JTextField {
+	static class MyJT extends JTextField {
 		/**
 		 * 
 		 */
@@ -294,6 +289,7 @@ public class RegisterGUI extends JFrame {
 		public MyJT(String s) {
 			// TODO Auto-generated constructor stub
 			init = s;
+			setText(s);
 		}
 
 	}
@@ -309,11 +305,12 @@ public class RegisterGUI extends JFrame {
 		public MyPT(String s) {
 			// TODO Auto-generated constructor stub
 			init = s;
+			setText(s);
 		}
 
 	}
 
-	class MyFL_T implements FocusListener {
+	static class MyFL_T implements FocusListener {
 		private MyJT textField;
 
 		public MyFL_T(MyJT textField) {
