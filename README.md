@@ -7,7 +7,7 @@
 
 -- GUI --
 
-Extend_Day : 연장 신청 페이지
+Extend_Day : 연장 신청 페이지\n
 item_detail : 물품 상세 정보
 LoginGUI : 로그인 페이지
 RegisterGUI : 회원가입 페이지
