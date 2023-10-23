@@ -6,8 +6,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.font.TextAttribute;
@@ -18,21 +16,27 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
+import GUI.C_Component.MyFL;
+import GUI.C_Component.MyJT;
+import GUI.C_Component.MyPT;
 
 //주석 및 추가 작업 필요
 public class LoginGUI extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField txtId;
+	private MyJT txtId;
 	private BorderFactory bf;
-	private JPasswordField txtPassword;
+	private MyPT txtPassword;
 	private JTextField removefirstfocus;
+	private JButton btnNewButton;
+	private JButton btnNewButton_1;
+	private JButton btnNewButton_2;
 
 	private boolean isTyped_l = false;
 	private boolean isTyped_p = false;
@@ -68,6 +72,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		MyFL FL = new MyFL();
 		ML_btn listener_btn = new ML_btn();
 
 		JPanel panel = new JPanel();
@@ -90,94 +95,44 @@ public class LoginGUI extends JFrame implements ActionListener {
 		panel_1.add(panel_1_1);
 		panel_1_1.setLayout(null);
 
-		JButton btnNewButton = new JButton("로그인");
+		btnNewButton = new JButton("로그인");
 		btnNewButton.setFont(new Font("굴림", Font.PLAIN, 20));
 		btnNewButton.setForeground(new Color(0, 0, 0));
 		btnNewButton.setBackground(new Color(255, 255, 255));
 		btnNewButton.setBounds(80, 213, 270, 50);
-
 		btnNewButton.setFocusPainted(false);
 		btnNewButton.setBorder(bf.createLineBorder(new Color(128, 128, 128)));
-		// btnNewButton.setContentAreaFilled(false);
-
 		btnNewButton.addMouseListener(listener_btn);
+		btnNewButton.addActionListener(this);
 		panel_1_1.add(btnNewButton);
 
-		JButton btnNewButton_1 = new JButton("회원가입");
+		btnNewButton_1 = new JButton("회원가입");
 		btnNewButton_1.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
-
-		// 밑줄 추가
 		Font font = btnNewButton_1.getFont();
 		Map attributes = font.getAttributes();
 		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 		btnNewButton_1.setFont(font.deriveFont(attributes));
-
-		// 버튼 이미지 삭제
 		btnNewButton_1.setBorderPainted(false);
 		btnNewButton_1.setFocusPainted(false);
 		btnNewButton_1.setContentAreaFilled(false);
-
 		btnNewButton_1.addMouseListener(listener_btn);
+		btnNewButton_1.addActionListener(this);
 		btnNewButton_1.setBounds(166, 295, 98, 22);
 		panel_1_1.add(btnNewButton_1);
 
-		txtId = new JTextField();
+		txtId = new MyJT("Id");
 		txtId.setFont(new Font("맑은 고딕", Font.PLAIN, 23));
-		txtId.setText("Id");
 		txtId.setBounds(30, 49, 370, 50);
-		txtId.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (txtId.getText().isEmpty()) {
-					txtId.setText("Id");
-					isTyped_l = false;
-				} else {
-					isTyped_l = true;
-				}
-
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				if (!isTyped_l) {
-					txtId.setText("");
-				}
-
-			}
-		});
+		txtId.addFocusListener(FL);
 		panel_1_1.add(txtId);
 		txtId.setColumns(10);
 
-		txtPassword = new JPasswordField();
-		txtPassword.setText("Password");
+		txtPassword = new MyPT("Password");
 		txtPassword.setFont(new Font("맑은 고딕", Font.PLAIN, 23));
 		txtPassword.setColumns(10);
 		txtPassword.setBounds(30, 109, 370, 50);
 		txtPassword.setEchoChar((char) 0);
-		txtPassword.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (txtPassword.getText().isEmpty()) {
-					txtPassword.setEchoChar((char) 0);
-					txtPassword.setText("Password");
-					isTyped_p = false;
-				} else {
-					isTyped_p = true;
-				}
-
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				if (!isTyped_p) {
-					txtPassword.setText("");
-					txtPassword.setEchoChar('*');
-				}
-
-			}
-		});
+		txtPassword.addFocusListener(FL);
 		panel_1_1.add(txtPassword);
 
 		removefirstfocus = new JTextField();
@@ -185,13 +140,14 @@ public class LoginGUI extends JFrame implements ActionListener {
 		panel_1_1.add(removefirstfocus);
 		removefirstfocus.setColumns(10);
 
-		JButton btnNewButton_2 = new JButton("아이디/비밀번호 찾기");
+		btnNewButton_2 = new JButton("아이디/비밀번호 찾기");
 		btnNewButton_2.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		btnNewButton_2.setBounds(256, 165, 162, 23);
 		btnNewButton_2.setBorderPainted(false);
 		btnNewButton_2.setFocusPainted(false);
 		btnNewButton_2.setContentAreaFilled(false);
 		btnNewButton_2.addMouseListener(listener_btn);
+		btnNewButton_2.addActionListener(this);
 		panel_1_1.add(btnNewButton_2);
 
 		JLabel lblNewLabel = new JLabel("렌트 프로그램");
@@ -205,18 +161,6 @@ public class LoginGUI extends JFrame implements ActionListener {
 	class ML_btn implements MouseListener {
 
 		@Override
-		public void mouseClicked(MouseEvent e) {
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-		}
-
-		@Override
 		public void mouseEntered(MouseEvent e) {
 			Cursor cursor = new Cursor(HAND_CURSOR);
 			setCursor(cursor);
@@ -228,10 +172,34 @@ public class LoginGUI extends JFrame implements ActionListener {
 			setCursor(cursor);
 		}
 
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		if (e.getSource() == btnNewButton) { // 로그인 버튼 동작
+			System.out.println(((JButton) (e.getSource())).getText());
+		} else if (e.getSource() == btnNewButton_1) { // 회원가입 버튼 동작
+			System.out.println(((JButton) (e.getSource())).getText());
+		} else if (e.getSource() == btnNewButton_2) { // 아이디/비밀번호 찾기 동작
+			System.out.println(((JButton) (e.getSource())).getText());
+		}
 	}
 }
