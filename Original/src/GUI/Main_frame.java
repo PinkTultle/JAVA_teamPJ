@@ -159,11 +159,8 @@ public class Main_frame extends JFrame {
 				FunctionPane.setVisible(false);
 				
 				break;
-			
 			}
-			
 		}
-
 	}
 }
 
