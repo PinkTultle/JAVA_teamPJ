@@ -292,15 +292,22 @@ public class RegisterGUI extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getSource() == btnNewButton_2) {
+		if (e.getSource() == btnNewButton_2) { // 검색 버튼 동작
 			System.out.println(((JButton) (e.getSource())).getText());
-		} else if (e.getSource() == btnNewButton_3) {
+		} else if (e.getSource() == btnNewButton_3) { // 인증 버튼 동작
 			System.out.println(((JButton) (e.getSource())).getText());
-		} else if (e.getSource() == btnNewButton_4) {
+		} else if (e.getSource() == btnNewButton_4) { // 가입 버튼 동작
 			System.out.println(((JButton) (e.getSource())).getText());
-		} else if (e.getSource() == btnNewButton_5) {
+		} else if (e.getSource() == btnNewButton_5) { // 중복 버튼 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 		}
 	}
-
+	// textField : 아이디 입력 JTextField
+	// textField_1 : 패스워드 입력 JPasswordField
+	// textField_2 : 별명 입력 JTextField
+	// textField_3 : 이름 입력 JTextField
+	// textField_4 : 생일 입력 JTextField
+	// textField_5 : 주소 입력 JTextField
+	// textField_6 : 이메일 입력 JTextField
+	// textField_TEL[] : 전화번호 입력 4자리 JTextField
 }

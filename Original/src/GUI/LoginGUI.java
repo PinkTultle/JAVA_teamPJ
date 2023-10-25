@@ -202,4 +202,6 @@ public class LoginGUI extends JFrame implements ActionListener {
 			System.out.println(((JButton) (e.getSource())).getText());
 		}
 	}
+	// txtId : 아이디 입력 JTextField
+	// txtPassword : 패스워드 입력 JPasswordField
 }
