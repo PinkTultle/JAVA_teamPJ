@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Vector;
 
 import javax.swing.InputMap;
 import javax.swing.JComponent;
@@ -36,6 +37,8 @@ public class C_Component {
 		abstract void focusLost();
 
 		abstract String getString(); // 기능은 getText와 동일
+
+		abstract boolean isTyped();
 	}
 
 	static class MyJT extends JTextField implements BaseTextComponent { // JTextField 에 사용자 기능 추가
@@ -78,6 +81,13 @@ public class C_Component {
 			// TODO Auto-generated method stub
 			return getText();
 		}
+
+		@Override
+		public boolean isTyped() {
+			// TODO Auto-generated method stub
+			return isTyped;
+		}
+
 	}
 
 	static class MyJT_TEL extends MyJT { // MyJT 에서 전화번호 용
@@ -147,6 +157,12 @@ public class C_Component {
 		public String getString() {
 			// TODO Auto-generated method stub
 			return getText();
+		}
+
+		@Override
+		public boolean isTyped() {
+			// TODO Auto-generated method stub
+			return isTyped;
 		}
 	}
 
@@ -230,6 +246,9 @@ public class C_Component {
 			iMap.put(stroke, "null");
 
 			// 테이블 기본 설정
+			DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+			renderer.setHorizontalAlignment(renderer.CENTER);
+			table.setDefaultRenderer(String.class, renderer); // 중앙 정렬
 			table.setRowHeight((this.getHeight() - 25) / table.getRowCount()); // JTable의 헤더의 높이는 25임
 			table.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 			table.setSelectionBackground(new Color(106, 172, 208));
@@ -249,13 +268,13 @@ public class C_Component {
 			table.setDefaultRenderer(String.class, new ProxyCellRenderer(table.getDefaultRenderer(String.class)));
 
 			// 헤더 설정
-			final DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-			renderer.setBorder(DEFAULT_BORDER);
-			renderer.setBackground(new Color(0, 140, 200));
-			renderer.setForeground(new Color(255, 255, 255));
-			renderer.setHorizontalAlignment(renderer.CENTER);
-			renderer.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-			table.getTableHeader().setDefaultRenderer(renderer);
+			DefaultTableCellRenderer renderer_header = new DefaultTableCellRenderer();
+			renderer_header.setBorder(DEFAULT_BORDER);
+			renderer_header.setBackground(new Color(0, 140, 200));
+			renderer_header.setForeground(new Color(255, 255, 255));
+			renderer_header.setHorizontalAlignment(renderer_header.CENTER);
+			renderer_header.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+			table.getTableHeader().setDefaultRenderer(renderer_header);
 			table.getTableHeader().setResizingAllowed(false);
 			table.getTableHeader().setReorderingAllowed(false);
 
@@ -284,8 +303,17 @@ public class C_Component {
 			}
 		}
 
-		public void changeItem() { // 목록의 아이템을 바꾸는 메소드 | 추가 필요
+		public void setItem(int rowNum, String[] value) { // 목록의 아이템을 바꾸는 메소드 | 추가 필요
+			for (int i = 0; i < 6; i++) {
+				table.setValueAt(value[i], rowNum, i);
+			}
+		}
 
+		public void setPage(Vector<String[]> v) { // 페이지 변경시 목록 변경 | String[] vector 로 임시 설정 : 클래스 추가시 변경 필요 | row
+													// 단위로 변경
+			for (int i = 0; i < 15; i++) {
+				setItem(i, v.elementAt(i));
+			}
 		}
 
 		// 마우스 리스너와 키 리스너 선언
