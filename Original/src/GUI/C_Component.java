@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+
 public class C_Component {
 	static interface BaseTextComponent { // JTextComponent 상속받는 클래스들을 처리하기 위한 인터페이스
 		/**
@@ -39,6 +40,7 @@ public class C_Component {
 		abstract String getString(); // 기능은 getText와 동일
 
 		abstract boolean isTyped();
+
 	}
 
 	static class MyJT extends JTextField implements BaseTextComponent { // JTextField 에 사용자 기능 추가
@@ -164,6 +166,7 @@ public class C_Component {
 			// TODO Auto-generated method stub
 			return isTyped;
 		}
+
 	}
 
 	static class MyFL implements FocusListener { // MyPT, MyJT 용 포커스 리스터
