@@ -45,7 +45,7 @@ public class Main_frame extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//프레임 크기 설정
-		setSize(1050, 600);
+		setSize(1050, 800);
 		//사이즈 조절 off
 		setResizable(false);
 		//화면 중앙에 출력
@@ -66,11 +66,9 @@ public class Main_frame extends JFrame implements ActionListener {
 		
 		
 		//기능 패널 설정 - 이후 JPanel생성 -> 홈패널 생성으로 변경
-		FunctionPane = new JPanel();
+		FunctionPane = new Main_home();
 		//구역 구분쉽게 색깔 입히기
-		FunctionPane.setBackground(Color.orange);
-		//마우스 올리면 출력되는 문구 이후 삭제
-		FunctionPane.setToolTipText("기능 패널");
+
 		
 		//콘텐츠 패널 위에 기능 패널 올림
 		contentPane.add(FunctionPane);
