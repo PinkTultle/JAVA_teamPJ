@@ -125,6 +125,11 @@ public class Main_frame extends JFrame implements ActionListener {
 					//패널교체
 					break;
 				
+				case "메인 검색":
+					System.out.println("메인 프레임 검색 기능 호출");
+
+					//패널교체 및 검색
+					break;
 				}
 				
 			}
@@ -132,5 +137,15 @@ public class Main_frame extends JFrame implements ActionListener {
 		} catch (Exception e1){
 			
 		}
+	}
+	
+	
+	public static void Category(String category) {
+		
+		//목록배너 호출 및 카테고리값으로 겂색하는 긴능 추가부
+		System.out.println("카테고리 버튼 클릭");
+		System.out.println("클릭된 버튼 : " + category);	
+
+		
 	}
 }

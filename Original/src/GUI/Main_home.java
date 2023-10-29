@@ -4,7 +4,7 @@ import javax.swing.JPanel;
 
 public class Main_home extends Function_pane {
 
-	private JPanel Home_1, Home2;
+	private JPanel Home_1, Home_2;
 	
 	public Main_home() {
 		// TODO Auto-generated constructor stub
@@ -15,6 +15,8 @@ public class Main_home extends Function_pane {
 		Home_1 = new Home_left_pane();
 		add(Home_1);
 		
+		Home_2 = new Home_right_pane();
+		add(Home_2);
 	}
 	
 }
