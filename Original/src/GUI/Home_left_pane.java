@@ -2,6 +2,11 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.FontUIResource;
 
-public class Home_left_pane extends JPanel implements ActionListener{
+public class Home_left_pane extends Function_pane implements ActionListener{
 
 	private JLabel L1, L2;
 	private JTextField Tf;
@@ -29,7 +34,6 @@ public class Home_left_pane extends JPanel implements ActionListener{
 		font = new Font("맑은 고딕", Font.PLAIN + Font.BOLD, 24);
 		
 		
-		setBackground(Color.white);
 		
 		//검색, 최근 방문 키워드 표시
 		L1 = new JLabel("검색");
@@ -57,10 +61,9 @@ public class Home_left_pane extends JPanel implements ActionListener{
 		add(Tf);
 		
 		//검색 버튼 생성
-		Jb1 = new JButton("검색");
-		Jb1.setBounds(410, 85, 80, 40);
-		Jb1.setFocusable(false);
+		Jb1 = new search_bt();
 		Jb1.addActionListener(this);
+
 		add(Jb1);
 		
 		//최근 방문 글 목록 생성할 곳
@@ -80,6 +83,55 @@ public class Home_left_pane extends JPanel implements ActionListener{
 		}
 		
 	}
+	
+	class search_bt extends JButton{
+		
+		public search_bt() {
+			
+			setBorderPainted(false);
+			setOpaque(false);
+			setBounds(410, 85, 80, 40);
+			setFocusable(false);
+			setBackground(Color.white);
+			
+		}
+		/*
+		
+		protected void paintComponent(Graphics g) {
+			int width = getWidth();
+		    int height = getHeight();
+
+		    Graphics2D graphics = (Graphics2D) g;
+
+		    graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		    //graphics.setColor(Color.blue);
+		    
+		    
+		    if (getModel().isArmed()) {
+		        graphics.setColor(getBackground().darker());
+		    } else if (getModel().isRollover()) {
+		        graphics.setColor(getBackground().brighter());
+		    } else {
+		        graphics.setColor(getBackground());
+		    }
+		    
+		    
+		    
+		    graphics.fillRect( 0, 0, width, height);
+
+		    
+		    
+
+		    graphics.setColor(getForeground());
+		    graphics.dispose();
+
+		    super.paintComponent(g);
+		}
+		*/
+	}
+	
+	
 }
 
 
