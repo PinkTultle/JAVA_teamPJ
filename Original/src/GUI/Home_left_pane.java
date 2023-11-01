@@ -5,12 +5,15 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,8 +25,9 @@ public class Home_left_pane extends Function_pane implements ActionListener{
 
 	private JLabel L1, L2;
 	private JTextField Tf;
-	private JButton Jb1;
+	private static JButton Jb1 = null;
 	private Font font;
+	
 	
 	
 	public Home_left_pane() {
@@ -88,49 +92,27 @@ public class Home_left_pane extends Function_pane implements ActionListener{
 		
 		public search_bt() {
 			
-			setBorderPainted(false);
-			setOpaque(false);
 			setBounds(410, 85, 80, 40);
-			setFocusable(false);
-			setBackground(Color.white);
+			setOpaque(false);
+			setFocusPainted(false);
+			setBorderPainted(false);
+			//setContentAreaFilled(false);
 			
-		}
-		/*
-		
-		protected void paintComponent(Graphics g) {
-			int width = getWidth();
-		    int height = getHeight();
+			setBackground(back_c);
 
-		    Graphics2D graphics = (Graphics2D) g;
-
-		    graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-		    //graphics.setColor(Color.blue);
-		    
-		    
-		    if (getModel().isArmed()) {
-		        graphics.setColor(getBackground().darker());
-		    } else if (getModel().isRollover()) {
-		        graphics.setColor(getBackground().brighter());
-		    } else {
-		        graphics.setColor(getBackground());
-		    }
-		    
-		    
-		    
-		    graphics.fillRect( 0, 0, width, height);
-
-		    
-		    
-
-		    graphics.setColor(getForeground());
-		    graphics.dispose();
-
-		    super.paintComponent(g);
-		}
-		*/
-	}
-	
+			ImageIcon Bt_img = new ImageIcon(search_bt.class.getResource("../COMP_IMG/search.png"));
+			
+			Image img = Bt_img.getImage();
+			
+			img.getScaledInstance( getHeight(), getWidth(), Image.SCALE_SMOOTH);
+			ImageIcon icon = new ImageIcon(img);
+			
+			setIcon(icon);
+			
+			
+			setRolloverIcon(icon);
+			
+		}	
 	
 }
 
@@ -143,4 +125,5 @@ class Main_Search_act implements ActionListener{
 		
 		//검색 버튼 클릭
 	}
+}
 }
