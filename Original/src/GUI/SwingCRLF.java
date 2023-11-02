@@ -4,9 +4,9 @@ package GUI;
 // String 객체와 한줄의 길이를 매개 변수로 받음
 
 public class SwingCRLF {
-	final String lf = "<br>";
+	static final String lf = "<br>";
 
-	String CRLF(String s, int limit) { // 띄어쓰기를 기준으로 줄 바꿈
+	static String CRLF(String s, int limit) { // 띄어쓰기를 기준으로 줄 바꿈
 		StringBuffer temp = new StringBuffer();
 		String result = "";
 		int last_idx = 0, cnt_idx = 0, buff_idx = 0;
@@ -37,7 +37,7 @@ public class SwingCRLF {
 		return result;
 	}
 
-	String CRLF_abs(String s, int limit) { // 길이를 기준으로 줄바꿈
+	static String CRLF_abs(String s, int limit) { // 길이를 기준으로 줄바꿈
 		StringBuffer temp = new StringBuffer();
 		String result = "";
 		int cnt_idx = 0;
@@ -57,7 +57,7 @@ public class SwingCRLF {
 		return result;
 	}
 
-	String CRLF_ln(String s) { // 개행문자를 기준으로 줄바꿈
+	static String CRLF_ln(String s) { // 개행문자를 기준으로 줄바꿈
 		StringBuffer temp = new StringBuffer();
 		String result = "";
 		for (int i = 0; i < s.length(); i++) {
