@@ -370,6 +370,7 @@ public class C_Component {
 
 		public itemSlot_offer(int x, int y, int width, int height, int mode) {
 			setBounds(x, y, width, height);
+			getViewport().setBackground(Color.white);
 			table = new MyTA();
 			table.setModel(new DefaultTableModel(new Object[][] {},
 					new String[] { "\uBB3C\uD488\uCF54\uB4DC", "\uBB3C\uD488\uBA85", "\uC694\uCCAD\uAE30\uD55C" }) {
