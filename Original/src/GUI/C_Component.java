@@ -22,10 +22,11 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-
 
 public class C_Component {
 	static interface BaseTextComponent { // JTextComponent 상속받는 클래스들을 처리하기 위한 인터페이스
@@ -41,6 +42,12 @@ public class C_Component {
 
 		abstract boolean isTyped();
 
+	}
+
+	static interface BaseTableComponent {
+		abstract void goDetail();
+
+		abstract void focusLost();
 	}
 
 	static class MyJT extends JTextField implements BaseTextComponent { // JTextField 에 사용자 기능 추가
@@ -173,17 +180,25 @@ public class C_Component {
 		@Override
 		public void focusGained(FocusEvent e) {
 			// TODO Auto-generated method stub
-			BaseTextComponent baseTextComponent;
-			baseTextComponent = (BaseTextComponent) e.getSource();
-			baseTextComponent.focusGained();
+			if (e.getSource() instanceof BaseTextComponent) {
+				BaseTextComponent baseTextComponent;
+				baseTextComponent = (BaseTextComponent) e.getSource();
+				baseTextComponent.focusGained();
+			}
 		}
 
 		@Override
 		public void focusLost(FocusEvent e) {
 			// TODO Auto-generated method stub
-			BaseTextComponent baseTextComponent;
-			baseTextComponent = (BaseTextComponent) e.getSource();
-			baseTextComponent.focusLost();
+			if (e.getSource() instanceof BaseTextComponent) {
+				BaseTextComponent baseTextComponent;
+				baseTextComponent = (BaseTextComponent) e.getSource();
+				baseTextComponent.focusLost();
+			} else if (e.getSource() instanceof BaseTableComponent) {
+				BaseTableComponent baseTableComponent;
+				baseTableComponent = (BaseTableComponent) e.getSource();
+				baseTableComponent.focusLost();
+			}
 		}
 	}
 
@@ -203,21 +218,89 @@ public class C_Component {
 		}
 	}
 
-	static class itemSlot extends JScrollPane implements MouseListener, KeyListener {
+	public static class ProxyCellRenderer implements TableCellRenderer { // 자동으로 모든 셀에 적용시켜줌 | 포커스 디자인을 없앰
+
+		private TableCellRenderer renderer;
+		final Border DEFAULT_BORDER = new EmptyBorder(1, 1, 1, 1);
+
+		public ProxyCellRenderer(TableCellRenderer renderer) {
+			this.renderer = renderer;
+		}
+
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			Component comp = renderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+			if (comp instanceof JComponent) {
+				((JComponent) comp).setBorder(DEFAULT_BORDER);
+			}
+			return comp;
+		}
+	}
+
+	static void initJTableStyle(JTable jt, int height, int rowCount) { // JTable 클래스들의 기본 설정
+		final Border DEFAULT_BORDER = new EmptyBorder(1, 1, 1, 1);
+
+		// Enter 키 이벤트 제거
+		InputMap iMap = jt.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+		KeyStroke stroke = KeyStroke.getKeyStroke("ENTER");
+		jt.addFocusListener(new MyFL());
+		iMap.put(stroke, "null");
+
+		// 테이블 설정
+		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+		renderer.setHorizontalAlignment(renderer.CENTER);
+		jt.setDefaultRenderer(String.class, renderer); // 중앙 정렬
+		jt.setRowHeight((height - 25) / rowCount); // JTable의 헤더의 높이는 25임
+		jt.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		jt.setSelectionBackground(new Color(106, 172, 208));
+		jt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		jt.setDefaultRenderer(String.class, new ProxyCellRenderer(jt.getDefaultRenderer(String.class)));
+		jt.setDefaultRenderer(Boolean.class, new ProxyCellRenderer(jt.getDefaultRenderer(Boolean.class)));
+		jt.addMouseListener(new My_ML());
+		jt.addKeyListener(new My_KL());
+
+		// 헤더 설정
+		DefaultTableCellRenderer renderer_header = new DefaultTableCellRenderer();
+		renderer_header.setBorder(DEFAULT_BORDER);
+		renderer_header.setBackground(new Color(0, 140, 200));
+		renderer_header.setForeground(new Color(255, 255, 255));
+		renderer_header.setHorizontalAlignment(renderer_header.CENTER);
+		renderer_header.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		jt.getTableHeader().setDefaultRenderer(renderer_header);
+		jt.getTableHeader().setResizingAllowed(false);
+		jt.getTableHeader().setReorderingAllowed(false);
+
+	}
+
+	static class MyTA extends JTable implements BaseTableComponent {
+		@Override
+		public void goDetail() { // 마우스나 키보드 이벤트 발생시 실행하는 메소드
+			// TODO Auto-generated method stub
+			int selectedRow = this.getSelectedRow(); // 행 정보를 받아옴
+			System.out.println(selectedRow);
+		}
+
+		@Override
+		public void focusLost() {
+			// TODO Auto-generated method stub
+			this.clearSelection();
+		}
+
+	}
+
+	static class itemSlot_list extends JScrollPane {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 
-		protected static final Border DEFAULT_BORDER = new EmptyBorder(1, 1, 1, 1);
+		private MyTA table;
 
-		private JTable table;
-		private int selectedRow;
-
-		public itemSlot(int x, int y, int width, int height) {
+		public itemSlot_list(int x, int y, int width, int height) {
 			// TODO Auto-generated constructor stub
 			this.setBounds(x, y, width, height);
-			table = new JTable();
+			table = new MyTA();
 			table.setModel(new DefaultTableModel(
 					new Object[][] { { null, null, null, null, null, null }, { null, null, null, null, null, null },
 							{ null, null, null, null, null, null }, { null, null, null, null, null, null },
@@ -243,22 +326,6 @@ public class C_Component {
 				}
 			});
 
-			// 엔터 입력 설정 | 이벤트 리스너랑 연동시킬 예정
-			InputMap iMap = table.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-			KeyStroke stroke = KeyStroke.getKeyStroke("ENTER");
-			iMap.put(stroke, "null");
-
-			// 테이블 기본 설정
-			DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-			renderer.setHorizontalAlignment(renderer.CENTER);
-			table.setDefaultRenderer(String.class, renderer); // 중앙 정렬
-			table.setRowHeight((this.getHeight() - 25) / table.getRowCount()); // JTable의 헤더의 높이는 25임
-			table.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-			table.setSelectionBackground(new Color(106, 172, 208));
-			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			table.addMouseListener(this);
-			table.addKeyListener(this);
-
 			// 행과 열 설정
 			table.getColumnModel().getColumn(0).setPreferredWidth(50);
 			table.getColumnModel().getColumn(1).setPreferredWidth(60);
@@ -267,43 +334,13 @@ public class C_Component {
 			table.getColumnModel().getColumn(3).setPreferredWidth(60);
 			table.getColumnModel().getColumn(4).setPreferredWidth(60);
 			table.getColumnModel().getColumn(5).setPreferredWidth(50);
-			table.setSelectionBackground(new Color(106, 172, 208));
-			table.setDefaultRenderer(String.class, new ProxyCellRenderer(table.getDefaultRenderer(String.class)));
 
-			// 헤더 설정
-			DefaultTableCellRenderer renderer_header = new DefaultTableCellRenderer();
-			renderer_header.setBorder(DEFAULT_BORDER);
-			renderer_header.setBackground(new Color(0, 140, 200));
-			renderer_header.setForeground(new Color(255, 255, 255));
-			renderer_header.setHorizontalAlignment(renderer_header.CENTER);
-			renderer_header.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-			table.getTableHeader().setDefaultRenderer(renderer_header);
-			table.getTableHeader().setResizingAllowed(false);
-			table.getTableHeader().setReorderingAllowed(false);
+			// 테이블 디자인
+			initJTableStyle(table, height, 15);
 
 			// 스크롤팬에 테이블 추가
 			this.setViewportView(table);
 
-		}
-
-		public static class ProxyCellRenderer implements TableCellRenderer { // 자동으로 모든 셀에 적용시켜줌 | 헤더를 접근하는 방법은 아직 모르겠음
-
-			private TableCellRenderer renderer;
-
-			public ProxyCellRenderer(TableCellRenderer renderer) {
-				this.renderer = renderer;
-			}
-
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-					boolean hasFocus, int row, int column) {
-				Component comp = renderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row,
-						column);
-				if (comp instanceof JComponent) {
-					((JComponent) comp).setBorder(DEFAULT_BORDER);
-				}
-				return comp;
-			}
 		}
 
 		public void setItem(int rowNum, String[] value) { // 목록의 아이템을 바꾸는 메소드 | 추가 필요
@@ -319,14 +356,176 @@ public class C_Component {
 			}
 		}
 
-		// 마우스 리스너와 키 리스너 선언
+	}
+
+	static public class itemSlot_offer extends JScrollPane {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		private MyTA table;
+
+		public itemSlot_offer(int x, int y, int width, int height, int mode) {
+			setBounds(x, y, width, height);
+			getViewport().setBackground(Color.white);
+			table = new MyTA();
+			table.setModel(new DefaultTableModel(new Object[][] {},
+					new String[] { "\uBB3C\uD488\uCF54\uB4DC", "\uBB3C\uD488\uBA85", "\uC694\uCCAD\uAE30\uD55C" }) {
+				Class[] columnTypes = new Class[] { String.class, String.class, String.class };
+
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+
+				boolean[] columnEditables = new boolean[] { false, false, false, false, false, false };
+
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+
+			table.getColumnModel().getColumn(0).setPreferredWidth(30);
+			table.getColumnModel().getColumn(0).setMinWidth(10);
+			table.getColumnModel().getColumn(1).setPreferredWidth(150);
+			table.getColumnModel().getColumn(1).setMinWidth(100);
+			table.getColumnModel().getColumn(2).setPreferredWidth(60);
+			table.getColumnModel().getColumn(2).setMinWidth(15);
+
+			initJTableStyle(table, height, 10);
+
+			this.setViewportView(table);
+
+		}
+
+		void setItem(Vector<Object[]> v) { // String.Object 3개를 벡터를 이용해서 전달 받음
+			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+			for (int i = 0; i < v.size(); i++) {
+				tableModel.addRow(v.elementAt(i));
+			}
+		}
+
+		void setHeaderColor(Color color) {
+			DefaultTableCellRenderer defaultTableCellRenderer = (DefaultTableCellRenderer) table.getTableHeader()
+					.getDefaultRenderer();
+			defaultTableCellRenderer.setBackground(color);
+		}
+	}
+
+	static public class itemSlot_history extends JScrollPane {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		private MyTA table;
+		private int selectedIndex = -1;
+
+		public itemSlot_history(int x, int y, int width, int height) {
+			setBounds(x, y, width, height);
+			getViewport().setBackground(Color.white);
+			table = new MyTA();
+			table.setModel(new DefaultTableModel(new Object[][] {},
+					new String[] { "", "\ubb3c\ud488\ucf54\ub4dc", "\uac70\ub798\uc790", "\ubb3c\ud488\uba85",
+							"\ub0a8\uc740\u0020\uae30\uac04", "\uc774\uc6a9\uc0c1\ud0dc",
+							"\ubc18\ub0a9\u002f\uc5f0\uc7a5\uc0c1\ud0dc" }) {
+				Class[] columnTypes = new Class[] { Boolean.class, String.class, String.class, String.class,
+						String.class, String.class, String.class };
+
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+
+				boolean[] columnEditables = new boolean[] { true, false, false, false, false, false, false };
+
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+
+			initJTableStyle(table, height, 10);
+
+			table.getModel().addTableModelListener(new TableModelListener() {
+
+				@Override
+				public void tableChanged(TableModelEvent e) {
+					// TODO Auto-generated method stub
+					handleTableChangedEvent(e);
+				}
+			});
+
+			this.setViewportView(table);
+
+		}
+
+		void setItem(Vector<Object[]> v) { // boolean 1개와 String 6개로 값을 변경
+			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+			for (int i = 0; i < v.size(); i++) {
+				tableModel.addRow(v.elementAt(i));
+			}
+		}
+
+		void setHeaderColor(Color color) {
+			DefaultTableCellRenderer defaultTableCellRenderer = (DefaultTableCellRenderer) table.getTableHeader()
+					.getDefaultRenderer();
+			defaultTableCellRenderer.setBackground(color);
+		}
+
+		protected void handleTableChangedEvent(TableModelEvent e) {
+			int tempIndex = e.getFirstRow();
+			if (tempIndex != -1) {
+				System.out.println(selectedIndex + " " + tempIndex);
+				if ((Boolean) table.getValueAt(tempIndex, 0) == true) {
+					if (selectedIndex != -1 && selectedIndex != tempIndex)
+						table.setValueAt(false, selectedIndex, 0);
+					selectedIndex = tempIndex;
+
+				}
+			}
+		}
+	}
+
+	static class My_KL implements KeyListener {
+
+		boolean pressed = false;
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			if (e.getKeyChar() == '\n' && !pressed) { // Enter 키를 누른 경우
+				if (e.getSource() instanceof BaseTableComponent) { // JTable 인 경우
+					BaseTableComponent baseTableComponent = (BaseTableComponent) e.getSource();
+					baseTableComponent.goDetail();
+					pressed = true;
+				}
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			if (e.getKeyChar() == '\n' && pressed) {
+				pressed = false;
+			}
+		}
+
+	}
+
+	static class My_ML implements MouseListener {
+
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
 			if (e.getClickCount() == 2) { // 더블 클릭했을 경우
-				System.out.println("double clicked");
-				selectedRow = table.getSelectedRow(); // 행 정보를 받아옴
-				System.out.println(selectedRow);
+				if (e.getSource() instanceof BaseTableComponent) { // JTable 인 경우
+					BaseTableComponent baseTableComponent = (BaseTableComponent) e.getSource();
+					baseTableComponent.goDetail();
+				}
 			}
 		}
 
@@ -354,31 +553,5 @@ public class C_Component {
 
 		}
 
-		boolean pressed = false;
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
-			if (e.getKeyChar() == '\n' && !pressed) { // Enter 를 눌렀을 경우
-				System.out.println("Key_Enter");
-				selectedRow = table.getSelectedRow(); // 행 정보를 받아옴
-				System.out.println(selectedRow);
-				pressed = true;
-			}
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			if (e.getKeyChar() == '\n' && pressed) {
-				pressed = false;
-			}
-		}
 	}
 }

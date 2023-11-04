@@ -18,7 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 import GUI.C_Component.MyFL;
 import GUI.C_Component.MyJT;
-import GUI.C_Component.itemSlot;
+import GUI.C_Component.itemSlot_list;
 
 public class ListPanel extends JFrame implements ActionListener {
 
@@ -29,7 +29,7 @@ public class ListPanel extends JFrame implements ActionListener {
 	private RoundButton btnNewButton_1;
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
-	private itemSlot is;
+	private itemSlot_list is;
 	private JLabel lblNewLabel_1;
 	private JComboBox comboBox;
 	private JComboBox comboBox_1;
@@ -109,7 +109,7 @@ public class ListPanel extends JFrame implements ActionListener {
 		btnNewButton_1.addActionListener(this);
 		panel.add(btnNewButton_1);
 
-		is = new itemSlot(57, 110, 920, 520);
+		is = new itemSlot_list(57, 110, 920, 520);
 		panel.add(is);
 
 		JLabel lblNewLabel = new JLabel("page");
