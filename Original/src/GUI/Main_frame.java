@@ -48,7 +48,7 @@ public class Main_frame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//프레임 크기 설정
-		setSize(1050, 600);
+		setSize(1050, 800);
 		//사이즈 조절 off
 		setResizable(false);
 		//화면 중앙에 출력
@@ -69,11 +69,9 @@ public class Main_frame extends JFrame {
 		
 		
 		//기능 패널 설정 - 이후 JPanel생성 -> 홈패널 생성으로 변경
-		FunctionPane = new JPanel();
+		FunctionPane = new Main_home();
 		//구역 구분쉽게 색깔 입히기
-		FunctionPane.setBackground(Color.orange);
-		//마우스 올리면 출력되는 문구 이후 삭제
-		FunctionPane.setToolTipText("기능 패널");
+
 		
 		//콘텐츠 패널 위에 기능 패널 올림
 		contentPane.add(FunctionPane);
@@ -147,7 +145,13 @@ public class Main_frame extends JFrame {
 				P4.setVisible(false);
 				FunctionPane.setVisible(false);
 				
-				break;
+
+				case "메인 검색":
+					System.out.println("메인 프레임 검색 기능 호출");
+
+					//패널교체 및 검색
+					break;
+				}
 				
 			case "마이페이지":
 				System.out.println("마이페이지 패널 교체 호출");
@@ -161,6 +165,16 @@ public class Main_frame extends JFrame {
 				break;
 			}
 		}
+	}
+	
+	
+	public static void Category(String category) {
+		
+		//목록배너 호출 및 카테고리값으로 겂색하는 긴능 추가부
+		System.out.println("카테고리 버튼 클릭");
+		System.out.println("클릭된 버튼 : " + category);	
+
+		
 	}
 }
 

@@ -505,16 +505,15 @@ public class C_Component {
 
 	static class My_KL implements KeyListener {
 
-		boolean pressed = false;
-
 		@Override
-		public void keyTyped(KeyEvent e) {
+		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
 		}
 
 		@Override
-		public void keyPressed(KeyEvent e) {
+		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
+
 			if (e.getKeyChar() == '\n' && !pressed) { // Enter 키를 누른 경우
 				if (e.getSource() instanceof BaseTableComponent) { // JTable 인 경우
 					BaseTableComponent baseTableComponent = (BaseTableComponent) e.getSource();
@@ -525,11 +524,9 @@ public class C_Component {
 		}
 
 		@Override
-		public void keyReleased(KeyEvent e) {
+		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
-			if (e.getKeyChar() == '\n' && pressed) {
-				pressed = false;
-			}
+
 		}
 
 	}
@@ -570,6 +567,5 @@ public class C_Component {
 			// TODO Auto-generated method stub
 
 		}
-
 	}
 }

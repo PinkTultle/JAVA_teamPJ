@@ -7,7 +7,6 @@ import javax.swing.event.*;
 
 public class MenuBar extends JPanel implements ActionListener{
 	
-	private static final Frame MenuBar = null;
 	public JButton MenuButton;
 	private String [] tagList = {"홈", "목록", "신청관리", "마이페이지"};
 	private int length = 520, Bnum = (length - 10) / 4;
