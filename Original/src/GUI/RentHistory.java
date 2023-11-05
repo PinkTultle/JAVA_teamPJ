@@ -24,6 +24,7 @@ public class RentHistory extends JFrame implements ActionListener {
 	private RoundButton btnNewButton;
 	private RoundButton btnNewButton_1;
 	private RoundButton btnNewButton_2;
+	private itemSlot_history is;
 
 	/**
 	 * Launch the application.
@@ -65,7 +66,7 @@ public class RentHistory extends JFrame implements ActionListener {
 		lblNewLabel.setBounds(44, 29, 162, 62);
 		panel.add(lblNewLabel);
 
-		itemSlot_history is = new itemSlot_history(38, 90, 960, 370);
+		is = new itemSlot_history(38, 90, 960, 370);
 		panel.add(is);
 
 		btnNewButton = new RoundButton("연장 요청");
@@ -98,8 +99,12 @@ public class RentHistory extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnNewButton) { // 연장 요청 동작
 			System.out.println(((JButton) (e.getSource())).getText());
+			if (is.getSelectItemNum() != -1)
+				System.out.println("물품 번호: " + is.getSelectItemNum());
 		} else if (e.getSource() == btnNewButton_1) { // 반납 동작
 			System.out.println(((JButton) (e.getSource())).getText());
+			if (is.getSelectItemNum() != -1)
+				System.out.println("물품 번호: " + is.getSelectItemNum());
 		} else if (e.getSource() == btnNewButton_2) { // 뒤로 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 		}

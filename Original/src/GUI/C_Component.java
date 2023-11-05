@@ -445,6 +445,17 @@ public class C_Component {
 
 			initJTableStyle(table, height, 10);
 
+			table.getColumnModel().getColumn(0).setPreferredWidth(20);
+			table.getColumnModel().getColumn(0).setMinWidth(20);
+			table.getColumnModel().getColumn(0).setMaxWidth(20);
+			table.getColumnModel().getColumn(1).setPreferredWidth(40);
+			table.getColumnModel().getColumn(2).setPreferredWidth(60);
+			table.getColumnModel().getColumn(3).setPreferredWidth(300);
+			table.getColumnModel().getColumn(3).setMinWidth(200);
+			table.getColumnModel().getColumn(4).setPreferredWidth(40);
+			table.getColumnModel().getColumn(5).setPreferredWidth(40);
+			table.getColumnModel().getColumn(6).setPreferredWidth(40);
+
 			table.getModel().addTableModelListener(new TableModelListener() {
 
 				@Override
@@ -471,10 +482,17 @@ public class C_Component {
 			defaultTableCellRenderer.setBackground(color);
 		}
 
+		int getSelectItemNum() {
+			int returnItemNum = -1;
+			if (selectedIndex != -1 && (boolean) table.getValueAt(selectedIndex, 0)) {
+				returnItemNum = Integer.parseInt(table.getValueAt(selectedIndex, 1).toString());
+			}
+			return returnItemNum;
+		}
+
 		protected void handleTableChangedEvent(TableModelEvent e) {
 			int tempIndex = e.getFirstRow();
 			if (tempIndex != -1) {
-				System.out.println(selectedIndex + " " + tempIndex);
 				if ((Boolean) table.getValueAt(tempIndex, 0) == true) {
 					if (selectedIndex != -1 && selectedIndex != tempIndex)
 						table.setValueAt(false, selectedIndex, 0);
