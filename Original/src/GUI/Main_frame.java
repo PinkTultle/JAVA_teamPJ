@@ -5,8 +5,10 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import GUI.MenuBar;
 
-public class Main_frame extends JFrame implements ActionListener {
+
+public class Main_frame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -15,7 +17,8 @@ public class Main_frame extends JFrame implements ActionListener {
 	 * Baener - 프로그램 로고와 패널 이동 버튼들이 올라간 메뉴바 패널이 있는 패널
 	 * FunctionPane - 기능 패널로 홈, 목록, 신청관리, 마이페이지 패널이 올라갈 패널
 	 */
-	private JPanel contentPane, Baener, FunctionPane;
+	private JPanel contentPane, Baener;
+	private static JPanel FunctionPane, P1, P2, P3, P4;
 	/**
 	 * Launch the application.
 	 */
@@ -76,55 +79,73 @@ public class Main_frame extends JFrame implements ActionListener {
 		//해당 프레임의 콘텐츠 팬 설정
 		setContentPane(contentPane);
 		
-	
+		//패널 교체를 위한 임시 코드
+		
+		P1 = new Panel01();
+		P2 = new Panel02();
+		P3 = new Panel03();
+		P4 = new Panel04();
+		
+		
+		contentPane.add(P1);
+		contentPane.add(P2);
+		contentPane.add(P3);
+		contentPane.add(P4);
+		
+		P1.setVisible(false);
+		P2.setVisible(false);
+		P3.setVisible(false);
+		P4.setVisible(false);
+		
+		FunctionPane.setBounds(0, 150, 1050, 450);
+		FunctionPane.setVisible(true);
+
 	
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-		//e.getActionCommand()
-		
-	}
 
 	//MenuBar.java의 버튼 이벤트와 연동할 패널 교체 함수
 	public static void main(String text) {
 		// TODO Auto-generated method stub
-		
-		
-		//혹시몰라 예외처리
-		try {
+
+		//인자값을 받아야 실행
+		if(text != null) {
+			//인자값으로 받은 문자열에 따라 동작 결정
+			//각 패널 만들어지면 함수 구현해서 넣을 부분
+			switch(text) {
 			
-			//인자값을 받아야 실행
-			if(text != null) {
-				//인자값으로 받은 문자열에 따라 동작 결정
-				//각 패널 만들어지면 함수 구현해서 넣을 부분
-				switch(text) {
+			case "홈":
+				System.out.println("홈 패널 교체 호출");
+				//패널교체
+				P1.setVisible(true);
+				P2.setVisible(false);
+				P3.setVisible(false);
+				P4.setVisible(false);
+				FunctionPane.setVisible(false);
 				
-				case "홈":
-					System.out.println("홈 패널 교체 호출");
-					//패널교체
-					break;
+				break;
+			
+			case "목록":
+				System.out.println("목록 패널 교체 호출");
+				//패널교체
+				P1.setVisible(false);
+				P2.setVisible(true);
+				P3.setVisible(false);
+				P4.setVisible(false);
+				FunctionPane.setVisible(false);
 				
-				case "목록":
-					System.out.println("목록 패널 교체 호출");
-
-					//패널교체
-					break;
-		
-				case "신청관리":
-					System.out.println("신청관리 패널 교체 호출");
-
-					//패널교체
-					break;
-					
-				case "마이페이지":
-					System.out.println("마이페이지 패널 교체 호출");
-
-					//패널교체
-					break;
+				break;
+	
+			case "신청관리":
+				System.out.println("신청관리 패널 교체 호출");
+				//패널교체
+				P1.setVisible(false);
+				P2.setVisible(false);
+				P3.setVisible(true);
+				P4.setVisible(false);
+				FunctionPane.setVisible(false);
 				
+
 				case "메인 검색":
 					System.out.println("메인 프레임 검색 기능 호출");
 
@@ -132,10 +153,17 @@ public class Main_frame extends JFrame implements ActionListener {
 					break;
 				}
 				
+			case "마이페이지":
+				System.out.println("마이페이지 패널 교체 호출");
+				//패널교체
+				P1.setVisible(false);
+				P2.setVisible(false);
+				P3.setVisible(false);
+				P4.setVisible(true);
+				FunctionPane.setVisible(false);
+				
+				break;
 			}
-			
-		} catch (Exception e1){
-			
 		}
 	}
 	
@@ -149,3 +177,113 @@ public class Main_frame extends JFrame implements ActionListener {
 		
 	}
 }
+
+
+
+class Panel01 extends JPanel{
+	private JLabel LOGO;
+	private Font LFont;
+	
+	public Panel01() {
+		setBounds(0, 150, 1050, 450);
+		
+		setLayout(null);
+		//배너 설정
+		setBackground(Color.MAGENTA);
+		setToolTipText("홈 패널");
+		
+		
+		//로고 초기설정
+		LOGO = new JLabel("홈");
+		LOGO.setBounds(525, 125, 250, 250);
+		LFont = new Font("맑은 고딕", Font.PLAIN + Font.BOLD, 50);
+		LOGO.setFont(LFont);
+
+		add(LOGO);
+		
+	}
+}
+
+class Panel02 extends JPanel{
+	private JLabel LOGO;
+	private Font LFont;
+	
+	public Panel02() {
+		setBounds(0, 150, 1050, 450);
+		
+		setLayout(null);
+		//배너 설정
+		setBackground(Color.YELLOW);
+		setToolTipText("목록 패널");
+		
+		
+		//로고 초기설정
+		LOGO = new JLabel("목록");
+		LOGO.setBounds(525, 125, 250, 250);
+
+		LFont = new Font("맑은 고딕", Font.PLAIN + Font.BOLD, 50);
+		LOGO.setFont(LFont);
+
+		add(LOGO);
+		
+	}
+}
+
+class Panel03 extends JPanel{
+	private JLabel LOGO;
+	private Font LFont;
+	
+	public Panel03() {
+		setBounds(0, 150, 1050, 450);
+		
+		setLayout(null);
+		//배너 설정
+		setBackground(Color.ORANGE);
+		setToolTipText("신청관리 패널");
+		
+		
+		//로고 초기설정
+		LOGO = new JLabel("신청관리");
+		LOGO.setBounds(525, 125, 250, 250);
+
+		LFont = new Font("맑은 고딕", Font.PLAIN + Font.BOLD, 50);
+		LOGO.setFont(LFont);
+
+		add(LOGO);
+		
+	}
+}
+
+class Panel04 extends JPanel{
+	private JLabel LOGO;
+	private Font LFont;
+	
+	public Panel04() {
+		setBounds(0, 150, 1050, 450);
+		
+		setLayout(null);
+		//배너 설정
+		setBackground(Color.PINK);
+		setToolTipText("마이패이지 패널");
+		
+		
+		//로고 초기설정
+		LOGO = new JLabel("마이페이지");
+		LOGO.setBounds(525, 125, 250, 250);
+
+		LFont = new Font("맑은 고딕", Font.PLAIN + Font.BOLD, 50);
+		LOGO.setFont(LFont);
+
+		add(LOGO);
+		
+	}
+}
+
+
+
+
+
+
+
+
+
