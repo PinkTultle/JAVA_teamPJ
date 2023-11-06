@@ -394,7 +394,7 @@ public class C_Component {
 			table.getColumnModel().getColumn(2).setPreferredWidth(60);
 			table.getColumnModel().getColumn(2).setMinWidth(15);
 
-			initJTableStyle(table, height, 10);
+			initJTableStyle(table, height, 13);
 
 			this.setViewportView(table);
 

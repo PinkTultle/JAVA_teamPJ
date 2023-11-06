@@ -1,7 +1,6 @@
 package GUI;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,11 +9,9 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 
 import GUI.C_Component.MyFL;
 import GUI.C_Component.MyJT;
@@ -37,22 +34,15 @@ public class ListPanel extends JPanel implements ActionListener {
 	private int maxPage = 10; // 최대 페이지 수 | 테스트용 값 10 : 후에 최대 페이지 값을 받는 동작 필요
 	private int nowPage = 1;
 
-	
-
 	/**
 	 * Create the frame.
 	 */
 	public ListPanel() { // 콤보 박스에 이벤트 추가 필요
 
-
-
 		setLayout(null);
 
-		JPanel panel = new JPanel();
 		setBackground(new Color(255, 255, 255));
 		setBounds(0, BP.getHeight(), 1050, 700);
-
-		setLayout(null);
 
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
@@ -61,7 +51,7 @@ public class ListPanel extends JPanel implements ActionListener {
 				"가전/생활/주방", "스포츠/레저", "취미/게임/도서", "동물용품", "렌트 원해요" }));
 		comboBox.setBounds(62, 46, 110, 35);
 		comboBox.addActionListener(this);
-		panel.add(comboBox);
+		add(comboBox);
 
 		comboBox_1 = new JComboBox();
 		comboBox_1.setFont(new Font("맑은 고딕", Font.PLAIN, 12));

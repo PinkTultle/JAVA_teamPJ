@@ -1,55 +1,35 @@
 package GUI;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Vector;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 
 import GUI.C_Component.itemSlot_offer;
 
-public class OfferManage extends JFrame {
+public class OfferManage extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					OfferManage frame = new OfferManage();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JPanel BP = new Baener_pane();
 
 	/**
 	 * Create the frame.
 	 */
 	public OfferManage() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1050, 570);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		setLayout(null);
+
+		setBackground(new Color(255, 255, 255));
+		setBounds(0, BP.getHeight(), 1034, 700);
 
 		ManagePanel panel = new ManagePanel();
-		panel.setBounds(0, 0, 1034, 531);
+		panel.setBounds(0, 0, 1034, 700);
 		panel.setBackground(new Color(255, 255, 255));
-		contentPane.add(panel);
+		add(panel);
 		panel.setLayout(null);
 
 		RoundJLabel lblNewLabel = new RoundJLabel("받은 신청");
@@ -64,7 +44,7 @@ public class OfferManage extends JFrame {
 		lblNewLabel_1.setBounds(526, 10, 500, 70);
 		panel.add(lblNewLabel_1);
 
-		itemSlot_offer is_receive = new itemSlot_offer(28, 90, 461, 431, 0);
+		itemSlot_offer is_receive = new itemSlot_offer(28, 90, 461, 600, 0);
 		is_receive.setHeaderColor(new Color(244, 82, 95));
 		panel.add(is_receive);
 
@@ -76,7 +56,7 @@ public class OfferManage extends JFrame {
 		is_receive.setItem(vector);
 		// 테스트용 코드
 
-		itemSlot_offer is_sending = new itemSlot_offer(545, 90, 461, 431, 1);
+		itemSlot_offer is_sending = new itemSlot_offer(545, 90, 461, 600, 1);
 		panel.add(is_sending);
 
 		// 테스트용 코드
@@ -91,7 +71,7 @@ public class OfferManage extends JFrame {
 	class ManagePanel extends JPanel {
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			g.drawLine(517, 20, 517, 510);
+			g.drawLine(517, 20, 517, 680);
 		}
 	}
 }
