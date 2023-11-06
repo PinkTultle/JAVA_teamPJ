@@ -97,7 +97,6 @@ public class Main_frame extends JFrame {
 		P3.setVisible(false);
 		P4.setVisible(false);
 		
-		FunctionPane.setBounds(0, 0, 1050, 800);
 		FunctionPane.setVisible(true);
 
 	
@@ -234,16 +233,16 @@ class Panel03 extends JPanel{
 	private Font LFont;
 	
 	public Panel03() {
-		setBounds(0, 150, 1050, 450);
+		setBounds(0, 150, 1050, 800);
 		
 		setLayout(null);
 		//배너 설정
 		setBackground(Color.ORANGE);
-		setToolTipText("신청관리 패널");
+		setToolTipText("");
 		
 		
 		//로고 초기설정
-		LOGO = new JLabel("신청관리");
+		LOGO = new JLabel("");
 		LOGO.setBounds(525, 125, 250, 250);
 
 		LFont = new Font("맑은 고딕", Font.PLAIN + Font.BOLD, 50);
@@ -259,7 +258,7 @@ class Panel04 extends JPanel{
 	private Font LFont;
 	
 	public Panel04() {
-		setBounds(0, 150, 1050, 450);
+		setBounds(0, 150, 1050, 800);
 		
 		setLayout(null);
 		//배너 설정

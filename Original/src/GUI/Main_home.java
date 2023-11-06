@@ -10,6 +10,7 @@ public class Main_home extends Function_pane {
 		// TODO Auto-generated constructor stub
 		
 		//마우스 올리면 출력되는 문구 이후 삭제
+		//setSize(1050, 900);
 		setToolTipText("홈 패널");
 		
 		Home_1 = new Home_left_pane();

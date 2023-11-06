@@ -48,7 +48,7 @@ public class Home_left_pane extends Function_pane implements ActionListener{
 		add(L1);
 		
 		L2 = new JLabel("최근방문");
-		L2.setBounds(70, BP.getHeight()+150, 150, 50);
+		L2.setBounds(70, BP.getHeight()+170, 150, 50);
 		L2.setFont(font);
 		L2.setForeground(Color.black);
 		add(L2);
@@ -62,7 +62,7 @@ public class Home_left_pane extends Function_pane implements ActionListener{
 		//Tf.setBorder(new LineBorder(Color.black, 0));
 		Tf.setFont(font);
 		Tf.setEnabled(true);
-		Tf.setBounds( 50, BP.getHeight()+85, 350, 40);
+		Tf.setBounds( 50, BP.getHeight()+100, 350, 40);
 		add(Tf);
 		
 		//검색 버튼 생성
@@ -93,7 +93,7 @@ public class Home_left_pane extends Function_pane implements ActionListener{
 		
 		public search_bt() {
 			
-			setBounds(410, BP.getHeight()+85, 80, 40);
+			setBounds(410, BP.getHeight()+100, 80, 40);
 			setOpaque(false);
 			setFocusPainted(false);
 			setBorderPainted(false);
