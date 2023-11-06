@@ -89,31 +89,7 @@ public class Home_left_pane extends Function_pane implements ActionListener{
 		
 	}
 	
-	class search_bt extends JButton{
-		
-		public search_bt() {
-			
-			setBounds(410, BP.getHeight()+100, 80, 40);
-			setOpaque(false);
-			setFocusPainted(false);
-			setBorderPainted(false);
-			//setContentAreaFilled(false);
-			
-			setBackground(back_c);
-
-			ImageIcon Bt_img = new ImageIcon(search_bt.class.getResource("../COMP_IMG/search.png"));
-			
-			Image img = Bt_img.getImage();
-			
-			img.getScaledInstance( getHeight(), getWidth(), Image.SCALE_SMOOTH);
-			ImageIcon icon = new ImageIcon(img);
-			
-			setIcon(icon);
-			
-			
-			setRolloverIcon(icon);
-			
-		}	
+	
 	
 }
 
@@ -126,5 +102,4 @@ class Main_Search_act implements ActionListener{
 		
 		//검색 버튼 클릭
 	}
-}
 }
