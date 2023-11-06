@@ -48,7 +48,7 @@ public class Main_frame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//프레임 크기 설정
-		setSize(1050, 600);
+		setSize(1050, 800);
 		//사이즈 조절 off
 		setResizable(false);
 		//화면 중앙에 출력
