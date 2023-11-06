@@ -22,6 +22,8 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -254,6 +256,7 @@ public class C_Component {
 		jt.setSelectionBackground(new Color(106, 172, 208));
 		jt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jt.setDefaultRenderer(String.class, new ProxyCellRenderer(jt.getDefaultRenderer(String.class)));
+		jt.setDefaultRenderer(Boolean.class, new ProxyCellRenderer(jt.getDefaultRenderer(Boolean.class)));
 		jt.addMouseListener(new My_ML());
 		jt.addKeyListener(new My_KL());
 
@@ -322,11 +325,6 @@ public class C_Component {
 					return columnEditables[column];
 				}
 			});
-
-			// 엔터 입력 설정 | 이벤트 리스너랑 연동시킬 예정
-			InputMap iMap = table.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-			KeyStroke stroke = KeyStroke.getKeyStroke("ENTER");
-			iMap.put(stroke, "null");
 
 			// 행과 열 설정
 			table.getColumnModel().getColumn(0).setPreferredWidth(50);
@@ -414,18 +412,108 @@ public class C_Component {
 		}
 	}
 
+	static public class itemSlot_history extends JScrollPane {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		private MyTA table;
+		private int selectedIndex = -1;
+
+		public itemSlot_history(int x, int y, int width, int height) {
+			setBounds(x, y, width, height);
+			getViewport().setBackground(Color.white);
+			table = new MyTA();
+			table.setModel(new DefaultTableModel(new Object[][] {},
+					new String[] { "", "\ubb3c\ud488\ucf54\ub4dc", "\uac70\ub798\uc790", "\ubb3c\ud488\uba85",
+							"\ub0a8\uc740\u0020\uae30\uac04", "\uc774\uc6a9\uc0c1\ud0dc",
+							"\ubc18\ub0a9\u002f\uc5f0\uc7a5\uc0c1\ud0dc" }) {
+				Class[] columnTypes = new Class[] { Boolean.class, String.class, String.class, String.class,
+						String.class, String.class, String.class };
+
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+
+				boolean[] columnEditables = new boolean[] { true, false, false, false, false, false, false };
+
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+
+			initJTableStyle(table, height, 10);
+
+			table.getColumnModel().getColumn(0).setPreferredWidth(20);
+			table.getColumnModel().getColumn(0).setMinWidth(20);
+			table.getColumnModel().getColumn(0).setMaxWidth(20);
+			table.getColumnModel().getColumn(1).setPreferredWidth(40);
+			table.getColumnModel().getColumn(2).setPreferredWidth(60);
+			table.getColumnModel().getColumn(3).setPreferredWidth(300);
+			table.getColumnModel().getColumn(3).setMinWidth(200);
+			table.getColumnModel().getColumn(4).setPreferredWidth(40);
+			table.getColumnModel().getColumn(5).setPreferredWidth(40);
+			table.getColumnModel().getColumn(6).setPreferredWidth(40);
+
+			table.getModel().addTableModelListener(new TableModelListener() {
+
+				@Override
+				public void tableChanged(TableModelEvent e) {
+					// TODO Auto-generated method stub
+					handleTableChangedEvent(e);
+				}
+			});
+
+			this.setViewportView(table);
+
+		}
+
+		void setItem(Vector<Object[]> v) { // boolean 1개와 String 6개로 값을 변경
+			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+			for (int i = 0; i < v.size(); i++) {
+				tableModel.addRow(v.elementAt(i));
+			}
+		}
+
+		void setHeaderColor(Color color) {
+			DefaultTableCellRenderer defaultTableCellRenderer = (DefaultTableCellRenderer) table.getTableHeader()
+					.getDefaultRenderer();
+			defaultTableCellRenderer.setBackground(color);
+		}
+
+		int getSelectItemNum() {
+			int returnItemNum = -1;
+			if (selectedIndex != -1 && (boolean) table.getValueAt(selectedIndex, 0)) {
+				returnItemNum = Integer.parseInt(table.getValueAt(selectedIndex, 1).toString());
+			}
+			return returnItemNum;
+		}
+
+		protected void handleTableChangedEvent(TableModelEvent e) {
+			int tempIndex = e.getFirstRow();
+			if (tempIndex != -1) {
+				if ((Boolean) table.getValueAt(tempIndex, 0) == true) {
+					if (selectedIndex != -1 && selectedIndex != tempIndex)
+						table.setValueAt(false, selectedIndex, 0);
+					selectedIndex = tempIndex;
+
+				}
+			}
+		}
+	}
+
 	static class My_KL implements KeyListener {
 
-		boolean pressed = false;
-
 		@Override
-		public void keyTyped(KeyEvent e) {
+		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
 		}
 
 		@Override
-		public void keyPressed(KeyEvent e) {
+		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
+
 			if (e.getKeyChar() == '\n' && !pressed) { // Enter 키를 누른 경우
 				if (e.getSource() instanceof BaseTableComponent) { // JTable 인 경우
 					BaseTableComponent baseTableComponent = (BaseTableComponent) e.getSource();
@@ -436,11 +524,9 @@ public class C_Component {
 		}
 
 		@Override
-		public void keyReleased(KeyEvent e) {
+		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
-			if (e.getKeyChar() == '\n' && pressed) {
-				pressed = false;
-			}
+
 		}
 
 	}
@@ -481,6 +567,5 @@ public class C_Component {
 			// TODO Auto-generated method stub
 
 		}
-
 	}
 }
