@@ -30,7 +30,7 @@ public class Home_right_pane extends Function_pane implements ActionListener{
 		
 		
 		setBounds(530, 150, 510, 615);
-
+		
 		setLayout(new GridLayout(4, 4, 5, 5));
 		setBorder(BorderFactory.createEmptyBorder(50,0,50,0));
 		

@@ -10,7 +10,7 @@ abstract public class Function_pane extends JPanel {
 	
 	public Function_pane() {
 		
-		setBounds(0, 150, 1050, 650);
+		setBounds(0, 0, 1050, 800);
 		back_c = new Color(255,255,250);
 		setLayout(null);
 		

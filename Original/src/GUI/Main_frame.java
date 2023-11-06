@@ -32,8 +32,8 @@ public class Main_frame extends JFrame {
 					e.printStackTrace();
 				}
 			}
-		});		
-		
+		});	
+	
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class Main_frame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//프레임 크기 설정
-		setSize(1050, 800);
+		setSize(1050, 900);
 		//사이즈 조절 off
 		setResizable(false);
 		//화면 중앙에 출력
@@ -81,8 +81,8 @@ public class Main_frame extends JFrame {
 		
 		//패널 교체를 위한 임시 코드
 		
-		P1 = new Panel01();
-		P2 = new Panel02();
+		P1 = new Main_home();
+		P2 = new ListPanel();
 		P3 = new Panel03();
 		P4 = new Panel04();
 		
@@ -97,7 +97,7 @@ public class Main_frame extends JFrame {
 		P3.setVisible(false);
 		P4.setVisible(false);
 		
-		FunctionPane.setBounds(0, 150, 1050, 450);
+		FunctionPane.setBounds(0, 0, 1050, 800);
 		FunctionPane.setVisible(true);
 
 	
@@ -146,12 +146,12 @@ public class Main_frame extends JFrame {
 				FunctionPane.setVisible(false);
 				
 
-				case "메인 검색":
-					System.out.println("메인 프레임 검색 기능 호출");
+			case "메인 검색":
+				System.out.println("메인 프레임 검색 기능 호출");
 
-					//패널교체 및 검색
-					break;
-				}
+				//패널교체 및 검색
+				break;
+				
 				
 			case "마이페이지":
 				System.out.println("마이페이지 패널 교체 호출");

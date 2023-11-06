@@ -27,13 +27,14 @@ public class Home_left_pane extends Function_pane implements ActionListener{
 	private JTextField Tf;
 	private static JButton Jb1 = null;
 	private Font font;
+	private JPanel BP = new Baener_pane();
 	
 	
 	
 	public Home_left_pane() {
 		// TODO Auto-generated constructor stub
 		
-		setBounds(0, 150, 530, 650);
+		setSize(530, 800);
 		setLayout(null);
 		font = new Font("맑은 고딕", Font.PLAIN + Font.BOLD, 24);
 		
@@ -41,13 +42,13 @@ public class Home_left_pane extends Function_pane implements ActionListener{
 		
 		//검색, 최근 방문 키워드 표시
 		L1 = new JLabel("검색");
-		L1.setBounds(70, 30, 50, 50);
+		L1.setBounds(70, BP.getHeight()+30, 50, 50);
 		L1.setFont(font);
 		L1.setForeground(Color.black);
 		add(L1);
 		
 		L2 = new JLabel("최근방문");
-		L2.setBounds(70, 150, 150, 50);
+		L2.setBounds(70, BP.getHeight()+150, 150, 50);
 		L2.setFont(font);
 		L2.setForeground(Color.black);
 		add(L2);
@@ -61,7 +62,7 @@ public class Home_left_pane extends Function_pane implements ActionListener{
 		//Tf.setBorder(new LineBorder(Color.black, 0));
 		Tf.setFont(font);
 		Tf.setEnabled(true);
-		Tf.setBounds( 50, 85, 350, 40);
+		Tf.setBounds( 50, BP.getHeight()+85, 350, 40);
 		add(Tf);
 		
 		//검색 버튼 생성
@@ -92,7 +93,7 @@ public class Home_left_pane extends Function_pane implements ActionListener{
 		
 		public search_bt() {
 			
-			setBounds(410, 85, 80, 40);
+			setBounds(410, BP.getHeight()+85, 80, 40);
 			setOpaque(false);
 			setFocusPainted(false);
 			setBorderPainted(false);
