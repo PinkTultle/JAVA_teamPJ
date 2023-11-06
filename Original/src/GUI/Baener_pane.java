@@ -22,8 +22,8 @@ public class Baener_pane extends JPanel {
 		setLayout(null);
 		//배너 설정
 		//색깔 설정 푸른색 + 투명도 비활성화
-		BColor = new Color(0x31BAF5, false);
-		setBackground(BColor);
+		//BColor = new Color(0x31BAF5, false);
+		//setBackground(BColor);
 		setToolTipText("배너 패널");
 		
 		
@@ -38,4 +38,16 @@ public class Baener_pane extends JPanel {
 		
 		add(MenuBar);
 	}
+	
+	
+	protected void paintComponent(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		
+		
+		GradientPaint gp = new GradientPaint(0, 0, new Color(0xc2e9fb), 1050, 150, new Color(0xa1c4fd));
+		
+		g2.setPaint(gp);
+		g2.fillRect(0, 0, 1050, 150);
+	}
+	
 }
