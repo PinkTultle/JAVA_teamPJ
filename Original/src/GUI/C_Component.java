@@ -349,9 +349,21 @@ public class C_Component {
 			}
 		}
 
-		public void setPage(Vector<String[]> v) { // 페이지 변경시 목록 변경 | String[] vector 로 임시 설정 : 클래스 추가시 변경 필요 | row
-													// 단위로 변경
-			for (int i = 0; i < 15; i++) {
+		public void setPage(Vector<String[]> v) { // 페이지 변경시 목록 변경 | String[] vector 로 임시 설정 : 클래스 추가시 변경 필요 | row 단위로
+													// 변경 ( 최대 15개
+			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+			System.out.println(tableModel.getRowCount() + " " + v.size());
+			if (tableModel.getRowCount() < v.size()) {
+				for (int i = v.size() - tableModel.getRowCount(); i > 0; i--) {
+					tableModel.addRow(new Object[] { null, null, null, null, null, null });
+				}
+			} else {
+				for (int i = tableModel.getRowCount() - v.size(); i > 0; i--) {
+					System.out.println(tableModel.getRowCount() - v.size());
+					tableModel.removeRow(0);
+				}
+			}
+			for (int i = 0; i < v.size(); i++) {
 				setItem(i, v.elementAt(i));
 			}
 		}
