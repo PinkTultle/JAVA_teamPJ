@@ -1,8 +1,10 @@
 package GUI;
 
 import java.awt.Color;
-import java.awt.Component;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 import javax.swing.JPanel;
@@ -10,7 +12,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -31,9 +32,24 @@ public class Manaege_Panel_left extends JPanel {
 		RoundJLabel lb_Receive = new RoundJLabel("New label");
 		lb_Receive.setHorizontalAlignment(JLabel.CENTER);
 		lb_Receive.setText("받은 신청");
-		lb_Receive.setBounds(20, 212, 491, 41);
+		lb_Receive.setBounds(20, 172, 491, 41);
 		add(lb_Receive);
 		
+		
+		JLabel lb_ItemCode = new JLabel("품명코드");
+        lb_ItemCode.setFont(new Font("굴림", Font.PLAIN, 15));
+        lb_ItemCode.setBounds(70, 235, 66, 15);
+        add(lb_ItemCode);
+        
+        JLabel lb_ItemName = new JLabel("물품명");
+        lb_ItemName.setFont(new Font("굴림", Font.PLAIN, 15));
+        lb_ItemName.setBounds(238, 235, 43, 15);
+        add(lb_ItemName);
+        
+        JLabel lb_Day = new JLabel("요청기한");
+        lb_Day.setFont(new Font("굴림", Font.PLAIN, 15));
+        lb_Day.setBounds(390, 235, 66, 15);
+        add(lb_Day);
 		
 		 // 컬럼 이름을 벡터로 초기화
         columnNames = new Vector<>();
@@ -55,26 +71,22 @@ public class Manaege_Panel_left extends JPanel {
         table.setRowSelectionAllowed(false);
         table.setRowHeight(60);  // 각 행의 높이 설정
         table.getTableHeader().setReorderingAllowed(false);
-        
-        
-        JTableHeader header = table.getTableHeader();
-        // 헤더의 배경색, 텍스트 정렬을 설정할 수 있는 메소드
-        header.setDefaultRenderer(new DefaultTableCellRenderer() {
+        table.setTableHeader(null); // 테이블 헤더 제거
+        // 테이블에서 행 단위로 선택되게 설정
+        table.setRowSelectionAllowed(true);
+        table.addMouseListener(new MouseAdapter() { // 테이블 요소 마우스선택 이벤트
+      	  public void mouseClicked(MouseEvent e) {
+      	        int row = table.rowAtPoint(e.getPoint()); // 클릭된 위치의 행 인덱스
+      	        int col = table.columnAtPoint(e.getPoint()); // 클릭된 위치의 열 인덱스
 
-        	private static final long serialVersionUID = 1L;
-
-			@Override
-            public Component getTableCellRendererComponent(
-                JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                
-                JLabel label = (JLabel) super.getTableCellRendererComponent(
-                    table, value, isSelected, hasFocus, row, column);
-                label.setBackground(Color.WHITE); // 헤더의 배경색을 흰색으로 설정
-                label.setHorizontalAlignment(JLabel.CENTER); // 헤더 내 텍스트 중앙 정렬
-                label.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK)); // 헤더 칸 하단에 윤곽선을 설정
-                return label;
-            }
-        });
+      	        if (row >= 0 && col >= 0) {
+      	        	Object value = table.getValueAt(row, col); // 선택된 셀의 값을 value에 저장
+      	            System.out.println("클릭된 셀의 값: " + value);
+      	            // TODO 셀 선택시 해당 글 페이지로 연결
+      	          
+      	        }
+      	    }
+      });
         
         
         // 테이블 내 텍스트 가운데 정렬을 위한 렌더러 설정
@@ -89,8 +101,9 @@ public class Manaege_Panel_left extends JPanel {
         scrollPane = new JScrollPane(table);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(20, 320, 480, 291); 
+        scrollPane.setBounds(20, 260, 480, 410); 
         scrollPane.getViewport().setBackground(Color.WHITE);
+        scrollPane.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, Color.BLACK));
         add(scrollPane);
 	}
 	
@@ -102,6 +115,6 @@ public class Manaege_Panel_left extends JPanel {
 		g.setColor(Color.lightGray);
 
 		// 선을 그리기. (x1, y1)에서 (x2, y2)까지
-		g.drawLine(518, 212, 518, 750);
+		g.drawLine(518, 165, 518, 750);
 	}
 }
