@@ -274,6 +274,11 @@ public class C_Component {
 	}
 
 	static class MyTA extends JTable implements BaseTableComponent {
+		/*
+		 * JTable 에 사용자 기능들을 추가한 클래스 
+		 * goDetail : 클릭 이벤트 또는 enter 이벤트 발생 시 해당 메소드를 실행함
+		 * focusLost : focus 가 사라지는 경우 Select 된 행을 초기화 
+		 */
 		@Override
 		public void goDetail() { // 마우스나 키보드 이벤트 발생시 실행하는 메소드
 			// TODO Auto-generated method stub
@@ -289,27 +294,41 @@ public class C_Component {
 
 	}
 
-	static class itemSlot_list extends JScrollPane {
-		/**
-		 * 
+	static class base_itemSlot extends JScrollPane {
+		/*
+		 * JTable 을 사용하는 클래스들의 기본 상속 클래스
+		 * table : 실제로 화면에 표시될 JTable | 사용자 기능들을 추가한 MyTA 클래스를 이용함 | C_Component: 276
+		 * setItem : table 의 행을 설정하는 메소드 | Vector<String> 을 이용해서 table 에 행을 추가함 | ListPanel 사용 불가 
+		 * setHeaderColor : table 의 Header 의 색을 변경함
+		 */
+		MyTA table;
+
+		void setItem(Vector<String[]> v) { // 자료형과 개수는 각 항목 참조
+			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+			for (int i = 0; i < v.size(); i++) {
+				tableModel.addRow(v.elementAt(i));
+			}
+		}
+
+		void setHeaderColor(Color color) {
+			DefaultTableCellRenderer defaultTableCellRenderer = (DefaultTableCellRenderer) table.getTableHeader()
+					.getDefaultRenderer();
+			defaultTableCellRenderer.setBackground(color);
+		}
+
+	}
+
+	static class itemSlot_list extends base_itemSlot {
+		/*
+		 * String.class 6개
 		 */
 		private static final long serialVersionUID = 1L;
-
-		private MyTA table;
 
 		public itemSlot_list(int x, int y, int width, int height) {
 			// TODO Auto-generated constructor stub
 			this.setBounds(x, y, width, height);
 			table = new MyTA();
-			table.setModel(new DefaultTableModel(
-					new Object[][] { { null, null, null, null, null, null }, { null, null, null, null, null, null },
-							{ null, null, null, null, null, null }, { null, null, null, null, null, null },
-							{ null, null, null, null, null, null }, { null, null, null, null, null, null },
-							{ null, null, null, null, null, null }, { null, null, null, null, null, null },
-							{ null, null, null, null, null, null }, { null, null, null, null, null, null },
-							{ null, null, null, null, null, null }, { null, null, null, null, null, null },
-							{ null, null, null, null, null, null }, { null, null, null, null, null, null },
-							{ null, null, null, null, null, null }, },
+			table.setModel(new DefaultTableModel(new Object[][] {},
 					new String[] { "\uBB3C\uD488\uCF54\uB4DC", "\uCE74\uD14C\uACE0\uB9AC", "\uBB3C\uD488\uBA85",
 							"\uB4F1\uB85D\uC790", "\uB80C\uD2B8\uAE30\uD55C", "\uCC98\uB9AC\uC0C1\uD0DC" }) {
 				Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class,
@@ -343,40 +362,23 @@ public class C_Component {
 
 		}
 
-		public void setItem(int rowNum, String[] value) { // 목록의 아이템을 바꾸는 메소드 | 추가 필요
-			for (int i = 0; i < 6; i++) {
-				table.setValueAt(value[i], rowNum, i);
-			}
-		}
-
-		public void setPage(Vector<String[]> v) { // 페이지 변경시 목록 변경 | String[] vector 로 임시 설정 : 클래스 추가시 변경 필요 | row 단위로
-													// 변경 ( 최대 15개
+		public void setPage(Vector<String[]> v) { // 15개 행 생성을 기본으로 함 |
 			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 			System.out.println(tableModel.getRowCount() + " " + v.size());
-			if (tableModel.getRowCount() < v.size()) {
-				for (int i = v.size() - tableModel.getRowCount(); i > 0; i--) {
-					tableModel.addRow(new Object[] { null, null, null, null, null, null });
-				}
-			} else {
-				for (int i = tableModel.getRowCount() - v.size(); i > 0; i--) {
-					System.out.println(tableModel.getRowCount() - v.size());
-					tableModel.removeRow(0);
-				}
+			int rowCount = tableModel.getRowCount();
+			while (rowCount != 0) {
+				tableModel.removeRow(0);
 			}
-			for (int i = 0; i < v.size(); i++) {
-				setItem(i, v.elementAt(i));
-			}
+			setItem(v);
 		}
 
 	}
 
-	static public class itemSlot_offer extends JScrollPane {
-		/**
-		 * 
+	static public class itemSlot_offer extends base_itemSlot {
+		/*
+		 * String.class 3개
 		 */
 		private static final long serialVersionUID = 1L;
-
-		private MyTA table;
 
 		public itemSlot_offer(int x, int y, int width, int height, int mode) {
 			setBounds(x, y, width, height);
@@ -409,28 +411,14 @@ public class C_Component {
 			this.setViewportView(table);
 
 		}
-
-		void setItem(Vector<Object[]> v) { // String.Object 3개를 벡터를 이용해서 전달 받음
-			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-			for (int i = 0; i < v.size(); i++) {
-				tableModel.addRow(v.elementAt(i));
-			}
-		}
-
-		void setHeaderColor(Color color) {
-			DefaultTableCellRenderer defaultTableCellRenderer = (DefaultTableCellRenderer) table.getTableHeader()
-					.getDefaultRenderer();
-			defaultTableCellRenderer.setBackground(color);
-		}
 	}
 
-	static public class itemSlot_history extends JScrollPane {
-		/**
-		 * 
+	static public class itemSlot_history extends base_itemSlot {
+		/*
+		 * String.class 6개
 		 */
 		private static final long serialVersionUID = 1L;
 
-		private MyTA table;
 		private int selectedIndex = -1;
 
 		public itemSlot_history(int x, int y, int width, int height) {
@@ -481,20 +469,22 @@ public class C_Component {
 
 		}
 
-		void setItem(Vector<Object[]> v) { // boolean 1개와 String 6개로 값을 변경
+		void setItem(Vector<String[]> v) { // boolean 1개와 String 6개로 값을 변경
 			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 			for (int i = 0; i < v.size(); i++) {
-				tableModel.addRow(v.elementAt(i));
+				Object[] rowData = v.elementAt(i);
+
+				// 새로운 배열을 생성하고 첫 번째 위치에 boolean 값을 추가
+				Object[] newData = new Object[rowData.length + 1];
+				System.arraycopy(rowData, 0, newData, 1, rowData.length);
+				newData[0] = Boolean.FALSE;
+
+				// 새로운 배열을 DefaultTableModel에 추가
+				tableModel.addRow(newData);
 			}
 		}
 
-		void setHeaderColor(Color color) {
-			DefaultTableCellRenderer defaultTableCellRenderer = (DefaultTableCellRenderer) table.getTableHeader()
-					.getDefaultRenderer();
-			defaultTableCellRenderer.setBackground(color);
-		}
-
-		int getSelectItemNum() {
+		int getSelectItemNum() { // checkBox가 선택된 항목의 번호를 반환함
 			int returnItemNum = -1;
 			if (selectedIndex != -1 && (boolean) table.getValueAt(selectedIndex, 0)) {
 				returnItemNum = Integer.parseInt(table.getValueAt(selectedIndex, 1).toString());
@@ -502,7 +492,7 @@ public class C_Component {
 			return returnItemNum;
 		}
 
-		protected void handleTableChangedEvent(TableModelEvent e) {
+		protected void handleTableChangedEvent(TableModelEvent e) { // checkBox가 하나만 선택되도록 설정
 			int tempIndex = e.getFirstRow();
 			if (tempIndex != -1) {
 				if ((Boolean) table.getValueAt(tempIndex, 0) == true) {
