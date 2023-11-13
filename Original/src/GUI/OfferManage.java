@@ -69,9 +69,9 @@ public class OfferManage extends JFrame {
 		panel.add(is_receive);
 
 		// 테스트용 코드
-		Vector<Object[]> vector = new Vector<Object[]>();
+		Vector<String[]> vector = new Vector<>();
 		for (int i = 0; i < 15; i++) {
-			vector.add(new Object[] { "asdf", "asdf", "asdf" });
+			vector.add(new String[] { "asdf", "asdf", "asdf" });
 		}
 		is_receive.setItem(vector);
 		// 테스트용 코드
@@ -82,7 +82,7 @@ public class OfferManage extends JFrame {
 		// 테스트용 코드
 		vector.clear();
 		for (int i = 0; i < 15; i++) {
-			vector.add(new Object[] { "qwer", "qwer", "qwer" });
+			vector.add(new String[] { "qwer", "qwer", "qwer" });
 		}
 		is_sending.setItem(vector);
 		// 테스트용 코드

@@ -86,9 +86,9 @@ public class RentHistory extends JFrame implements ActionListener {
 		btnNewButton_2.setBounds(903, 470, 104, 33);
 		panel.add(btnNewButton_2);
 
-		Vector<Object[]> vector = new Vector<Object[]>();
+		Vector<String[]> vector = new Vector<>();
 		for (int i = 0; i < 15; i++) {
-			vector.add(new Object[] { false, "" + (i + 1), "asdf", "asdf", "asdf", "asdf", "asdf" });
+			vector.add(new String[] { "" + (i + 1), "asdf", "asdf", "asdf", "asdf", "asdf" });
 		}
 		is.setItem(vector);
 
