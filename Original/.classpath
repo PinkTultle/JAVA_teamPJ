@@ -6,7 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/choi2/Downloads/JAVA_teamPJ1/Original/miglayout15-swing.jar"/>
-	<classpathentry kind="lib" path="C:/Users/choi2/Downloads/JAVA_teamPJ1/Original/ojdbc8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/choi2/Documents/GitHub/JAVA_teamPJ/Original/miglayout15-swing.jar"/>
+	<classpathentry kind="lib" path="C:/Users/choi2/Documents/GitHub/JAVA_teamPJ/Original/ojdbc8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
