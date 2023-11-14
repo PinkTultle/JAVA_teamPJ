@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -13,6 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import JDBC.ItemDAO;
+import JDBC.ItemDTO;
 
 public class ItemDetail extends JFrame implements ActionListener {
 
@@ -56,8 +60,9 @@ public class ItemDetail extends JFrame implements ActionListener {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public ItemDetail(boolean isWriter) { // 글쓴이인지 확인하는 boolean 을 매개 변수로 받음
+	public ItemDetail(boolean isWriter) throws SQLException { // 글쓴이인지 확인하는 boolean 을 매개 변수로 받음
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1050, 570);
 		contentPane = new JPanel();
@@ -129,18 +134,9 @@ public class ItemDetail extends JFrame implements ActionListener {
 		panel_2.setBounds(104, 92, 354, 414);
 		panel.add(panel_2);
 		panel_2.setLayout(null);
+		
+		
 
-		lblNewLabel = new JLabel("image");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(12, 10, 329, 185);
-		panel_2.add(lblNewLabel);
-
-		JLabel lblNewLabel_1 = new JLabel();
-		lblNewLabel_1.setText(new SwingCRLF().CRLF_ln("설	명\n" + Description));
-		lblNewLabel_1.setVerticalAlignment(SwingConstants.TOP);
-		lblNewLabel_1.setFont(nF);
-		lblNewLabel_1.setBounds(12, 205, 330, 199);
-		panel_2.add(lblNewLabel_1);
 
 		panel_3 = new JPanel();
 		panel_3.setBackground(new Color(255, 255, 255));
@@ -172,28 +168,54 @@ public class ItemDetail extends JFrame implements ActionListener {
 		lblNewLabel_2_4.setFont(nF);
 		lblNewLabel_2_4.setBounds(12, 170, 105, 25);
 		panel_3.add(lblNewLabel_2_4);
+		
+		
+		
+		ItemDAO itemdao = new ItemDAO();
+		ItemDTO itemdto = itemdao.itmedetail(1); // 클릭한 물품번호 넘겨 받기
+		ItemDAO itemDAO = new ItemDAO();
+		
+		
+		lblNewLabel = new JLabel(); // 물품 사진 라벨 
+		itemDAO.displayImage(itemdto.getImage(), lblNewLabel); // 사진 표시
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(12, 10, 329, 185);
+		panel_2.add(lblNewLabel);
+
+		
+		JLabel lblNewLabel_1 = new JLabel();
+		lblNewLabel_1.setText(new SwingCRLF().CRLF_ln("설	명\n" + itemdto.getExplanation()));
+		lblNewLabel_1.setVerticalAlignment(SwingConstants.TOP);
+		lblNewLabel_1.setFont(nF);
+		lblNewLabel_1.setBounds(12, 205, 330, 199);
+		panel_2.add(lblNewLabel_1);
 
 		lblNewLabel_3 = new JLabel("물품 코드 입력");
+		lblNewLabel_3.setText(Integer.toString(itemdto.getItemnumber()));
 		lblNewLabel_3.setFont(nF);
 		lblNewLabel_3.setBounds(154, 10, 250, 25);
 		panel_3.add(lblNewLabel_3);
 
 		lblNewLabel_3_1 = new JLabel("모델명 입력");
+		lblNewLabel_3_1.setText(itemdto.getModelname());
 		lblNewLabel_3_1.setFont(nF);
 		lblNewLabel_3_1.setBounds(154, 50, 250, 25);
 		panel_3.add(lblNewLabel_3_1);
 
 		lblNewLabel_3_2 = new JLabel("렌트기한 입력");
+		lblNewLabel_3_2.setText(itemdto.getRentdate());
 		lblNewLabel_3_2.setFont(nF);
 		lblNewLabel_3_2.setBounds(154, 90, 250, 25);
 		panel_3.add(lblNewLabel_3_2);
 
 		lblNewLabel_3_3 = new JLabel("금액/보증금 입력");
+		lblNewLabel_3_3.setText(itemdto.getRentalfee() +"/"+ itemdto.getDeposit());
 		lblNewLabel_3_3.setFont(nF);
 		lblNewLabel_3_3.setBounds(154, 130, 250, 25);
 		panel_3.add(lblNewLabel_3_3);
 
 		lblNewLabel_3_4 = new JLabel("전화번호");
+		lblNewLabel_3_4.setText(itemdto.getPhonenumber());
 		lblNewLabel_3_4.setFont(nF);
 		lblNewLabel_3_4.setBounds(154, 170, 250, 25);
 		panel_3.add(lblNewLabel_3_4);

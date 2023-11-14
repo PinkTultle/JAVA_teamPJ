@@ -23,7 +23,7 @@ public class UserDAO { // 회원 관련 db 기능
 			
 			conn = DriverManager.getConnection(url, user, password);
 			
-			//System.out.println("로그인 성공");
+			System.out.println("DB 로그인 성공");
 			
 		} catch (SQLException e) {
 			System.out.println("DB 로그인 실패");
@@ -69,6 +69,32 @@ public class UserDAO { // 회원 관련 db 기능
 		
 	}
 	
+	public int userIdCheck(String id) throws SQLException { // 회원가입때 아이디 중복 체크 
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs ; 
+		String sql = " SELECT * FROM 회원 WHERE 아이디 = ? ";
+		
+		try {
+			con = getConn();
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery(); // 
+			
+			if(rs.next()) {
+				return 1;  // 같은 아이디가 있을경우 
+			}
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return 0;  // 같은 아이디가 없을경우 
+	}
+	
 	public int userInsert(UserDTO dto) throws SQLException { // 회원가입
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -77,12 +103,14 @@ public class UserDAO { // 회원 관련 db 기능
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, '대여가능') ";
 		
 		String tel1 = Integer.toString(dto.getTel()).substring(0, 4); // 전화번호 중간 4자리
-		String tel2 = Integer.toString(dto.getTel()).substring(5); // 전화번호 마지막 4자리
+		String tel2 = Integer.toString(dto.getTel()).substring(4); // 전화번호 마지막 4자리
 		
 		String tel = "010-"+ tel1 + "-"+ tel2;
 		
 		try {
+			
 			con = getConn();
+			
 			pstmt = con.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getId());
@@ -99,7 +127,15 @@ public class UserDAO { // 회원 관련 db 기능
 			rs = pstmt.executeUpdate();
 			
 
-		} catch (ClassNotFoundException e) {
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			//if(e.getErrorCode()==1) {
+			//	System.out.println("아이디 중복!!");
+			//	return -1;
+			//}
+		}catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {

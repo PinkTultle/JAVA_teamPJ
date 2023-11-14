@@ -1,6 +1,8 @@
 package JDBC;
 
 public class UserDTO { // 로그인 ,회원가입 등 유저 정보
+	
+	private String loginid;
 
 	private String id;
 	private String pw;
@@ -23,7 +25,7 @@ public class UserDTO { // 로그인 ,회원가입 등 유저 정보
 
 
 	public UserDTO(String id, String pw, String nickname, String name, int birth, String gender, int tel,
-			String address, String rentalstatus, String bank, int accountnumber) {
+			String address, String email, String rentalstatus, String bank, int accountnumber) {
 		super();
 		this.id = id;
 		this.pw = pw;
@@ -38,7 +40,32 @@ public class UserDTO { // 로그인 ,회원가입 등 유저 정보
 		this.accountnumber = accountnumber;
 	}
 	
+	public UserDTO(String id, String pw, String nickname, String name, int birth, String gender, int tel,
+			String address, String email) {
+		super();
+		this.id = id;
+		this.pw = pw;
+		this.nickname = nickname;
+		this.name = name;
+		this.birth = birth;
+		this.gender = gender;
+		this.tel = tel;
+		this.address = address;
+		this.email = email;
+	}
 	
+	
+	
+	public String getLoginid() {
+		return loginid;
+	}
+
+
+	public void setLoginid(String loginid) {
+		this.loginid = loginid;
+	}
+
+
 	public String getId() {
 		return id;
 	}
@@ -114,6 +141,14 @@ public class UserDTO { // 로그인 ,회원가입 등 유저 정보
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+
+	@Override
+	public String toString() {
+		return "UserDTO [id=" + id + ", pw=" + pw + ", nickname=" + nickname + ", name=" + name + ", birth=" + birth
+				+ ", gender=" + gender + ", tel=" + tel + ", address=" + address + ", email=" + email
+				+ ", rentalstatus=" + rentalstatus + ", bank=" + bank + ", accountnumber=" + accountnumber + "]";
 	}
 	
 	
