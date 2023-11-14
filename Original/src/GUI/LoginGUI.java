@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.font.TextAttribute;
+import java.sql.SQLException;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
@@ -24,9 +25,13 @@ import javax.swing.border.LineBorder;
 import GUI.C_Component.MyFL;
 import GUI.C_Component.MyJT;
 import GUI.C_Component.MyPT;
+import JDBC.UserDAO;
+import JDBC.UserDTO;
 
 //주석 및 추가 작업 필요
 public class LoginGUI extends JFrame implements ActionListener {
+	UserDTO userDTO ;
+	UserDAO userDAO ;
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -196,6 +201,41 @@ public class LoginGUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnNewButton) { // 로그인 버튼 동작
 			System.out.println(((JButton) (e.getSource())).getText());
+			userDTO = new UserDTO();
+			userDAO = new UserDAO();
+			
+			String id = txtId.getText();
+			String pw = new String(txtPassword.getPassword());
+			
+			
+			userDTO.setId(id);
+			userDTO.setPw(pw);
+			
+			
+			try {
+				int n = userDAO.checkLogin(userDTO);
+				
+				
+				if(n==0) {
+					//로그인 성공
+					System.out.println("로그인 성공");
+					userDTO.setLoginid(id); // 로그인한 아이디 저장
+					//페이지 전환 소스 넣어야함
+					
+				}else if(n==1) {
+					//비밀번호 불일치
+					System.out.println("로그인 실패(비밀번호 불일치)");
+				}else if(n==-1) {
+					//아이디 없음
+					System.out.println("로그인 실패(아이디 없음)");
+				}
+				
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			} // 로그인 확인
+			
+			
+			
 		} else if (e.getSource() == btnNewButton_1) { // 회원가입 버튼 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 		} else if (e.getSource() == btnNewButton_2) { // 아이디/비밀번호 찾기 동작

@@ -151,7 +151,7 @@ public class Main_frame extends JFrame {
 
 					//패널교체 및 검색
 					break;
-				}
+				
 				
 			case "마이페이지":
 				System.out.println("마이페이지 패널 교체 호출");

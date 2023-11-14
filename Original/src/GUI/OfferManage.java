@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.JFrame;
@@ -36,8 +37,9 @@ public class OfferManage extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public OfferManage() {
+	public OfferManage() throws SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1050, 570);
 		contentPane = new JPanel();
@@ -68,24 +70,12 @@ public class OfferManage extends JFrame {
 		is_receive.setHeaderColor(new Color(244, 82, 95));
 		panel.add(is_receive);
 
-		// 테스트용 코드
-		Vector<String[]> vector = new Vector<>();
-		for (int i = 0; i < 15; i++) {
-			vector.add(new String[] { "asdf", "asdf", "asdf" });
-		}
-		is_receive.setItem(vector);
-		// 테스트용 코드
+		is_receive.setItem("receive"); // 받은 신청 출력
 
 		itemSlot_offer is_sending = new itemSlot_offer(545, 90, 461, 431, 1);
 		panel.add(is_sending);
 
-		// 테스트용 코드
-		vector.clear();
-		for (int i = 0; i < 15; i++) {
-			vector.add(new String[] { "qwer", "qwer", "qwer" });
-		}
-		is_sending.setItem(vector);
-		// 테스트용 코드
+		is_sending.setItem("sending"); // 보낸 신청 출력
 	}
 
 	class ManagePanel extends JPanel {

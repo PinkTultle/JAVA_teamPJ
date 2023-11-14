@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
@@ -19,6 +20,8 @@ import javax.swing.border.EmptyBorder;
 import GUI.C_Component.MyFL;
 import GUI.C_Component.MyJT;
 import GUI.C_Component.itemSlot_list;
+import JDBC.ItemDAO;
+import JDBC.ItemDTO;
 
 public class ListPanel extends JFrame implements ActionListener {
 
@@ -142,13 +145,13 @@ public class ListPanel extends JFrame implements ActionListener {
 		btnNewButton_2.setFocusPainted(false);
 		btnNewButton_2.setBorder(null);
 		panel.add(btnNewButton_2);
-
-		// 데이터 입력 테스트용 코드
+		
+		/*// 데이터 입력 테스트용 코드
 		Vector<String[]> vector = new Vector<String[]>();
 		for (int i = 0; i < 10; i++) {
 			vector.addElement(new String[] { String.valueOf(i + 1), "asdf", "asdf", "asdf", "asdf", "asdf" });
-		}
-		is.setPage(vector);
+		}*/
+		is.setPage();
 	}
 
 	@Override
