@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,8 +41,9 @@ public class Main_frame extends JFrame {
 
 	/**
 	 * Create the frame. 메인 프레임 위에 콘텐츠 팬 그위 배너 팬과 기능 팬 올림
+	 * @throws SQLException 
 	 */
-	public Main_frame() {
+	public Main_frame() throws SQLException {
 
 		// 프레임 설정
 		setTitle("랜트 프로그램!");

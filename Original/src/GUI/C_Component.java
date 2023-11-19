@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.InputMap;
@@ -22,9 +23,14 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+
+import JDBC.ItemDAO;
+import JDBC.ItemDTO;
 
 public class C_Component {
 	static interface BaseTextComponent { // JTextComponent 상속받는 클래스들을 처리하기 위한 인터페이스
@@ -254,6 +260,7 @@ public class C_Component {
 		jt.setSelectionBackground(new Color(106, 172, 208));
 		jt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jt.setDefaultRenderer(String.class, new ProxyCellRenderer(jt.getDefaultRenderer(String.class)));
+		jt.setDefaultRenderer(Boolean.class, new ProxyCellRenderer(jt.getDefaultRenderer(Boolean.class)));
 		jt.addMouseListener(new My_ML());
 		jt.addKeyListener(new My_KL());
 
@@ -309,6 +316,7 @@ public class C_Component {
 							{ null, null, null, null, null, null }, },
 					new String[] { "\uBB3C\uD488\uCF54\uB4DC", "\uCE74\uD14C\uACE0\uB9AC", "\uBB3C\uD488\uBA85",
 							"\uB4F1\uB85D\uC790", "\uB80C\uD2B8\uAE30\uD55C", "\uCC98\uB9AC\uC0C1\uD0DC" }) {
+				
 				Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class,
 						String.class, String.class };
 
@@ -322,11 +330,6 @@ public class C_Component {
 					return columnEditables[column];
 				}
 			});
-
-			// 엔터 입력 설정 | 이벤트 리스너랑 연동시킬 예정
-			InputMap iMap = table.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-			KeyStroke stroke = KeyStroke.getKeyStroke("ENTER");
-			iMap.put(stroke, "null");
 
 			// 행과 열 설정
 			table.getColumnModel().getColumn(0).setPreferredWidth(50);
@@ -351,10 +354,36 @@ public class C_Component {
 			}
 		}
 
-		public void setPage(Vector<String[]> v) { // 페이지 변경시 목록 변경 | String[] vector 로 임시 설정 : 클래스 추가시 변경 필요 | row
-													// 단위로 변경
-			for (int i = 0; i < 15; i++) {
-				setItem(i, v.elementAt(i));
+		public void setPage() { // 페이지 변경시 목록 변경 | String[] vector 로 임시 설정 : 클래스 추가시 변경 필요 | row 단위로
+													// 변경 ( 최대 15개
+			Vector<ItemDTO> data = new Vector<>();
+			ItemDAO itemDAO = new ItemDAO();
+	        try {
+				data = itemDAO.allItemData();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+			System.out.println(tableModel.getRowCount() + " " + data.size());
+			for (ItemDTO item : data) {
+				System.out.println(item.getItemnumber());
+				tableModel.addRow(new Object[] {item.getItemnumber(), item.getCategory(), item.getItemname(), item.getPerson(),
+			    		item.getRentdate(), item.getState() });
+			}
+			if (tableModel.getRowCount() < data.size()) {
+				for (int i = data.size() - tableModel.getRowCount(); i > 0; i--) {
+					tableModel.addRow(new Object[] { null, null, null, null, null, null });
+				}
+			} else {
+				for (int i = tableModel.getRowCount() - data.size(); i > 0; i--) {
+					System.out.println(tableModel.getRowCount() - data.size());
+					tableModel.removeRow(0);
+				}
+			}
+			for (int i = 0; i < data.size(); i++) {
+				//setItem(i, data.elementAt(i));
 			}
 		}
 
@@ -400,17 +429,130 @@ public class C_Component {
 
 		}
 
-		void setItem(Vector<Object[]> v) { // String.Object 3개를 벡터를 이용해서 전달 받음
+		void setItem(String s) throws SQLException { // String.Object 3개를 벡터를 이용해서 전달 받음
+			Vector<ItemDTO> data = new Vector<>();
+			ItemDAO itemDAO = new ItemDAO();
+			
 			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-			for (int i = 0; i < v.size(); i++) {
-				tableModel.addRow(v.elementAt(i));
+			data = itemDAO.item_receive_sending(s);
+			for (ItemDTO item : data) {
+				tableModel.addRow(new Object[] { "" + item.getItemnumber(), item.getItemname(), item.getRentdate() });
+				
 			}
+			
+			
+			//for (int i = 0; i < v.size(); i++) {
+			//	tableModel.addRow(v.elementAt(i));}
 		}
 
 		void setHeaderColor(Color color) {
 			DefaultTableCellRenderer defaultTableCellRenderer = (DefaultTableCellRenderer) table.getTableHeader()
 					.getDefaultRenderer();
 			defaultTableCellRenderer.setBackground(color);
+		}
+	}
+
+	static public class itemSlot_history extends JScrollPane {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		private MyTA table;
+		private int selectedIndex = -1;
+
+		public itemSlot_history(int x, int y, int width, int height) {
+			setBounds(x, y, width, height);
+			getViewport().setBackground(Color.white);
+			table = new MyTA();
+			table.setModel(new DefaultTableModel(new Object[][] {},
+					new String[] { "", "\ubb3c\ud488\ucf54\ub4dc", "\uac70\ub798\uc790", "\ubb3c\ud488\uba85",
+							"\ub0a8\uc740\u0020\uae30\uac04", "\uc774\uc6a9\uc0c1\ud0dc",
+							"\ubc18\ub0a9\u002f\uc5f0\uc7a5\uc0c1\ud0dc" }) {
+				Class[] columnTypes = new Class[] { Boolean.class, String.class, String.class, String.class,
+						String.class, String.class, String.class };
+
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+
+				boolean[] columnEditables = new boolean[] { true, false, false, false, false, false, false };
+
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+
+			initJTableStyle(table, height, 10);
+
+			table.getColumnModel().getColumn(0).setPreferredWidth(20);
+			table.getColumnModel().getColumn(0).setMinWidth(20);
+			table.getColumnModel().getColumn(0).setMaxWidth(20);
+			table.getColumnModel().getColumn(1).setPreferredWidth(40);
+			table.getColumnModel().getColumn(2).setPreferredWidth(60);
+			table.getColumnModel().getColumn(3).setPreferredWidth(300);
+			table.getColumnModel().getColumn(3).setMinWidth(200);
+			table.getColumnModel().getColumn(4).setPreferredWidth(40);
+			table.getColumnModel().getColumn(5).setPreferredWidth(40);
+			table.getColumnModel().getColumn(6).setPreferredWidth(40);
+
+			table.getModel().addTableModelListener(new TableModelListener() {
+
+				@Override
+				public void tableChanged(TableModelEvent e) {
+					// TODO Auto-generated method stub
+					handleTableChangedEvent(e);
+				}
+			});
+
+			this.setViewportView(table);
+
+		}
+
+		void setItem() throws SQLException { // boolean 1개와 String 6개로 값을 변경
+			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+			Vector<ItemDTO> data = new Vector<>();
+			ItemDAO itemDAO = new ItemDAO();
+	        
+			data = itemDAO.itemRental();
+			for (ItemDTO item : data) {
+				if(item.getState().equals("대여중")) {
+					tableModel.addRow(new Object[] { false, "" + item.getItemnumber(), item.getPerson(), item.getItemname(),
+							item.getRentdate(), item.getState(), null });
+				}else {
+					tableModel.addRow(new Object[] { false, "" + item.getItemnumber(), item.getPerson(), item.getItemname(),
+							item.getRentdate(), null, item.getState() });
+				}
+				
+			}
+			
+			
+		}
+
+		void setHeaderColor(Color color) {
+			DefaultTableCellRenderer defaultTableCellRenderer = (DefaultTableCellRenderer) table.getTableHeader()
+					.getDefaultRenderer();
+			defaultTableCellRenderer.setBackground(color);
+		}
+
+		int getSelectItemNum() {
+			int returnItemNum = -1;
+			if (selectedIndex != -1 && (boolean) table.getValueAt(selectedIndex, 0)) {
+				returnItemNum = Integer.parseInt(table.getValueAt(selectedIndex, 1).toString());
+			}
+			return returnItemNum;
+		}
+
+		protected void handleTableChangedEvent(TableModelEvent e) {
+			int tempIndex = e.getFirstRow();
+			if (tempIndex != -1) {
+				if ((Boolean) table.getValueAt(tempIndex, 0) == true) {
+					if (selectedIndex != -1 && selectedIndex != tempIndex)
+						table.setValueAt(false, selectedIndex, 0);
+					selectedIndex = tempIndex;
+
+				}
+			}
 		}
 	}
 
@@ -481,6 +623,5 @@ public class C_Component {
 			// TODO Auto-generated method stub
 
 		}
-
 	}
 }

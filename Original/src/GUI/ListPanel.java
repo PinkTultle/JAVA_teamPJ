@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
@@ -16,6 +17,8 @@ import javax.swing.SwingConstants;
 import GUI.C_Component.MyFL;
 import GUI.C_Component.MyJT;
 import GUI.C_Component.itemSlot_list;
+import JDBC.ItemDAO;
+import JDBC.ItemDTO;
 
 public class ListPanel extends JPanel implements ActionListener {
 
@@ -47,7 +50,7 @@ public class ListPanel extends JPanel implements ActionListener {
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		comboBox.setBackground(new Color(255, 255, 255));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "전체", "전자기기", "가구/인테리어", "유아용품", "뷰티/패션잡화",
+		comboBox.setModel(new DefaultComboBoxModel(new String[]{ "전체", "전자기기", "가구/인테리어", "유아용품", "뷰티/패션잡화",
 				"가전/생활/주방", "스포츠/레저", "취미/게임/도서", "동물용품", "렌트 원해요" }));
 		comboBox.setBounds(62, 46, 110, 35);
 		comboBox.addActionListener(this);
@@ -113,13 +116,14 @@ public class ListPanel extends JPanel implements ActionListener {
 		btnNewButton_2.setFocusPainted(false);
 		btnNewButton_2.setBorder(null);
 		add(btnNewButton_2);
-
-		// 데이터 입력 테스트용 코드
+		
+		/*// 데이터 입력 테스트용 코드
+>>>>>>> master
 		Vector<String[]> vector = new Vector<String[]>();
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 10; i++) {
 			vector.addElement(new String[] { String.valueOf(i + 1), "asdf", "asdf", "asdf", "asdf", "asdf" });
-		}
-		is.setPage(vector);
+		}*/
+		is.setPage();
 	}
 
 	@Override
