@@ -13,7 +13,6 @@ import GUI.C_Component.itemSlot_offer;
 public class OfferManage extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
 	private JPanel BP = new Baener_pane();
 
 	/**

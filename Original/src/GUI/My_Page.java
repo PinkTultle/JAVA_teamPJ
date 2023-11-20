@@ -158,6 +158,7 @@ public class My_Page extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == Bt_profile) {
 			System.out.println("프로필 창 호출");
+			mpp.Open_profile();
 		} else if (e.getSource() == Bt_Rent_History) {
 			// 렌트 내역 창 호출
 			System.out.println("렌트 내역 창 호출");

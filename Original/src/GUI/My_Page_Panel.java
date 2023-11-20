@@ -9,7 +9,7 @@ public class My_Page_Panel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private static My_Page myPage;
-	private static JPanel rentHistory, rentAlarm, myWrite, reportHistory;
+	private static JPanel rentHistory, rentAlarm, myWrite, reportHistory, profile;
 
 	public My_Page_Panel() {
 		setBounds(0, 150, 1050, 800);
@@ -25,11 +25,15 @@ public class My_Page_Panel extends JPanel {
 		// rentAlarm = new
 		// myWrite = new
 		reportHistory = new Report_Details(this);
+		profile = new ProfilePanel(this);
 
 		this.add(rentHistory);
 		this.add(reportHistory);
+		this.add(profile);
 
+		rentHistory.setVisible(false);
 		reportHistory.setVisible(false);
+		profile.setVisible(false);
 
 		myPage.setVisible(true);
 	}
@@ -40,6 +44,7 @@ public class My_Page_Panel extends JPanel {
 		// rentAlarm.setVisible(false);
 		// myWrite.setVisible(false);
 		reportHistory.setVisible(false);
+		profile.setVisible(false);
 	}
 
 	void Open_rentHistory() {
@@ -48,6 +53,7 @@ public class My_Page_Panel extends JPanel {
 		// rentAlarm.setVisible(false);
 		// myWrite.setVisible(false);
 		reportHistory.setVisible(false);
+		profile.setVisible(false);
 	}
 
 	void Open_reportHistory() {
@@ -56,6 +62,16 @@ public class My_Page_Panel extends JPanel {
 		// rentAlarm.setVisible(false);
 		// myWrite.setVisible(false);
 		reportHistory.setVisible(true);
+		profile.setVisible(false);
+	}
+
+	void Open_profile() {
+		myPage.setVisible(false);
+		rentHistory.setVisible(false);
+		// rentAlarm.setVisible(false);
+		// myWrite.setVisible(false);
+		reportHistory.setVisible(false);
+		profile.setVisible(true);
 	}
 
 }

@@ -58,6 +58,10 @@ public class C_Component {
 		protected boolean isTyped = false;
 		protected String init;
 
+		public MyJT() {
+			init = null;
+		}
+
 		public MyJT(String s) {
 			// TODO Auto-generated constructor stub
 			init = s;
@@ -95,6 +99,11 @@ public class C_Component {
 		public boolean isTyped() {
 			// TODO Auto-generated method stub
 			return isTyped;
+		}
+
+		public void setInit(String s) {
+			init = s;
+			setText(s);
 		}
 
 	}
