@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -25,9 +26,14 @@ import GUI.C_Component.MyJT;
 import GUI.C_Component.MyJT_TEL;
 import GUI.C_Component.MyKA_Num;
 import GUI.C_Component.MyPT;
+import JDBC.UserDAO;
+import JDBC.UserDTO;
 
 // 주석 및 추가 작업 필요
 public class RegisterGUI extends JFrame implements ActionListener {
+	
+	UserDTO userDTO ;
+	UserDAO userDAO ;
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -186,7 +192,7 @@ public class RegisterGUI extends JFrame implements ActionListener {
 		textField_6.addFocusListener(FL);
 		panel_2.add(textField_6);
 
-		btnNewButton = new JToggleButton("남자");
+		btnNewButton = new JToggleButton("남자", true); // 아무것도 체크 안할경우 에러방지
 		btnNewButton.setFont(slotFont);
 		btnNewButton.setBounds(224, 202, 76, 38);
 		btnNewButton.setForeground(new Color(0, 0, 0));
@@ -234,6 +240,7 @@ public class RegisterGUI extends JFrame implements ActionListener {
 		btnNewButton_4.setBackground(new Color(31, 66, 121));
 		btnNewButton_4.setBounds(332, 395, 75, 30);
 		btnNewButton_4.addActionListener(this);
+		btnNewButton_4.setEnabled(false);  // 아이디 중복 검색 하면 활성화 됨(기본 비활성화)
 		panel_2.add(btnNewButton_4);
 
 		btnNewButton_5 = new JButton("중복");
@@ -293,15 +300,73 @@ public class RegisterGUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnNewButton_2) { // 검색 버튼 동작
+			
 			System.out.println(((JButton) (e.getSource())).getText());
 		} else if (e.getSource() == btnNewButton_3) { // 인증 버튼 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 		} else if (e.getSource() == btnNewButton_4) { // 가입 버튼 동작
+			
+			userDAO = new UserDAO();
+			
+			String id = textField.getText();
+			String pw = new String(textField_1.getPassword());
+			String nick = textField_2.getText();
+			String name = textField_3.getText();
+			int birth = Integer.parseInt(textField_4.getText());
+			String address = textField_5.getText();
+			String email = textField_6.getText();
+			int tel = Integer.parseInt(textField_TEL[0].getText() + textField_TEL[1].getText());
+			String gender = "";
+			
+			if(btnNewButton.isSelected()){
+				gender = "남자";
+			}else if(btnNewButton_1.isSelected()){
+				gender = "여자";
+			}
+			
+			userDTO = new UserDTO(id, pw, nick, name, birth, gender, tel, address, email);
+			
+			try {
+				int n = userDAO.userInsert(userDTO);
+				if(n >= 1) {
+					System.out.println("회원가입 성공");
+				}else if(n == 0) {
+					System.out.println("회원가입 실패");
+				}else if(n == -1) {
+					System.out.println("아이디 중복");
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			
+			
 			System.out.println(((JButton) (e.getSource())).getText());
 		} else if (e.getSource() == btnNewButton_5) { // 중복 버튼 동작
+			userDAO = new UserDAO();
+			
+			try {
+				int n = userDAO.userIdCheck(textField.getText());
+				
+				if(n == 0) {   // 같은 아이디가 없을경우 
+					System.out.println("아이디 사용가능");
+					btnNewButton_4.setEnabled(true);
+					
+					
+				}else if(n == 1) {  // 같은 아이디가 있을경우 
+					System.out.println("아이디 중복");
+					btnNewButton_4.setEnabled(false);
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			System.out.println(((JButton) (e.getSource())).getText());
 		}
 	}
+
 	// textField : 아이디 입력 JTextField
 	// textField_1 : 패스워드 입력 JPasswordField
 	// textField_2 : 별명 입력 JTextField

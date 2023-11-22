@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -44,8 +45,14 @@ public class RentHistory extends JPanel implements ActionListener {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
 	public RentHistory() {
+	/*public RentHistory() throws SQLException {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 1050, 570);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));*/
 
 		setLayout(null);
 
@@ -83,6 +90,7 @@ public class RentHistory extends JPanel implements ActionListener {
 			vector.add(new String[] { "" + (i + 1), "asdf", "asdf", "asdf", "asdf", "asdf" });
 		}
 		is.setItem(vector);
+
 
 	}
 

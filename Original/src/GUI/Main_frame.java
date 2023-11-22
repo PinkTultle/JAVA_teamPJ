@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,7 +13,6 @@ import javax.swing.JPanel;
 public class Main_frame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-
 	/*
 	 * contentPane - 배너 패널과 기능 패널 올라갈 배경 패널 Baener - 프로그램 로고와 패널 이동 버튼들이 올라간 메뉴바 패널이
 	 * 있는 패널 FunctionPane - 기능 패널로 홈, 목록, 신청관리, 마이페이지 패널이 올라갈 패널
@@ -84,6 +84,7 @@ public class Main_frame extends JFrame {
 		P3 = new OfferManage();
 		P4 = new My_Page_Panel();
 
+
 		contentPane.add(P1);
 		contentPane.add(P2);
 		contentPane.add(P3);
@@ -95,6 +96,7 @@ public class Main_frame extends JFrame {
 		P4.setVisible(false);
 
 		FunctionPane.setVisible(true);
+
 
 	}
 
@@ -119,6 +121,7 @@ public class Main_frame extends JFrame {
 				P4.setVisible(false);
 				FunctionPane.setVisible(false);
 
+
 				break;
 
 			case "목록":
@@ -139,11 +142,13 @@ public class Main_frame extends JFrame {
 				// 패널교체
 				if (!P4.Close_profile())
 					break;
+          
 				P1.setVisible(false);
 				P2.setVisible(false);
 				P3.setVisible(true);
 				P4.setVisible(false);
 				FunctionPane.setVisible(false);
+
 
 			case "메인 검색":
 				System.out.println("메인 프레임 검색 기능 호출");
@@ -157,6 +162,7 @@ public class Main_frame extends JFrame {
 				if (!P4.Close_profile())
 					break;
 				P4.Open_My_Page();
+          
 				P1.setVisible(false);
 				P2.setVisible(false);
 				P3.setVisible(false);
