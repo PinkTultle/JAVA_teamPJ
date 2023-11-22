@@ -12,8 +12,6 @@ import javax.swing.JPanel;
 
 public class Main_frame extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-
 	/*
 	 * contentPane - 배너 패널과 기능 패널 올라갈 배경 패널
 	 * Baener - 프로그램 로고와 패널 이동 버튼들이 올라간 메뉴바 패널이 있는 패널
@@ -41,9 +39,8 @@ public class Main_frame extends JFrame {
 
 	/**
 	 * Create the frame. 메인 프레임 위에 콘텐츠 팬 그위 배너 팬과 기능 팬 올림
-	 * @throws SQLException 
 	 */
-	public Main_frame() throws SQLException {
+	public Main_frame() {
 
 		// 프레임 설정
 		setTitle("랜트 프로그램!");
@@ -83,7 +80,12 @@ public class Main_frame extends JFrame {
 
 		P1 = new Main_home();
 		P2 = new ListPanel();
-		P3 = new OfferManage();
+		try {
+			P3 = new OfferManage();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		P4 = new Panel04();
 
 		contentPane.add(P1);

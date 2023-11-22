@@ -118,7 +118,6 @@ public class ListPanel extends JPanel implements ActionListener {
 		add(btnNewButton_2);
 		
 		/*// 데이터 입력 테스트용 코드
->>>>>>> master
 		Vector<String[]> vector = new Vector<String[]>();
 		for (int i = 0; i < 10; i++) {
 			vector.addElement(new String[] { String.valueOf(i + 1), "asdf", "asdf", "asdf", "asdf", "asdf" });
