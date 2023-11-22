@@ -18,7 +18,7 @@ public class Main_frame extends JFrame {
 	 * FunctionPane - 기능 패널로 홈, 목록, 신청관리, 마이페이지 패널이 올라갈 패널
 	 */
 	private JPanel contentPane, Baener;
-	private static JPanel FunctionPane, P1, P2, P3, P4;
+	private static JPanel P1, P2, P3, P4;
 
 	/**
 	 * Launch the application.
@@ -66,22 +66,13 @@ public class Main_frame extends JFrame {
 		// 콘텐츠 패널 위에 배너 패널 추가
 		contentPane.add(Baener);
 
-		// 기능 패널 설정 - 이후 JPanel생성 -> 홈패널 생성으로 변경
-		FunctionPane = new Main_home();
-		// 구역 구분쉽게 색깔 입히기
-
-		// 콘텐츠 패널 위에 기능 패널 올림
-		contentPane.add(FunctionPane);
-
-		// 해당 프레임의 콘텐츠 팬 설정
-		setContentPane(contentPane);
-
 		//메뉴바에 등록된 4개의 패널
 
 		P1 = new Main_home();
 		P2 = new ListPanel();
 		
 		try {
+
 			P3 = new OfferManage();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -89,18 +80,19 @@ public class Main_frame extends JFrame {
 		}
 		
 		P4 = new Panel04();
+		
 
 		contentPane.add(P1);
 		contentPane.add(P2);
 		contentPane.add(P3);
 		contentPane.add(P4);
+		
+		setContentPane(contentPane);
 
-		P1.setVisible(false);
+		P1.setVisible(true);
 		P2.setVisible(false);
 		P3.setVisible(false);
 		P4.setVisible(false);
-
-		FunctionPane.setVisible(true);
 		
 		setVisible(true);
 
@@ -122,7 +114,6 @@ public class Main_frame extends JFrame {
 				P2.setVisible(false);
 				P3.setVisible(false);
 				P4.setVisible(false);
-				FunctionPane.setVisible(false);
 
 				break;
 
@@ -132,7 +123,6 @@ public class Main_frame extends JFrame {
 				P2.setVisible(true);
 				P3.setVisible(false);
 				P4.setVisible(false);
-				FunctionPane.setVisible(false);
 
 				break;
 
@@ -142,7 +132,6 @@ public class Main_frame extends JFrame {
 				P2.setVisible(false);
 				P3.setVisible(true);
 				P4.setVisible(false);
-				FunctionPane.setVisible(false);
 
 			case "메인 검색":
 				System.out.println("메인 프레임 검색 기능 호출");
@@ -157,7 +146,6 @@ public class Main_frame extends JFrame {
 				P2.setVisible(false);
 				P3.setVisible(false);
 				P4.setVisible(true);
-				FunctionPane.setVisible(false);
 
 				break;
 			}
