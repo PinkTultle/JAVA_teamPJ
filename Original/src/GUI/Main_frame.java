@@ -14,12 +14,12 @@ public class Main_frame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	/*
-	 * contentPane - 배너 패널과 기능 패널 올라갈 배경 패널
-	 * Baener - 프로그램 로고와 패널 이동 버튼들이 올라간 메뉴바 패널이 있는 패널
-	 * FunctionPane - 기능 패널로 홈, 목록, 신청관리, 마이페이지 패널이 올라갈 패널
+	 * contentPane - 배너 패널과 기능 패널 올라갈 배경 패널 Baener - 프로그램 로고와 패널 이동 버튼들이 올라간 메뉴바 패널이
+	 * 있는 패널 FunctionPane - 기능 패널로 홈, 목록, 신청관리, 마이페이지 패널이 올라갈 패널
 	 */
 	private JPanel contentPane, Baener;
-	private static JPanel FunctionPane, P1, P2, P3, P4;
+	private static JPanel FunctionPane, P1, P2, P3;
+	private static My_Page_Panel P4;
 
 	/**
 	 * Launch the application.
@@ -148,6 +148,7 @@ public class Main_frame extends JFrame {
 			case "마이페이지":
 				System.out.println("마이페이지 패널 교체 호출");
 				// 패널교체
+				P4.Open_My_Page();
 				P1.setVisible(false);
 				P2.setVisible(false);
 				P3.setVisible(false);

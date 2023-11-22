@@ -9,11 +9,12 @@ import javax.swing.JLabel;
 
 public class RoundJLabel extends JLabel {
 	/*
-	 *  텍스트필드 모서리 둥글게 만드는 클래스
+	 * 텍스트필드 모서리 둥글게 만드는 클래스
 	 */
 	private static final long serialVersionUID = 1L;
 	private Shape shape;
 	private Color backgroundColor = Color.white;
+	private Color foregroundColor = getForeground();
 
 	public RoundJLabel() {
 		setOpaque(false);
@@ -31,7 +32,7 @@ public class RoundJLabel extends JLabel {
 	}
 
 	protected void paintBorder(Graphics g) {
-		g.setColor(getForeground());
+		g.setColor(foregroundColor);
 		g.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
 	}
 
@@ -44,5 +45,9 @@ public class RoundJLabel extends JLabel {
 
 	public void setBackgroundColor(Color color) {
 		backgroundColor = color;
+	}
+
+	public void setForegroundColor(Color color) {
+		foregroundColor = color;
 	}
 }

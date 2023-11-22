@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JPasswordField;
@@ -20,6 +21,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.TableModelEvent;
@@ -247,7 +249,7 @@ public class C_Component {
 		}
 	}
 
-	static void initJTableStyle(JTable jt, int height, int rowCount) { // JTable 클래스들의 기본 설정
+	static void initJTableStyle(JTable jt, int height, int rowCount, boolean isHeader) { // JTable 클래스들의 기본 설정
 		final Border DEFAULT_BORDER = new EmptyBorder(1, 1, 1, 1);
 
 		// Enter 키 이벤트 제거
@@ -270,23 +272,23 @@ public class C_Component {
 		jt.addKeyListener(new My_KL());
 
 		// 헤더 설정
-		DefaultTableCellRenderer renderer_header = new DefaultTableCellRenderer();
-		renderer_header.setBorder(DEFAULT_BORDER);
-		renderer_header.setBackground(new Color(0, 140, 200));
-		renderer_header.setForeground(new Color(255, 255, 255));
-		renderer_header.setHorizontalAlignment(renderer_header.CENTER);
-		renderer_header.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-		jt.getTableHeader().setDefaultRenderer(renderer_header);
-		jt.getTableHeader().setResizingAllowed(false);
-		jt.getTableHeader().setReorderingAllowed(false);
-
+		if (isHeader) {
+			DefaultTableCellRenderer renderer_header = new DefaultTableCellRenderer();
+			renderer_header.setBorder(DEFAULT_BORDER);
+			renderer_header.setBackground(new Color(0, 140, 200));
+			renderer_header.setForeground(new Color(255, 255, 255));
+			renderer_header.setHorizontalAlignment(renderer_header.CENTER);
+			renderer_header.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+			jt.getTableHeader().setDefaultRenderer(renderer_header);
+			jt.getTableHeader().setResizingAllowed(false);
+			jt.getTableHeader().setReorderingAllowed(false);
+		}
 	}
 
 	static class MyTA extends JTable implements BaseTableComponent {
 		/*
-		 * JTable 에 사용자 기능들을 추가한 클래스 
-		 * goDetail : 클릭 이벤트 또는 enter 이벤트 발생 시 해당 메소드를 실행함
-		 * focusLost : focus 가 사라지는 경우 Select 된 행을 초기화 
+		 * JTable 에 사용자 기능들을 추가한 클래스 goDetail : 클릭 이벤트 또는 enter 이벤트 발생 시 해당 메소드를 실행함
+		 * focusLost : focus 가 사라지는 경우 Select 된 행을 초기화
 		 */
 		@Override
 		public void goDetail() { // 마우스나 키보드 이벤트 발생시 실행하는 메소드
@@ -309,10 +311,10 @@ public class C_Component {
 
 	static class base_itemSlot extends JScrollPane {
 		/*
-		 * JTable 을 사용하는 클래스들의 기본 상속 클래스
-		 * table : 실제로 화면에 표시될 JTable | 사용자 기능들을 추가한 MyTA 클래스를 이용함 | C_Component: 276
-		 * setItem : table 의 행을 설정하는 메소드 | Vector<String> 을 이용해서 table 에 행을 추가함 | ListPanel 사용 불가 
-		 * setHeaderColor : table 의 Header 의 색을 변경함
+		 * JTable 을 사용하는 클래스들의 기본 상속 클래스 table : 실제로 화면에 표시될 JTable | 사용자 기능들을 추가한 MyTA
+		 * 클래스를 이용함 | C_Component: 276 setItem : table 의 행을 설정하는 메소드 | Vector<String> 을
+		 * 이용해서 table 에 행을 추가함 | ListPanel 사용 불가 setHeaderColor : table 의 Header 의 색을
+		 * 변경함
 		 */
 		MyTA table;
 
@@ -324,6 +326,8 @@ public class C_Component {
 		}
 
 		void setHeaderColor(Color color) {
+			if (table.getTableHeader() == null)
+				return;
 			DefaultTableCellRenderer defaultTableCellRenderer = (DefaultTableCellRenderer) table.getTableHeader()
 					.getDefaultRenderer();
 			defaultTableCellRenderer.setBackground(color);
@@ -368,7 +372,7 @@ public class C_Component {
 			table.getColumnModel().getColumn(5).setPreferredWidth(50);
 
 			// 테이블 디자인
-			initJTableStyle(table, height, 15);
+			initJTableStyle(table, height, 15, true);
 
 			// 스크롤팬에 테이블 추가
 			this.setViewportView(table);
@@ -393,7 +397,7 @@ public class C_Component {
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public itemSlot_offer(int x, int y, int width, int height, int mode) {
+		public itemSlot_offer(int x, int y, int width, int height) {
 			setBounds(x, y, width, height);
 			getViewport().setBackground(Color.white);
 			table = new MyTA();
@@ -419,7 +423,14 @@ public class C_Component {
 			table.getColumnModel().getColumn(2).setPreferredWidth(60);
 			table.getColumnModel().getColumn(2).setMinWidth(15);
 
-			initJTableStyle(table, height, 10);
+			initJTableStyle(table, height, 10, false);
+
+			table.setShowVerticalLines(false);
+			table.setTableHeader(null);
+
+			this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+			this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			this.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, Color.BLACK));
 
 			this.setViewportView(table);
 
@@ -456,7 +467,7 @@ public class C_Component {
 				}
 			});
 
-			initJTableStyle(table, height, 10);
+			initJTableStyle(table, height, 10, true);
 
 			table.getColumnModel().getColumn(0).setPreferredWidth(20);
 			table.getColumnModel().getColumn(0).setMinWidth(20);
