@@ -70,7 +70,7 @@ public class ListPanel extends JPanel implements ActionListener {
 		add(textField);
 		textField.setColumns(10);
 
-		btnNewButton = new JButton("검색"); // 검색 아이콘 추가 필요
+		btnNewButton = new search_bt(); // 검색 아이콘 추가 필요
 		btnNewButton.setBounds(528, 46, 33, 35);
 		btnNewButton.addActionListener(this);
 		add(btnNewButton);

@@ -101,6 +101,8 @@ public class Main_frame extends JFrame {
 		P4.setVisible(false);
 
 		FunctionPane.setVisible(true);
+		
+		setVisible(true);
 
 	}
 
@@ -115,7 +117,6 @@ public class Main_frame extends JFrame {
 			switch (text) {
 
 			case "홈":
-				System.out.println("홈 패널 교체 호출");
 				// 패널교체
 				P1.setVisible(true);
 				P2.setVisible(false);
@@ -126,7 +127,6 @@ public class Main_frame extends JFrame {
 				break;
 
 			case "목록":
-				System.out.println("목록 패널 교체 호출");
 				// 패널교체
 				P1.setVisible(false);
 				P2.setVisible(true);
@@ -137,7 +137,6 @@ public class Main_frame extends JFrame {
 				break;
 
 			case "신청관리":
-				System.out.println("신청관리 패널 교체 호출");
 				// 패널교체
 				P1.setVisible(false);
 				P2.setVisible(false);

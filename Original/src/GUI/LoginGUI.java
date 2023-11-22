@@ -42,6 +42,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_2;
+	private JFrame mainFrame;
 
 	private boolean isTyped_l = false;
 	private boolean isTyped_p = false;
@@ -211,16 +212,24 @@ public class LoginGUI extends JFrame implements ActionListener {
 			userDTO.setId(id);
 			userDTO.setPw(pw);
 			
+			//로그인 없이 바로 홈 진입 
+			//프로젝트 완료시점에서 해당 코드 삭제
+			mainFrame = new Main_frame();
+			setVisible(false);
+			////////////////////////////////////////////
+			
 			
 			try {
 				int n = userDAO.checkLogin(userDTO);
-				
 				
 				if(n==0) {
 					//로그인 성공
 					System.out.println("로그인 성공");
 					userDTO.setLoginid(id); // 로그인한 아이디 저장
 					//페이지 전환 소스 넣어야함
+					
+					setVisible(false);
+					mainFrame = new Main_frame();
 					
 				}else if(n==1) {
 					//비밀번호 불일치
