@@ -88,13 +88,14 @@ public class My_Page extends JPanel implements ActionListener {
 		
 		JLabel lblNewLabel_1 = new JLabel("렌트 알림");
 		lblNewLabel_1.setFont(new Font("굴림", Font.BOLD, 16));
-		lblNewLabel_1.setBounds(572, 486, 72, 32);
+		lblNewLabel_1.setBounds(600, 581, 72, 32);
 		add(lblNewLabel_1);
 		
 		table = new JTable(Test,Column_Name);
 		table.setEnabled(false);
 		table.setShowVerticalLines(false);
-		table.setBounds(572, 555, 389, 144); // y위치 425 -> 555 // 555-425 = 130
+		table.setBounds(600, 650, 389, 144); // y위치 555 -> 650 // Y축 95
+		                                     // X위치 572 -> 600 // X축 28
 		table.setRowHeight(70);  // 각 행의 높이 설정
 		// 테이블 내 텍스트 가운데 정렬
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -109,24 +110,24 @@ public class My_Page extends JPanel implements ActionListener {
 		
 		JLabel Label_Trade_Num = new JLabel("거래번호");
 		Label_Trade_Num.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		Label_Trade_Num.setBounds(612, 524, 60, 23);
+		Label_Trade_Num.setBounds(640, 619, 60, 23);
 		add(Label_Trade_Num);
 		
 		JLabel Label_Item_Name = new JLabel("물품명");
 		Label_Item_Name.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		Label_Item_Name.setBounds(748, 524, 60, 23);
+		Label_Item_Name.setBounds(776, 619, 60, 23);
 		add(Label_Item_Name);
 		
 		JLabel Label_Return_Deadline = new JLabel("반납기한");
 		Label_Return_Deadline.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		Label_Return_Deadline.setBounds(870, 524, 60, 23);
+		Label_Return_Deadline.setBounds(898, 619, 60, 23);
 		add(Label_Return_Deadline);
 		
 		Bt_More = new JButton("더보기 >");
 		Bt_More.setFont(new Font("굴림", Font.BOLD, 9));
 		Bt_More.setBackground(new Color(255, 255, 255));
 		Bt_More.setForeground(new Color(0, 0, 0));
-		Bt_More.setBounds(895, 501, 48, 15);
+		Bt_More.setBounds(923, 596, 48, 15);
 		Bt_More.setMargin(new Insets(2, 2, 2, 2));
 		Bt_More.setContentAreaFilled(false); // 버튼 눌렀을 때 버튼영역 표시가 나지 않게
 		Bt_More.setBorderPainted(false); // 버튼 윤곽선 삭제
@@ -140,7 +141,7 @@ public class My_Page extends JPanel implements ActionListener {
 		lb_image.setIcon(image);
 		
 		
-		lb_image.setBounds(372, 246, 175, 453);
+		lb_image.setBounds(395, 246, 175, 533);
 		add(lb_image);
 		
 		/*
@@ -170,7 +171,7 @@ public class My_Page extends JPanel implements ActionListener {
 
 		// 선을 그리기. (x1, y1)에서 (x2, y2)까지
 		g.drawLine(23, 220, 360, 220);
-		g.drawLine(590, 550, 940, 550); // 렌트 알림 부분 선
+		g.drawLine(618, 645, 968, 645); // 렌트 알림 부분 선
 	}
 	
 	@Override
