@@ -76,16 +76,18 @@ public class Main_frame extends JFrame {
 		// 해당 프레임의 콘텐츠 팬 설정
 		setContentPane(contentPane);
 
-		// 패널 교체를 위한 임시 코드
+		//메뉴바에 등록된 4개의 패널
 
 		P1 = new Main_home();
 		P2 = new ListPanel();
+		
 		try {
 			P3 = new OfferManage();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		P4 = new Panel04();
 
 		contentPane.add(P1);
@@ -168,77 +170,6 @@ public class Main_frame extends JFrame {
 		// 목록배너 호출 및 카테고리값으로 겂색하는 긴능 추가부
 		System.out.println("카테고리 버튼 클릭");
 		System.out.println("클릭된 버튼 : " + category);
-
-	}
-}
-
-class Panel01 extends JPanel {
-	private JLabel LOGO;
-	private Font LFont;
-
-	public Panel01() {
-		setBounds(0, 150, 1050, 450);
-
-		setLayout(null);
-		// 배너 설정
-		setBackground(Color.MAGENTA);
-		setToolTipText("홈 패널");
-
-		// 로고 초기설정
-		LOGO = new JLabel("홈");
-		LOGO.setBounds(525, 125, 250, 250);
-		LFont = new Font("맑은 고딕", Font.PLAIN + Font.BOLD, 50);
-		LOGO.setFont(LFont);
-
-		add(LOGO);
-
-	}
-}
-
-class Panel02 extends JPanel {
-	private JLabel LOGO;
-	private Font LFont;
-
-	public Panel02() {
-		setBounds(0, 150, 1050, 450);
-
-		setLayout(null);
-		// 배너 설정
-		setBackground(Color.YELLOW);
-		setToolTipText("목록 패널");
-
-		// 로고 초기설정
-		LOGO = new JLabel("목록");
-		LOGO.setBounds(525, 125, 250, 250);
-
-		LFont = new Font("맑은 고딕", Font.PLAIN + Font.BOLD, 50);
-		LOGO.setFont(LFont);
-
-		add(LOGO);
-
-	}
-}
-
-class Panel03 extends JPanel {
-	private JLabel LOGO;
-	private Font LFont;
-
-	public Panel03() {
-		setBounds(0, 150, 1050, 800);
-
-		setLayout(null);
-		// 배너 설정
-		setBackground(Color.ORANGE);
-		setToolTipText("");
-
-		// 로고 초기설정
-		LOGO = new JLabel("");
-		LOGO.setBounds(525, 125, 250, 250);
-
-		LFont = new Font("맑은 고딕", Font.PLAIN + Font.BOLD, 50);
-		LOGO.setFont(LFont);
-
-		add(LOGO);
 
 	}
 }
