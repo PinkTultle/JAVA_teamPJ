@@ -3,6 +3,7 @@ package GUI;
 import javax.swing.JPanel;
 import java.awt.Color;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -19,6 +20,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.SystemColor;
 
 // 메인 프레임 코드의 89번째 줄을 P4 = new My_Page(); 구문으로 수정하여 실행
 
@@ -34,58 +36,70 @@ public class My_Page extends JPanel implements ActionListener {
 	private JButton Bt_My_Post;
 	private JButton Bt_Report_History;
 	private JButton Bt_More;
-
+	private JButton Bt_temp1;
+	private JButton Bt_temp2;
 
 	public My_Page() {
 		
 		setBackground(new Color(255, 255, 255));
-		setBounds(0, 150, 1050, 562);
+		setBounds(0, 0, 1050, 800);
 		setLayout(null);
 		
-		JLabel Label_NickName = new JLabel("닉네임~~~");
+		JLabel Label_NickName = new JLabel("KJH");
 		Label_NickName.setFont(new Font("굴림", Font.PLAIN, 19));
-		Label_NickName.setBounds(131, 198, 112, 46);
+		Label_NickName.setBounds(50, 168, 112, 46); // 원래 좌표 -> 131, 198
 		add(Label_NickName);
 		
 		Bt_profile = new RoundButton("프로필");
 		Bt_profile.setFont(new Font("굴림", Font.PLAIN, 9));
-		Bt_profile.setBounds(283, 205, 60, 32);
+		Bt_profile.setBounds(262, 175, 60, 32);
 		Bt_profile.addActionListener(this);
 		add(Bt_profile);
 		
 		Bt_Rent_History = new RoundButton("렌트 내역");
 		Bt_Rent_History.setFont(new Font("굴림", Font.PLAIN, 16));
-		Bt_Rent_History.setBounds(122, 276, 121, 110);
+		Bt_Rent_History.setBounds(41, 246, 141, 130); // 버튼크기 width 141 ,height 110 -> width 141, height 130
 		Bt_Rent_History.addActionListener(this);
 		add(Bt_Rent_History);
 		
 		Bt_Rent_Alarm = new RoundButton("렌트 알림");
 		Bt_Rent_Alarm.setFont(new Font("굴림", Font.PLAIN, 16));
-		Bt_Rent_Alarm.setBounds(283, 276, 121, 110);
+		Bt_Rent_Alarm.setBounds(201, 246, 141, 130);
 		Bt_Rent_Alarm.addActionListener(this);
 		add(Bt_Rent_Alarm);
 		
 		Bt_My_Post = new RoundButton("나의 글");
 		Bt_My_Post.setFont(new Font("굴림", Font.PLAIN, 16));
-		Bt_My_Post.setBounds(122, 409, 121, 110);
+		Bt_My_Post.setBounds(41, 395, 141, 130);
 		Bt_My_Post.addActionListener(this);
 		add(Bt_My_Post);
 		
 		Bt_Report_History = new RoundButton("<html><center>신고<br>접수/내역<center></html>");
 		Bt_Report_History.setFont(new Font("굴림", Font.PLAIN, 16));
-		Bt_Report_History.setBounds(283, 409, 121, 110);
+		Bt_Report_History.setBounds(202, 395, 141, 130);
 		Bt_Report_History.addActionListener(this);
 		add(Bt_Report_History);
 		
+		Bt_temp1 = new RoundButton("temp1");
+		Bt_temp1.setFont(new Font("굴림",Font.PLAIN,16));
+		Bt_temp1.setBounds(41,544,141,130);
+		add(Bt_temp1);
+		
+		Bt_temp2 = new RoundButton("temp2");
+		Bt_temp2.setFont(new Font("굴림",Font.PLAIN,16));
+		Bt_temp2.setBounds(201,544,141,130);
+		add(Bt_temp2);
+		
 		JLabel lblNewLabel_1 = new JLabel("렌트 알림");
-		lblNewLabel_1.setFont(new Font("굴림", Font.PLAIN, 16));
-		lblNewLabel_1.setBounds(572, 356, 72, 32);
+		lblNewLabel_1.setFont(new Font("굴림", Font.BOLD, 16));
+		lblNewLabel_1.setBounds(572, 486, 72, 32);
 		add(lblNewLabel_1);
 		
 		table = new JTable(Test,Column_Name);
+		table.setEnabled(false);
 		table.setShowVerticalLines(false);
-		table.setBounds(572, 425, 389, 94);
-		table.setRowHeight(47);  // 각 행의 높이 설정
+		table.setBounds(572, 555, 389, 144); // y위치 425 -> 555 // 555-425 = 130
+		table.setRowHeight(70);  // 각 행의 높이 설정
 		// 테이블 내 텍스트 가운데 정렬
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER); // 수평 가운데 정렬
@@ -99,30 +113,39 @@ public class My_Page extends JPanel implements ActionListener {
 		
 		JLabel Label_Trade_Num = new JLabel("거래번호");
 		Label_Trade_Num.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		Label_Trade_Num.setBounds(609, 394, 60, 23);
+		Label_Trade_Num.setBounds(612, 524, 60, 23);
 		add(Label_Trade_Num);
 		
 		JLabel Label_Item_Name = new JLabel("물품명");
 		Label_Item_Name.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		Label_Item_Name.setBounds(748, 394, 60, 23);
+		Label_Item_Name.setBounds(748, 524, 60, 23);
 		add(Label_Item_Name);
 		
 		JLabel Label_Return_Deadline = new JLabel("반납기한");
 		Label_Return_Deadline.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		Label_Return_Deadline.setBounds(870, 394, 60, 23);
+		Label_Return_Deadline.setBounds(870, 524, 60, 23);
 		add(Label_Return_Deadline);
 		
 		Bt_More = new JButton("더보기 >");
-		Bt_More.setFont(new Font("굴림", Font.PLAIN, 9));
+		Bt_More.setFont(new Font("굴림", Font.BOLD, 9));
 		Bt_More.setBackground(new Color(255, 255, 255));
 		Bt_More.setForeground(new Color(0, 0, 0));
-		Bt_More.setBounds(895, 371, 48, 15);
+		Bt_More.setBounds(895, 501, 48, 15);
 		Bt_More.setMargin(new Insets(2, 2, 2, 2));
 		Bt_More.setContentAreaFilled(false); // 버튼 눌렀을 때 버튼영역 표시가 나지 않게
 		Bt_More.setBorderPainted(false); // 버튼 윤곽선 삭제
 		Bt_More.setFocusPainted(false); // 클릭했을 때의 윤곽선 삭제
 		Bt_More.addActionListener(this);
 		add(Bt_More);
+		
+		//FIXME - 원하는 이미지로 경로 수정
+		ImageIcon image = new ImageIcon(My_Page.class.getResource("../COMP_IMG/search2.jpg"));
+		JLabel lb_image = new JLabel();
+		lb_image.setIcon(image);
+		
+		
+		lb_image.setBounds(372, 246, 175, 453);
+		add(lb_image);
 		
 		/*
 		 * // 클릭할 때만 윤곽선이 나타나게 설정 Bt_More.addMouseListener(new MouseAdapter() {
@@ -150,8 +173,8 @@ public class My_Page extends JPanel implements ActionListener {
 		g.setColor(Color.lightGray);
 
 		// 선을 그리기. (x1, y1)에서 (x2, y2)까지
-		g.drawLine(100, 250, 425, 250);
-		g.drawLine(590, 420, 940, 420); // 렌트 알림 부분 선
+		g.drawLine(23, 220, 360, 220);
+		g.drawLine(590, 550, 940, 550); // 렌트 알림 부분 선
 	}
 	
 	@Override
@@ -174,12 +197,11 @@ public class My_Page extends JPanel implements ActionListener {
 		else if(e.getSource() == Bt_Report_History) {
 			// 신고/접수 내역 창 호출
 			System.out.println("신고 접수/내역 창 호출");
+			Main_frame.main("신고내역");
 		}
 		else if(e.getSource() == Bt_More) {
 			// 더보기 창 호출
 			System.out.println("더보기 창 호출");
 		}
 	}
-	
-	
 }
