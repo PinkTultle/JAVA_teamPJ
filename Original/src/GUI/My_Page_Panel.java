@@ -2,6 +2,7 @@ package GUI;
 
 import java.awt.Color;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class My_Page_Panel extends JPanel {
@@ -9,7 +10,8 @@ public class My_Page_Panel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private static My_Page myPage;
-	private static JPanel rentHistory, rentAlarm, myWrite, reportHistory, profile;
+	private static ProfilePanel profile;
+	private static JPanel rentHistory, rentAlarm, myWrite, reportHistory;
 
 	public My_Page_Panel() {
 		setBounds(0, 150, 1050, 800);
@@ -74,4 +76,14 @@ public class My_Page_Panel extends JPanel {
 		profile.setVisible(true);
 	}
 
+	boolean Close_profile() {
+		if (profile.getMode()) { // 수정 상태인 경우
+			int closeProfile = JOptionPane.showConfirmDialog(null, "정보 수정 중입니다. 나가시겠습니까?", "경고",
+					JOptionPane.YES_NO_OPTION);
+			if (closeProfile == JOptionPane.NO_OPTION)
+				return false;
+			profile.changeMode(false);
+		}
+		return true;
+	}
 }

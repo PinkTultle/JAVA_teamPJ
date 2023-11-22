@@ -36,6 +36,7 @@ public class ProfilePanel extends JPanel implements ActionListener {
 	private MyFL FL = new MyFL();
 
 	protected My_Page_Panel mpp;
+	protected boolean mode = false; // true: 수정 | false: 일반
 
 	/**
 	 * Create the panel.
@@ -127,6 +128,10 @@ public class ProfilePanel extends JPanel implements ActionListener {
 		btnNewButton_1.setBorder(bf.createLineBorder(new Color(128, 128, 128)));
 		add(btnNewButton_1);
 
+		Vector<String> vector = new Vector<String>();
+		for (int i = 0; i < 10; i++)
+			vector.add(i + "");
+		setPanel(vector);
 	}
 
 	public ProfilePanel(My_Page_Panel mpp) {
@@ -139,22 +144,14 @@ public class ProfilePanel extends JPanel implements ActionListener {
 			System.out.println(i);
 			textFields[i].setInit(v.get(i));
 		}
-		textFields[0].disable();
-		textFields[8].disable();
-		textFields[9].disable();
+		textFields[0].setEditable(false);
+		textFields[8].setEditable(false);
+		textFields[9].setEditable(false);
+		setEditable(false);
 	}
 	/*
-	 * textField 번호
-	 * 1: ID / 비활성화
-	 * 2: Password
-	 * 3: 별명
-	 * 4: 이름
-	 * 5: 생년원일
-	 * 6: 주소
-	 * 7: 전화번호
-	 * 8: e-mail
-	 * 9: 은행 / 비활성화
-	 * 10: 계좌번호 / 비활성화
+	 * textField 번호 1: ID / 비활성화 2: Password 3: 별명 4: 이름 5: 생년원일 6: 주소 7: 전화번호 8:
+	 * e-mail 9: 은행 / 비활성화 10: 계좌번호 / 비활성화
 	 * 
 	 */
 
@@ -165,10 +162,36 @@ public class ProfilePanel extends JPanel implements ActionListener {
 			System.out.println(((JButton) (e.getSource())).getText());
 		} else if (e.getSource() == button_1) { // 변경 동작
 			System.out.println(((JButton) (e.getSource())).getText());
+			changeMode(true);
 		} else if (e.getSource() == button_2) { // 취소 동작
 			System.out.println(((JButton) (e.getSource())).getText());
-			mpp.Open_My_Page();
+			if (mpp.Close_profile())
+				mpp.Open_My_Page();
 		}
 
+	}
+
+	void setEditable(boolean v) {
+		for (int i = 1; i < 8; i++) {
+			textFields[i].setEditable(v);
+		}
+	}
+
+	void changeMode(boolean write) {
+		if (mode) { // write 가 true 인 경우 DB에 작성 필요
+			mode = false;
+			setEditable(false);
+			button.setVisible(true);
+			if (write) {
+			}
+		} else {
+			mode = true;
+			setEditable(true);
+			button.setVisible(false);
+		}
+	}
+
+	public boolean getMode() {
+		return mode;
 	}
 }

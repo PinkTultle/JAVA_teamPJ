@@ -2,6 +2,7 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
 
@@ -14,7 +15,8 @@ public class RoundJLabel extends JLabel {
 	private static final long serialVersionUID = 1L;
 	private Shape shape;
 	private Color backgroundColor = Color.white;
-	private Color foregroundColor = getForeground();
+	private Color lineColor = getForeground();
+	private float lineThickness = 1f;
 
 	public RoundJLabel() {
 		setOpaque(false);
@@ -32,8 +34,10 @@ public class RoundJLabel extends JLabel {
 	}
 
 	protected void paintBorder(Graphics g) {
-		g.setColor(foregroundColor);
-		g.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
+		Graphics2D g2 = (Graphics2D) g.create();
+		g2.setStroke(new java.awt.BasicStroke(lineThickness));
+		g2.setColor(lineColor);
+		g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
 	}
 
 	public boolean contains(int x, int y) {
@@ -47,7 +51,11 @@ public class RoundJLabel extends JLabel {
 		backgroundColor = color;
 	}
 
-	public void setForegroundColor(Color color) {
-		foregroundColor = color;
+	public void setLineColor(Color color) {
+		lineColor = color;
+	}
+
+	public void setThickness(float n) {
+		lineThickness = n;
 	}
 }

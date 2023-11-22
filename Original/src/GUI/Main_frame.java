@@ -111,6 +111,8 @@ public class Main_frame extends JFrame {
 			case "홈":
 				System.out.println("홈 패널 교체 호출");
 				// 패널교체
+				if (!P4.Close_profile())
+					break;
 				P1.setVisible(true);
 				P2.setVisible(false);
 				P3.setVisible(false);
@@ -122,6 +124,8 @@ public class Main_frame extends JFrame {
 			case "목록":
 				System.out.println("목록 패널 교체 호출");
 				// 패널교체
+				if (!P4.Close_profile())
+					break;
 				P1.setVisible(false);
 				P2.setVisible(true);
 				P3.setVisible(false);
@@ -133,6 +137,8 @@ public class Main_frame extends JFrame {
 			case "신청관리":
 				System.out.println("신청관리 패널 교체 호출");
 				// 패널교체
+				if (!P4.Close_profile())
+					break;
 				P1.setVisible(false);
 				P2.setVisible(false);
 				P3.setVisible(true);
@@ -148,6 +154,8 @@ public class Main_frame extends JFrame {
 			case "마이페이지":
 				System.out.println("마이페이지 패널 교체 호출");
 				// 패널교체
+				if (!P4.Close_profile())
+					break;
 				P4.Open_My_Page();
 				P1.setVisible(false);
 				P2.setVisible(false);

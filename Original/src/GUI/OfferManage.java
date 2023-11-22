@@ -34,12 +34,14 @@ public class OfferManage extends JPanel {
 		RoundJLabel lblNewLabel = new RoundJLabel("받은 신청");
 		lblNewLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setLineColor(new Color(244, 82, 95));
 		lblNewLabel.setBounds(8, 10, 500, 70);
 		add(lblNewLabel);
 
 		RoundJLabel lblNewLabel_1 = new RoundJLabel("보낸 신청");
 		lblNewLabel_1.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setLineColor(new Color(0, 140, 200));
 		lblNewLabel_1.setBounds(526, 10, 500, 70);
 		add(lblNewLabel_1);
 
