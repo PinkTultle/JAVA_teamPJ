@@ -30,7 +30,7 @@ public class Home_left_pane extends Function_pane {
 	private search_bt Jb1 = null;
 	private Font font;
 	private JPanel BP = new Baener_pane();
-	
+
 	public Home_left_pane() {
 		// TODO Auto-generated constructor stub
 		
@@ -65,7 +65,6 @@ public class Home_left_pane extends Function_pane {
 		Tf.setFont(font);
 		Tf.setEnabled(true);
 		Tf.setBounds( 50, BP.getHeight()+100, 350, 40);
-		
 		Tf.addFocusListener(new eventLisen());
 		add(Tf);
 		
@@ -102,6 +101,7 @@ public class Home_left_pane extends Function_pane {
 				j.setText("");
 			}
 		}
+
 
 		@Override
 		public void focusLost(FocusEvent e) {

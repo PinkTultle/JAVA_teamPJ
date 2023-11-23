@@ -12,13 +12,14 @@ import javax.swing.JPanel;
 
 public class Main_frame extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	/*
-	 * contentPane - 배너 패널과 기능 패널 올라갈 배경 패널
-	 * Baener - 프로그램 로고와 패널 이동 버튼들이 올라간 메뉴바 패널이 있는 패널
-	 * FunctionPane - 기능 패널로 홈, 목록, 신청관리, 마이페이지 패널이 올라갈 패널
+	 * contentPane - 배너 패널과 기능 패널 올라갈 배경 패널 Baener - 프로그램 로고와 패널 이동 버튼들이 올라간 메뉴바 패널이
+	 * 있는 패널 FunctionPane - 기능 패널로 홈, 목록, 신청관리, 마이페이지 패널이 올라갈 패널
 	 */
 	private JPanel contentPane, Baener;
-	private static JPanel P1, P2, P3, P4;
+	private static JPanel FunctionPane, P1, P2, P3;
+	private static My_Page_Panel P4;
 
 	/**
 	 * Launch the application.
@@ -66,35 +67,36 @@ public class Main_frame extends JFrame {
 		// 콘텐츠 패널 위에 배너 패널 추가
 		contentPane.add(Baener);
 
-		//메뉴바에 등록된 4개의 패널
+		// 기능 패널 설정 - 이후 JPanel생성 -> 홈패널 생성으로 변경
+		FunctionPane = new Main_home();
+		// 구역 구분쉽게 색깔 입히기
+
+		// 콘텐츠 패널 위에 기능 패널 올림
+		contentPane.add(FunctionPane);
+
+		// 해당 프레임의 콘텐츠 팬 설정
+		setContentPane(contentPane);
+
+		// 패널 교체를 위한 임시 코드
 
 		P1 = new Main_home();
 		P2 = new ListPanel();
-		
-		try {
+		P3 = new OfferManage();
+		P4 = new My_Page_Panel();
 
-			P3 = new OfferManage();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		P4 = new Panel04();
-		
 
 		contentPane.add(P1);
 		contentPane.add(P2);
 		contentPane.add(P3);
 		contentPane.add(P4);
-		
-		setContentPane(contentPane);
 
-		P1.setVisible(true);
+		P1.setVisible(false);
 		P2.setVisible(false);
 		P3.setVisible(false);
 		P4.setVisible(false);
-		
-		setVisible(true);
+
+		FunctionPane.setVisible(true);
+
 
 	}
 
@@ -109,29 +111,44 @@ public class Main_frame extends JFrame {
 			switch (text) {
 
 			case "홈":
+				System.out.println("홈 패널 교체 호출");
 				// 패널교체
+				if (!P4.Close_profile())
+					break;
 				P1.setVisible(true);
 				P2.setVisible(false);
 				P3.setVisible(false);
 				P4.setVisible(false);
+				FunctionPane.setVisible(false);
+
 
 				break;
 
 			case "목록":
+				System.out.println("목록 패널 교체 호출");
 				// 패널교체
+				if (!P4.Close_profile())
+					break;
 				P1.setVisible(false);
 				P2.setVisible(true);
 				P3.setVisible(false);
 				P4.setVisible(false);
+				FunctionPane.setVisible(false);
 
 				break;
 
 			case "신청관리":
+				System.out.println("신청관리 패널 교체 호출");
 				// 패널교체
+				if (!P4.Close_profile())
+					break;
+          
 				P1.setVisible(false);
 				P2.setVisible(false);
 				P3.setVisible(true);
 				P4.setVisible(false);
+				FunctionPane.setVisible(false);
+
 
 			case "메인 검색":
 				System.out.println("메인 프레임 검색 기능 호출");
@@ -142,10 +159,15 @@ public class Main_frame extends JFrame {
 			case "마이페이지":
 				System.out.println("마이페이지 패널 교체 호출");
 				// 패널교체
+				if (!P4.Close_profile())
+					break;
+				P4.Open_My_Page();
+          
 				P1.setVisible(false);
 				P2.setVisible(false);
 				P3.setVisible(false);
 				P4.setVisible(true);
+				FunctionPane.setVisible(false);
 
 				break;
 			}
@@ -157,6 +179,77 @@ public class Main_frame extends JFrame {
 		// 목록배너 호출 및 카테고리값으로 겂색하는 긴능 추가부
 		System.out.println("카테고리 버튼 클릭");
 		System.out.println("클릭된 버튼 : " + category);
+
+	}
+}
+
+class Panel01 extends JPanel {
+	private JLabel LOGO;
+	private Font LFont;
+
+	public Panel01() {
+		setBounds(0, 150, 1050, 450);
+
+		setLayout(null);
+		// 배너 설정
+		setBackground(Color.MAGENTA);
+		setToolTipText("홈 패널");
+
+		// 로고 초기설정
+		LOGO = new JLabel("홈");
+		LOGO.setBounds(525, 125, 250, 250);
+		LFont = new Font("맑은 고딕", Font.PLAIN + Font.BOLD, 50);
+		LOGO.setFont(LFont);
+
+		add(LOGO);
+
+	}
+}
+
+class Panel02 extends JPanel {
+	private JLabel LOGO;
+	private Font LFont;
+
+	public Panel02() {
+		setBounds(0, 150, 1050, 450);
+
+		setLayout(null);
+		// 배너 설정
+		setBackground(Color.YELLOW);
+		setToolTipText("목록 패널");
+
+		// 로고 초기설정
+		LOGO = new JLabel("목록");
+		LOGO.setBounds(525, 125, 250, 250);
+
+		LFont = new Font("맑은 고딕", Font.PLAIN + Font.BOLD, 50);
+		LOGO.setFont(LFont);
+
+		add(LOGO);
+
+	}
+}
+
+class Panel03 extends JPanel {
+	private JLabel LOGO;
+	private Font LFont;
+
+	public Panel03() {
+		setBounds(0, 150, 1050, 800);
+
+		setLayout(null);
+		// 배너 설정
+		setBackground(Color.ORANGE);
+		setToolTipText("");
+
+		// 로고 초기설정
+		LOGO = new JLabel("");
+		LOGO.setBounds(525, 125, 250, 250);
+
+		LFont = new Font("맑은 고딕", Font.PLAIN + Font.BOLD, 50);
+		LOGO.setFont(LFont);
+
+		add(LOGO);
 
 	}
 }
