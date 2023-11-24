@@ -132,7 +132,8 @@ public class Report_Details extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == Bt_Back) {
 			System.out.println("뒤로가기");
-			mpp.Open_My_Page();
+
+			Main_frame.main("마이페이지");
 		}
 	}
 }
