@@ -13,7 +13,8 @@ class search_bt extends JButton{
 	
 	public search_bt() {
 		
-		setBounds(410, BP.getHeight()+100, 80, 40);
+
+		setBounds(400, BP.getHeight()+100, 80, 40);
 		setOpaque(false);
 		setFocusPainted(false);
 		setBorderPainted(false);

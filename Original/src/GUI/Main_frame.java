@@ -3,22 +3,19 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.Font;
-import java.sql.SQLException;
-
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Main_frame extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	/*
-	 * contentPane - 배너 패널과 기능 패널 올라갈 배경 패널
-	 * Baener - 프로그램 로고와 패널 이동 버튼들이 올라간 메뉴바 패널이 있는 패널
-	 * FunctionPane - 기능 패널로 홈, 목록, 신청관리, 마이페이지 패널이 올라갈 패널
+	 * contentPane - 배너 패널과 기능 패널 올라갈 배경 패널 Baener - 프로그램 로고와 패널 이동 버튼들이 올라간 메뉴바 패널이
+	 * 있는 패널 FunctionPane - 기능 패널로 홈, 목록, 신청관리, 마이페이지 패널이 올라갈 패널
 	 */
 	private JPanel contentPane, Baener;
 	private static JPanel P1, P2, P3, P4;
+
 
 	/**
 	 * Launch the application.
@@ -66,25 +63,21 @@ public class Main_frame extends JFrame {
 		// 콘텐츠 패널 위에 배너 패널 추가
 		contentPane.add(Baener);
 
-		// 해당 프레임의 콘텐츠 팬 설정
-		setContentPane(contentPane);
-
 		// 패널 교체를 위한 임시 코드
 
 		P1 = new Main_home();
 		P2 = new ListPanel();
-		try {
-			P3 = new OfferManage();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		P3 = new OfferManage();
 		P4 = new My_Page();
 
+		setContentPane(contentPane);
+		
 		contentPane.add(P1);
 		contentPane.add(P2);
 		contentPane.add(P3);
 		contentPane.add(P4);
+		
+	
 
 		P1.setVisible(true);
 		P2.setVisible(false);
@@ -94,22 +87,23 @@ public class Main_frame extends JFrame {
 		
 		
 		setVisible(true);
-		
 	}
-
+	
+	
 	// MenuBar.java의 버튼 이벤트와 연동할 패널 교체 함수
-	public static void main(String text) {
+	public static void Changepane(String text) {
 		// TODO Auto-generated method stub
 
-		// 인자값을 받아야 실행
+		// 패널 교체 메서
 		if (text != null) {
-			// 인자값으로 받은 문자열에 따라 동작 결정
-			// 각 패널 만들어지면 함수 구현해서 넣을 부분
+			
 			switch (text) {
 
 			case "홈":
 				System.out.println("홈 패널 교체 호출");
 				// 패널교체
+				//if (!P4.Close_profile())
+				//	break;
 				P1.setVisible(true);
 				P2.setVisible(false);
 				P3.setVisible(false);
@@ -119,6 +113,8 @@ public class Main_frame extends JFrame {
 			case "목록":
 				System.out.println("목록 패널 교체 호출");
 				// 패널교체
+				//if (!P4.Close_profile())
+				//	break;
 				P1.setVisible(false);
 				P2.setVisible(true);
 				P3.setVisible(false);
@@ -128,6 +124,9 @@ public class Main_frame extends JFrame {
 			case "신청관리":
 				System.out.println("신청관리 패널 교체 호출");
 				// 패널교체
+				//if (!P4.Close_profile())
+				//	break;
+          
 				P1.setVisible(false);
 				P2.setVisible(false);
 				P3.setVisible(true);
@@ -143,6 +142,10 @@ public class Main_frame extends JFrame {
 			case "마이페이지":
 				System.out.println("마이페이지 패널 교체 호출");
 				// 패널교체
+				//if (!P4.Close_profile())
+				//	break;
+				//P4.Open_My_Page();
+          
 				P1.setVisible(false);
 				P2.setVisible(false);
 				P3.setVisible(false);
