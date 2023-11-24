@@ -62,8 +62,9 @@ public class ItemDetail extends JFrame implements ActionListener {
 	 * Create the frame.
 	 * @throws SQLException 
 	 */
-	public ItemDetail(boolean isWriter) throws SQLException { // 글쓴이인지 확인하는 boolean 을 매개 변수로 받음
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public ItemDetail(boolean isWriter) { // 글쓴이인지 확인하는 boolean 을 매개 변수로 받음
+	/*public ItemDetail(boolean isWriter) throws SQLException { // 글쓴이인지 확인하는 boolean 을 매개 변수로 받음
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
 		setBounds(100, 100, 1050, 570);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -172,7 +173,13 @@ public class ItemDetail extends JFrame implements ActionListener {
 		
 		
 		ItemDAO itemdao = new ItemDAO();
-		ItemDTO itemdto = itemdao.itmedetail(1); // 클릭한 물품번호 넘겨 받기
+		ItemDTO itemdto = null;
+		try {
+			itemdto = itemdao.itmedetail(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // 클릭한 물품번호 넘겨 받기
 		ItemDAO itemDAO = new ItemDAO();
 		
 		
@@ -221,8 +228,10 @@ public class ItemDetail extends JFrame implements ActionListener {
 		panel_3.add(lblNewLabel_3_4);
 	}
 
-	public void setItem() { // 패널안의 내용을 바꾸는 메소드
-
+	public void setItem(String testTitle) { // 패널안의 내용을 바꾸는 메소드
+		lblNewLabel_5.setText(testTitle);
+		lblNewLabel_6.setText(testTitle);
+		lblNewLabel_3.setText(testTitle);
 	}
 	/*
 	 * 타이틀 바 
@@ -243,6 +252,7 @@ public class ItemDetail extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnNewButton) { // 뒤로 버튼 동작
 			System.out.println(((JButton) (e.getSource())).getText());
+			dispose();
 		} else if (e.getSource() == btnNewButton_1) { // 수정/신고 버튼 동작
 			if (isWriter) { // 수정 버튼 동작
 				System.out.println(((JButton) (e.getSource())).getText());

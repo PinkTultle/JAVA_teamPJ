@@ -31,8 +31,8 @@ public class ListPanel extends JPanel implements ActionListener {
 	private JButton btnNewButton_3;
 	private itemSlot_list is;
 	private JLabel lblNewLabel_1;
-	private JComboBox comboBox;
-	private JComboBox comboBox_1;
+	private JComboBox<String> comboBox;
+	private JComboBox<String> comboBox_1;
 
 	private int maxPage = 10; // 최대 페이지 수 | 테스트용 값 10 : 후에 최대 페이지 값을 받는 동작 필요
 	private int nowPage = 1;
@@ -70,7 +70,7 @@ public class ListPanel extends JPanel implements ActionListener {
 		add(textField);
 		textField.setColumns(10);
 
-		btnNewButton = new JButton("검색"); // 검색 아이콘 추가 필요
+		btnNewButton = new search_bt(); // 검색 아이콘 추가 필요
 		btnNewButton.setBounds(528, 46, 33, 35);
 		btnNewButton.addActionListener(this);
 		add(btnNewButton);
@@ -117,12 +117,12 @@ public class ListPanel extends JPanel implements ActionListener {
 		btnNewButton_2.setBorder(null);
 		add(btnNewButton_2);
 		
-		/*// 데이터 입력 테스트용 코드
+		// 데이터 입력 테스트용 코드
 		Vector<String[]> vector = new Vector<String[]>();
 		for (int i = 0; i < 10; i++) {
 			vector.addElement(new String[] { String.valueOf(i + 1), "asdf", "asdf", "asdf", "asdf", "asdf" });
-		}*/
-		is.setPage();
+		}
+		//is.setPage();
 	}
 
 	@Override
