@@ -212,6 +212,10 @@ public class LoginGUI extends JFrame implements ActionListener {
 			userDTO.setPw(pw);
 			
 			
+			new Main_frame();
+			dispose();
+			
+			
 			try {
 				int n = userDAO.checkLogin(userDTO);
 				
