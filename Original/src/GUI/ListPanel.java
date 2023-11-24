@@ -117,12 +117,12 @@ public class ListPanel extends JPanel implements ActionListener {
 		btnNewButton_2.setBorder(null);
 		add(btnNewButton_2);
 		
-		/*// 데이터 입력 테스트용 코드
+		// 데이터 입력 테스트용 코드
 		Vector<String[]> vector = new Vector<String[]>();
 		for (int i = 0; i < 10; i++) {
 			vector.addElement(new String[] { String.valueOf(i + 1), "asdf", "asdf", "asdf", "asdf", "asdf" });
-		}*/
-		is.setPage();
+		}
+		//is.setPage();
 	}
 
 	@Override

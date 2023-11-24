@@ -48,7 +48,7 @@ public class MenuBar extends JPanel implements ActionListener{
 		JButton b = (JButton)e.getSource();
 		
 		//버튼 객체의 TEXT를 불러와 Main_frame.java의 main(string text) 함수 호출
-		Main_frame.main(b.getText());
+		Main_frame.Changepane(b.getText());
 		
 	}
 }

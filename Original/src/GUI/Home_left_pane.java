@@ -48,7 +48,7 @@ public class Home_left_pane extends Function_pane {
 		L1.setForeground(Color.black);
 		add(L1);
 		
-		L2 = new JLabel("최근방문");
+		L2 = new JLabel("최신 등록 물품");
 		L2.setBounds(L1.getX(), L1.getY()+170, 150, 50);
 		L2.setFont(font);
 		L2.setForeground(Color.black);
@@ -117,11 +117,6 @@ public class Home_left_pane extends Function_pane {
 				//검색 기능					
 				Tf.setText("검색어를 입력하세요");
 			}
-			
-			
-			
-			
-			
 			
 		}
 		

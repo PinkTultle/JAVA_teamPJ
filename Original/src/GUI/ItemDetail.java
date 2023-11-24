@@ -173,7 +173,13 @@ public class ItemDetail extends JFrame implements ActionListener {
 		
 		
 		ItemDAO itemdao = new ItemDAO();
-		ItemDTO itemdto = itemdao.itmedetail(1); // 클릭한 물품번호 넘겨 받기
+		ItemDTO itemdto = null;
+		try {
+			itemdto = itemdao.itmedetail(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // 클릭한 물품번호 넘겨 받기
 		ItemDAO itemDAO = new ItemDAO();
 		
 		
