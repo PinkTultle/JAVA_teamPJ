@@ -11,16 +11,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumnModel;
+
+import GUI.C_Component.myPageTable;
 
 // 메인 프레임 코드의 89번째 줄을 P4 = new My_Page(); 구문으로 수정하여 실행
 
 public class My_Page extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 5812757489846205649L;
-	private JTable table;
+	private myPageTable table;
 	String[] Column_Name = { "거래번호", "물품명", "반납기한" };
 	String[][] Test = { { "data1", "data2", "data3" }, { "data1-1", "data2-1", "data3-1" } };
 	private JButton Bt_profile;
@@ -37,7 +36,7 @@ public class My_Page extends JPanel implements ActionListener {
 	public My_Page() {
 
 		setBackground(new Color(255, 255, 255));
-		setBounds(0, 0, 1050, 800);
+		setBounds(0, 150, 1050, 800);
 		setLayout(null);
 
 		JLabel Label_NickName = new JLabel("KJH");
@@ -77,35 +76,22 @@ public class My_Page extends JPanel implements ActionListener {
 		add(Bt_Report_History);
 
 		Bt_temp1 = new RoundButton("temp1");
-		Bt_temp1.setFont(new Font("굴림",Font.PLAIN,16));
-		Bt_temp1.setBounds(41,544,141,130);
+		Bt_temp1.setFont(new Font("굴림", Font.PLAIN, 16));
+		Bt_temp1.setBounds(41, 544, 141, 130);
 		add(Bt_temp1);
-		
+
 		Bt_temp2 = new RoundButton("temp2");
-		Bt_temp2.setFont(new Font("굴림",Font.PLAIN,16));
-		Bt_temp2.setBounds(201,544,141,130);
+		Bt_temp2.setFont(new Font("굴림", Font.PLAIN, 16));
+		Bt_temp2.setBounds(201, 544, 141, 130);
 		add(Bt_temp2);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("렌트 알림");
 		lblNewLabel_1.setFont(new Font("굴림", Font.BOLD, 16));
 		lblNewLabel_1.setBounds(572, 486, 72, 32);
 		add(lblNewLabel_1);
 
-		
-		table = new JTable(Test,Column_Name);
-		table.setEnabled(false);
-		table.setShowVerticalLines(false);
+		table = new myPageTable(Test, Column_Name);
 		table.setBounds(572, 555, 389, 144); // y위치 425 -> 555 // 555-425 = 130
-		table.setRowHeight(70);  // 각 행의 높이 설정
-
-    // 테이블 내 텍스트 가운데 정렬
-		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-		centerRenderer.setHorizontalAlignment(JLabel.CENTER); // 수평 가운데 정렬
-		TableColumnModel columnModel = table.getColumnModel();
-		for (int i = 0; i < columnModel.getColumnCount(); i++) {
-			table.getColumnModel().getColumn(i).setPreferredWidth(128); // setPreferredWidth(128) => 첫번째 열 너비 설정
-			columnModel.getColumn(i).setCellRenderer(centerRenderer);
-		}
 		//
 		add(table);
 
@@ -136,15 +122,14 @@ public class My_Page extends JPanel implements ActionListener {
 		Bt_More.addActionListener(this);
 		add(Bt_More);
 
-		//FIXME - 원하는 이미지로 경로 수정
+		// FIXME - 원하는 이미지로 경로 수정
 		ImageIcon image = new ImageIcon(My_Page.class.getResource("../COMP_IMG/search2.jpg"));
 		JLabel lb_image = new JLabel();
 		lb_image.setIcon(image);
-		
-		
+
 		lb_image.setBounds(372, 246, 175, 453);
 		add(lb_image);
-		
+
 		/*
 		 * // 클릭할 때만 윤곽선이 나타나게 설정 Bt_More.addMouseListener(new MouseAdapter() {
 		 * 
@@ -199,12 +184,8 @@ public class My_Page extends JPanel implements ActionListener {
 			// 신고/접수 내역 창 호출
 			mpp.Open_reportHistory();
 			System.out.println("신고 접수/내역 창 호출");
-
-			Main_frame.Changepane("신고내역");
-		}
-		else if(e.getSource() == Bt_More) {
-
-      // 더보기 창 호출
+		} else if (e.getSource() == Bt_More) {
+			// 더보기 창 호출
 			System.out.println("더보기 창 호출");
 		}
 	}

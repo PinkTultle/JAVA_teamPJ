@@ -6,11 +6,13 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -28,14 +30,12 @@ public class ItemDetail extends JFrame implements ActionListener {
 	private JPanel panel_1;
 	private JPanel panel_2;
 	private JPanel panel_3;
+	private JLabel lbl[] = new JLabel[7];
 	private JLabel lblNewLabel_5;
 	private JLabel lblNewLabel_6;
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_3;
-	private JLabel lblNewLabel_3_1;
-	private JLabel lblNewLabel_3_2;
-	private JLabel lblNewLabel_3_3;
-	private JLabel lblNewLabel_3_4;
+	private JLabel lblNewLabel_1;
 
 	private Font nF = new Font("맑은 고딕", Font.PLAIN, 14);
 	private boolean isWriter;
@@ -60,11 +60,14 @@ public class ItemDetail extends JFrame implements ActionListener {
 
 	/**
 	 * Create the frame.
-	 * @throws SQLException 
+	 * 
+	 * @throws SQLException
 	 */
 	public ItemDetail(boolean isWriter) { // 글쓴이인지 확인하는 boolean 을 매개 변수로 받음
-	/*public ItemDetail(boolean isWriter) throws SQLException { // 글쓴이인지 확인하는 boolean 을 매개 변수로 받음
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
+		/*
+		 * public ItemDetail(boolean isWriter) throws SQLException { // 글쓴이인지 확인하는
+		 * boolean 을 매개 변수로 받음 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		 */
 		setBounds(100, 100, 1050, 570);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -119,25 +122,22 @@ public class ItemDetail extends JFrame implements ActionListener {
 		lblNewLabel_4.setBounds(12, 10, 42, 42);
 		panel_1.add(lblNewLabel_4);
 
-		lblNewLabel_5 = new JLabel("별명");
-		lblNewLabel_5.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_5.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
-		lblNewLabel_5.setBounds(66, 10, 247, 42);
-		panel_1.add(lblNewLabel_5);
+		lbl[0] = new JLabel("별명");
+		lbl[0].setHorizontalAlignment(SwingConstants.LEFT);
+		lbl[0].setFont(new Font("맑은 고딕", Font.PLAIN, 16));
+		lbl[0].setBounds(66, 10, 247, 42);
+		panel_1.add(lbl[0]);
 
-		lblNewLabel_6 = new JLabel("물품 이름");
-		lblNewLabel_6.setFont(new Font("맑은 고딕", Font.BOLD, 18));
-		lblNewLabel_6.setBounds(389, 10, 435, 42);
-		panel_1.add(lblNewLabel_6);
+		lbl[1] = new JLabel("물품 이름");
+		lbl[1].setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		lbl[1].setBounds(389, 10, 435, 42);
+		panel_1.add(lbl[1]);
 
 		panel_2 = new JPanel();
 		panel_2.setBackground(new Color(255, 255, 255));
 		panel_2.setBounds(104, 92, 354, 414);
 		panel.add(panel_2);
 		panel_2.setLayout(null);
-		
-		
-
 
 		panel_3 = new JPanel();
 		panel_3.setBackground(new Color(255, 255, 255));
@@ -169,9 +169,7 @@ public class ItemDetail extends JFrame implements ActionListener {
 		lblNewLabel_2_4.setFont(nF);
 		lblNewLabel_2_4.setBounds(12, 170, 105, 25);
 		panel_3.add(lblNewLabel_2_4);
-		
-		
-		
+
 		ItemDAO itemdao = new ItemDAO();
 		ItemDTO itemdto = null;
 		try {
@@ -181,51 +179,49 @@ public class ItemDetail extends JFrame implements ActionListener {
 			e.printStackTrace();
 		} // 클릭한 물품번호 넘겨 받기
 		ItemDAO itemDAO = new ItemDAO();
-		
-		
-		lblNewLabel = new JLabel(); // 물품 사진 라벨 
+
+		lblNewLabel = new JLabel(); // 물품 사진 라벨
 		itemDAO.displayImage(itemdto.getImage(), lblNewLabel); // 사진 표시
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(12, 10, 329, 185);
 		panel_2.add(lblNewLabel);
 
-		
-		JLabel lblNewLabel_1 = new JLabel();
+		lblNewLabel_1 = new JLabel();
 		lblNewLabel_1.setText(new SwingCRLF().CRLF_ln("설	명\n" + itemdto.getExplanation()));
 		lblNewLabel_1.setVerticalAlignment(SwingConstants.TOP);
 		lblNewLabel_1.setFont(nF);
 		lblNewLabel_1.setBounds(12, 205, 330, 199);
 		panel_2.add(lblNewLabel_1);
 
-		lblNewLabel_3 = new JLabel("물품 코드 입력");
-		lblNewLabel_3.setText(Integer.toString(itemdto.getItemnumber()));
-		lblNewLabel_3.setFont(nF);
-		lblNewLabel_3.setBounds(154, 10, 250, 25);
-		panel_3.add(lblNewLabel_3);
+		lbl[2] = new JLabel("물품 코드 입력");
+		lbl[2].setText(Integer.toString(itemdto.getItemnumber()));
+		lbl[2].setFont(nF);
+		lbl[2].setBounds(154, 10, 250, 25);
+		panel_3.add(lbl[2]);
 
-		lblNewLabel_3_1 = new JLabel("모델명 입력");
-		lblNewLabel_3_1.setText(itemdto.getModelname());
-		lblNewLabel_3_1.setFont(nF);
-		lblNewLabel_3_1.setBounds(154, 50, 250, 25);
-		panel_3.add(lblNewLabel_3_1);
+		lbl[3] = new JLabel("모델명 입력");
+		lbl[3].setText(itemdto.getModelname());
+		lbl[3].setFont(nF);
+		lbl[3].setBounds(154, 50, 250, 25);
+		panel_3.add(lbl[3]);
 
-		lblNewLabel_3_2 = new JLabel("렌트기한 입력");
-		lblNewLabel_3_2.setText(itemdto.getRentdate());
-		lblNewLabel_3_2.setFont(nF);
-		lblNewLabel_3_2.setBounds(154, 90, 250, 25);
-		panel_3.add(lblNewLabel_3_2);
+		lbl[4] = new JLabel("렌트기한 입력");
+		lbl[4].setText(itemdto.getRentdate());
+		lbl[4].setFont(nF);
+		lbl[4].setBounds(154, 90, 250, 25);
+		panel_3.add(lbl[4]);
 
-		lblNewLabel_3_3 = new JLabel("금액/보증금 입력");
-		lblNewLabel_3_3.setText(itemdto.getRentalfee() +"/"+ itemdto.getDeposit());
-		lblNewLabel_3_3.setFont(nF);
-		lblNewLabel_3_3.setBounds(154, 130, 250, 25);
-		panel_3.add(lblNewLabel_3_3);
+		lbl[5] = new JLabel("금액/보증금 입력");
+		lbl[5].setText(itemdto.getRentalfee() + "/" + itemdto.getDeposit());
+		lbl[5].setFont(nF);
+		lbl[5].setBounds(154, 130, 250, 25);
+		panel_3.add(lbl[5]);
 
-		lblNewLabel_3_4 = new JLabel("전화번호");
-		lblNewLabel_3_4.setText(itemdto.getPhonenumber());
-		lblNewLabel_3_4.setFont(nF);
-		lblNewLabel_3_4.setBounds(154, 170, 250, 25);
-		panel_3.add(lblNewLabel_3_4);
+		lbl[6] = new JLabel("전화번호");
+		lbl[6].setText(itemdto.getPhonenumber());
+		lbl[6].setFont(nF);
+		lbl[6].setBounds(154, 170, 250, 25);
+		panel_3.add(lbl[6]);
 	}
 
 	public void setItem(String testTitle) { // 패널안의 내용을 바꾸는 메소드
@@ -233,18 +229,28 @@ public class ItemDetail extends JFrame implements ActionListener {
 		lblNewLabel_6.setText(testTitle);
 		lblNewLabel_3.setText(testTitle);
 	}
+
+	public void setItem(Vector<String> itemData) {
+		for (int i = 0, idx = 0; i < itemData.size(); i++) {
+			if (i == 2) {
+				Description = itemData.get(i);
+				lblNewLabel_1.setText(new SwingCRLF().CRLF_ln("설 명\n" + Description));
+				continue;
+			}
+			lbl[idx++].setText(itemData.get(i));
+		}
+	}
 	/*
 	 * 타이틀 바 
-	 * lblNewLabel_5 : 타이틀 바 별명 JLable 
-	 * lblNewLabel_6 : 타이틀 바 물품이름 JLable 
+	 * lbl[0] : 타이틀 바 별명 JLable
+	 * lbl[1] : 타이틀 바 물품이름 JLable
 	 * 메인 화면
 	 * String Description : 설명 내용을 받는 String 
-	 * lblNewLabel : 메인 화면 물품 이미지 JLable
-	 * lblNewLabel_3 : 물품코드 JLable 
-	 * lblNewLabel_3_1 : 모델명 JLable 
-	 * lblNewLabel_3_2 : 렌트기한 JLable 
-	 * lblNewLable_3_3 : 금액/보증금 JLable 
-	 * lblNewLabel_3_4 : 전화번호 JLable
+	 * lbl[2] : 물품코드 JLable 
+	 * lbl[3] : 모델명 JLable 
+	 * lbl[4] : 렌트기한 JLable 
+	 * lbl[5] : 금액/보증금 JLable 
+	 * lbl[6] : 전화번호 JLable 
 	 */
 
 	@Override
@@ -258,14 +264,26 @@ public class ItemDetail extends JFrame implements ActionListener {
 				System.out.println(((JButton) (e.getSource())).getText());
 			} else { // 신고 버튼 동작
 				System.out.println(((JButton) (e.getSource())).getText());
+				Report_Window rw = new Report_Window(lbl[2].getText());
+
 			}
 		} else if (e.getSource() == btnNewButton_2) { // 삭제/예약 버튼 동작
 			if (isWriter) { // 삭제 버튼 동작
 				System.out.println(((JButton) (e.getSource())).getText());
+				if (delete()) {
+					// 삭제 확인한 경우 | DB 에서 DELETE 필요
+				}
 			} else { // 예약 버튼 동작
 				System.out.println(((JButton) (e.getSource())).getText());
 			}
 		}
+	}
+
+	boolean delete() {
+		int closeProfile = JOptionPane.showConfirmDialog(null, "삭제하시겠습니까?", "경고", JOptionPane.YES_NO_OPTION);
+		if (closeProfile == JOptionPane.NO_OPTION)
+			return false;
+		return true;
 	}
 
 }

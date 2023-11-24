@@ -10,7 +10,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -30,9 +29,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-
-import JDBC.ItemDAO;
-import JDBC.ItemDTO;
+import javax.swing.table.TableColumnModel;
 
 public class C_Component {
 	static interface BaseTextComponent { // JTextComponent 상속받는 클래스들을 처리하기 위한 인터페이스
@@ -294,6 +291,14 @@ public class C_Component {
 		 * JTable 에 사용자 기능들을 추가한 클래스 goDetail : 클릭 이벤트 또는 enter 이벤트 발생 시 해당 메소드를 실행함
 		 * focusLost : focus 가 사라지는 경우 Select 된 행을 초기화
 		 */
+		MyTA() {
+			// TODO Auto-generated constructor stub
+		}
+
+		MyTA(String[][] s1, String[] s2) {
+			super(s1, s2);
+		}
+
 		@Override
 		public void goDetail() { // 마우스나 키보드 이벤트 발생시 실행하는 메소드
 			// TODO Auto-generated method stub
@@ -301,7 +306,11 @@ public class C_Component {
 			System.out.println(selectedRow);
 			// 선택 항의 PID를 이용하여서 정보 검색이 필요
 			ItemDetail idPanel = new ItemDetail(true);
-			idPanel.setItem("For Test 231120");
+			Vector<String> vector = new Vector<String>();
+			for (int i = 0; i < 8; i++) {
+				vector.add("Asdf");
+			}
+			idPanel.setItem(vector);
 			idPanel.setVisible(true);
 		}
 
@@ -352,7 +361,7 @@ public class C_Component {
 			table.setModel(new DefaultTableModel(new Object[][] {},
 					new String[] { "\uBB3C\uD488\uCF54\uB4DC", "\uCE74\uD14C\uACE0\uB9AC", "\uBB3C\uD488\uBA85",
 							"\uB4F1\uB85D\uC790", "\uB80C\uD2B8\uAE30\uD55C", "\uCC98\uB9AC\uC0C1\uD0DC" }) {
-				
+
 				Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class,
 						String.class, String.class };
 
@@ -390,43 +399,29 @@ public class C_Component {
 			int rowCount = tableModel.getRowCount();
 			while (rowCount != 0) {
 				tableModel.removeRow(0);
-        
-		/*public void setItem(int rowNum, String[] value) { // 목록의 아이템을 바꾸는 메소드 | 추가 필요
-			for (int i = 0; i < 6; i++) {
-				table.setValueAt(value[i], rowNum, i);
-			}
-		}
 
-		public void setPage() { // 페이지 변경시 목록 변경 | String[] vector 로 임시 설정 : 클래스 추가시 변경 필요 | row 단위로
-													// 변경 ( 최대 15개
-			Vector<ItemDTO> data = new Vector<>();
-			ItemDAO itemDAO = new ItemDAO();
-	        try {
-				data = itemDAO.allItemData();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        
-			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-			System.out.println(tableModel.getRowCount() + " " + data.size());
-			for (ItemDTO item : data) {
-				System.out.println(item.getItemnumber());
-				tableModel.addRow(new Object[] {item.getItemnumber(), item.getCategory(), item.getItemname(), item.getPerson(),
-			    		item.getRentdate(), item.getState() });
-			}
-			if (tableModel.getRowCount() < data.size()) {
-				for (int i = data.size() - tableModel.getRowCount(); i > 0; i--) {
-					tableModel.addRow(new Object[] { null, null, null, null, null, null });
-				}
-			} else {
-				for (int i = tableModel.getRowCount() - data.size(); i > 0; i--) {
-					System.out.println(tableModel.getRowCount() - data.size());
-					tableModel.removeRow(0);
-				}
-			}
-			for (int i = 0; i < data.size(); i++) {
-				//setItem(i, data.elementAt(i));*/
+				/*
+				 * public void setItem(int rowNum, String[] value) { // 목록의 아이템을 바꾸는 메소드 | 추가 필요
+				 * for (int i = 0; i < 6; i++) { table.setValueAt(value[i], rowNum, i); } }
+				 * 
+				 * public void setPage() { // 페이지 변경시 목록 변경 | String[] vector 로 임시 설정 : 클래스 추가시
+				 * 변경 필요 | row 단위로 // 변경 ( 최대 15개 Vector<ItemDTO> data = new Vector<>(); ItemDAO
+				 * itemDAO = new ItemDAO(); try { data = itemDAO.allItemData(); } catch
+				 * (SQLException e) { // TODO Auto-generated catch block e.printStackTrace(); }
+				 * 
+				 * DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+				 * System.out.println(tableModel.getRowCount() + " " + data.size()); for
+				 * (ItemDTO item : data) { System.out.println(item.getItemnumber());
+				 * tableModel.addRow(new Object[] {item.getItemnumber(), item.getCategory(),
+				 * item.getItemname(), item.getPerson(), item.getRentdate(), item.getState() });
+				 * } if (tableModel.getRowCount() < data.size()) { for (int i = data.size() -
+				 * tableModel.getRowCount(); i > 0; i--) { tableModel.addRow(new Object[] {
+				 * null, null, null, null, null, null }); } } else { for (int i =
+				 * tableModel.getRowCount() - data.size(); i > 0; i--) {
+				 * System.out.println(tableModel.getRowCount() - data.size());
+				 * tableModel.removeRow(0); } } for (int i = 0; i < data.size(); i++) {
+				 * //setItem(i, data.elementAt(i));
+				 */
 			}
 			setItem(v);
 		}
@@ -475,21 +470,21 @@ public class C_Component {
 			this.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, Color.BLACK));
 
 			this.setViewportView(table);
-		/*void setItem(String s) throws SQLException { // String.Object 3개를 벡터를 이용해서 전달 받음
-			Vector<ItemDTO> data = new Vector<>();
-			ItemDAO itemDAO = new ItemDAO();
-			
-			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-			data = itemDAO.item_receive_sending(s);
-			for (ItemDTO item : data) {
-				tableModel.addRow(new Object[] { "" + item.getItemnumber(), item.getItemname(), item.getRentdate() });
-				
-			}
-			
-			
-			//for (int i = 0; i < v.size(); i++) {
-			//	tableModel.addRow(v.elementAt(i));}
-		}*/
+			/*
+			 * void setItem(String s) throws SQLException { // String.Object 3개를 벡터를 이용해서 전달
+			 * 받음 Vector<ItemDTO> data = new Vector<>(); ItemDAO itemDAO = new ItemDAO();
+			 * 
+			 * DefaultTableModel tableModel = (DefaultTableModel) table.getModel(); data =
+			 * itemDAO.item_receive_sending(s); for (ItemDTO item : data) {
+			 * tableModel.addRow(new Object[] { "" + item.getItemnumber(),
+			 * item.getItemname(), item.getRentdate() });
+			 * 
+			 * }
+			 * 
+			 * 
+			 * //for (int i = 0; i < v.size(); i++) { // tableModel.addRow(v.elementAt(i));}
+			 * }
+			 */
 
 		}
 	}
@@ -554,26 +549,24 @@ public class C_Component {
 			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 			for (int i = 0; i < v.size(); i++) {
 				Object[] rowData = v.elementAt(i);
-        
-		/*void setItem() throws SQLException { // boolean 1개와 String 6개로 값을 변경
-			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-			Vector<ItemDTO> data = new Vector<>();
-			ItemDAO itemDAO = new ItemDAO();
-	        
-			data = itemDAO.itemRental();
-			for (ItemDTO item : data) {
-				if(item.getState().equals("대여중")) {
-					tableModel.addRow(new Object[] { false, "" + item.getItemnumber(), item.getPerson(), item.getItemname(),
-							item.getRentdate(), item.getState(), null });
-				}else {
-					tableModel.addRow(new Object[] { false, "" + item.getItemnumber(), item.getPerson(), item.getItemname(),
-							item.getRentdate(), null, item.getState() });
-				}
-				
-			}
-			
-			
-		}*/
+
+				/*
+				 * void setItem() throws SQLException { // boolean 1개와 String 6개로 값을 변경
+				 * DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+				 * Vector<ItemDTO> data = new Vector<>(); ItemDAO itemDAO = new ItemDAO();
+				 * 
+				 * data = itemDAO.itemRental(); for (ItemDTO item : data) {
+				 * if(item.getState().equals("대여중")) { tableModel.addRow(new Object[] { false,
+				 * "" + item.getItemnumber(), item.getPerson(), item.getItemname(),
+				 * item.getRentdate(), item.getState(), null }); }else { tableModel.addRow(new
+				 * Object[] { false, "" + item.getItemnumber(), item.getPerson(),
+				 * item.getItemname(), item.getRentdate(), null, item.getState() }); }
+				 * 
+				 * }
+				 * 
+				 * 
+				 * }
+				 */
 
 				// 새로운 배열을 생성하고 첫 번째 위치에 boolean 값을 추가
 				Object[] newData = new Object[rowData.length + 1];
@@ -603,6 +596,33 @@ public class C_Component {
 
 				}
 			}
+		}
+	}
+
+	static public class myPageTable extends base_itemSlot {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public myPageTable(String[][] item, String[] columnName) {
+			table = new MyTA(item, columnName);
+			table.setEnabled(false);
+			table.addMouseListener(new My_ML());
+			table.addKeyListener(new My_KL());
+			table.setShowVerticalLines(false);
+			table.setRowHeight(70); // 각 행의 높이 설정
+
+			// 테이블 내 텍스트 가운데 정렬
+			DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+			centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER); // 수평 가운데 정렬
+			TableColumnModel columnModel = table.getColumnModel();
+			for (int i = 0; i < columnModel.getColumnCount(); i++) {
+				table.getColumnModel().getColumn(i).setPreferredWidth(128); // setPreferredWidth(128) => 첫번째 열 너비 설정
+				columnModel.getColumn(i).setCellRenderer(centerRenderer);
+			}
+
+			this.setViewportView(table);
 		}
 	}
 

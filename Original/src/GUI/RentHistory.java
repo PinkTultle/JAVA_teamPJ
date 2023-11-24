@@ -10,6 +10,7 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -45,14 +46,16 @@ public class RentHistory extends JPanel implements ActionListener {
 
 	/**
 	 * Create the frame.
-	 * @throws SQLException 
+	 * 
+	 * @throws SQLException
 	 */
 	public RentHistory() {
-	/*public RentHistory() throws SQLException {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1050, 570);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));*/
+		/*
+		 * public RentHistory() throws SQLException {
+		 * setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); setBounds(100, 100, 1050,
+		 * 570); contentPane = new JPanel(); contentPane.setBorder(new EmptyBorder(5, 5,
+		 * 5, 5));
+		 */
 
 		setLayout(null);
 
@@ -91,7 +94,6 @@ public class RentHistory extends JPanel implements ActionListener {
 		}
 		is.setItem(vector);
 
-
 	}
 
 	public RentHistory(My_Page_Panel mpp) {
@@ -108,11 +110,19 @@ public class RentHistory extends JPanel implements ActionListener {
 				System.out.println("물품 번호: " + is.getSelectItemNum());
 		} else if (e.getSource() == btnNewButton_1) { // 반납 동작
 			System.out.println(((JButton) (e.getSource())).getText());
+			returnItem();
 			if (is.getSelectItemNum() != -1)
 				System.out.println("물품 번호: " + is.getSelectItemNum());
 		} else if (e.getSource() == btnNewButton_2) { // 뒤로 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 			mpp.Open_My_Page();
 		}
+	}
+
+	boolean returnItem() {
+		int closeProfile = JOptionPane.showConfirmDialog(null, "반납하시겠습니까?", "경고", JOptionPane.YES_NO_OPTION);
+		if (closeProfile == JOptionPane.NO_OPTION)
+			return false;
+		return true;
 	}
 }

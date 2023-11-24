@@ -3,6 +3,7 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -14,8 +15,8 @@ public class Main_frame extends JFrame {
 	 * 있는 패널 FunctionPane - 기능 패널로 홈, 목록, 신청관리, 마이페이지 패널이 올라갈 패널
 	 */
 	private JPanel contentPane, Baener;
-	private static JPanel P1, P2, P3, P4;
-
+	private static My_Page_Panel P4;
+	private static JPanel P1, P2, P3;
 
 	/**
 	 * Launch the application.
@@ -68,42 +69,37 @@ public class Main_frame extends JFrame {
 		P1 = new Main_home();
 		P2 = new ListPanel();
 		P3 = new OfferManage();
-		P4 = new My_Page();
+		P4 = new My_Page_Panel();
 
 		setContentPane(contentPane);
-		
+
 		contentPane.add(P1);
 		contentPane.add(P2);
 		contentPane.add(P3);
 		contentPane.add(P4);
-		
-	
 
 		P1.setVisible(true);
 		P2.setVisible(false);
 		P3.setVisible(false);
 		P4.setVisible(false);
 
-		
-		
 		setVisible(true);
 	}
-	
-	
+
 	// MenuBar.java의 버튼 이벤트와 연동할 패널 교체 함수
 	public static void Changepane(String text) {
 		// TODO Auto-generated method stub
 
 		// 패널 교체 메서
 		if (text != null) {
-			
+
 			switch (text) {
 
 			case "홈":
 				System.out.println("홈 패널 교체 호출");
 				// 패널교체
-				//if (!P4.Close_profile())
-				//	break;
+				if (!P4.Close_profile())
+					break;
 				P1.setVisible(true);
 				P2.setVisible(false);
 				P3.setVisible(false);
@@ -113,10 +109,12 @@ public class Main_frame extends JFrame {
 			case "목록":
 				System.out.println("목록 패널 교체 호출");
 				// 패널교체
-				//if (!P4.Close_profile())
-				//	break;
+				if (!P4.Close_profile())
+					break;
 				P1.setVisible(false);
 				P2.setVisible(true);
+				ListPanel.clear();
+				ListPanel.searchCategory("전체");
 				P3.setVisible(false);
 				P4.setVisible(false);
 				break;
@@ -124,9 +122,9 @@ public class Main_frame extends JFrame {
 			case "신청관리":
 				System.out.println("신청관리 패널 교체 호출");
 				// 패널교체
-				//if (!P4.Close_profile())
-				//	break;
-          
+				if (!P4.Close_profile())
+					break;
+
 				P1.setVisible(false);
 				P2.setVisible(false);
 				P3.setVisible(true);
@@ -142,10 +140,10 @@ public class Main_frame extends JFrame {
 			case "마이페이지":
 				System.out.println("마이페이지 패널 교체 호출");
 				// 패널교체
-				//if (!P4.Close_profile())
-				//	break;
-				//P4.Open_My_Page();
-          
+				if (!P4.Close_profile())
+					break;
+				P4.Open_My_Page();
+
 				P1.setVisible(false);
 				P2.setVisible(false);
 				P3.setVisible(false);
@@ -161,5 +159,19 @@ public class Main_frame extends JFrame {
 		System.out.println("카테고리 버튼 클릭");
 		System.out.println("클릭된 버튼 : " + category);
 
+		P1.setVisible(false);
+		P2.setVisible(true);
+
+		ListPanel.searchCategory(category);
+	}
+
+	public static void itemName(String itemName) {
+		System.out.println("검색 버튼 클릭");
+		System.out.println("검색어 : " + itemName);
+
+		P1.setVisible(false);
+		P2.setVisible(true);
+
+		ListPanel.serachItemName(itemName);
 	}
 }

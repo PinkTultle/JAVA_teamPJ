@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
@@ -17,22 +16,20 @@ import javax.swing.SwingConstants;
 import GUI.C_Component.MyFL;
 import GUI.C_Component.MyJT;
 import GUI.C_Component.itemSlot_list;
-import JDBC.ItemDAO;
-import JDBC.ItemDTO;
 
 public class ListPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel BP = new Baener_pane();
-	private MyJT textField;
+	private static MyJT textField;
 	private JButton btnNewButton;
 	private RoundButton btnNewButton_1;
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
 	private itemSlot_list is;
 	private JLabel lblNewLabel_1;
-	private JComboBox<String> comboBox;
-	private JComboBox<String> comboBox_1;
+	private static JComboBox<String> comboBox;
+	private static JComboBox<String> comboBox_1;
 
 	private int maxPage = 10; // 최대 페이지 수 | 테스트용 값 10 : 후에 최대 페이지 값을 받는 동작 필요
 	private int nowPage = 1;
@@ -50,8 +47,8 @@ public class ListPanel extends JPanel implements ActionListener {
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		comboBox.setBackground(new Color(255, 255, 255));
-		comboBox.setModel(new DefaultComboBoxModel(new String[]{ "전체", "전자기기", "가구/인테리어", "유아용품", "뷰티/패션잡화",
-				"가전/생활/주방", "스포츠/레저", "취미/게임/도서", "동물용품", "렌트 원해요" }));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] { "전체", "전자기기", "가구/인테리어", "유아용품", "뷰티", "패션잡화",
+				"가전/생활", "스포츠/레져", "도서", "취미/게임", "동물용품", "기타", "요청" }));
 		comboBox.setBounds(62, 46, 110, 35);
 		comboBox.addActionListener(this);
 		add(comboBox);
@@ -116,13 +113,13 @@ public class ListPanel extends JPanel implements ActionListener {
 		btnNewButton_2.setFocusPainted(false);
 		btnNewButton_2.setBorder(null);
 		add(btnNewButton_2);
-		
+
 		// 데이터 입력 테스트용 코드
 		Vector<String[]> vector = new Vector<String[]>();
 		for (int i = 0; i < 10; i++) {
 			vector.addElement(new String[] { String.valueOf(i + 1), "asdf", "asdf", "asdf", "asdf", "asdf" });
 		}
-		//is.setPage();
+		is.setPage(vector);
 	}
 
 	@Override
@@ -130,7 +127,7 @@ public class ListPanel extends JPanel implements ActionListener {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnNewButton) { // 검색 동작
 			// textField : 검색어 텍스트 필드 객체
-			System.out.println(((JButton) (e.getSource())).getText());
+			search();
 			if (textField.isTyped) { // textField 의 입력 확인
 				System.out.println(textField.getText());
 			}
@@ -149,9 +146,36 @@ public class ListPanel extends JPanel implements ActionListener {
 				// 물품 목록 수정 필요
 			}
 		} else if (e.getSource() == comboBox) { // 카테고리 콤보박스 동작
-			System.out.println(((JComboBox) (e.getSource())).getSelectedItem().toString());
+			System.out.println(((JComboBox<?>) (e.getSource())).getSelectedItem().toString());
 		} else if (e.getSource() == comboBox_1) { // 처리상태 콤보박스 동작
-			System.out.println(((JComboBox) (e.getSource())).getSelectedItem().toString());
+			System.out.println(((JComboBox<?>) (e.getSource())).getSelectedItem().toString());
 		}
+	}
+
+	public static void clear() {
+		comboBox.setSelectedItem("전체");
+		comboBox_1.setSelectedItem("전체");
+		textField.setText(textField.init);
+	}
+
+	public static void searchCategory(String category) {
+		// 입력된 카테고리로 설정
+		clear();
+		comboBox.setSelectedItem(category);
+		search();
+	}
+
+	public static void serachItemName(String itemName) {
+		// 입력된 카테고리로 설정
+		clear();
+		textField.setText(itemName);
+		search();
+	}
+
+	public static void search() {
+		System.out.println("카테고리: " + comboBox.getSelectedItem().toString());
+		System.out.println("거래상태: " + comboBox_1.getSelectedItem().toString());
+		if (!textField.getText().equals(textField.init))
+			System.out.println("검색어: " + textField.getText());
 	}
 }
