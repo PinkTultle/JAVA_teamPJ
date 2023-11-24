@@ -203,7 +203,12 @@ public class LoginGUI extends JFrame implements ActionListener {
 		if (e.getSource() == btnNewButton) { // 로그인 버튼 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 			userDTO = new UserDTO();
-			userDAO = new UserDAO();
+			try {
+				userDAO = new UserDAO();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 			String id = txtId.getText();
 			String pw = new String(txtPassword.getPassword());
@@ -246,7 +251,11 @@ public class LoginGUI extends JFrame implements ActionListener {
 			
 			
 		} else if (e.getSource() == btnNewButton_1) { // 회원가입 버튼 동작
-			System.out.println(((JButton) (e.getSource())).getText());
+			
+			new RegisterGUI();
+			setVisible(false);
+						
+			
 		} else if (e.getSource() == btnNewButton_2) { // 아이디/비밀번호 찾기 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 		}

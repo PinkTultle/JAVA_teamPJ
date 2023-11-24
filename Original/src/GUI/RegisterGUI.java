@@ -12,8 +12,10 @@ import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
@@ -254,7 +256,7 @@ public class RegisterGUI extends JFrame implements ActionListener {
 		panel_2.add(btnNewButton_5);
 
 		JTextField textField_8 = new JTextField();
-		textField_8.setEnabled(false);
+		textField_8.setEditable(false);
 		textField_8.setFont(slotFont);
 		textField_8.setBounds(28, 298, 60, 38);
 		textField_8.setText("010");
@@ -294,29 +296,81 @@ public class RegisterGUI extends JFrame implements ActionListener {
 		panel_2.add(removefirstfocus);
 		removefirstfocus.setColumns(10);
 
+		
+		setVisible(true);
+		
+		
+		userDTO = new UserDTO();
 	}
+	
+	//아이디 중복 검사 메서드
+	private void Duplicate() {
+		
+		System.out.println(textField.getText());
+		
+		if(textField.getText() == null || textField.getText().equals("아이디")) {
+			int dlog = JOptionPane.showConfirmDialog(null, "아이디를 입력하십시오!", "경고",
+                    JOptionPane.DEFAULT_OPTION);	
+			return;
+		
+		}
+		else {	
+		
+			try {
+				userDAO = new UserDAO();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+			try {
+				int n = userDAO.userIdCheck(textField.getText());
+				
+				if(n == 0) {   // 같은 아이디가 없을경우 
+					int dlog = JOptionPane.showConfirmDialog(null, "아이디 "+textField.getText()+"를 사용 하시겠습니까?\n결정 후에는 변경할 수 없습니다!", "확인",
+	                        JOptionPane.OK_CANCEL_OPTION);
+					
+					if(dlog == 2)return;
+					if(dlog == 0) {
+						textField.setEditable(false);
+						btnNewButton_4.setEnabled(true);
+					}					
+					
+				}else {  // 같은 아이디가 있을경우 
+					JOptionPane.showConfirmDialog(null, "이미 존재하는 아이디입니다", "경고",
+	                        JOptionPane.DEFAULT_OPTION);	
+				}
+				
+			} catch (SQLException | ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+	}
+	
+	private void Join() {
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getSource() == btnNewButton_2) { // 검색 버튼 동작
-			
-			System.out.println(((JButton) (e.getSource())).getText());
-		} else if (e.getSource() == btnNewButton_3) { // 인증 버튼 동작
-			System.out.println(((JButton) (e.getSource())).getText());
-		} else if (e.getSource() == btnNewButton_4) { // 가입 버튼 동작
-			
-			userDAO = new UserDAO();
-			
-			String id = textField.getText();
-			String pw = new String(textField_1.getPassword());
-			String nick = textField_2.getText();
-			String name = textField_3.getText();
-			int birth = Integer.parseInt(textField_4.getText());
-			String address = textField_5.getText();
-			String email = textField_6.getText();
-			int tel = Integer.parseInt(textField_TEL[0].getText() + textField_TEL[1].getText());
-			String gender = "";
+		String id = null, pw = null, nuck, name = null,address = null, email = null, gender = null, nick = null;
+		int birth = 0, tel = 0;
+		
+		try {
+			userDAO  = new UserDAO();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			id = textField.getText();
+			pw = new String(textField_1.getPassword());
+			nick = textField_2.getText();
+			name = textField_3.getText();
+			birth = Integer.parseInt(textField_4.getText());
+			address = textField_5.getText();
+			email = textField_6.getText();
+			tel = Integer.parseInt(textField_TEL[0].getText() + textField_TEL[1].getText());
+			gender = "";
 			
 			if(btnNewButton.isSelected()){
 				gender = "남자";
@@ -324,47 +378,55 @@ public class RegisterGUI extends JFrame implements ActionListener {
 				gender = "여자";
 			}
 			
-			userDTO = new UserDTO(id, pw, nick, name, birth, gender, tel, address, email);
-			
-			try {
-				int n = userDAO.userInsert(userDTO);
-				if(n >= 1) {
-					System.out.println("회원가입 성공");
-				}else if(n == 0) {
-					System.out.println("회원가입 실패");
-				}else if(n == -1) {
-					System.out.println("아이디 중복");
-				}
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showConfirmDialog(null, "필요한 값을 모두 입력해주십시오!!!", "경고",
+                    JOptionPane.DEFAULT_OPTION);	
+			return;
+		}
+		
+		userDTO = new UserDTO(id, pw, nick, name, birth, gender, tel, address, email);
+		
+		try {
+			int n = userDAO.userInsert(userDTO);
+			if(n >= 1) {
+				System.out.println("회원가입 성공");
+			}else if(n == 0) {
+				System.out.println("회원가입 실패");
+			}else if(n == -1) {
+				System.out.println("아이디 중복");
 			}
-			
-			
-			
-			System.out.println(((JButton) (e.getSource())).getText());
-		} else if (e.getSource() == btnNewButton_5) { // 중복 버튼 동작
-			userDAO = new UserDAO();
-			
-			try {
-				int n = userDAO.userIdCheck(textField.getText());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+		
+		if (e.getSource() == btnNewButton_5) { // 중복 버튼 동작
+			Duplicate();
+		}
 				
-				if(n == 0) {   // 같은 아이디가 없을경우 
-					System.out.println("아이디 사용가능");
-					btnNewButton_4.setEnabled(true);
-					
-					
-				}else if(n == 1) {  // 같은 아이디가 있을경우 
-					System.out.println("아이디 중복");
-					btnNewButton_4.setEnabled(false);
-				}
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+		if (e.getSource() == btnNewButton_2) { // 검색 버튼 동작
 			
 			System.out.println(((JButton) (e.getSource())).getText());
 		}
+		
+		if (e.getSource() == btnNewButton_3) { // 인증 버튼 동작
+			System.out.println(((JButton) (e.getSource())).getText());
+		} 
+		
+		if (e.getSource() == btnNewButton_4) { // 가입 버튼 동작
+			Join(); 
+		} 
+		
+		
 	}
 
 	// textField : 아이디 입력 JTextField
