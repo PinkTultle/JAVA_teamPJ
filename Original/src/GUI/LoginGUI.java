@@ -30,8 +30,8 @@ import JDBC.UserDTO;
 
 //주석 및 추가 작업 필요
 public class LoginGUI extends JFrame implements ActionListener {
-	UserDTO userDTO ;
-	UserDAO userDAO ;
+	UserDTO userDTO;
+	UserDAO userDAO;
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -204,47 +204,48 @@ public class LoginGUI extends JFrame implements ActionListener {
 			System.out.println(((JButton) (e.getSource())).getText());
 			userDTO = new UserDTO();
 			userDAO = new UserDAO();
-			
+
 			String id = txtId.getText();
 			String pw = new String(txtPassword.getPassword());
-			
-			
+
 			userDTO.setId(id);
 			userDTO.setPw(pw);
-			
-			//로그인 없이 바로 홈 진입 
-			//프로젝트 완료시점에서 해당 코드 삭제
-			mainFrame = new Main_frame();
+
+			// 로그인 없이 바로 홈 진입
+			// 프로젝트 완료시점에서 해당 코드 삭제
+			try {
+				mainFrame = new Main_frame();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			setVisible(false);
 			////////////////////////////////////////////
-			
-			
+
 			try {
 				int n = userDAO.checkLogin(userDTO);
-				
-				if(n==0) {
-					//로그인 성공
+
+				if (n == 0) {
+					// 로그인 성공
 					System.out.println("로그인 성공");
 					userDTO.setLoginid(id); // 로그인한 아이디 저장
-					//페이지 전환 소스 넣어야함
-					
+					// 페이지 전환 소스 넣어야함
+
 					setVisible(false);
 					mainFrame = new Main_frame();
-					
-				}else if(n==1) {
-					//비밀번호 불일치
+
+				} else if (n == 1) {
+					// 비밀번호 불일치
 					System.out.println("로그인 실패(비밀번호 불일치)");
-				}else if(n==-1) {
-					//아이디 없음
+				} else if (n == -1) {
+					// 아이디 없음
 					System.out.println("로그인 실패(아이디 없음)");
 				}
-				
+
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			} // 로그인 확인
-			
-			
-			
+
 		} else if (e.getSource() == btnNewButton_1) { // 회원가입 버튼 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 		} else if (e.getSource() == btnNewButton_2) { // 아이디/비밀번호 찾기 동작

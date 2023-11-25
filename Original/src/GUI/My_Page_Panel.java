@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Color;
+import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -13,7 +14,7 @@ public class My_Page_Panel extends JPanel {
 	private ProfilePanel profile;
 	private JPanel rentHistory, rentAlarm, myWrite, reportHistory;
 
-	public My_Page_Panel() {
+	public My_Page_Panel() throws SQLException {
 		setLayout(null);
 		setBounds(0, 150, 1050, 700);
 		setBackground(new Color(255, 255, 255));

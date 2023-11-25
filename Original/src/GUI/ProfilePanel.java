@@ -144,9 +144,9 @@ public class ProfilePanel extends JPanel implements ActionListener {
 			System.out.println(i);
 			textFields[i].setInit(v.get(i));
 		}
-		textFields[0].setEditable(false);
-		textFields[8].setEditable(false);
-		textFields[9].setEditable(false);
+		textFields[0].setEnabled(false);
+		textFields[8].setEnabled(false);
+		textFields[9].setEnabled(false);
 		setEditable(false);
 	}
 	/*
@@ -173,7 +173,7 @@ public class ProfilePanel extends JPanel implements ActionListener {
 
 	void setEditable(boolean v) {
 		for (int i = 1; i < 8; i++) {
-			textFields[i].setEditable(v);
+			textFields[i].setEnabled(v);
 		}
 	}
 
