@@ -1,6 +1,7 @@
 package JDBC;
 
 import java.awt.Image;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -79,8 +80,9 @@ public class ItemDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		// 소유주 회원 수정 필요
 		String sql = " SELECT 물품코드, 카테고리, 물품명, 소유주, (SELECT 렌트기한 - TRUNC(SYSDATE) FROM DUAL ) as 렌트기한, 대여상태 "
-				+ " FROM 물품목록 ";
+				+ " FROM 물품목록";
 		if (category != null) {
 			c = true;
 			sql += "WHERE 카테고리 = '" + category + "'";
@@ -135,9 +137,8 @@ public class ItemDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null; // 결과 담는 곳
-		String sql = " SELECT 물품코드, 모델명, 렌트기한, 대여료, 보증금, 전화번호, 설명, 첨부 " + " FROM 물품목록, 회원 "
+		String sql = " SELECT 물품코드, 모델명, 렌트기한, 대여료, 보증금, 전화번호, 설명, 첨부, 물품명, 별명 " + " FROM 물품목록, 회원 "
 				+ " WHERE 물품목록.소유주 = 회원.아이디 " + " AND 물품코드 = ? ";
-
 		try {
 			con = getConn();
 			pstmt = con.prepareStatement(sql);
@@ -152,7 +153,13 @@ public class ItemDAO {
 				itemdto.setDeposit(Integer.parseInt(rs.getString("보증금")));
 				itemdto.setPhonenumber(rs.getString("전화번호"));
 				itemdto.setExplanation(rs.getString("설명"));
-				itemdto.setImage(rs.getString("첨부"));
+				itemdto.setItemname(rs.getString("물품명"));
+				itemdto.setPerson(rs.getString("별명"));
+				Blob image = rs.getBlob("첨부");
+				String string = null;
+				if (image != null)
+					string = image.toString();
+				itemdto.setImage(string);
 			}
 
 		} catch (ClassNotFoundException e) {

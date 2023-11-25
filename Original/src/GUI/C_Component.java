@@ -309,9 +309,12 @@ public class C_Component {
 
 	static class MyTA extends JTable implements BaseTableComponent {
 		/*
-		 * JTable 에 사용자 기능들을 추가한 클래스 goDetail : 클릭 이벤트 또는 enter 이벤트 발생 시 해당 메소드를 실행함
+		 * JTable 에 사용자 기능들을 추가한 클래스 
+		 * goDetail : 클릭 이벤트 또는 enter 이벤트 발생 시 해당 메소드를 실행함
 		 * focusLost : focus 가 사라지는 경우 Select 된 행을 초기화
 		 */
+		protected int itemNumIdx = 0;
+
 		MyTA() {
 			// TODO Auto-generated constructor stub
 		}
@@ -326,12 +329,11 @@ public class C_Component {
 			int selectedRow = this.getSelectedRow(); // 행 정보를 받아옴
 			System.out.println(selectedRow);
 			// 선택 항의 PID를 이용하여서 정보 검색이 필요
-			ItemDetail idPanel = new ItemDetail(true);
+			ItemDetail idPanel = new ItemDetail(true, (int) getValueAt(selectedRow, itemNumIdx));
 			Vector<String> vector = new Vector<String>();
 			for (int i = 0; i < 8; i++) {
 				vector.add("Asdf");
 			}
-			idPanel.setItem(vector);
 			idPanel.setVisible(true);
 		}
 
@@ -580,6 +582,8 @@ public class C_Component {
 			table.getColumnModel().getColumn(4).setPreferredWidth(40);
 			table.getColumnModel().getColumn(5).setPreferredWidth(40);
 			table.getColumnModel().getColumn(6).setPreferredWidth(40);
+
+			table.itemNumIdx = 1;
 
 			table.getModel().addTableModelListener(new TableModelListener() {
 

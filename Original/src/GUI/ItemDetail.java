@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -49,7 +48,7 @@ public class ItemDetail extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ItemDetail frame = new ItemDetail(false);
+					ItemDetail frame = new ItemDetail(false, 1);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -63,11 +62,22 @@ public class ItemDetail extends JFrame implements ActionListener {
 	 * 
 	 * @throws SQLException
 	 */
-	public ItemDetail(boolean isWriter) { // 글쓴이인지 확인하는 boolean 을 매개 변수로 받음
+	public ItemDetail(boolean isWriter, int itemNum) { // 글쓴이인지 확인하는 boolean 을 매개 변수로 받음
 		/*
 		 * public ItemDetail(boolean isWriter) throws SQLException { // 글쓴이인지 확인하는
 		 * boolean 을 매개 변수로 받음 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		 */
+
+		ItemDAO itemdao = new ItemDAO();
+		ItemDTO itemdto = null;
+		try {
+			itemdto = itemdao.itmedetail(itemNum);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // 클릭한 물품번호 넘겨 받기
+		ItemDAO itemDAO = new ItemDAO();
+
 		setBounds(100, 100, 1050, 570);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -122,13 +132,13 @@ public class ItemDetail extends JFrame implements ActionListener {
 		lblNewLabel_4.setBounds(12, 10, 42, 42);
 		panel_1.add(lblNewLabel_4);
 
-		lbl[0] = new JLabel("별명");
+		lbl[0] = new JLabel(itemdto.getPerson());
 		lbl[0].setHorizontalAlignment(SwingConstants.LEFT);
 		lbl[0].setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 		lbl[0].setBounds(66, 10, 247, 42);
 		panel_1.add(lbl[0]);
 
-		lbl[1] = new JLabel("물품 이름");
+		lbl[1] = new JLabel(itemdto.getItemname());
 		lbl[1].setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		lbl[1].setBounds(389, 10, 435, 42);
 		panel_1.add(lbl[1]);
@@ -169,16 +179,6 @@ public class ItemDetail extends JFrame implements ActionListener {
 		lblNewLabel_2_4.setFont(nF);
 		lblNewLabel_2_4.setBounds(12, 170, 105, 25);
 		panel_3.add(lblNewLabel_2_4);
-
-		ItemDAO itemdao = new ItemDAO();
-		ItemDTO itemdto = null;
-		try {
-			itemdto = itemdao.itmedetail(1);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} // 클릭한 물품번호 넘겨 받기
-		ItemDAO itemDAO = new ItemDAO();
 
 		lblNewLabel = new JLabel(); // 물품 사진 라벨
 		itemDAO.displayImage(itemdto.getImage(), lblNewLabel); // 사진 표시
@@ -224,22 +224,6 @@ public class ItemDetail extends JFrame implements ActionListener {
 		panel_3.add(lbl[6]);
 	}
 
-	public void setItem(String testTitle) { // 패널안의 내용을 바꾸는 메소드
-		lblNewLabel_5.setText(testTitle);
-		lblNewLabel_6.setText(testTitle);
-		lblNewLabel_3.setText(testTitle);
-	}
-
-	public void setItem(Vector<String> itemData) {
-		for (int i = 0, idx = 0; i < itemData.size(); i++) {
-			if (i == 2) {
-				Description = itemData.get(i);
-				lblNewLabel_1.setText(new SwingCRLF().CRLF_ln("설 명\n" + Description));
-				continue;
-			}
-			lbl[idx++].setText(itemData.get(i));
-		}
-	}
 	/*
 	 * 타이틀 바 
 	 * lbl[0] : 타이틀 바 별명 JLable
