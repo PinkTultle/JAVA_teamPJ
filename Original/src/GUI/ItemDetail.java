@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 
 import JDBC.ItemDAO;
 import JDBC.ItemDTO;
+import JDBC.UserDAO;
 
 public class ItemDetail extends JFrame implements ActionListener {
 
@@ -41,33 +42,17 @@ public class ItemDetail extends JFrame implements ActionListener {
 	public String Description;
 
 	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ItemDetail frame = new ItemDetail(false, 1);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
-
-	/**
 	 * Create the frame.
 	 * 
 	 * @throws SQLException
 	 */
-	public ItemDetail(boolean isWriter, int itemNum) { // 글쓴이인지 확인하는 boolean 을 매개 변수로 받음
+	public ItemDetail(int itemNum) { // 글쓴이인지 확인하는 boolean 을 매개 변수로 받음
 		/*
 		 * public ItemDetail(boolean isWriter) throws SQLException { // 글쓴이인지 확인하는
 		 * boolean 을 매개 변수로 받음 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		 */
 
-		ItemDAO itemdao = new ItemDAO();
+		ItemDAO itemdao = new ItemDAO(), itemDAO = new ItemDAO();
 		ItemDTO itemdto = null;
 		try {
 			itemdto = itemdao.itmedetail(itemNum);
@@ -75,7 +60,10 @@ public class ItemDetail extends JFrame implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} // 클릭한 물품번호 넘겨 받기
-		ItemDAO itemDAO = new ItemDAO();
+
+		isWriter = itemdto.getPerson().equals(UserDAO.user_cur);
+		System.out.println(itemdto.getPerson());
+		System.out.println(UserDAO.user_cur);
 
 		setBounds(100, 100, 1050, 570);
 		contentPane = new JPanel();
@@ -83,8 +71,6 @@ public class ItemDetail extends JFrame implements ActionListener {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-		this.isWriter = isWriter;
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));

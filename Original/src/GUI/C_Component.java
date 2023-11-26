@@ -333,7 +333,7 @@ public class C_Component {
 			int selectedRow = this.getSelectedRow(); // 행 정보를 받아옴
 			System.out.println(selectedRow);
 			// 선택 항의 PID를 이용하여서 정보 검색이 필요
-			ItemDetail idPanel = new ItemDetail(true, Integer.parseInt((String) getValueAt(selectedRow, itemNumIdx)));
+			ItemDetail idPanel = new ItemDetail(Integer.parseInt((String) getValueAt(selectedRow, itemNumIdx)));
 			idPanel.setVisible(true);
 		}
 
