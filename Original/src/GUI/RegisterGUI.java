@@ -36,8 +36,10 @@ import JDBC.UserDAO;
 import JDBC.UserDTO;
 
 // 주석 및 추가 작업 필요
-public class RegisterGUI extends JFrame implements ActionListener, FocusListener {
+public class RegisterGUI extends JDialog implements ActionListener {
 	
+	
+	final private JFrame LoginGUI;
 	UserDTO userDTO ;
 	UserDAO userDAO ;
 	
@@ -76,9 +78,10 @@ public class RegisterGUI extends JFrame implements ActionListener, FocusListener
 
 	private MyJT_TEL textField_TEL[] = new MyJT_TEL[2];
 
+	
 	/**
 	 * Launch the application.
-	 */
+	 *
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -90,13 +93,16 @@ public class RegisterGUI extends JFrame implements ActionListener, FocusListener
 				}
 			}
 		});
-	}
-
+	}*/
+	
+	
 	/**
 	 * Create the frame.
+	 * @param loginGUI2 
 	 */
-	public RegisterGUI() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public RegisterGUI(JFrame loginGUI) {
+		this.LoginGUI = loginGUI;
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1050, 600);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 191, 255));
@@ -198,7 +204,8 @@ public class RegisterGUI extends JFrame implements ActionListener, FocusListener
 		textField_5.setText("주소");
 		textField_5.setColumns(10);
 		textField_5.setBounds(28, 250, 282, 38);
-		textField_5.addFocusListener(FL);
+		//textField_5.addFocusListener(FL);
+		textField_5.setEditable(false);
 		panel_2.add(textField_5);
 
 		textField_6 = new MyJT("이메일");
@@ -221,7 +228,6 @@ public class RegisterGUI extends JFrame implements ActionListener, FocusListener
 		email.setModel(new DefaultComboBoxModel<String>(new String[] {"선택", "naver.com", "daum.net", "gmail.com", "직접입력"}));
 		email.setBounds(gol.getX()+gol.getWidth()-5, textField_6.getY(), textField_6.getWidth()+20, textField_6.getHeight());
 		email.addActionListener(this);
-		email.addFocusListener(this);
 		panel_2.add(email);
 
 		btnNewButton = new JToggleButton("남자", true); // 아무것도 체크 안할경우 에러방지
@@ -399,10 +405,10 @@ public class RegisterGUI extends JFrame implements ActionListener, FocusListener
 			//버튼 클릭하여 통과하지 않고넘어간 경우 예외처리 발생
 			if(Id_check == false)
 				throw new Exception("ID");
+			if(address_check == false)
+				throw new Exception("주소 검색을");			
 			if(Num_check == false)
 				throw new Exception("전화번호를 인증");
-			if(address_check == false)
-				throw new Exception("주소 검색을");					
 			if(email.getSelectedItem().toString().equals("선택") || email.getSelectedItem().toString().equals(null))
 				throw new Exception("선택한 email 주소를 확인");
 			
@@ -491,6 +497,10 @@ public class RegisterGUI extends JFrame implements ActionListener, FocusListener
 			int n = userDAO.userInsert(userDTO);
 			if(n >= 1) {
 				System.out.println("회원가입 성공");
+				
+				LoginGUI.setVisible(true);
+				dispose();
+				
 			}else if(n == 0) {
 				System.out.println("회원가입 실패");
 			}else if(n == -1) {
@@ -502,7 +512,6 @@ public class RegisterGUI extends JFrame implements ActionListener, FocusListener
 		}
 	}
 	
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -513,16 +522,20 @@ public class RegisterGUI extends JFrame implements ActionListener, FocusListener
 		}
 				
 		if (e.getSource() == btnNewButton_2) { // 검색 버튼 
-			
+			address_check = true;
 			System.out.println(((JButton) (e.getSource())).getText());
 		}
 		
 		if (e.getSource() == btnNewButton_3) { // 인증 버튼 동작
+			Num_check = true;
 			System.out.println(((JButton) (e.getSource())).getText());
 		} 
 		
 		if (e.getSource() == btnNewButton_4) { // 가입 버튼 동작
 			Join(); 
+			
+			
+			
 		} 
 		
 		if (e.getSource() == email) {
@@ -539,18 +552,6 @@ public class RegisterGUI extends JFrame implements ActionListener, FocusListener
 		}
 		
 		
-	}
-
-	@Override
-	public void focusGained(FocusEvent e) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void focusLost(FocusEvent e) {
-		// TODO Auto-generated method stub
-		
-
 	}
 
 	// textField : 아이디 입력 JTextField
