@@ -37,12 +37,6 @@ public class RentHistory extends JPanel implements ActionListener {
 	 * @throws SQLException
 	 */
 	public RentHistory() throws SQLException {
-		/*
-		 * public RentHistory() throws SQLException {
-		 * setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); setBounds(100, 100, 1050,
-		 * 570); contentPane = new JPanel(); contentPane.setBorder(new EmptyBorder(5, 5,
-		 * 5, 5));
-		 */
 
 		setLayout(null);
 

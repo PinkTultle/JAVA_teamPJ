@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,7 +34,7 @@ public class My_Page extends JPanel implements ActionListener {
 
 	protected My_Page_Panel mpp;
 
-	public My_Page() {
+	public My_Page() throws SQLException {
 
 		setBackground(new Color(255, 255, 255));
 		setBounds(0, 150, 1050, 800);
@@ -90,9 +91,8 @@ public class My_Page extends JPanel implements ActionListener {
 		lblNewLabel_1.setBounds(572, 486, 72, 32);
 		add(lblNewLabel_1);
 
-		table = new myPageTable(Test, Column_Name);
-		table.setBounds(572, 555, 389, 144); // y위치 425 -> 555 // 555-425 = 130
-		//
+		table = new myPageTable(572, 555, 389, 144);
+		// y위치 425 -> 555 // 555-425 = 130
 		add(table);
 
 		JLabel Label_Trade_Num = new JLabel("거래번호");
@@ -147,7 +147,7 @@ public class My_Page extends JPanel implements ActionListener {
 		 */
 	}
 
-	public My_Page(My_Page_Panel mpp) {
+	public My_Page(My_Page_Panel mpp) throws SQLException {
 		this();
 		this.mpp = mpp;
 	}

@@ -73,35 +73,30 @@ public class ItemDAO {
 
 	public Vector<ItemDTO> searchItemData(String category, String itemName, String status) throws SQLException {
 		System.out.println("searchItemData");
-
-		boolean c = false;
 		Vector<ItemDTO> list = new Vector<ItemDTO>();
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		// 소유주 회원 수정 필요
-		String sql = " SELECT 물품코드, 카테고리, 물품명, 소유주, (SELECT 렌트기한 - TRUNC(SYSDATE) FROM DUAL ) as 렌트기한, 대여상태 "
-				+ " FROM 물품목록";
+		String sql = " SELECT 물품목록.물품코드, 물품목록.카테고리, 물품목록.물품명, 회원.별명, (SELECT 물품목록.렌트기한 - TRUNC(SYSDATE) FROM DUAL ) as 렌트기한, 물품목록.대여상태 "
+				+ " FROM 물품목록 " + " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 ";
+		if (category != null || itemName != null || status != null) {
+			sql += "WHERE";
+		}
 		if (category != null) {
-			c = true;
-			sql += "WHERE 카테고리 = '" + category + "'";
+			sql += " 물품목록.카테고리 = '" + category + "'";
 		}
 		if (itemName != null) {
-			if (c)
-				sql += " AND";
-			else {
-				c = true;
-				sql += "WHERE";
+			if (category != null) {
+				sql += " AND ";
 			}
-			sql += " 물품명 = '" + itemName + "'";
+			sql += " 물품목록.물품명 = '" + itemName + "'";
 		}
 		if (status != null) {
-			if (c)
-				sql += " AND";
-			else
-				sql += "WHERE";
-			sql += " 대여상태 = '" + status + "'";
+			if (category != null && itemName != null) {
+				sql += " AND ";
+			}
+			sql += " 물품목록.대여상태 = '" + status + "'";
 		}
 
 		System.out.println(sql);
@@ -115,7 +110,7 @@ public class ItemDAO {
 				dto.setItemnumber(Integer.valueOf(rs.getString("물품코드")));
 				dto.setCategory(rs.getString("카테고리"));
 				dto.setItemname(rs.getString("물품명"));
-				dto.setPerson(rs.getString("소유주"));
+				dto.setPerson(rs.getString("별명"));
 				dto.setRentdate(rs.getString("렌트기한"));
 				dto.setState(rs.getString("대여상태"));
 
@@ -127,13 +122,11 @@ public class ItemDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return list;
 	}
 
 	public ItemDTO itmedetail(int n) throws SQLException {
 		ItemDTO itemdto = new ItemDTO();
-
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null; // 결과 담는 곳
@@ -172,12 +165,13 @@ public class ItemDAO {
 
 	public Vector<ItemDTO> itemRental() throws SQLException { // RentHistory
 		Vector<ItemDTO> list = new Vector<ItemDTO>();
-		ItemDTO itemdto = new ItemDTO();
 
 		// 테스트
 
 		UserDTO ud = new UserDTO();
-		ud.setLoginid("asd1"); // 로그인 아이디 가져오기
+		// 개발 중 사용할 아이디 | 완료 후에는 아래의 코드로 변경 필요
+		ud.setLoginid("asd4");
+		// ud.setLoginid(UserDAO.user_cur);
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -192,6 +186,7 @@ public class ItemDAO {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
+				ItemDTO itemdto = new ItemDTO();
 				itemdto.setItemnumber(Integer.parseInt(rs.getString("물품코드")));
 				itemdto.setPerson(rs.getString("소유자"));
 				itemdto.setItemname(rs.getString("물품명"));
@@ -217,6 +212,7 @@ public class ItemDAO {
 
 		UserDTO ud = new UserDTO();
 		ud.setLoginid("asd1"); // 로그인 아이디 가져오기
+		// ud.setLoginid(UserDAO.user_cur);
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
