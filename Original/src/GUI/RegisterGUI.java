@@ -400,11 +400,11 @@ public class RegisterGUI extends JFrame implements ActionListener, FocusListener
 			if(Id_check == false)
 				throw new Exception("ID");
 			if(Num_check == false)
-				throw new Exception("password");
+				throw new Exception("전화번호를 인증");
 			if(address_check == false)
-				throw new Exception("주소");					
+				throw new Exception("주소 검색을");					
 			if(email.getSelectedItem().toString().equals("선택") || email.getSelectedItem().toString().equals(null))
-				throw new Exception("선택한 email 주소");
+				throw new Exception("선택한 email 주소를 확인");
 			
 			//그외 텍스트 필드에서 잘못된 값이 입력된 경우 예외 처리
 			if(textField_2.getText().equals(null))
@@ -453,9 +453,9 @@ public class RegisterGUI extends JFrame implements ActionListener, FocusListener
 			case "email ID":
 				mode = 1;
 				break;
-			case "주소":
-			case "전화번호":
-			case "선택한 email 주소":
+			case "주소 검색을":
+			case "전화번호를 인증":
+			case "선택한 email 주소를 확인":
 			case "ID":
 				mode = 0;
 				break;
@@ -467,7 +467,7 @@ public class RegisterGUI extends JFrame implements ActionListener, FocusListener
 			
 			
 			if(mode==0) {
-				JOptionPane.showConfirmDialog(null, "입력한" + e.getMessage().toString() +"를 확인해 주십시요!!", "경고",
+				JOptionPane.showConfirmDialog(null, "입력한 " + e.getMessage().toString() +"해 주십시요!!", "경고",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			}
 			if(mode==1) {
@@ -478,7 +478,8 @@ public class RegisterGUI extends JFrame implements ActionListener, FocusListener
 				JOptionPane.showConfirmDialog(null, "필요한 값을 모두 입력해주십시오!!!", "경고",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);	
 			}
-			
+			System.out.println(e.getMessage());
+
 			return;
 		}
 		
