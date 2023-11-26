@@ -187,17 +187,17 @@ public class ProfilePanel extends JPanel implements ActionListener {
 			UserDAO userDAO = new UserDAO();
 			UserDTO data = userDAO.userSelect();
 
-			textFields[0].setText(data.getId());
-			textFields[1].setText(data.getPw());
-			textFields[2].setText(data.getNickname());
-			textFields[3].setText(data.getName());
-			textFields[4].setText(Integer.toString(data.getBirth()));
-			textFields[5].setText(data.getAddress());
-			textFields[6].setText(data.getEmail());
-			textFields[7].setText(data.getBank());
+			textFields[0].setInit(data.getId());
+			textFields[1].setInit(data.getPw());
+			textFields[2].setInit(data.getNickname());
+			textFields[3].setInit(data.getName());
+			textFields[4].setInit(Integer.toString(data.getBirth()));
+			textFields[5].setInit(data.getAddress());
+			textFields[6].setInit(data.getEmail());
+			textFields[7].setInit(data.getBank());
 			String temp = Integer.toString(data.getTel());
-			textFields_TEL[1].setText(temp.substring(2, 6));
-			textFields_TEL[2].setText(temp.substring(6, 10));
+			textFields_TEL[1].setInit(temp.substring(2, 6));
+			textFields_TEL[2].setInit(temp.substring(6, 10));
 
 			if (data.getGender().equals("남성")) {
 				tglbtnNewToggleButton.setSelected(true);
@@ -293,6 +293,10 @@ public class ProfilePanel extends JPanel implements ActionListener {
 						data[i - 1] = null;
 					} else {
 						data[i - 1] = "010-" + textFields_TEL[1].getText() + "-" + textFields_TEL[2].getText();
+						for (int j = 1; j < 3; j++) {
+							textFields_TEL[j].setInit(textFields_TEL[j].getText());
+							textFields_TEL[j].isTyped = false;
+						}
 					}
 				} else if (i == 4) {
 					// 생년월일 처리
@@ -302,6 +306,8 @@ public class ProfilePanel extends JPanel implements ActionListener {
 						String bir = textFields[i].getString();
 						System.out.println(bir);
 						data[i - 1] = bir.substring(0, 4) + "-" + bir.substring(4, 6) + "-" + bir.substring(6, 8);
+						textFields[i].setInit(textFields[i].getText());
+						textFields[i].isTyped = false;
 					}
 
 				} else {
@@ -309,6 +315,8 @@ public class ProfilePanel extends JPanel implements ActionListener {
 						data[i - 1] = null;
 					} else {
 						data[i - 1] = textFields[i].getText();
+						textFields[i].setInit(textFields[i].getText());
+						textFields[i].isTyped = false;
 					}
 				}
 			}
