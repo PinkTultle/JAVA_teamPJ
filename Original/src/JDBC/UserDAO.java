@@ -141,4 +141,94 @@ public class UserDAO { // 회원 관련 db 기능
 
 	}
 
+	public int userUpdate(String[] data) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		boolean c = false;
+		int rs = 0;
+
+		String sql = "UPDATE 회원 SET ";
+
+		String[] column = { "비밀번호", "별명", "이름", "생년월일", "주소", "전화번호", "이메일", "성별" };
+
+		for (int i = 0; i < column.length; i++) {
+			if (data[i] == null) {
+				System.out.println(i);
+				continue;
+			} else {
+				if (!c)
+					c = true;
+				else
+					sql += ", ";
+				sql += column[i] + " = '" + data[i] + "' ";
+			}
+		}
+
+		// sql += "WHERE 아이디 = '" + user_cur + "'";
+		sql += "WHERE 아이디 = '" + "asd1" + "'";
+
+		try {
+
+			con = getConn();
+
+			pstmt = con.prepareStatement(sql);
+
+			rs = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			pstmt.close();
+			con.close();
+		}
+
+		return rs; // 프로필 수정
+	}
+
+	public UserDTO userSelect() {
+		UserDTO userDTO = new UserDTO();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null; // 결과 담는 곳
+		String sql = " SELECT * FROM 회원 WHERE 아이디 = ? ";
+
+		try {
+			con = getConn();
+			pstmt = con.prepareStatement(sql);
+			// pstmt.setString(1, user_cur);
+			pstmt.setString(1, "asd1");
+			rs = pstmt.executeQuery();
+
+			rs.next();
+
+			userDTO.setId(rs.getString("아이디"));
+			userDTO.setPw(rs.getString("비밀번호"));
+			userDTO.setNickname(rs.getString("별명"));
+			userDTO.setName(rs.getString("이름"));
+			String bir, temp = rs.getString("생년월일");
+			bir = temp.substring(0, 4) + temp.substring(5, 7) + temp.substring(8, 10);
+			userDTO.setBirth(Integer.parseInt(bir));
+			userDTO.setGender(rs.getString("성별"));
+			userDTO.setAddress(rs.getString("주소"));
+			String TEL;
+			temp = rs.getString("전화번호");
+			TEL = temp.substring(0, 3) + temp.substring(4, 8) + temp.substring(9, 13);
+			userDTO.setTel(Integer.parseInt(TEL));
+			userDTO.setEmail(rs.getString("이메일"));
+			userDTO.setBank(rs.getString("은행"));
+
+			// 계좌번호 추가 필요
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return userDTO;
+	}
+
 }

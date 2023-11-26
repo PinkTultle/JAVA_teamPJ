@@ -21,7 +21,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import GUI.C_Component.MyFL;
 import GUI.C_Component.MyJT;
 import GUI.C_Component.MyJT_TEL;
 import GUI.C_Component.MyKA_Num;
@@ -31,9 +30,9 @@ import JDBC.UserDTO;
 
 // 주석 및 추가 작업 필요
 public class RegisterGUI extends JFrame implements ActionListener {
-	
-	UserDTO userDTO ;
-	UserDAO userDAO ;
+
+	UserDTO userDTO;
+	UserDAO userDAO;
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -89,8 +88,6 @@ public class RegisterGUI extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		MyFL FL = new MyFL();
-
 		KeyAdapter KA = new KeyAdapter() {
 			public void keyTyped(KeyEvent k) {
 				JTextField jt = (JTextField) k.getSource();
@@ -141,7 +138,6 @@ public class RegisterGUI extends JFrame implements ActionListener {
 		textField = new MyJT("아이디");
 		textField.setFont(slotFont);
 		textField.setBounds(28, 10, 282, 38);
-		textField.addFocusListener(FL);
 		panel_2.add(textField);
 		textField.setColumns(10);
 
@@ -149,28 +145,24 @@ public class RegisterGUI extends JFrame implements ActionListener {
 		textField_1.setFont(slotFont);
 		textField_1.setColumns(10);
 		textField_1.setBounds(28, 58, 360, 38);
-		textField_1.addFocusListener(FL);
 		panel_2.add(textField_1);
 
 		textField_2 = new MyJT("별명");
 		textField_2.setFont(slotFont);
 		textField_2.setColumns(10);
 		textField_2.setBounds(28, 106, 360, 38);
-		textField_2.addFocusListener(FL);
 		panel_2.add(textField_2);
 
 		textField_3 = new MyJT("이름");
 		textField_3.setFont(slotFont);
 		textField_3.setColumns(10);
 		textField_3.setBounds(28, 154, 360, 38);
-		textField_3.addFocusListener(FL);
 		panel_2.add(textField_3);
 
 		textField_4 = new MyJT("생년월일 8자리");
 		textField_4.setFont(slotFont);
 		textField_4.setColumns(10);
 		textField_4.setBounds(28, 202, 184, 38);
-		textField_4.addFocusListener(FL);
 
 		textField_4.addKeyListener(new MyKA_Num(8));
 
@@ -181,7 +173,6 @@ public class RegisterGUI extends JFrame implements ActionListener {
 		textField_5.setText("주소");
 		textField_5.setColumns(10);
 		textField_5.setBounds(28, 250, 282, 38);
-		textField_5.addFocusListener(FL);
 		panel_2.add(textField_5);
 
 		textField_6 = new MyJT("이메일");
@@ -189,7 +180,6 @@ public class RegisterGUI extends JFrame implements ActionListener {
 		textField_6.setText("이메일");
 		textField_6.setColumns(10);
 		textField_6.setBounds(28, 346, 360, 38);
-		textField_6.addFocusListener(FL);
 		panel_2.add(textField_6);
 
 		btnNewButton = new JToggleButton("남자", true); // 아무것도 체크 안할경우 에러방지
@@ -240,7 +230,7 @@ public class RegisterGUI extends JFrame implements ActionListener {
 		btnNewButton_4.setBackground(new Color(31, 66, 121));
 		btnNewButton_4.setBounds(332, 395, 75, 30);
 		btnNewButton_4.addActionListener(this);
-		btnNewButton_4.setEnabled(false);  // 아이디 중복 검색 하면 활성화 됨(기본 비활성화)
+		btnNewButton_4.setEnabled(false); // 아이디 중복 검색 하면 활성화 됨(기본 비활성화)
 		panel_2.add(btnNewButton_4);
 
 		btnNewButton_5 = new JButton("중복");
@@ -265,7 +255,6 @@ public class RegisterGUI extends JFrame implements ActionListener {
 		textField_TEL[0].setFont(slotFont);
 		textField_TEL[0].setColumns(10);
 		textField_TEL[0].setBounds(117, 298, 82, 38);
-		textField_TEL[0].addFocusListener(FL);
 		textField_TEL[0].addKeyListener(KA);
 		panel_2.add(textField_TEL[0]);
 
@@ -273,7 +262,6 @@ public class RegisterGUI extends JFrame implements ActionListener {
 		textField_TEL[1].setFont(slotFont);
 		textField_TEL[1].setColumns(10);
 		textField_TEL[1].setBounds(228, 298, 82, 38);
-		textField_TEL[1].addFocusListener(FL);
 		textField_TEL[1].addKeyListener(KA);
 		panel_2.add(textField_TEL[1]);
 
@@ -300,14 +288,14 @@ public class RegisterGUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnNewButton_2) { // 검색 버튼 동작
-			
+
 			System.out.println(((JButton) (e.getSource())).getText());
 		} else if (e.getSource() == btnNewButton_3) { // 인증 버튼 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 		} else if (e.getSource() == btnNewButton_4) { // 가입 버튼 동작
-			
+
 			userDAO = new UserDAO();
-			
+
 			String id = textField.getText();
 			String pw = new String(textField_1.getPassword());
 			String nick = textField_2.getText();
@@ -317,44 +305,41 @@ public class RegisterGUI extends JFrame implements ActionListener {
 			String email = textField_6.getText();
 			int tel = Integer.parseInt(textField_TEL[0].getText() + textField_TEL[1].getText());
 			String gender = "";
-			
-			if(btnNewButton.isSelected()){
+
+			if (btnNewButton.isSelected()) {
 				gender = "남자";
-			}else if(btnNewButton_1.isSelected()){
+			} else if (btnNewButton_1.isSelected()) {
 				gender = "여자";
 			}
-			
+
 			userDTO = new UserDTO(id, pw, nick, name, birth, gender, tel, address, email);
-			
+
 			try {
 				int n = userDAO.userInsert(userDTO);
-				if(n >= 1) {
+				if (n >= 1) {
 					System.out.println("회원가입 성공");
-				}else if(n == 0) {
+				} else if (n == 0) {
 					System.out.println("회원가입 실패");
-				}else if(n == -1) {
+				} else if (n == -1) {
 					System.out.println("아이디 중복");
 				}
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
-			
-			
+
 			System.out.println(((JButton) (e.getSource())).getText());
 		} else if (e.getSource() == btnNewButton_5) { // 중복 버튼 동작
 			userDAO = new UserDAO();
-			
+
 			try {
 				int n = userDAO.userIdCheck(textField.getText());
-				
-				if(n == 0) {   // 같은 아이디가 없을경우 
+
+				if (n == 0) { // 같은 아이디가 없을경우
 					System.out.println("아이디 사용가능");
 					btnNewButton_4.setEnabled(true);
-					
-					
-				}else if(n == 1) {  // 같은 아이디가 있을경우 
+
+				} else if (n == 1) { // 같은 아이디가 있을경우
 					System.out.println("아이디 중복");
 					btnNewButton_4.setEnabled(false);
 				}
@@ -362,7 +347,7 @@ public class RegisterGUI extends JFrame implements ActionListener {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
+
 			System.out.println(((JButton) (e.getSource())).getText());
 		}
 	}

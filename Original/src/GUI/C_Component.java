@@ -35,6 +35,8 @@ import JDBC.ItemDAO;
 import JDBC.ItemDTO;
 
 public class C_Component {
+	static private MyFL myFL = new MyFL();
+
 	static interface BaseTextComponent { // JTextComponent 상속받는 클래스들을 처리하기 위한 인터페이스
 		/**
 		 * 
@@ -68,10 +70,12 @@ public class C_Component {
 
 		public MyJT() {
 			init = null;
+			addFocusListener(myFL);
 		}
 
 		public MyJT(String s) {
 			// TODO Auto-generated constructor stub
+			this();
 			init = s;
 			setText(s);
 		}
@@ -160,6 +164,7 @@ public class C_Component {
 			init = s;
 			setText(s);
 			setEchoChar((char) 0);
+			addFocusListener(myFL);
 		}
 
 		@Override

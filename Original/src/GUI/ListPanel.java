@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import GUI.C_Component.MyFL;
 import GUI.C_Component.MyJT;
 import GUI.C_Component.itemSlot_list;
 
@@ -59,7 +58,6 @@ public class ListPanel extends JPanel implements ActionListener {
 
 		textField = new MyJT("검색어를 입력하세요");
 		textField.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		textField.addFocusListener(new MyFL());
 		textField.setBounds(316, 46, 200, 35);
 		add(textField);
 		textField.setColumns(10);
