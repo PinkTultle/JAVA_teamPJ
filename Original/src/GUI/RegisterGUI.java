@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -34,7 +36,7 @@ import JDBC.UserDAO;
 import JDBC.UserDTO;
 
 // 주석 및 추가 작업 필요
-public class RegisterGUI extends JFrame implements ActionListener {
+public class RegisterGUI extends JFrame implements ActionListener, FocusListener {
 	
 	UserDTO userDTO ;
 	UserDAO userDAO ;
@@ -218,7 +220,8 @@ public class RegisterGUI extends JFrame implements ActionListener {
 		email.setFont(slotFont);
 		email.setModel(new DefaultComboBoxModel<String>(new String[] {"선택", "naver.com", "daum.net", "gmail.com", "직접입력"}));
 		email.setBounds(gol.getX()+gol.getWidth()-5, textField_6.getY(), textField_6.getWidth()+20, textField_6.getHeight());
-		email.addFocusListener(FL);
+		email.addActionListener(this);
+		email.addFocusListener(this);
 		panel_2.add(email);
 
 		btnNewButton = new JToggleButton("남자", true); // 아무것도 체크 안할경우 에러방지
@@ -508,7 +511,7 @@ public class RegisterGUI extends JFrame implements ActionListener {
 			Duplicate();
 		}
 				
-		if (e.getSource() == btnNewButton_2) { // 검색 버튼 동작
+		if (e.getSource() == btnNewButton_2) { // 검색 버튼 
 			
 			System.out.println(((JButton) (e.getSource())).getText());
 		}
@@ -521,7 +524,32 @@ public class RegisterGUI extends JFrame implements ActionListener {
 			Join(); 
 		} 
 		
+		if (e.getSource() == email) {
+			
+			if(email.getSelectedItem().toString().equals("직접입력")) {
+				email.setEditable(true);
+				email.insertItemAt("",0);
+				email.setSelectedIndex(0);
+			}
+			else {
+				email.setEditable(false);
+				email.removeItem("");
+			}
+		}
 		
+		
+	}
+
+	@Override
+	public void focusGained(FocusEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		// TODO Auto-generated method stub
+		
+
 	}
 
 	// textField : 아이디 입력 JTextField

@@ -14,6 +14,7 @@ import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -217,12 +218,6 @@ public class LoginGUI extends JFrame implements ActionListener {
 			userDTO.setId(id);
 			userDTO.setPw(pw);
 			
-			//로그인 없이 바로 홈 진입 
-			//프로젝트 완료시점에서 해당 코드 삭제
-			mainFrame = new Main_frame();
-			setVisible(false);
-			////////////////////////////////////////////
-			
 			
 			try {
 				int n = userDAO.checkLogin(userDTO);
@@ -239,9 +234,11 @@ public class LoginGUI extends JFrame implements ActionListener {
 				}else if(n==1) {
 					//비밀번호 불일치
 					System.out.println("로그인 실패(비밀번호 불일치)");
+					new fail_popup();
 				}else if(n==-1) {
 					//아이디 없음
 					System.out.println("로그인 실패(아이디 없음)");
+					new fail_popup();
 				}
 				
 			} catch (SQLException e1) {
@@ -263,3 +260,23 @@ public class LoginGUI extends JFrame implements ActionListener {
 	// txtId : 아이디 입력 JTextField
 	// txtPassword : 패스워드 입력 JPasswordField
 }
+
+class fail_popup extends JDialog{
+	
+	public fail_popup() {
+		
+		setSize(300, 150);
+		
+		// 사이즈 조절 off
+		setResizable(false);
+		// 화면 중앙에 출력
+		setLocationRelativeTo(null);
+
+		
+		setVisible(rootPaneCheckingEnabled);
+	}
+	
+	
+}
+
+
