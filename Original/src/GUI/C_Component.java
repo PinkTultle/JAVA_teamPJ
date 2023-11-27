@@ -285,7 +285,7 @@ public class C_Component {
 		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 		renderer.setHorizontalAlignment(renderer.CENTER);
 		jt.setDefaultRenderer(String.class, renderer); // 중앙 정렬
-		jt.setRowHeight((height - 25) / rowCount); // JTable의 헤더의 높이는 25임
+		jt.setRowHeight((height) / rowCount); // JTable의 헤더의 높이는 25임
 		jt.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 		jt.setSelectionBackground(new Color(106, 172, 208));
 		jt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -331,9 +331,8 @@ public class C_Component {
 		public void goDetail() { // 마우스나 키보드 이벤트 발생시 실행하는 메소드
 			// TODO Auto-generated method stub
 			int selectedRow = this.getSelectedRow(); // 행 정보를 받아옴
-			System.out.println(selectedRow);
 			// 선택 항의 PID를 이용하여서 정보 검색이 필요
-			ItemDetail idPanel = new ItemDetail(Integer.parseInt((String) getValueAt(selectedRow, itemNumIdx)));
+			ItemDetail idPanel = new ItemDetail(Integer.parseInt(getValueAt(selectedRow, itemNumIdx).toString()));
 			idPanel.setVisible(true);
 		}
 
@@ -436,7 +435,10 @@ public class C_Component {
 				// 패널 내에 데이터 저장
 				data = itemDAO.searchItemData(category, itemName, status);
 				// 최대 페이지 설정
-				page_max = data.size() / 12;
+				page_max = 1;
+				while (page_max * 12 < data.size()) {
+					page_max++;
+				}
 			} catch (SQLException e) {
 				// TODO: handle exception
 				e.printStackTrace();
@@ -453,19 +455,22 @@ public class C_Component {
 			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 			int rowCount = tableModel.getRowCount();
 			while (rowCount != 0) {
+				rowCount--;
 				tableModel.removeRow(0);
 			}
-			for (int idx = (page - 1) * 12, i = 0; i < 12; i++) {
-				if (idx > data.size())
+			for (int idx = (page - 1) * 12, i = 0; i < 12; i++, idx++) {
+				if (idx == data.size()) {
 					break;
-				ItemDTO item = data.get(i);
+				}
+				ItemDTO item = data.get(idx);
 				tableModel.addRow(new Object[] { item.getItemnumber(), item.getCategory(), item.getItemname(),
 						item.getPerson(), item.getRentdate(), item.getState() });
 			}
+			page_cur = page;
 		}
 
 		public int nextPage() {
-			if (page_cur > page_max)
+			if (page_cur == page_max)
 				return page_cur;
 			System.out.println(page_cur + " " + page_max);
 			changePage(++page_cur);
@@ -598,25 +603,30 @@ public class C_Component {
 
 		}
 
-		void setItem() throws SQLException { // boolean 1개와 String 6개로 값을 변경
-			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-			Vector<ItemDTO> data = new Vector<>();
-			ItemDAO itemDAO = new ItemDAO();
-			data = itemDAO.itemRental();
+		void setItem() { // boolean 1개와 String 6개로 값을 변경
+			try {
+				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+				Vector<ItemDTO> data = new Vector<>();
+				ItemDAO itemDAO = new ItemDAO();
+				data = itemDAO.itemRental();
 
-			for (ItemDTO item : data) {
-				Object[] newData;
-				if (item.getState().equals("대여중")) {
-					newData = new Object[] { false, Integer.toString(item.getItemnumber()), item.getPerson(),
-							item.getItemname(), item.getRentdate(), item.getState(), null };
-				} else {
-					newData = new Object[] { false, Integer.toString(item.getItemnumber()), item.getPerson(),
-							item.getItemname(), item.getRentdate(), null, item.getState() };
+				for (ItemDTO item : data) {
+					Object[] newData;
+					if (item.getState().equals("대여중")) {
+						newData = new Object[] { false, Integer.toString(item.getItemnumber()), item.getPerson(),
+								item.getItemname(), item.getRentdate(), item.getState(), null };
+					} else {
+						newData = new Object[] { false, Integer.toString(item.getItemnumber()), item.getPerson(),
+								item.getItemname(), item.getRentdate(), null, item.getState() };
+					}
+
+					// System.out.println(item.getItemname());
+
+					tableModel.addRow(newData);
 				}
-
-				// System.out.println(item.getItemname());
-
-				tableModel.addRow(newData);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
 			}
 		}
 
@@ -647,7 +657,7 @@ public class C_Component {
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public myPageTable(int x, int y, int width, int height) throws SQLException {
+		public myPageTable(int x, int y, int width, int height) {
 			setBounds(x, y, width, height);
 			getViewport().setBackground(Color.white);
 
@@ -684,18 +694,23 @@ public class C_Component {
 			this.setViewportView(table);
 		}
 
-		public void setItem() throws SQLException {
-			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-			Vector<ItemDTO> data = new Vector<>();
-			ItemDAO itemDAO = new ItemDAO();
-			data = itemDAO.itemRental();
-			for (ItemDTO item : data) {
-				Object[] newData;
-				if (item.getState().equals("대여중")) {
-					newData = new Object[] { Integer.toString(item.getItemnumber()), item.getItemname(),
-							item.getRentdate() };
-					tableModel.addRow(newData);
+		public void setItem() {
+			try {
+				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+				Vector<ItemDTO> data = new Vector<>();
+				ItemDAO itemDAO = new ItemDAO();
+				data = itemDAO.itemRental();
+				for (ItemDTO item : data) {
+					Object[] newData;
+					if (item.getState().equals("대여중")) {
+						newData = new Object[] { Integer.toString(item.getItemnumber()), item.getItemname(),
+								item.getRentdate() };
+						tableModel.addRow(newData);
+					}
 				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
 			}
 		}
 	}

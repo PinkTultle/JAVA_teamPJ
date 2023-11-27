@@ -41,7 +41,7 @@ public class Main_frame extends JFrame {
 	 * 
 	 * @throws SQLException
 	 */
-	public Main_frame() throws SQLException {
+	public Main_frame() {
 
 		// 프레임 설정
 		setTitle("랜트 프로그램!");

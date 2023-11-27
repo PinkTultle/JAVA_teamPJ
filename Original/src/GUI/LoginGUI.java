@@ -207,14 +207,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 			userDTO.setId(id);
 			userDTO.setPw(pw);
 
-			// 로그인 없이 바로 홈 진입
-			// 프로젝트 완료시점에서 해당 코드 삭제
-			try {
-				mainFrame = new Main_frame();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			mainFrame = new Main_frame();
 			setVisible(false);
 			////////////////////////////////////////////
 

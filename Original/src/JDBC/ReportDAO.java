@@ -62,4 +62,39 @@ public class ReportDAO {
 
 		return list;
 	}
+
+	public boolean insertReport(Vector<String> v) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql = "SELECT MAX(신고번호) FROM 신고기록";
+
+		try {
+			con = getConn();
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			rs.next();
+
+			sql = "INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지) " + "VALUES (?, ?, ?, ?, ?, ?) ";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, rs.getInt(1) + 1);
+			pstmt.setInt(2, Integer.parseInt(v.get(0)));
+			pstmt.setString(3, v.get(1));
+			pstmt.setString(4, v.get(2));
+			pstmt.setString(5, "처리중");
+			pstmt.setString(6, v.get(3));
+
+			rs = pstmt.executeQuery();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
 }

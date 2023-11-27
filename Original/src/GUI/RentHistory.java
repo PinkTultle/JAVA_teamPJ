@@ -26,17 +26,13 @@ public class RentHistory extends JPanel implements ActionListener {
 	private JLabel[] tableHeader = new JLabel[6];
 
 	protected My_Page_Panel mpp;
-	private JLabel lblNewLabel_3;
-	private JLabel lblNewLabel_4;
-	private JLabel lblNewLabel_5;
-	private JLabel lblNewLabel_6;
 
 	/**
 	 * Create the frame.
 	 * 
 	 * @throws SQLException
 	 */
-	public RentHistory() throws SQLException {
+	public RentHistory() {
 
 		setLayout(null);
 
@@ -84,7 +80,7 @@ public class RentHistory extends JPanel implements ActionListener {
 		is.setItem();
 	}
 
-	public RentHistory(My_Page_Panel mpp) throws SQLException {
+	public RentHistory(My_Page_Panel mpp) {
 		this();
 		this.mpp = mpp;
 	}

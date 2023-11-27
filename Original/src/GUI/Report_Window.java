@@ -2,53 +2,38 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import JDBC.ReportDAO;
 
 public class Report_Window {
 
 	private JFrame frame;
 	private JTextField textField_거래번호;
-	private JTextField textField_사유;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Report_Window window = new Report_Window("1");
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
 	 */
-	public Report_Window(String itemNum) {
-		initialize(itemNum);
+	public Report_Window(String itemNum, String itemName) {
+		initialize(itemNum, itemName);
 		this.frame.setVisible(true);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(String itemNum) {
+	private void initialize(String itemNum, String itemName) {
 		frame = new JFrame();
 		frame.setTitle("신고");
 		frame.setBounds(100, 100, 364, 273);
@@ -73,7 +58,7 @@ public class Report_Window {
 		panel.add(lblNewLabel_1_1);
 
 		// 콤보박스 목록 추가해야함
-		JComboBox comboBox = new JComboBox();
+		JComboBox comboBox = new JComboBox(new String[] { "허위물품", "연락두절", "과한금액/보증금", "파손된 물품", "기타" });
 		comboBox.setBackground(new Color(255, 255, 255));
 		comboBox.setBounds(113, 57, 162, 23);
 		panel.add(comboBox);
@@ -85,12 +70,6 @@ public class Report_Window {
 		panel.add(textField_거래번호);
 		textField_거래번호.setColumns(10);
 
-		textField_사유 = new RoundJTextField();
-		textField_사유.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		textField_사유.setColumns(10);
-		textField_사유.setBounds(27, 113, 300, 80);
-		panel.add(textField_사유);
-
 		JButton Report_Btn = new RoundButton("신고");
 		Report_Btn.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		Report_Btn.setBounds(72, 203, 91, 23);
@@ -101,19 +80,26 @@ public class Report_Window {
 		Cancel_Btn.setBounds(194, 203, 91, 23);
 		panel.add(Cancel_Btn);
 
-		////// 신고 완료 알림창
-		final JDialog dialog = new JDialog(frame, "신고 결과", true);
-		dialog.setSize(100, 100);
-		dialog.setLocationRelativeTo(frame);
-		JLabel label = new JLabel("신고 완료");
-		label.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
-		label.setHorizontalAlignment(JLabel.CENTER);
-		label.setVerticalAlignment(JLabel.CENTER);
-		dialog.add(label);
+		RoundJTextArea textArea = new RoundJTextArea();
+		textArea.setBounds(27, 113, 300, 80);
+		textArea.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		textArea.setLineWrap(true);
+		panel.add(textArea);
 
 		Report_Btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dialog.setVisible(true);
+				Vector<String> vector = new Vector<String>();
+				vector.add(itemNum);
+				vector.add(itemName);
+				vector.add(comboBox.getSelectedItem().toString());
+				vector.add(textArea.getText());
+				ReportDAO reportDAO = new ReportDAO();
+				if (reportDAO.insertReport(vector)) {
+					JOptionPane.showMessageDialog(null, "신고 완료");
+					frame.dispose();
+				} else {
+					JOptionPane.showMessageDialog(null, "신고 실패");
+				}
 			}
 		});
 

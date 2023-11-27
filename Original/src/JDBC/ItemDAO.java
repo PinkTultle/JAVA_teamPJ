@@ -1,7 +1,6 @@
 package JDBC;
 
 import java.awt.Image;
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -130,8 +129,8 @@ public class ItemDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null; // 결과 담는 곳
-		String sql = " SELECT 물품코드, 모델명, 렌트기한, 대여료, 보증금, 전화번호, 설명, 첨부, 물품명, 별명, 아이디 " + " FROM 물품목록, 회원 "
-				+ " WHERE 물품목록.소유주 = 회원.아이디 " + " AND 물품코드 = ? ";
+		String sql = " SELECT 물품코드, 모델명, 렌트기한, 대여료, 보증금, 전화번호, 설명, 첨부, 물품명, 별명, 아이디 " + " FROM 물품목록 "
+				+ " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 " + " WHERE 물품코드 = ? ";
 		try {
 			con = getConn();
 			pstmt = con.prepareStatement(sql);
@@ -149,11 +148,7 @@ public class ItemDAO {
 				itemdto.setItemname(rs.getString("물품명"));
 				itemdto.setNickname(rs.getString("별명"));
 				itemdto.setPerson(rs.getString("아이디"));
-				Blob image = rs.getBlob("첨부");
-				String string = null;
-				if (image != null)
-					string = image.toString();
-				itemdto.setImage(string);
+				itemdto.setImage(rs.getString("첨부"));
 			}
 
 		} catch (ClassNotFoundException e) {
@@ -171,8 +166,8 @@ public class ItemDAO {
 
 		UserDTO ud = new UserDTO();
 		// 개발 중 사용할 아이디 | 완료 후에는 아래의 코드로 변경 필요
-		ud.setLoginid("asd4");
-		// ud.setLoginid(UserDAO.user_cur);
+		// ud.setLoginid("asd4");
+		ud.setLoginid(UserDAO.user_cur);
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -212,8 +207,8 @@ public class ItemDAO {
 		// 테스트
 
 		UserDTO ud = new UserDTO();
-		ud.setLoginid("asd1"); // 로그인 아이디 가져오기
-		// ud.setLoginid(UserDAO.user_cur);
+		// ud.setLoginid("asd1"); // 로그인 아이디 가져오기
+		ud.setLoginid(UserDAO.user_cur);
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -262,5 +257,36 @@ public class ItemDAO {
 
 		// ImageIcon을 JLabel에 설정
 		imageLabel.setIcon(scaledIcon);
+	}
+
+	public boolean deleteItem(int n) {
+		// true: 성공 | false: 실패
+		try {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			con = getConn();
+			String sql = "SELECT * FROM 대여기록 WHERE 물품코드 = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, Integer.toString(n));
+			rs = pstmt.executeQuery();
+			if (rs.next())
+				return false;
+			sql = "DELETE FROM 신고기록 WHERE 물품코드 = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, Integer.toString(n));
+			pstmt.executeQuery();
+			sql = "DELETE FROM 물품목록 WHERE 물품코드 = ? ";
+			con = getConn();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, Integer.toString(n));
+			pstmt.executeQuery();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 }

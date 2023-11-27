@@ -25,7 +25,7 @@ public class ListPanel extends JPanel implements ActionListener {
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
 	private static itemSlot_list is;
-	private JLabel lblNewLabel_1;
+	private static JLabel lblNewLabel_1;
 	private JLabel[] tableHeader = new JLabel[6];
 	private static JComboBox<String> comboBox;
 	private static JComboBox<String> comboBox_1;
@@ -138,7 +138,6 @@ public class ListPanel extends JPanel implements ActionListener {
 		} else if (e.getSource() == btnNewButton_2) { // 이전 페이지 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 			lblNewLabel_1.setText(String.valueOf(is.prevPage()));
-			is.prevPage();
 		} else if (e.getSource() == btnNewButton_3) { // 다음 페이지 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 			lblNewLabel_1.setText(String.valueOf(is.nextPage()));
@@ -153,6 +152,8 @@ public class ListPanel extends JPanel implements ActionListener {
 		comboBox.setSelectedItem("전체");
 		comboBox_1.setSelectedItem("전체");
 		textField.setText(textField.init);
+		is.changePage(1);
+		lblNewLabel_1.setText("1");
 	}
 
 	public static void searchCategory(String category) {

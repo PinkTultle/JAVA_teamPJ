@@ -38,6 +38,7 @@ public class ItemDetail extends JFrame implements ActionListener {
 
 	private Font nF = new Font("맑은 고딕", Font.PLAIN, 14);
 	private boolean isWriter;
+	private int itemNum;
 
 	public String Description;
 
@@ -51,6 +52,7 @@ public class ItemDetail extends JFrame implements ActionListener {
 		 * public ItemDetail(boolean isWriter) throws SQLException { // 글쓴이인지 확인하는
 		 * boolean 을 매개 변수로 받음 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		 */
+		this.itemNum = itemNum;
 
 		ItemDAO itemdao = new ItemDAO(), itemDAO = new ItemDAO();
 		ItemDTO itemdto = null;
@@ -233,7 +235,7 @@ public class ItemDetail extends JFrame implements ActionListener {
 				System.out.println(((JButton) (e.getSource())).getText());
 			} else { // 신고 버튼 동작
 				System.out.println(((JButton) (e.getSource())).getText());
-				Report_Window rw = new Report_Window(lbl[2].getText());
+				Report_Window rw = new Report_Window(lbl[2].getText(), lbl[1].getText());
 
 			}
 		} else if (e.getSource() == btnNewButton_2) { // 삭제/예약 버튼 동작
@@ -241,6 +243,12 @@ public class ItemDetail extends JFrame implements ActionListener {
 				System.out.println(((JButton) (e.getSource())).getText());
 				if (delete()) {
 					// 삭제 확인한 경우 | DB 에서 DELETE 필요
+					ItemDAO itemDAO = new ItemDAO();
+					if (itemDAO.deleteItem(itemNum)) {
+						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "삭제할 수 없습니다.");
+					}
 				}
 			} else { // 예약 버튼 동작
 				System.out.println(((JButton) (e.getSource())).getText());

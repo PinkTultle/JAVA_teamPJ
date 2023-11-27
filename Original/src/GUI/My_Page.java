@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -34,7 +33,7 @@ public class My_Page extends JPanel implements ActionListener {
 
 	protected My_Page_Panel mpp;
 
-	public My_Page() throws SQLException {
+	public My_Page() {
 
 		setBackground(new Color(255, 255, 255));
 		setBounds(0, 150, 1050, 800);
@@ -147,7 +146,7 @@ public class My_Page extends JPanel implements ActionListener {
 		 */
 	}
 
-	public My_Page(My_Page_Panel mpp) throws SQLException {
+	public My_Page(My_Page_Panel mpp) {
 		this();
 		this.mpp = mpp;
 	}
