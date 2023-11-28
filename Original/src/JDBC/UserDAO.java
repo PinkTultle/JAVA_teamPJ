@@ -6,18 +6,35 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDAO { // 회원 관련 db 기능
-
-	// String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
-	String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
-
-	String user = "ABC"; // db 사용자 이름
-	String password = "1234"; // db
-
-	public static String user_cur;
-
-	public Connection getConn() throws ClassNotFoundException {
-		Connection conn = null;
+public class UserDAO implements AutoCloseable { // 회원 관련 db 기능 
+	
+	//String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
+	String url = "jdbc:oracle:thin:@localhost:1521:xe"; //안되면 이걸로!
+	
+	String user = "ABC";       // db 사용자 이름
+	String password = "1234";  // db 
+	
+	Connection conn = null, con; 
+	ResultSet rs;
+	PreparedStatement pstmt;
+	
+	
+	public UserDAO() throws ClassNotFoundException {
+		try {
+			
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			
+			conn = DriverManager.getConnection(url, user, password);
+			
+			System.out.println("DB 로그인 성공");
+			
+		} catch (SQLException e) {
+			System.out.println("DB 로그인 실패");
+		}
+		
+	}
+	
+	public Connection getConn() throws ClassNotFoundException {		
 		try {
 
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -32,16 +49,14 @@ public class UserDAO { // 회원 관련 db 기능
 		return conn; // 오라클 로그인 연결 정보
 	}
 
-	public int checkLogin(UserDTO dto) throws SQLException { // 로그인
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null; // 결과 담는 곳
+	
+	
+	public int checkLogin(UserDTO dto) throws SQLException { // 로그인 
+		
 		String sql = " SELECT * FROM 회원 WHERE 아이디 = ? ";
 
 		try {
-
-			con = getConn();
-			pstmt = con.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getId());
 
 			rs = pstmt.executeQuery();
@@ -61,41 +76,30 @@ public class UserDAO { // 회원 관련 db 기능
 		} finally {
 			rs.close();
 			pstmt.close();
-			con.close();
+			conn.close();
 		}
 
 	}
+	
+	public int userIdCheck(String id) throws SQLException, ClassNotFoundException { // 회원가입때 아이디 중복 체크 
 
-	public int userIdCheck(String id) throws SQLException { // 회원가입때 아이디 중복 체크
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs;
 		String sql = " SELECT * FROM 회원 WHERE 아이디 = ? ";
-
-		try {
-			con = getConn();
-			pstmt = con.prepareStatement(sql);
-
-			pstmt.setString(1, id);
-
-			rs = pstmt.executeQuery(); //
-
-			if (rs.next()) {
-				return 1; // 같은 아이디가 있을경우
-			}
-
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setString(1, id);
+		
+		rs = pstmt.executeQuery(); // 
+		
+		if(rs.next()) {
+			return 1;  // 같은 아이디가 있을경우 
 		}
 
 		return 0; // 같은 아이디가 없을경우
 	}
 
 	public int userInsert(UserDTO dto) throws SQLException { // 회원가입
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		int rs = 0;
+		int rs = 0; 
 		String sql = " INSERT INTO 회원 (아이디, 비밀번호, 별명, 이름, 생년월일, 성별, 전화번호, 주소, 이메일, 대여상태 ) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, '대여가능') ";
 
@@ -105,11 +109,10 @@ public class UserDAO { // 회원 관련 db 기능
 		String tel = "010-" + tel1 + "-" + tel2;
 
 		try {
-
-			con = getConn();
-
-			pstmt = con.prepareStatement(sql);
-
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			
 			pstmt.setString(1, dto.getId());
 			pstmt.setString(2, dto.getPw());
 			pstmt.setString(3, dto.getNickname());
@@ -125,21 +128,29 @@ public class UserDAO { // 회원 관련 db 기능
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-
-			// if(e.getErrorCode()==1) {
-			// System.out.println("아이디 중복!!");
-			// return -1;
-			// }
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
+			
+			//if(e.getErrorCode()==1) {
+			//	System.out.println("아이디 중복!!");
+			//	return -1;
+			//}
+		}finally {
 			pstmt.close();
-			con.close();
 		}
 		return rs; // 리턴값 1이상이면 회원가입 성공, 0이면 실패
 
 	}
+
+	@Override
+	public void close() throws Exception {
+		// TODO 객체 참조가 끊어져 해당 클래스가 갈비지 컬럭터의 정리대상이 될때
+		// 남은 리소스 헤제
+		
+		rs.close();
+		pstmt.close();
+		conn.close();
+	}
+	
+		
 
 	public int userUpdate(String[] data) throws SQLException {
 		Connection con = null;
