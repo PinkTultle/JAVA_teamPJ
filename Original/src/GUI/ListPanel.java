@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -14,28 +12,23 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import GUI.C_Component.MyFL;
 import GUI.C_Component.MyJT;
 import GUI.C_Component.itemSlot_list;
-import JDBC.ItemDAO;
-import JDBC.ItemDTO;
 
 public class ListPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel BP = new Baener_pane();
-	private MyJT textField;
+	private static MyJT textField;
 	private JButton btnNewButton;
 	private RoundButton btnNewButton_1;
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
-	private itemSlot_list is;
-	private JLabel lblNewLabel_1;
-	private JComboBox<String> comboBox;
-	private JComboBox<String> comboBox_1;
-
-	private int maxPage = 10; // 최대 페이지 수 | 테스트용 값 10 : 후에 최대 페이지 값을 받는 동작 필요
-	private int nowPage = 1;
+	private static itemSlot_list is;
+	private static JLabel lblNewLabel_1;
+	private JLabel[] tableHeader = new JLabel[6];
+	private static JComboBox<String> comboBox;
+	private static JComboBox<String> comboBox_1;
 
 	/**
 	 * Create the frame.
@@ -50,8 +43,8 @@ public class ListPanel extends JPanel implements ActionListener {
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		comboBox.setBackground(new Color(255, 255, 255));
-		comboBox.setModel(new DefaultComboBoxModel(new String[]{ "전체", "전자기기", "가구/인테리어", "유아용품", "뷰티/패션잡화",
-				"가전/생활/주방", "스포츠/레저", "취미/게임/도서", "동물용품", "렌트 원해요" }));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] { "전체", "전자기기", "가구/인테리어", "유아용품", "뷰티", "패션잡화",
+				"가전/생활", "스포츠/레져", "도서", "취미/게임", "동물용품", "기타", "요청" }));
 		comboBox.setBounds(62, 46, 110, 35);
 		comboBox.addActionListener(this);
 		add(comboBox);
@@ -65,7 +58,6 @@ public class ListPanel extends JPanel implements ActionListener {
 
 		textField = new MyJT("검색어를 입력하세요");
 		textField.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		textField.addFocusListener(new MyFL());
 		textField.setBounds(316, 46, 200, 35);
 		add(textField);
 		textField.setColumns(10);
@@ -83,7 +75,7 @@ public class ListPanel extends JPanel implements ActionListener {
 		btnNewButton_1.addActionListener(this);
 		add(btnNewButton_1);
 
-		is = new itemSlot_list(57, 110, 920, 520);
+		is = new itemSlot_list(57, 150, 920, 480);
 		add(is);
 
 		JLabel lblNewLabel = new JLabel("page");
@@ -94,7 +86,7 @@ public class ListPanel extends JPanel implements ActionListener {
 		lblNewLabel_1 = new JLabel();
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setBounds(487, 665, 60, 15);
-		lblNewLabel_1.setText(String.valueOf(nowPage));
+		lblNewLabel_1.setText("1");
 		add(lblNewLabel_1);
 
 		btnNewButton_3 = new JButton("다음 페이지");
@@ -116,13 +108,20 @@ public class ListPanel extends JPanel implements ActionListener {
 		btnNewButton_2.setFocusPainted(false);
 		btnNewButton_2.setBorder(null);
 		add(btnNewButton_2);
-		
-		// 데이터 입력 테스트용 코드
-		Vector<String[]> vector = new Vector<String[]>();
-		for (int i = 0; i < 10; i++) {
-			vector.addElement(new String[] { String.valueOf(i + 1), "asdf", "asdf", "asdf", "asdf", "asdf" });
+
+		is.setPage(null, null, null);
+
+		int[] xLoc = { 67, 180, 415, 652, 770, 880 };
+		String[] headerText = { "물품코드", "카테고리", "물품명", "등록자", "렌트 기한", "처리 상태" };
+		Font hFont = new Font("굴림", Font.PLAIN, 16);
+
+		for (int i = 0; i < 6; i++) {
+			tableHeader[i] = new JLabel(headerText[i]);
+			tableHeader[i].setBounds(xLoc[i], 114, 86, 40);
+			tableHeader[i].setHorizontalAlignment(SwingConstants.CENTER);
+			tableHeader[i].setFont(hFont);
+			add(tableHeader[i]);
 		}
-		//is.setPage();
 	}
 
 	@Override
@@ -130,28 +129,55 @@ public class ListPanel extends JPanel implements ActionListener {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnNewButton) { // 검색 동작
 			// textField : 검색어 텍스트 필드 객체
-			System.out.println(((JButton) (e.getSource())).getText());
+			search(comboBox.getSelectedItem().toString(), textField.getText(), comboBox_1.getSelectedItem().toString());
 			if (textField.isTyped) { // textField 의 입력 확인
 				System.out.println(textField.getText());
 			}
 		} else if (e.getSource() == btnNewButton_1) { // 상품 등록하기 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 		} else if (e.getSource() == btnNewButton_2) { // 이전 페이지 동작
-			if (nowPage != 1) { // 1 페이지가 아닐 경우
-				System.out.println(((JButton) (e.getSource())).getText());
-				lblNewLabel_1.setText(String.valueOf(--nowPage));
-				// 물품 목록 수정 필요
-			}
+			System.out.println(((JButton) (e.getSource())).getText());
+			lblNewLabel_1.setText(String.valueOf(is.prevPage()));
 		} else if (e.getSource() == btnNewButton_3) { // 다음 페이지 동작
-			if (nowPage != maxPage) {
-				System.out.println(((JButton) (e.getSource())).getText());
-				lblNewLabel_1.setText(String.valueOf(++nowPage));
-				// 물품 목록 수정 필요
-			}
+			System.out.println(((JButton) (e.getSource())).getText());
+			lblNewLabel_1.setText(String.valueOf(is.nextPage()));
 		} else if (e.getSource() == comboBox) { // 카테고리 콤보박스 동작
-			System.out.println(((JComboBox) (e.getSource())).getSelectedItem().toString());
+			System.out.println(((JComboBox<?>) (e.getSource())).getSelectedItem().toString());
 		} else if (e.getSource() == comboBox_1) { // 처리상태 콤보박스 동작
-			System.out.println(((JComboBox) (e.getSource())).getSelectedItem().toString());
+			System.out.println(((JComboBox<?>) (e.getSource())).getSelectedItem().toString());
 		}
+	}
+
+	public static void clear() {
+		comboBox.setSelectedItem("전체");
+		comboBox_1.setSelectedItem("전체");
+		textField.setText(textField.init);
+		is.changePage(1);
+		lblNewLabel_1.setText("1");
+	}
+
+	public static void searchCategory(String category) {
+		// 입력된 카테고리로 설정
+		clear();
+		comboBox.setSelectedItem(category);
+		search(category, null, null);
+	}
+
+	public static void serachItemName(String itemName) {
+		// 입력된 카테고리로 설정
+		clear();
+		textField.setText(itemName);
+		search(null, itemName, null);
+	}
+
+	public static void search(String category, String itemName, String status) {
+		if (category == null || category.equals("전체"))
+			category = null;
+		if (itemName == null || itemName.equals("검색어를 입력하세요"))
+			itemName = null;
+		if (status == null || status.equals("전체"))
+			status = null;
+		System.out.println("search| " + category + " " + itemName + " " + status);
+		is.setPage(category, itemName, status);
 	}
 }
