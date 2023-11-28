@@ -4,26 +4,32 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 
-import GUI.C_Component.MyFL;
 import GUI.C_Component.MyJT;
+import GUI.C_Component.MyJT_TEL;
 import GUI.C_Component.MyKA_Num;
+import JDBC.UserDAO;
+import JDBC.UserDTO;
 
 public class ProfilePanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
 	Baener_pane BP = new Baener_pane();
-	private MyJT[] textFields = new MyJT[10];
+	private MyJT[] textFields = new MyJT[9];
+	private MyJT_TEL[] textFields_TEL = new MyJT_TEL[3];
 	private RoundButton button;
 	private RoundButton button_1;
 	private RoundButton button_2;
@@ -33,7 +39,6 @@ public class ProfilePanel extends JPanel implements ActionListener {
 	private JToggleButton tglbtnNewToggleButton_1;
 	private ButtonGroup BG = new ButtonGroup();
 	private BorderFactory bf;
-	private MyFL FL = new MyFL();
 
 	protected My_Page_Panel mpp;
 	protected boolean mode = false; // true: 수정 | false: 일반
@@ -46,19 +51,18 @@ public class ProfilePanel extends JPanel implements ActionListener {
 		setBounds(0, BP.getHeight(), 1034, 700);
 		setLayout(null);
 
-		int[] loc = { 108, 168, 227, 286, 346, 405, 464 };
+		int[] loc = { 108, 168, 227, 286, 346, 405 };
 		Font slotFont = new Font("맑은 고딕", Font.PLAIN, 18);
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 9; i++) {
 			int width = 420;
 			if (i == 4)
 				width = 244;
-			if (i == 6 || i == 9)
+			if (i == 8)
 				width = 332;
 			textFields[i] = new MyJT();
 			textFields[i].setFont(slotFont);
-			textFields[i].addFocusListener(FL);
-			textFields[i].setBounds((i > 6) ? 532 : 82, loc[i % 7], width, 50);
+			textFields[i].setBounds((i > 5) ? 532 : 82, loc[i % 6], width, 50);
 			add(textFields[i]);
 		}
 
@@ -128,10 +132,49 @@ public class ProfilePanel extends JPanel implements ActionListener {
 		btnNewButton_1.setBorder(bf.createLineBorder(new Color(128, 128, 128)));
 		add(btnNewButton_1);
 
-		Vector<String> vector = new Vector<String>();
-		for (int i = 0; i < 10; i++)
-			vector.add(i + "");
-		setPanel(vector);
+		int[] loc_TEL = { 82, 191, 319 };
+
+		KeyAdapter KA = new KeyAdapter() {
+			public void keyTyped(KeyEvent k) {
+				JTextField jt = (JTextField) k.getSource();
+				if ("1234567890".indexOf(k.getKeyChar()) == -1) { // 숫자로 입력 제한
+					k.consume();
+				}
+				if (jt.getText().length() == 3 && "1234567890".indexOf(k.getKeyChar()) != -1) { // 포커스 이동
+					if (k.getSource() == textFields_TEL[1]) {
+						textFields_TEL[2].requestFocus();
+					}
+				}
+				if (jt.getText().length() > 3) { // 글자 수 제한
+					k.consume();
+				}
+			}
+		};
+
+		for (int i = 0; i < 3; i++) {
+			textFields_TEL[i] = new MyJT_TEL("");
+			textFields_TEL[i].setHorizontalAlignment(SwingConstants.CENTER);
+			textFields_TEL[i].setFont(slotFont);
+			textFields_TEL[i].setBounds(loc_TEL[i], 464, (i == 0) ? 76 : 95, 50);
+			textFields_TEL[i].addKeyListener(KA);
+			add(textFields_TEL[i]);
+		}
+
+		textFields_TEL[0].setText("010");
+
+		JLabel lblNewLabel_1 = new JLabel("-");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
+		lblNewLabel_1.setBounds(158, 464, 33, 50);
+		add(lblNewLabel_1);
+
+		JLabel lblNewLabel_1_1 = new JLabel("-");
+		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1_1.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
+		lblNewLabel_1_1.setBounds(286, 464, 33, 50);
+		add(lblNewLabel_1_1);
+
+		setPanel();
 	}
 
 	public ProfilePanel(My_Page_Panel mpp) {
@@ -139,20 +182,50 @@ public class ProfilePanel extends JPanel implements ActionListener {
 		this.mpp = mpp;
 	}
 
-	public void setPanel(Vector<String> v) {
-		for (int i = 0; i < 10; i++) {
-			System.out.println(i);
-			textFields[i].setInit(v.get(i));
+	public void setPanel() {
+		try {
+			UserDAO userDAO = new UserDAO();
+			UserDTO data = userDAO.userSelect();
+
+			textFields[0].setInit(data.getId());
+			textFields[1].setInit(data.getPw());
+			textFields[2].setInit(data.getNickname());
+			textFields[3].setInit(data.getName());
+			textFields[4].setInit(Integer.toString(data.getBirth()));
+			textFields[5].setInit(data.getAddress());
+			textFields[6].setInit(data.getEmail());
+			textFields[7].setInit(data.getBank());
+			String temp = Integer.toString(data.getTel());
+			textFields_TEL[1].setInit(temp.substring(2, 6));
+			textFields_TEL[2].setInit(temp.substring(6, 10));
+
+			if (data.getGender().equals("남성")) {
+				tglbtnNewToggleButton.setSelected(true);
+			} else {
+				tglbtnNewToggleButton_1.setSelected(false);
+			}
+
+			textFields[0].setEnabled(false);
+			textFields[7].setEnabled(false);
+			textFields[8].setEnabled(false);
+			textFields_TEL[0].setEnabled(false);
+			setEditable(false);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
-		textFields[0].setEditable(false);
-		textFields[8].setEditable(false);
-		textFields[9].setEditable(false);
-		setEditable(false);
 	}
 	/*
-	 * textField 번호 1: ID / 비활성화 2: Password 3: 별명 4: 이름 5: 생년원일 6: 주소 7: 전화번호 8:
-	 * e-mail 9: 은행 / 비활성화 10: 계좌번호 / 비활성화
-	 * 
+	 * textField 번호 
+	 * 0: ID / 비활성화 
+	 * 1: Password 
+	 * 2: 별명 
+	 * 3: 이름 
+	 * 4: 생년원일 
+	 * 5: 주소 
+	 * 6: e-mail 
+	 * 7: 은행 / 비활성화 
+	 * 8: 계좌번호 / 비활성화
 	 */
 
 	@Override
@@ -173,8 +246,13 @@ public class ProfilePanel extends JPanel implements ActionListener {
 
 	void setEditable(boolean v) {
 		for (int i = 1; i < 8; i++) {
-			textFields[i].setEditable(v);
+			textFields[i].setEnabled(v);
 		}
+		for (int i = 1; i < 3; i++) {
+			textFields_TEL[i].setEnabled(v);
+		}
+		tglbtnNewToggleButton.setEnabled(v);
+		tglbtnNewToggleButton_1.setEnabled(v);
 	}
 
 	void changeMode(boolean write) {
@@ -182,6 +260,7 @@ public class ProfilePanel extends JPanel implements ActionListener {
 			mode = false;
 			setEditable(false);
 			button.setVisible(true);
+			update();
 			if (write) {
 			}
 		} else {
@@ -193,5 +272,58 @@ public class ProfilePanel extends JPanel implements ActionListener {
 
 	public boolean getMode() {
 		return mode;
+	}
+
+	void update() {
+		try {
+			UserDAO userDAO = new UserDAO();
+			System.out.println("profilePanel | update");
+			String[] data = new String[8];
+			if (!tglbtnNewToggleButton.isSelected() && !tglbtnNewToggleButton_1.isSelected()) {
+				data[7] = null;
+			} else if (tglbtnNewToggleButton.isSelected()) {
+				data[7] = "남성";
+			} else {
+				data[7] = "여성";
+			}
+			for (int i = 1; i < 8; i++) {
+				if (i == 6) {
+					// 전화번호 처리
+					if (!textFields_TEL[1].isTyped && !textFields_TEL[2].isTyped) {
+						data[i - 1] = null;
+					} else {
+						data[i - 1] = "010-" + textFields_TEL[1].getText() + "-" + textFields_TEL[2].getText();
+						for (int j = 1; j < 3; j++) {
+							textFields_TEL[j].setInit(textFields_TEL[j].getText());
+							textFields_TEL[j].isTyped = false;
+						}
+					}
+				} else if (i == 4) {
+					// 생년월일 처리
+					if (!textFields[i].isTyped) {
+						data[i - 1] = null;
+					} else {
+						String bir = textFields[i].getString();
+						System.out.println(bir);
+						data[i - 1] = bir.substring(0, 4) + "-" + bir.substring(4, 6) + "-" + bir.substring(6, 8);
+						textFields[i].setInit(textFields[i].getText());
+						textFields[i].isTyped = false;
+					}
+
+				} else {
+					if (!textFields[i].isTyped) {
+						data[i - 1] = null;
+					} else {
+						data[i - 1] = textFields[i].getText();
+						textFields[i].setInit(textFields[i].getText());
+						textFields[i].isTyped = false;
+					}
+				}
+			}
+			userDAO.userUpdate(data);
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 	}
 }

@@ -14,9 +14,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
+
+import JDBC.ReportDAO;
+import JDBC.ReportDTO;
 
 public class Report_Details extends JPanel implements ActionListener {
 
@@ -25,13 +27,10 @@ public class Report_Details extends JPanel implements ActionListener {
 	private JTable table;
 	private JButton Bt_Back;
 	private JPanel contentpane;
-	private DefaultTableModel tableModel; // 테이블 모델 추가
-	String tempdata[][] = { { "", "1111", "abc", "신청" }, { "", "2222", "def", "처리중" }, { "", "3333", "hij", "처리중" },
-			{ "", "4444", "zzz", "처리완료" } };
 
 	// 벡터로 컬럼 이름과 데이터 정의
 	Vector<String> columnNames;
-	Vector<Vector<Object>> data;
+	Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 
 	protected My_Page_Panel mpp;
 
@@ -48,19 +47,20 @@ public class Report_Details extends JPanel implements ActionListener {
 		// 컬럼 이름을 벡터로 초기화
 		columnNames = new Vector<>();
 		columnNames.add("순번");
-		columnNames.add("품명코드");
+		columnNames.add("물품코드");
 		columnNames.add("물품명");
 		columnNames.add("처리상태");
 
 		// 데이터를 벡터의 벡터로 초기화
 		// 임시로 데이터 넣어놨음
-		data = new Vector<>();
-		for (int i = 0; i < 4; i++) {
+		ReportDAO reportDAO = new ReportDAO();
+		Vector<ReportDTO> reportData = reportDAO.allReportData();
+		for (int i = 0; i < reportData.size(); i++) {
 			Vector<Object> row = new Vector<>();
-			row.add("0" + (i + 1));
-			row.add(tempdata[i][1]);
-			row.add(tempdata[i][2]);
-			row.add(tempdata[i][3]);
+			row.add(reportData.get(i).getReportNum());
+			row.add(reportData.get(i).getItemNumber());
+			row.add(reportData.get(i).getItemName());
+			row.add(reportData.get(i).getStatus());
 			data.add(row);
 		}
 

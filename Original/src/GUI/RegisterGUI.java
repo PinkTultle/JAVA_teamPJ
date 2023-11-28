@@ -27,7 +27,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import GUI.C_Component.MyFL;
 import GUI.C_Component.MyJT;
 import GUI.C_Component.MyJT_TEL;
 import GUI.C_Component.MyKA_Num;
@@ -36,6 +35,7 @@ import JDBC.UserDAO;
 import JDBC.UserDTO;
 
 // 주석 및 추가 작업 필요
+
 public class RegisterGUI extends JDialog implements ActionListener {
 	
 	
@@ -46,7 +46,6 @@ public class RegisterGUI extends JDialog implements ActionListener {
 	private boolean Id_check;
 	private boolean Num_check;
 	private boolean address_check;
-	
 	
 
 	private static final long serialVersionUID = 1L;
@@ -112,8 +111,6 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		MyFL FL = new MyFL();
-
 		KeyAdapter KA = new KeyAdapter() {
 			public void keyTyped(KeyEvent k) {
 				JTextField jt = (JTextField) k.getSource();
@@ -164,7 +161,6 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		textField = new MyJT("아이디");
 		textField.setFont(slotFont);
 		textField.setBounds(28, 10, 282, 38);
-		textField.addFocusListener(FL);
 		panel_2.add(textField);
 		textField.setColumns(10);
 
@@ -172,28 +168,24 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		textField_1.setFont(slotFont);
 		textField_1.setColumns(10);
 		textField_1.setBounds(28, 58, 360, 38);
-		textField_1.addFocusListener(FL);
 		panel_2.add(textField_1);
 
 		textField_2 = new MyJT("별명");
 		textField_2.setFont(slotFont);
 		textField_2.setColumns(10);
 		textField_2.setBounds(28, 106, 360, 38);
-		textField_2.addFocusListener(FL);
 		panel_2.add(textField_2);
 
 		textField_3 = new MyJT("이름");
 		textField_3.setFont(slotFont);
 		textField_3.setColumns(10);
 		textField_3.setBounds(28, 154, 360, 38);
-		textField_3.addFocusListener(FL);
 		panel_2.add(textField_3);
 
 		textField_4 = new MyJT("생년월일 8자리");
 		textField_4.setFont(slotFont);
 		textField_4.setColumns(10);
 		textField_4.setBounds(28, 202, 184, 38);
-		textField_4.addFocusListener(FL);
 
 		textField_4.addKeyListener(new MyKA_Num(8));
 
@@ -278,7 +270,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		btnNewButton_4.setBackground(new Color(31, 66, 121));
 		btnNewButton_4.setBounds(332, 395, 75, 30);
 		btnNewButton_4.addActionListener(this);
-		btnNewButton_4.setEnabled(false);  // 아이디 중복 검색 하면 활성화 됨(기본 비활성화)
+		btnNewButton_4.setEnabled(false); // 아이디 중복 검색 하면 활성화 됨(기본 비활성화)
 		panel_2.add(btnNewButton_4);
 
 		btnNewButton_5 = new JButton("중복");
@@ -303,7 +295,6 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		textField_TEL[0].setFont(slotFont);
 		textField_TEL[0].setColumns(10);
 		textField_TEL[0].setBounds(117, 298, 82, 38);
-		textField_TEL[0].addFocusListener(FL);
 		textField_TEL[0].addKeyListener(KA);
 		panel_2.add(textField_TEL[0]);
 
@@ -311,7 +302,6 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		textField_TEL[1].setFont(slotFont);
 		textField_TEL[1].setColumns(10);
 		textField_TEL[1].setBounds(228, 298, 82, 38);
-		textField_TEL[1].addFocusListener(FL);
 		textField_TEL[1].addKeyListener(KA);
 		panel_2.add(textField_TEL[1]);
 
@@ -442,7 +432,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 			
 			if(btnNewButton.isSelected()){
 				gender = "남자";
-			}else if(btnNewButton_1.isSelected()){
+			} else if (btnNewButton_1.isSelected()) {
 				gender = "여자";
 			}
 			
