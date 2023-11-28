@@ -430,7 +430,7 @@ public class C_Component {
 				rowCount--;
 			}
 			ItemDAO itemDAO = new ItemDAO();
-			data.clear();
+			data.clear();/*
 			try {
 				// 패널 내에 데이터 저장
 				data = itemDAO.searchItemData(category, itemName, status);
@@ -448,7 +448,7 @@ public class C_Component {
 				ItemDTO item = data.get(i);
 				tableModel.addRow(new Object[] { Integer.toString(item.getItemnumber()), item.getCategory(),
 						item.getItemname(), item.getPerson(), item.getRentdate(), item.getState() });
-			}
+			}*/
 		}
 
 		public void changePage(int page) {

@@ -239,6 +239,7 @@ public class ItemDetail extends JFrame implements ActionListener {
 
 			}
 		} else if (e.getSource() == btnNewButton_2) { // 삭제/예약 버튼 동작
+			/*
 			if (isWriter) { // 삭제 버튼 동작
 				System.out.println(((JButton) (e.getSource())).getText());
 				if (delete()) {
@@ -252,7 +253,7 @@ public class ItemDetail extends JFrame implements ActionListener {
 				}
 			} else { // 예약 버튼 동작
 				System.out.println(((JButton) (e.getSource())).getText());
-			}
+			}*/
 		}
 	}
 
