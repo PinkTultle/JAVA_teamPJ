@@ -1,12 +1,9 @@
 package GUI;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -27,7 +24,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import GUI.C_Component.MyFL;
 import GUI.C_Component.MyJT;
 import GUI.C_Component.MyJT_TEL;
 import GUI.C_Component.MyKA_Num;
@@ -36,18 +32,16 @@ import JDBC.UserDAO;
 import JDBC.UserDTO;
 
 // 주석 및 추가 작업 필요
+
 public class RegisterGUI extends JDialog implements ActionListener {
-	
-	
+
 	final private JFrame LoginGUI;
-	UserDTO userDTO ;
-	UserDAO userDAO ;
-	
+	UserDTO userDTO;
+	UserDAO userDAO;
+
 	private boolean Id_check;
 	private boolean Num_check;
 	private boolean address_check;
-	
-	
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -58,11 +52,9 @@ public class RegisterGUI extends JDialog implements ActionListener {
 	private MyJT textField_4;
 	private MyJT textField_5;
 	private MyJT textField_6;
-	
-	
+
 	private JLabel gol;
 	private JComboBox<String> email;
-
 
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
@@ -78,27 +70,19 @@ public class RegisterGUI extends JDialog implements ActionListener {
 
 	private MyJT_TEL textField_TEL[] = new MyJT_TEL[2];
 
-	
 	/**
 	 * Launch the application.
 	 *
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RegisterGUI frame = new RegisterGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
-	
-	
+	 * public static void main(String[] args) { EventQueue.invokeLater(new
+	 * Runnable() { public void run() { try { RegisterGUI frame = new RegisterGUI();
+	 * frame.setVisible(true); } catch (Exception e) { e.printStackTrace(); } } });
+	 * }
+	 */
+
 	/**
 	 * Create the frame.
-	 * @param loginGUI2 
+	 * 
+	 * @param loginGUI2
 	 */
 	public RegisterGUI(JFrame loginGUI) {
 		this.LoginGUI = loginGUI;
@@ -111,8 +95,6 @@ public class RegisterGUI extends JDialog implements ActionListener {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-		MyFL FL = new MyFL();
 
 		KeyAdapter KA = new KeyAdapter() {
 			public void keyTyped(KeyEvent k) {
@@ -164,7 +146,6 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		textField = new MyJT("아이디");
 		textField.setFont(slotFont);
 		textField.setBounds(28, 10, 282, 38);
-		textField.addFocusListener(FL);
 		panel_2.add(textField);
 		textField.setColumns(10);
 
@@ -172,28 +153,24 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		textField_1.setFont(slotFont);
 		textField_1.setColumns(10);
 		textField_1.setBounds(28, 58, 360, 38);
-		textField_1.addFocusListener(FL);
 		panel_2.add(textField_1);
 
 		textField_2 = new MyJT("별명");
 		textField_2.setFont(slotFont);
 		textField_2.setColumns(10);
 		textField_2.setBounds(28, 106, 360, 38);
-		textField_2.addFocusListener(FL);
 		panel_2.add(textField_2);
 
 		textField_3 = new MyJT("이름");
 		textField_3.setFont(slotFont);
 		textField_3.setColumns(10);
 		textField_3.setBounds(28, 154, 360, 38);
-		textField_3.addFocusListener(FL);
 		panel_2.add(textField_3);
 
 		textField_4 = new MyJT("생년월일 8자리");
 		textField_4.setFont(slotFont);
 		textField_4.setColumns(10);
 		textField_4.setBounds(28, 202, 184, 38);
-		textField_4.addFocusListener(FL);
 
 		textField_4.addKeyListener(new MyKA_Num(8));
 
@@ -204,7 +181,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		textField_5.setText("주소");
 		textField_5.setColumns(10);
 		textField_5.setBounds(28, 250, 282, 38);
-		//textField_5.addFocusListener(FL);
+		// textField_5.addFocusListener(FL);
 		textField_5.setEditable(false);
 		panel_2.add(textField_5);
 
@@ -213,20 +190,20 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		textField_6.setText("이메일");
 		textField_6.setColumns(10);
 		textField_6.setBounds(28, 346, 140, 38);
-		textField_6.addFocusListener(FL);
 		panel_2.add(textField_6);
-		
-		
+
 		gol = new JLabel("@");
-		//gol.setFont(slotFont);
+		// gol.setFont(slotFont);
 		gol.setFont(new Font("맑은 고딕", Font.PLAIN, 25));
-		gol.setBounds(textField_6.getX()+155, textField_6.getY()-10, 50, 50);
+		gol.setBounds(textField_6.getX() + 155, textField_6.getY() - 10, 50, 50);
 		panel_2.add(gol);
-		
+
 		email = new JComboBox<String>();
 		email.setFont(slotFont);
-		email.setModel(new DefaultComboBoxModel<String>(new String[] {"선택", "naver.com", "daum.net", "gmail.com", "직접입력"}));
-		email.setBounds(gol.getX()+gol.getWidth()-5, textField_6.getY(), textField_6.getWidth()+20, textField_6.getHeight());
+		email.setModel(
+				new DefaultComboBoxModel<String>(new String[] { "선택", "naver.com", "daum.net", "gmail.com", "직접입력" }));
+		email.setBounds(gol.getX() + gol.getWidth() - 5, textField_6.getY(), textField_6.getWidth() + 20,
+				textField_6.getHeight());
 		email.addActionListener(this);
 		panel_2.add(email);
 
@@ -278,7 +255,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		btnNewButton_4.setBackground(new Color(31, 66, 121));
 		btnNewButton_4.setBounds(332, 395, 75, 30);
 		btnNewButton_4.addActionListener(this);
-		btnNewButton_4.setEnabled(false);  // 아이디 중복 검색 하면 활성화 됨(기본 비활성화)
+		btnNewButton_4.setEnabled(false); // 아이디 중복 검색 하면 활성화 됨(기본 비활성화)
 		panel_2.add(btnNewButton_4);
 
 		btnNewButton_5 = new JButton("중복");
@@ -303,7 +280,6 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		textField_TEL[0].setFont(slotFont);
 		textField_TEL[0].setColumns(10);
 		textField_TEL[0].setBounds(117, 298, 82, 38);
-		textField_TEL[0].addFocusListener(FL);
 		textField_TEL[0].addKeyListener(KA);
 		panel_2.add(textField_TEL[0]);
 
@@ -311,7 +287,6 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		textField_TEL[1].setFont(slotFont);
 		textField_TEL[1].setColumns(10);
 		textField_TEL[1].setBounds(228, 298, 82, 38);
-		textField_TEL[1].addFocusListener(FL);
 		textField_TEL[1].addKeyListener(KA);
 		panel_2.add(textField_TEL[1]);
 
@@ -332,126 +307,119 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		panel_2.add(removefirstfocus);
 		removefirstfocus.setColumns(10);
 
-		
 		setVisible(true);
-		
-		
+
 		userDTO = new UserDTO();
 	}
-	
-	//아이디 중복 검사 메서드
+
+	// 아이디 중복 검사 메서드
 	private void Duplicate() {
-		
+
 		System.out.println(textField.getText());
-		
-		if(textField.getText() == null || textField.getText().equals("아이디")) {
-			JOptionPane.showConfirmDialog(this, "아이디를 입력하십시오!", "아이디 중복",
-					JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE );	
+
+		if (textField.getText() == null || textField.getText().equals("아이디")) {
+			JOptionPane.showConfirmDialog(this, "아이디를 입력하십시오!", "아이디 중복", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.ERROR_MESSAGE);
 			return;
-		
-		}
-		else {	
-		
+
+		} else {
+
 			try {
 				userDAO = new UserDAO();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
+
 			try {
 				int n = userDAO.userIdCheck(textField.getText());
-				
-				if(n == 0) {   // 같은 아이디가 없을경우 
-					int dlog = JOptionPane.showConfirmDialog(this, "아이디 "+textField.getText()+"를 사용 하시겠습니까?\n결정 후에는 변경할 수 없습니다!", "사용 확인",
-	                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-					
-					if(dlog == 2)return;
-					if(dlog == 0) {
+
+				if (n == 0) { // 같은 아이디가 없을경우
+					int dlog = JOptionPane.showConfirmDialog(this,
+							"아이디 " + textField.getText() + "를 사용 하시겠습니까?\n결정 후에는 변경할 수 없습니다!", "사용 확인",
+							JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+					if (dlog == 2)
+						return;
+					if (dlog == 0) {
 						textField.setEditable(false);
 						btnNewButton_4.setEnabled(true);
 						btnNewButton_5.setEnabled(false);
 						Id_check = true;
-					}					
-					
-				}else {  // 같은 아이디가 있을경우 
-					JOptionPane.showConfirmDialog(this, "이미 존재하는 아이디입니다", "경고",
-	                        JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);	
+					}
+
+				} else { // 같은 아이디가 있을경우
+					JOptionPane.showConfirmDialog(this, "이미 존재하는 아이디입니다", "경고", JOptionPane.DEFAULT_OPTION,
+							JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 			} catch (SQLException | ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
 	private void Join() {
 
-		String id = null, pw = null, name = null,address = null, email_1 = null, gender = null, nick = null;
+		String id = null, pw = null, name = null, address = null, email_1 = null, gender = null, nick = null;
 		int birth = 0, tel = 0;
-		
+
 		try {
-			userDAO  = new UserDAO();
+			userDAO = new UserDAO();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		try {
-			
-			//조건 확인 버튼 4개 통과 여부 검색 
-			//버튼 클릭하여 통과하지 않고넘어간 경우 예외처리 발생
-			if(Id_check == false)
+
+			// 조건 확인 버튼 4개 통과 여부 검색
+			// 버튼 클릭하여 통과하지 않고넘어간 경우 예외처리 발생
+			if (Id_check == false)
 				throw new Exception("ID");
-			if(address_check == false)
-				throw new Exception("주소 검색을");			
-			if(Num_check == false)
+			if (address_check == false)
+				throw new Exception("주소 검색을");
+			if (Num_check == false)
 				throw new Exception("전화번호를 인증");
-			if(email.getSelectedItem().toString().equals("선택") || email.getSelectedItem().toString().equals(null))
+			if (email.getSelectedItem().toString().equals("선택") || email.getSelectedItem().toString().equals(null))
 				throw new Exception("선택한 email 주소를 확인");
-			
-			//그외 텍스트 필드에서 잘못된 값이 입력된 경우 예외 처리
-			if(textField_2.getText().equals(null))
+
+			// 그외 텍스트 필드에서 잘못된 값이 입력된 경우 예외 처리
+			if (textField_2.getText().equals(null))
 				throw new Exception("별명");
-			if(textField_3.getText().equals(null))
+			if (textField_3.getText().equals(null))
 				throw new Exception("이름");
-			if(textField_4.getText().equals(null))
+			if (textField_4.getText().equals(null))
 				throw new Exception("생년월일");
-			if(textField_6.getText().equals(null))
+			if (textField_6.getText().equals(null))
 				throw new Exception("email ID");
-			if(textField_6.getText().equals(null))
+			if (textField_6.getText().equals(null))
 				throw new Exception("email ID");
-			
-			
-			
-			
+
 			id = textField.getText();
 			pw = new String(textField_1.getPassword());
-			if(pw.equals(null))
+			if (pw.equals(null))
 				throw new Exception("password");
-			
+
 			nick = textField_2.getText();
 			name = textField_3.getText();
 			birth = Integer.parseInt(textField_4.getText());
-			address = textField_5.getText();	
+			address = textField_5.getText();
 			email_1 = textField_6.getText() + email.getSelectedItem().toString();
 			tel = Integer.parseInt(textField_TEL[0].getText() + textField_TEL[1].getText());
-			
-			
-			if(btnNewButton.isSelected()){
+
+			if (btnNewButton.isSelected()) {
 				gender = "남자";
-			}else if(btnNewButton_1.isSelected()){
+			} else if (btnNewButton_1.isSelected()) {
 				gender = "여자";
 			}
-			
-		}
-		catch(Exception e)
-		{
+
+		} catch (Exception e) {
 			int mode = 0;
-			
-			switch(e.getMessage().toString()) {
+
+			switch (e.getMessage().toString()) {
 			case "password":
 			case "별명":
 			case "이름":
@@ -468,42 +436,39 @@ public class RegisterGUI extends JDialog implements ActionListener {
 			default:
 				mode = 2;
 				break;
-			
+
 			}
-			
-			
-			if(mode==0) {
-				JOptionPane.showConfirmDialog(null, "입력한 " + e.getMessage().toString() +"해 주십시요!!", "경고",
+
+			if (mode == 0) {
+				JOptionPane.showConfirmDialog(null, "입력한 " + e.getMessage().toString() + "해 주십시요!!", "경고",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			}
-			if(mode==1) {
-				JOptionPane.showConfirmDialog(null, e.getMessage().toString() +"를 입력해 주십시요!!", "경고",
+			if (mode == 1) {
+				JOptionPane.showConfirmDialog(null, e.getMessage().toString() + "를 입력해 주십시요!!", "경고",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			}
-			if(mode==2){
-				JOptionPane.showConfirmDialog(null, "필요한 값을 모두 입력해주십시오!!!", "경고",
-						JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);	
+			if (mode == 2) {
+				JOptionPane.showConfirmDialog(null, "필요한 값을 모두 입력해주십시오!!!", "경고", JOptionPane.DEFAULT_OPTION,
+						JOptionPane.ERROR_MESSAGE);
 			}
 			System.out.println(e.getMessage());
 
 			return;
 		}
-		
-		
-		
+
 		userDTO = new UserDTO(id, pw, nick, name, birth, gender, tel, address, email_1);
-		
+
 		try {
 			int n = userDAO.userInsert(userDTO);
-			if(n >= 1) {
+			if (n >= 1) {
 				System.out.println("회원가입 성공");
-				
+
 				LoginGUI.setVisible(true);
 				dispose();
-				
-			}else if(n == 0) {
+
+			} else if (n == 0) {
 				System.out.println("회원가입 실패");
-			}else if(n == -1) {
+			} else if (n == -1) {
 				System.out.println("아이디 중복");
 			}
 		} catch (SQLException e1) {
@@ -511,47 +476,42 @@ public class RegisterGUI extends JDialog implements ActionListener {
 			e1.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
-		
+
 		if (e.getSource() == btnNewButton_5) { // 중복 버튼 동작
 			Duplicate();
 		}
-				
-		if (e.getSource() == btnNewButton_2) { // 검색 버튼 
+
+		if (e.getSource() == btnNewButton_2) { // 검색 버튼
 			address_check = true;
 			System.out.println(((JButton) (e.getSource())).getText());
 		}
-		
+
 		if (e.getSource() == btnNewButton_3) { // 인증 버튼 동작
 			Num_check = true;
 			System.out.println(((JButton) (e.getSource())).getText());
-		} 
-		
+		}
+
 		if (e.getSource() == btnNewButton_4) { // 가입 버튼 동작
-			Join(); 
-			
-			
-			
-		} 
-		
+			Join();
+
+		}
+
 		if (e.getSource() == email) {
-			
-			if(email.getSelectedItem().toString().equals("직접입력")) {
+
+			if (email.getSelectedItem().toString().equals("직접입력")) {
 				email.setEditable(true);
-				email.insertItemAt("",0);
+				email.insertItemAt("", 0);
 				email.setSelectedIndex(0);
-			}
-			else {
+			} else {
 				email.setEditable(false);
 				email.removeItem("");
 			}
 		}
-		
-		
+
 	}
 
 	// textField : 아이디 입력 JTextField
