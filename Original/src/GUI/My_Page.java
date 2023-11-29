@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import GUI.C_Component.myPageTable;
 
 import javax.swing.JProgressBar;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
 // 메인 프레임 코드의 89번째 줄을 P4 = new My_Page(); 구문으로 수정하여 실행
@@ -112,7 +113,7 @@ public class My_Page extends JPanel implements ActionListener {
 		lblNewLabel_1.setBounds(587, 576, 72, 32);
 		add(lblNewLabel_1);
 		
-		table = new JTable(Test,Column_Name);
+		table = new JTable(Test, Column_Name);
 		table.setFont(new Font("굴림", Font.BOLD, 12));
 		table.setEnabled(false);
 		table.setShowVerticalLines(false);

@@ -121,7 +121,7 @@ public class myList_w {
         	public void actionPerformed(ActionEvent e) {
         	}
         });
-        btn_search.setIcon(new ImageIcon("C:\\Users\\qptmx\\OneDrive\\바탕 화면\\search.png"));
+        btn_search.setIcon(new ImageIcon("../COMP_IMG/search3.png"));
         btn_search.setBounds(392, 48, 40, 33);
         btn_search.setBorderPainted(false);
         btn_search.setContentAreaFilled(false);
