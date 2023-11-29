@@ -12,9 +12,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumnModel;
+
+import GUI.C_Component.myPageTable;
 
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
@@ -24,7 +23,7 @@ import javax.swing.SwingConstants;
 public class My_Page extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 5812757489846205649L;
-	private JTable table;
+	private myPageTable table;
 	String[] Column_Name = { "거래번호", "물품명", "반납기한" };
 	String[][] Test = { { "data1", "data2", "data3" }, { "data1-1", "data2-1", "data3-1" } };
 	private RoundButton Bt_profile;
@@ -55,7 +54,7 @@ public class My_Page extends JPanel implements ActionListener {
 	public My_Page() {
 
 		setBackground(new Color(255, 255, 255));
-		setBounds(0, 0, 1050, 800);
+		setBounds(0, 150, 1050, 800);
 		setLayout(null);
 
 		JLabel Label_NickName = new JLabel("KJH");
@@ -96,6 +95,7 @@ public class My_Page extends JPanel implements ActionListener {
 		Bt_Report_History.addActionListener(this);
 		add(Bt_Report_History);
 
+
 		Bt_temp1 = new RoundButton("temp1",Color.LIGHT_GRAY);
 		Bt_temp1.setFont(new Font("굴림", Font.BOLD, 16));
 		Bt_temp1.setBounds(41,544,141,130);
@@ -104,13 +104,13 @@ public class My_Page extends JPanel implements ActionListener {
 		Bt_temp2 = new RoundButton("temp2",Color.LIGHT_GRAY);
 		Bt_temp2.setFont(new Font("굴림", Font.BOLD, 16));
 		Bt_temp2.setBounds(201,544,141,130);
+
 		add(Bt_temp2);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("렌트 알림");
 		lblNewLabel_1.setFont(new Font("굴림", Font.BOLD, 16));
 		lblNewLabel_1.setBounds(587, 576, 72, 32);
 		add(lblNewLabel_1);
-
 		
 		table = new JTable(Test,Column_Name);
 		table.setFont(new Font("굴림", Font.BOLD, 12));
@@ -128,6 +128,7 @@ public class My_Page extends JPanel implements ActionListener {
 			columnModel.getColumn(i).setCellRenderer(centerRenderer);
 		}
 		//
+
 		add(table);
 
 		JLabel Label_Trade_Num = new JLabel("거래번호");
@@ -157,6 +158,7 @@ public class My_Page extends JPanel implements ActionListener {
 		Bt_More.addActionListener(this);
 		add(Bt_More);
 
+    
 		//FIXME - 원하는 이미지로 경로 수정
 		ImageIcon image = new ImageIcon(My_Page.class.getResource("../images/MEDAL.png"));
 		Image image_ = image.getImage();   
@@ -244,7 +246,6 @@ public class My_Page extends JPanel implements ActionListener {
 		resizeIcon2_TOP = new ImageIcon(change2_TOP);
 		Image change1_TOP = image1.getScaledInstance(90, 90, Image.SCALE_SMOOTH);
 		resizeIcon1_TOP = new ImageIcon(change1_TOP);
-
 		
 	}
 
@@ -287,9 +288,11 @@ public class My_Page extends JPanel implements ActionListener {
 			// 신고/접수 내역 창 호출
 			mpp.Open_reportHistory();
 			System.out.println("신고 접수/내역 창 호출");
-			Main_frame.Changepane("신고내역");
-		}
-		else if(e.getSource() == Bt_More) {
+
+      Main_frame.Changepane("신고내역");
+		  }
+		  else if(e.getSource() == Bt_More) {
+
 			// 더보기 창 호출
 			System.out.println("더보기 창 호출");
 		}

@@ -1,8 +1,10 @@
 package GUI;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +16,7 @@ import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,7 +25,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import GUI.C_Component.MyFL;
 import GUI.C_Component.MyJT;
 import GUI.C_Component.MyPT;
 import JDBC.UserDAO;
@@ -30,8 +32,8 @@ import JDBC.UserDTO;
 
 //주석 및 추가 작업 필요
 public class LoginGUI extends JFrame implements ActionListener {
-	UserDTO userDTO ;
-	UserDAO userDAO ;
+	UserDTO userDTO;
+	UserDAO userDAO;
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -78,7 +80,6 @@ public class LoginGUI extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		MyFL FL = new MyFL();
 		ML_btn listener_btn = new ML_btn();
 
 		JPanel panel = new JPanel();
@@ -129,7 +130,6 @@ public class LoginGUI extends JFrame implements ActionListener {
 		txtId = new MyJT("Id");
 		txtId.setFont(new Font("맑은 고딕", Font.PLAIN, 23));
 		txtId.setBounds(30, 49, 370, 50);
-		txtId.addFocusListener(FL);
 		panel_1_1.add(txtId);
 		txtId.setColumns(10);
 
@@ -138,7 +138,6 @@ public class LoginGUI extends JFrame implements ActionListener {
 		txtPassword.setColumns(10);
 		txtPassword.setBounds(30, 109, 370, 50);
 		txtPassword.setEchoChar((char) 0);
-		txtPassword.addFocusListener(FL);
 		panel_1_1.add(txtPassword);
 
 		removefirstfocus = new JTextField();
@@ -203,50 +202,50 @@ public class LoginGUI extends JFrame implements ActionListener {
 		if (e.getSource() == btnNewButton) { // 로그인 버튼 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 			userDTO = new UserDTO();
-			userDAO = new UserDAO();
+      
+			try {
+				userDAO = new UserDAO();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 			String id = txtId.getText();
 			String pw = new String(txtPassword.getPassword());
-			
-			
+
 			userDTO.setId(id);
 			userDTO.setPw(pw);
-			
-			//로그인 없이 바로 홈 진입 
-			//프로젝트 완료시점에서 해당 코드 삭제
-			mainFrame = new Main_frame();
-			setVisible(false);
-			////////////////////////////////////////////
-			
-			
+
 			try {
 				int n = userDAO.checkLogin(userDTO);
-				
-				if(n==0) {
-					//로그인 성공
+
+				if (n == 0) {
+					// 로그인 성공
 					System.out.println("로그인 성공");
 					userDTO.setLoginid(id); // 로그인한 아이디 저장
-					//페이지 전환 소스 넣어야함
-					
+					// 페이지 전환 소스 넣어야함
+
 					setVisible(false);
 					mainFrame = new Main_frame();
 					
-				}else if(n==1) {
-					//비밀번호 불일치
-					System.out.println("로그인 실패(비밀번호 불일치)");
 				}else if(n==-1) {
 					//아이디 없음
-					System.out.println("로그인 실패(아이디 없음)");
+					new fail_popup("잘못된 ID!");
+				}else if(n==1) {
+					//비밀번호 없음
+					new fail_popup("잘못된 PW!");
 				}
-				
+
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			} // 로그인 확인
-			
-			
-			
+
 		} else if (e.getSource() == btnNewButton_1) { // 회원가입 버튼 동작
-			System.out.println(((JButton) (e.getSource())).getText());
+
+			new RegisterGUI(this);
+			setVisible(false);
+						
+			
 		} else if (e.getSource() == btnNewButton_2) { // 아이디/비밀번호 찾기 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 		}
@@ -254,3 +253,50 @@ public class LoginGUI extends JFrame implements ActionListener {
 	// txtId : 아이디 입력 JTextField
 	// txtPassword : 패스워드 입력 JPasswordField
 }
+
+class fail_popup extends JDialog{
+	
+	public fail_popup(String text) {
+		
+		setSize(300, 150);
+		setTitle("로그인 실패");
+		
+		// 사이즈 조절 off
+		setResizable(false);
+		// 화면 중앙에 출력
+		setLocationRelativeTo(null);
+		
+		
+		JPanel jp = (JPanel) getContentPane();
+		jp.setLayout(new BorderLayout(10,10));
+		setContentPane(jp);
+		
+		JLabel jl = new JLabel(text);
+		jl.setFont(new Font("맑은 고딕", Font.BOLD | Font.PLAIN, 25));
+
+		jl.setHorizontalAlignment(JLabel.CENTER);
+	
+		
+		JButton jb = new JButton("확인");
+		jb.setBorderPainted(false);
+		jb.setFocusPainted(false);
+		jb.setBackground(Color.darkGray);
+		jb.setFont(new Font("맑은 고딕", Font.BOLD | Font.PLAIN, 22));
+		jb.setForeground(Color.white);
+		
+		jb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		
+		
+		add(jb, BorderLayout.SOUTH);
+		add(jl, BorderLayout.CENTER);
+		
+		setVisible(rootPaneCheckingEnabled);
+	}	
+	
+}
+
+

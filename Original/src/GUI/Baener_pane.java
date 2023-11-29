@@ -38,8 +38,8 @@ public class Baener_pane extends JPanel {
 		
 		add(MenuBar);
 	}
-	
-	
+
+
 	protected void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		

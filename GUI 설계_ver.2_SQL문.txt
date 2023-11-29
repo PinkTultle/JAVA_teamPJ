@@ -41,12 +41,12 @@ CREATE TABLE 물품목록 (
     모델명 VARCHAR2(100),
     대여료 NUMBER,
     보증금 NUMBER,
-    첨부 BLOB,
     설명 VARCHAR2(200),
     소유주 VARCHAR2(50) NOT NULL,
     대여상태 VARCHAR2(20),
     예약자 VARCHAR2(50),
     대여자 VARCHAR2(50),
+    첨부 VARCHAR2(150),
     
     CONSTRAINT FK_물품_회원_소유자 FOREIGN KEY(소유주) REFERENCES 회원(아이디),
     CONSTRAINT FK_물품_회원_대여자 FOREIGN KEY(대여자) REFERENCES 회원(아이디)
@@ -94,14 +94,14 @@ INSERT INTO 회원 VALUES ('asd5', 'pa5', '사용자5', '이철수', '1975-07-30
 
 
 -- 물품 데이터 더미
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 대여상태, 예약자, 대여자, 소유주, 첨부)
+VALUES (1, '전자기기', '노트북', TO_DATE('2023-10-25', 'YYYY-MM-DD'), 'Dell XPS 15', 3000, 50, '대여중', NULL, 'asd4', 'asd1', 'src/images/dell_xps_15.jpg');
 INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 대여상태, 예약자, 대여자, 소유주)
-VALUES (1, '전자제품', '노트북', TO_DATE('2023-10-25', 'YYYY-MM-DD'), 'Dell XPS 15', 3000, 50, '대여중', NULL, 'asd4', 'asd1');
+VALUES (2, '전자기기', '냉장고', TO_DATE('2023-10-20', 'YYYY-MM-DD'), 'Samsung RS27T5200', 4000, 60, '대여가능', NULL, NULL, 'asd2');
 INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 대여상태, 예약자, 대여자, 소유주)
-VALUES (2, '가전제품', '냉장고', TO_DATE('2023-10-20', 'YYYY-MM-DD'), 'Samsung RS27T5200', 4000, 60, '대여가능', NULL, NULL, 'asd2');
+VALUES (3, '패션잡화', '드레스', TO_DATE('2023-10-28', 'YYYY-MM-DD'), 'Elegant Evening Gown', 2500, 30, '대여중', NULL, 'asd1', 'asd3');
 INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 대여상태, 예약자, 대여자, 소유주)
-VALUES (3, '의류', '드레스', TO_DATE('2023-10-28', 'YYYY-MM-DD'), 'Elegant Evening Gown', 2500, 30, '대여중', NULL, 'asd1', 'asd3');
-INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 대여상태, 예약자, 대여자, 소유주)
-VALUES (4, '스포츠용품', '자전거', TO_DATE('2023-10-22', 'YYYY-MM-DD'), 'Trek FX 3 Disc', 2000, 25, '대여가능', NULL, NULL, 'asd4');
+VALUES (4, '스포츠/레져', '자전거', TO_DATE('2023-10-22', 'YYYY-MM-DD'), 'Trek FX 3 Disc', 2000, 25, '대여가능', NULL, NULL, 'asd4');
 INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 대여상태, 예약자, 대여자, 소유주)
 VALUES (5, '도서', '소설책', TO_DATE('2023-10-27', 'YYYY-MM-DD'), 'The Great Gatsby', 1500, 20, '대여가능', NULL, 'asd5', 'asd5');
 
