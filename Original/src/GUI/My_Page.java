@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
 import GUI.C_Component.myPageTable;
