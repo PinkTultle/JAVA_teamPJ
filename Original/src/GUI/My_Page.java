@@ -12,11 +12,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import GUI.C_Component.myPageTable;
-
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
+
+import GUI.C_Component.myPageTable;
 
 // 메인 프레임 코드의 89번째 줄을 P4 = new My_Page(); 구문으로 수정하여 실행
 
@@ -48,7 +47,6 @@ public class My_Page extends JPanel implements ActionListener {
 	private ImageIcon resizeIcon2_TOP;
 	private ImageIcon resizeIcon1_TOP;
 
-
 	protected My_Page_Panel mpp;
 
 	public My_Page() {
@@ -71,39 +69,38 @@ public class My_Page extends JPanel implements ActionListener {
 		Bt_profile.addActionListener(this);
 		add(Bt_profile);
 
-		Bt_Rent_History = new RoundButton("렌트 내역",Color.LIGHT_GRAY);
+		Bt_Rent_History = new RoundButton("렌트 내역", Color.LIGHT_GRAY);
 		Bt_Rent_History.setFont(new Font("굴림", Font.BOLD, 16));
 		Bt_Rent_History.setBounds(41, 246, 141, 130);
 		Bt_Rent_History.addActionListener(this);
 		add(Bt_Rent_History);
 
-		Bt_Rent_Alarm = new RoundButton("렌트 알림",Color.LIGHT_GRAY);
+		Bt_Rent_Alarm = new RoundButton("렌트 알림", Color.LIGHT_GRAY);
 		Bt_Rent_Alarm.setFont(new Font("굴림", Font.BOLD, 16));
 		Bt_Rent_Alarm.setBounds(201, 246, 141, 130);
 		Bt_Rent_Alarm.addActionListener(this);
 		add(Bt_Rent_Alarm);
 
-		Bt_My_Post = new RoundButton("나의 글",Color.LIGHT_GRAY);
+		Bt_My_Post = new RoundButton("나의 글", Color.LIGHT_GRAY);
 		Bt_My_Post.setFont(new Font("굴림", Font.BOLD, 16));
 		Bt_My_Post.setBounds(41, 395, 141, 130);
 		Bt_My_Post.addActionListener(this);
 		add(Bt_My_Post);
 
-		Bt_Report_History = new RoundButton("<html><center>신고<br>접수/내역<center></html>",Color.LIGHT_GRAY);
+		Bt_Report_History = new RoundButton("<html><center>신고<br>접수/내역<center></html>", Color.LIGHT_GRAY);
 		Bt_Report_History.setFont(new Font("굴림", Font.BOLD, 16));
 		Bt_Report_History.setBounds(202, 395, 141, 130);
 		Bt_Report_History.addActionListener(this);
 		add(Bt_Report_History);
 
-
-		Bt_temp1 = new RoundButton("temp1",Color.LIGHT_GRAY);
+		Bt_temp1 = new RoundButton("temp1", Color.LIGHT_GRAY);
 		Bt_temp1.setFont(new Font("굴림", Font.BOLD, 16));
-		Bt_temp1.setBounds(41,544,141,130);
+		Bt_temp1.setBounds(41, 544, 141, 130);
 		add(Bt_temp1);
-		
-		Bt_temp2 = new RoundButton("temp2",Color.LIGHT_GRAY);
+
+		Bt_temp2 = new RoundButton("temp2", Color.LIGHT_GRAY);
 		Bt_temp2.setFont(new Font("굴림", Font.BOLD, 16));
-		Bt_temp2.setBounds(201,544,141,130);
+		Bt_temp2.setBounds(201, 544, 141, 130);
 
 		add(Bt_temp2);
 
@@ -111,23 +108,8 @@ public class My_Page extends JPanel implements ActionListener {
 		lblNewLabel_1.setFont(new Font("굴림", Font.BOLD, 16));
 		lblNewLabel_1.setBounds(587, 576, 72, 32);
 		add(lblNewLabel_1);
-		
-		table = new JTable(Test,Column_Name);
-		table.setFont(new Font("굴림", Font.BOLD, 12));
-		table.setEnabled(false);
-		table.setShowVerticalLines(false);
-		table.setBounds(587, 645, 389, 144); 
-		table.setRowHeight(70);  // 각 행의 높이 설정
 
-		// 테이블 내 텍스트 가운데 정렬
-		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-		centerRenderer.setHorizontalAlignment(JLabel.CENTER); // 수평 가운데 정렬
-		TableColumnModel columnModel = table.getColumnModel();
-		for (int i = 0; i < columnModel.getColumnCount(); i++) {
-			table.getColumnModel().getColumn(i).setPreferredWidth(128); // setPreferredWidth(128) => 첫번째 열 너비 설정
-			columnModel.getColumn(i).setCellRenderer(centerRenderer);
-		}
-		//
+		table = new myPageTable(587, 645, 389, 144);
 
 		add(table);
 
@@ -158,87 +140,83 @@ public class My_Page extends JPanel implements ActionListener {
 		Bt_More.addActionListener(this);
 		add(Bt_More);
 
-    
-		//FIXME - 원하는 이미지로 경로 수정
+		// FIXME - 원하는 이미지로 경로 수정
 		ImageIcon image = new ImageIcon(My_Page.class.getResource("../images/MEDAL.png"));
-		Image image_ = image.getImage();   
+		Image image_ = image.getImage();
 		Image change = image_.getScaledInstance(250, 350, Image.SCALE_SMOOTH);
 		ImageIcon resizeIcon = new ImageIcon(change);
 		JLabel lb_mid_image = new JLabel(resizeIcon);
 		lb_mid_image.setBounds(376, 140, 175, 454);
 		add(lb_mid_image);
-		
-		
-		jpb = new JProgressBar(JProgressBar.HORIZONTAL,0,100); 
-		jpb.setForeground(new Color(99, 163, 146)); 
-		jpb.setBackground(new Color(177, 209, 201)); 
-		jpb.setBounds(582, 456,397, 15); 
+
+		jpb = new JProgressBar(JProgressBar.HORIZONTAL, 0, 100);
+		jpb.setForeground(new Color(99, 163, 146));
+		jpb.setBackground(new Color(177, 209, 201));
+		jpb.setBounds(582, 456, 397, 15);
 		jpb.setMinimum(0);
-		jpb.setMaximum(100); 
-		jpb.setStringPainted(true); 
+		jpb.setMaximum(100);
+		jpb.setStringPainted(true);
 		jpb.setValue(RankScore);
-		jpb.setString(String.valueOf(RankScore)+"점");
-	    add(jpb);
-		
-		
+		jpb.setString(String.valueOf(RankScore) + "점");
+		add(jpb);
+
 		lb_MyRank = new JLabel("내 등급");
 		lb_MyRank.setFont(new Font("굴림", Font.BOLD, 16));
 		lb_MyRank.setBounds(572, 175, 72, 39);
 		add(lb_MyRank);
-		
+
 		// 프로그레스 바 위에 작은 랭크 아이콘 이미지
 		ImageIcon image_3 = new ImageIcon(My_Page.class.getResource("../images/3.png"));
-		Image image3 = image_3.getImage();   
+		Image image3 = image_3.getImage();
 		Image change3 = image3.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		ImageIcon resizeIcon3 = new ImageIcon(change3);
 		JLabel lb_rank3 = new JLabel(resizeIcon3);
 		lb_rank3.setBounds(688, 427, 26, 23);
 		add(lb_rank3);
-		
+
 		ImageIcon image_2 = new ImageIcon(My_Page.class.getResource("../images/2.png"));
-		Image image2 = image_2.getImage();  
+		Image image2 = image_2.getImage();
 		Image change2 = image2.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		ImageIcon resizeIcon2 = new ImageIcon(change2);
 		JLabel lb_rank2 = new JLabel(resizeIcon2);
 		lb_rank2.setBounds(806, 427, 26, 23);
 		add(lb_rank2);
-		
+
 		ImageIcon image_1 = new ImageIcon(My_Page.class.getResource("../images/1.png"));
-		Image image1 = image_1.getImage();  
+		Image image1 = image_1.getImage();
 		Image change1 = image1.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		ImageIcon resizeIcon1 = new ImageIcon(change1);
 		JLabel lb_rank1 = new JLabel(resizeIcon1);
 		lb_rank1.setBounds(965, 427, 26, 23);
 		add(lb_rank1);
-		
-		//FIXME 랭크 점수 증가의 확인을 위한 임시버튼
+
+		// FIXME 랭크 점수 증가의 확인을 위한 임시버튼
 		Bt_Test = new JButton("점수증가 테스트용");
 		Bt_Test.setBounds(817, 496, 141, 57);
 		Bt_Test.addActionListener(this);
 		add(Bt_Test);
-		
-		
+
 		Rank = "<html><font color='cd853f'>0</font>"; // 3급, 2급, 1급. 명칭은 바꾸는게 나을지도
 		Rank_lb2 = new JLabel();
 		Rank_lb2.setHorizontalAlignment(SwingConstants.CENTER);
 		Rank_lb2.setFont(new Font("굴림", Font.BOLD, 18));
 		Rank_lb2.setBounds(582, 309, 397, 46);
 		add(Rank_lb2);
-		
+
 		Rank_lb1 = new JLabel();
 		Rank_lb1.setHorizontalAlignment(SwingConstants.CENTER);
 		Rank_lb1.setFont(new Font("굴림", Font.BOLD, 18));
 		Rank_lb1.setBounds(582, 220, 397, 120);
 		add(Rank_lb1);
-		
+
 		updatelabel(); // 랭크점수가 증가함에 따른 라벨 내용 업데이트 함수
-		
+
 		lb_image = new JLabel("");
 		lb_image.setFont(new Font("굴림", Font.BOLD, 13));
 		lb_image.setHorizontalAlignment(SwingConstants.CENTER);
 		lb_image.setBounds(631, 154, 92, 92);
 		add(lb_image);
-		
+
 		// <내 등급> 레이블 옆에 표시될 이미지 사이즈 조정
 		Image change3_TOP = image3.getScaledInstance(90, 90, Image.SCALE_SMOOTH);
 		resizeIcon3_TOP = new ImageIcon(change3_TOP);
@@ -246,15 +224,13 @@ public class My_Page extends JPanel implements ActionListener {
 		resizeIcon2_TOP = new ImageIcon(change2_TOP);
 		Image change1_TOP = image1.getScaledInstance(90, 90, Image.SCALE_SMOOTH);
 		resizeIcon1_TOP = new ImageIcon(change1_TOP);
-		
+
 	}
 
-	/*
-	 * public My_Page(My_Page_Panel mpp) {
-	 *    this(); 
-	 *    this.mpp = mpp; 
-	 *  }
-	 */
+	public My_Page(My_Page_Panel mpp) {
+		this();
+		this.mpp = mpp;
+	}
 
 	// 선 그리는 함수 ( 닉네임 이랑 렌트내역,렌트알림 버튼 사이 회색 선 )
 	@Override
@@ -289,72 +265,64 @@ public class My_Page extends JPanel implements ActionListener {
 			mpp.Open_reportHistory();
 			System.out.println("신고 접수/내역 창 호출");
 
-      Main_frame.Changepane("신고내역");
-		  }
-		  else if(e.getSource() == Bt_More) {
+			Main_frame.Changepane("신고내역");
+		} else if (e.getSource() == Bt_More) {
 
 			// 더보기 창 호출
 			System.out.println("더보기 창 호출");
-		}
-		else if(e.getSource()== Bt_Test && RankScore < 100) {
+		} else if (e.getSource() == Bt_Test && RankScore < 100) {
 			previousRank = Rank;
 			RankScore += 5; // TODO: 게시물 작성, 신고완료 등의 활동에 따라 등급 점수 부여
 			if (RankScore > 100)
-				RankScore -= (RankScore - 100); 
+				RankScore -= (RankScore - 100);
 			jpb.setValue(RankScore);
-			jpb.setString(String.valueOf(RankScore)+"점");
+			jpb.setString(String.valueOf(RankScore) + "점");
 			System.out.println(RankScore);
 			updatelabel();
 			updateImage();
 		}
 	}
-	
+
 	// 랭크점수가 증가함에 따른 라벨 내용 업데이트 메소드
 	private void updatelabel() {
 		String nextRank = "";
-		
-		if (RankScore < 30 ) {
+
+		if (RankScore < 30) {
 			Rank = "없음";
-			Rank_lb2.setText("<html><font color='red'>" +String.valueOf(30-RankScore)+ "</font>점 남았습니다!");
-			
+			Rank_lb2.setText("<html><font color='red'>" + String.valueOf(30 - RankScore) + "</font>점 남았습니다!");
+
 			nextRank = "<html><font color='cd853f'>3</font>";
-		}
-		else if (RankScore < 60 ) {
+		} else if (RankScore < 60) {
 			Rank = "<html><font color='cd853f'>3</font>";
-			Rank_lb2.setText("<html><font color='red'>" +String.valueOf(60-RankScore)+ "</font>점 남았습니다!");
-			
-			
+			Rank_lb2.setText("<html><font color='red'>" + String.valueOf(60 - RankScore) + "</font>점 남았습니다!");
+
 			nextRank = "<html><font color='gray'>2</font>";
-		}
-		else if (RankScore <100) {
+		} else if (RankScore < 100) {
 			Rank = "<html><font color='gray'>2</font>";
-			Rank_lb2.setText("<html><font color='red'>" +String.valueOf(100-RankScore)+ "</font>점 남았습니다!");
-			
+			Rank_lb2.setText("<html><font color='red'>" + String.valueOf(100 - RankScore) + "</font>점 남았습니다!");
+
 			nextRank = "<html><font color='ffd700'>1</font>";
-		}
-		else if (RankScore == 100) { 
+		} else if (RankScore == 100) {
 			Rank = "<html><font color='ffd700'>1</font>";
-			Rank_lb2.setText(""); 
+			Rank_lb2.setText("");
 			Rank_lb1.setText("<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;축하합니다!<br><br>최고 등급을 달성하였습니다!");
 		}
-		 
-		
-		if (RankScore <100) {
-			Rank_lb1.setText("<html><font color='red'>["+name+"]</font>님의 다음 등급 ["+nextRank+"] 달성까지");
+
+		if (RankScore < 100) {
+			Rank_lb1.setText("<html><font color='red'>[" + name + "]</font>님의 다음 등급 [" + nextRank + "] 달성까지");
 		}
 	}
-	
+
 	// <내 등급> 레이블 옆에 랭크 아이콘 이미지 업데이트 메소드
 	private void updateImage() {
 		if (RankScore < 30)
 			;
-		  else if (RankScore < 60) {
-            lb_image.setIcon(resizeIcon3_TOP);
-        } else if (RankScore < 100) {
-            lb_image.setIcon(resizeIcon2_TOP);
-        } else if (RankScore == 100) {
-            lb_image.setIcon(resizeIcon1_TOP);
-        }
-    }
+		else if (RankScore < 60) {
+			lb_image.setIcon(resizeIcon3_TOP);
+		} else if (RankScore < 100) {
+			lb_image.setIcon(resizeIcon2_TOP);
+		} else if (RankScore == 100) {
+			lb_image.setIcon(resizeIcon1_TOP);
+		}
+	}
 }
- 
