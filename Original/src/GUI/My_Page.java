@@ -13,16 +13,18 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
-
-import GUI.C_Component.myPageTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 // 메인 프레임 코드의 89번째 줄을 P4 = new My_Page(); 구문으로 수정하여 실행
 
 public class My_Page extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 5812757489846205649L;
-	private myPageTable table;
+	private JTable table;
 	String[] Column_Name = { "거래번호", "물품명", "반납기한" };
 	String[][] Test = { { "data1", "data2", "data3" }, { "data1-1", "data2-1", "data3-1" } };
 	private RoundButton Bt_profile;
@@ -46,6 +48,7 @@ public class My_Page extends JPanel implements ActionListener {
 	private ImageIcon resizeIcon3_TOP;
 	private ImageIcon resizeIcon2_TOP;
 	private ImageIcon resizeIcon1_TOP;
+	private DefaultTableModel tableModel;
 
 	protected My_Page_Panel mpp;
 
@@ -108,9 +111,24 @@ public class My_Page extends JPanel implements ActionListener {
 		lblNewLabel_1.setFont(new Font("굴림", Font.BOLD, 16));
 		lblNewLabel_1.setBounds(587, 576, 72, 32);
 		add(lblNewLabel_1);
-
-		table = new myPageTable(587, 645, 389, 144);
-
+		
+		tableModel = new DefaultTableModel(Test, Column_Name);
+		table = new JTable(tableModel);
+		table.setFont(new Font("굴림",Font.BOLD,12));
+		table.setEnabled(false);
+		table.setShowVerticalLines(false);
+		table.setBounds(600, 641, 358, 143);
+		table.setRowHeight(60);
+		
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		TableColumnModel columnModel = table.getColumnModel();
+		for (int i=0; i<columnModel.getColumnCount();i++){
+			table.getColumnModel().getColumn(i).setPreferredWidth(128);
+			columnModel.getColumn(i).setCellRenderer(centerRenderer);
+		}
+		
+		
 		add(table);
 
 		JLabel Label_Trade_Num = new JLabel("거래번호");
