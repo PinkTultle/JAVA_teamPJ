@@ -24,7 +24,7 @@ public class My_Page_Panel extends JPanel {
 		rentHistory = new RentHistory(this);
 		// rentAlarm = new
 		// myWrite = new
-		reportHistory = new Report_Details(this);
+		reportHistory = new Report_Details_1(this);
 		profile = new ProfilePanel(this);
 
 		this.add(rentHistory);

@@ -33,6 +33,8 @@ import javax.swing.table.TableCellRenderer;
 
 import JDBC.ItemDAO;
 import JDBC.ItemDTO;
+import JDBC.ReportDAO;
+import JDBC.ReportDTO;
 
 public class C_Component {
 	static private MyFL myFL = new MyFL();
@@ -340,6 +342,19 @@ public class C_Component {
 		public void focusLost() {
 			// TODO Auto-generated method stub
 			this.clearSelection();
+		}
+
+	}
+
+	static class MyTA_report extends MyTA implements BaseTableComponent {
+
+		@Override
+		public void goDetail() { // 마우스나 키보드 이벤트 발생시 실행하는 메소드
+			// TODO Auto-generated method stub
+			int selectedRow = this.getSelectedRow(); // 행 정보를 받아옴
+			// 선택 항의 PID를 이용하여서 정보 검색이 필요
+			Report_Window_Read RWRPanel = new Report_Window_Read(getValueAt(selectedRow, itemNumIdx).toString());
+			RWRPanel.setVisible(true);
 		}
 
 	}
@@ -707,6 +722,65 @@ public class C_Component {
 								item.getRentdate() };
 						tableModel.addRow(newData);
 					}
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+	}
+
+	static public class reportDetailTable extends base_itemSlot {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public reportDetailTable(int x, int y, int width, int height) {
+			setBounds(x, y, width, height);
+			getViewport().setBackground(Color.white);
+
+			table = new MyTA_report();
+			table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "", "", "", "" }) {
+				Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class };
+
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+
+				boolean[] columnEditables = new boolean[] { true, false, false, false, false, false, false };
+
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+			table.setRowHeight(60); // 각 행의 높이 설정
+
+			// 가운데 정렬
+			int columnSize[] = { 50, 50, 360, 50 };
+			for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+				table.getColumnModel().getColumn(i).setPreferredWidth(columnSize[i]);
+			}
+
+			initJTableStyle(table, height, 10, false);
+
+			this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+			this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			this.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, Color.BLACK));
+			this.setViewportView(table);
+		}
+
+		public void setItem() {
+			try {
+				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+				Vector<ReportDTO> data = new Vector<>();
+				ReportDAO reportDAO = new ReportDAO();
+				data = reportDAO.loginIDReportData();
+				for (ReportDTO item : data) {
+					Object[] newData;
+					newData = new Object[] { Integer.toString(item.getReportNum()),
+							Integer.toString(item.getItemNumber()), item.getItemName(), item.getStatus() };
+					tableModel.addRow(newData);
 				}
 			} catch (Exception e) {
 				// TODO: handle exception

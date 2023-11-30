@@ -30,10 +30,7 @@ public class ItemDetail extends JFrame implements ActionListener {
 	private JPanel panel_2;
 	private JPanel panel_3;
 	private JLabel lbl[] = new JLabel[7];
-	private JLabel lblNewLabel_5;
-	private JLabel lblNewLabel_6;
 	private JLabel lblNewLabel;
-	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_1;
 
 	private Font nF = new Font("맑은 고딕", Font.PLAIN, 14);
@@ -235,7 +232,7 @@ public class ItemDetail extends JFrame implements ActionListener {
 				System.out.println(((JButton) (e.getSource())).getText());
 			} else { // 신고 버튼 동작
 				System.out.println(((JButton) (e.getSource())).getText());
-				Report_Window rw = new Report_Window(lbl[2].getText(), lbl[1].getText());
+				Report_Window_Write rw = new Report_Window_Write(lbl[2].getText(), lbl[1].getText());
 
 			}
 		} else if (e.getSource() == btnNewButton_2) { // 삭제/예약 버튼 동작

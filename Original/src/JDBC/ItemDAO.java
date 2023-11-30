@@ -89,7 +89,7 @@ public class ItemDAO {
 			if (category != null) {
 				sql += " AND ";
 			}
-			sql += " 물품목록.물품명 = '" + itemName + "'";
+			sql += " 물품목록.물품명 LIKE '%" + itemName + "%'";
 		}
 		if (status != null) {
 			if (category != null && itemName != null) {
