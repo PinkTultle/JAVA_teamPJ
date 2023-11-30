@@ -52,7 +52,7 @@ public class My_Page extends JPanel implements ActionListener {
 	public My_Page() {
 
 		setBackground(new Color(255, 255, 255));
-		setBounds(0, 150, 1050, 800);
+		setBounds(0, 0, 1050, 800);
 		setLayout(null);
 
 		JLabel Label_NickName = new JLabel("KJH");
