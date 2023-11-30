@@ -16,7 +16,7 @@ import javax.swing.SwingConstants;
 public class Home_right_pane extends Function_pane implements ActionListener {
 
 	private JButton Category;
-	private String[] Cate = { "전자기기", "가구/인테리어", "유아용품", "뷰티", "패션잡화", "가전/생활", "스포츠/레져", "도서", "취미/게임", "동물용품", "기타",
+	private String[] Cate = { "전자제품", "가구/인테리어", "유아용품", "뷰티", "패션잡화", "가전/생활", "스포츠/레져", "도서", "취미/게임", "동물용품", "기타",
 			"요청" + "" };
 
 	public Home_right_pane() {

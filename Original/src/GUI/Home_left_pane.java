@@ -8,8 +8,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 public class Home_left_pane extends Function_pane {
@@ -19,6 +21,7 @@ public class Home_left_pane extends Function_pane {
 	private search_bt Jb1 = null;
 	private Font font;
 	private JPanel BP = new Baener_pane();
+	private JScrollPane NP;
 
 	public Home_left_pane() {
 		// TODO Auto-generated constructor stub
@@ -37,11 +40,20 @@ public class Home_left_pane extends Function_pane {
 		add(L1);
 
 		L2 = new JLabel("최신 등록 물품");
-		L2.setBounds(L1.getX(), L1.getY() + 170, 150, 50);
+		L2.setBounds(L1.getX(), L1.getY() + 170, 200, 50);
 		L2.setFont(font);
 		L2.setForeground(Color.black);
 		add(L2);
+		
+		NP = new New_registered_items();
+		NP.setLocation(L2.getX(), L2.getY()+L2.getHeight()+20);
+		NP.setSize(getWidth()-getX() - 100, getHeight()-NP.getY()-20);
+		System.out.println(NP.getX() +","+ NP.getY());
+		System.out.println(NP.getWidth() +","+ NP.getHeight());
 
+		NP.setBackground(Color.lightGray);
+		add(NP);
+		
 		// 검색어 입력 텍스트 필드 설정
 		Tf = new JTextField();
 

@@ -46,7 +46,7 @@ public class OfferManage extends JPanel {
 		lblNewLabel_1.setLineColor(new Color(0, 140, 200));
 		lblNewLabel_1.setBounds(526, 10, 500, 70);
 		add(lblNewLabel_1);
-
+/*
 		try {
 			itemSlot_offer is_receive = new itemSlot_offer(28, 140, 461, 600);
 			is_receive.setItem("receive");
@@ -59,7 +59,7 @@ public class OfferManage extends JPanel {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-
+*/
 		for (int i = 0; i < 6; i++) {
 			lblNewLabel_2[i] = new JLabel(initString[i % 3]);
 			lblNewLabel_2[i].setHorizontalTextPosition(SwingConstants.CENTER);
@@ -85,4 +85,20 @@ public class OfferManage extends JPanel {
 		
 		*/
 	}
+	
+	public void open() {
+		try {
+			itemSlot_offer is_receive = new itemSlot_offer(28, 140, 461, 600);
+			is_receive.setItem("receive");
+			add(is_receive);
+
+			itemSlot_offer is_sending = new itemSlot_offer(545, 140, 461, 600);
+			is_sending.setItem("sending");
+			add(is_sending);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	
 }

@@ -127,7 +127,9 @@ public class Main_frame extends JFrame {
 				// 패널교체
 				if (!P4.Close_profile())
 					break;
-
+				((OfferManage) P3).open();
+				
+				
 				P1.setVisible(false);
 				P2.setVisible(false);
 				P3.setVisible(true);

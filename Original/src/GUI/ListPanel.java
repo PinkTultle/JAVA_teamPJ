@@ -43,7 +43,7 @@ public class ListPanel extends JPanel implements ActionListener {
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		comboBox.setBackground(new Color(255, 255, 255));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "전체", "전자기기", "가구/인테리어", "유아용품", "뷰티", "패션잡화",
+		comboBox.setModel(new DefaultComboBoxModel(new String[] { "전체", "전자제품", "가구/인테리어", "유아용품", "뷰티", "패션잡화",
 				"가전/생활", "스포츠/레져", "도서", "취미/게임", "동물용품", "기타", "요청" }));
 		comboBox.setBounds(62, 46, 110, 35);
 		comboBox.addActionListener(this);
@@ -109,7 +109,7 @@ public class ListPanel extends JPanel implements ActionListener {
 		btnNewButton_2.setBorder(null);
 		add(btnNewButton_2);
 
-		is.setPage(null, null, null);
+		//is.setPage(null, null, null);
 
 		int[] xLoc = { 67, 180, 415, 652, 770, 880 };
 		String[] headerText = { "물품코드", "카테고리", "물품명", "등록자", "렌트 기한", "처리 상태" };
