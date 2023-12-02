@@ -14,15 +14,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
-
-import GUI.C_Component.myPageTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 // 메인 프레임 코드의 89번째 줄을 P4 = new My_Page(); 구문으로 수정하여 실행
 
 public class My_Page extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 5812757489846205649L;
-	private myPageTable table;
+	private JTable table;
 	String[] Column_Name = { "거래번호", "물품명", "반납기한" };
 	String[][] Test = { { "data1", "data2", "data3" }, { "data1-1", "data2-1", "data3-1" } };
 	private RoundButton Bt_profile;
@@ -46,13 +47,14 @@ public class My_Page extends JPanel implements ActionListener {
 	private ImageIcon resizeIcon3_TOP;
 	private ImageIcon resizeIcon2_TOP;
 	private ImageIcon resizeIcon1_TOP;
+	private DefaultTableModel tableModel;
 
 	protected My_Page_Panel mpp;
 
 	public My_Page() {
 
 		setBackground(new Color(255, 255, 255));
-		setBounds(0, 150, 1050, 800);
+		setBounds(0, 0, 1050, 800);
 		setLayout(null);
 
 		JLabel Label_NickName = new JLabel("KJH");
@@ -111,7 +113,6 @@ public class My_Page extends JPanel implements ActionListener {
 
 		table = new myPageTable(587, 495, 389, 144);
 		table.setItem();
-
 		add(table);
 
 		JLabel Label_Trade_Num = new JLabel("거래번호");
