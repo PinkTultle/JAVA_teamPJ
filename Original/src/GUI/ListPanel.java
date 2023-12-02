@@ -22,8 +22,8 @@ public class ListPanel extends JPanel implements ActionListener {
 	private static MyJT textField;
 	private JButton btnNewButton;
 	private RoundButton btnNewButton_1;
-	private JButton btnNewButton_2;
-	private JButton btnNewButton_3;
+	private bt_next btnNewButton_2;
+	private bt_next btnNewButton_3;
 	private static itemSlot_list is;
 	private static JLabel lblNewLabel_1;
 	private JLabel[] tableHeader = new JLabel[6];
@@ -38,7 +38,7 @@ public class ListPanel extends JPanel implements ActionListener {
 		setLayout(null);
 
 		setBackground(new Color(255, 255, 255));
-		setBounds(0, BP.getHeight(), 1050, 700);
+		setBounds(0, BP.getHeight(), 1050, 720);
 
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
@@ -76,6 +76,7 @@ public class ListPanel extends JPanel implements ActionListener {
 		add(btnNewButton_1);
 
 		is = new itemSlot_list(57, 150, 920, 480);
+		is.getViewport().setBackground(new Color(243, 246, 249));
 		add(is);
 
 		JLabel lblNewLabel = new JLabel("page");
@@ -89,24 +90,12 @@ public class ListPanel extends JPanel implements ActionListener {
 		lblNewLabel_1.setText("1");
 		add(lblNewLabel_1);
 
-		btnNewButton_3 = new JButton("다음 페이지");
-		btnNewButton_3.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		btnNewButton_3.setBounds(888, 650, 110, 23);
+		btnNewButton_3 = new bt_next(888, 640, 50, 50, true);
 		btnNewButton_3.addActionListener(this);
-		btnNewButton_3.setForeground(new Color(255, 255, 255));
-		btnNewButton_3.setBackground(new Color(14, 180, 252));
-		btnNewButton_3.setFocusPainted(false);
-		btnNewButton_3.setBorder(null);
 		add(btnNewButton_3);
 
-		btnNewButton_2 = new JButton("이전 페이지");
-		btnNewButton_2.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		btnNewButton_2.setBounds(766, 650, 110, 23);
+		btnNewButton_2 = new bt_next(766, 640, 50, 50, false);
 		btnNewButton_2.addActionListener(this);
-		btnNewButton_2.setForeground(new Color(255, 255, 255));
-		btnNewButton_2.setBackground(new Color(14, 180, 252));
-		btnNewButton_2.setFocusPainted(false);
-		btnNewButton_2.setBorder(null);
 		add(btnNewButton_2);
 
 		is.setPage(null, null, null);

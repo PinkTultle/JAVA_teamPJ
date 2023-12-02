@@ -45,9 +45,6 @@ public class LoginGUI extends JFrame implements ActionListener {
 	private JButton btnNewButton_2;
 	private JFrame mainFrame;
 
-	private boolean isTyped_l = false;
-	private boolean isTyped_p = false;
-
 	/**
 	 * Launch the application.
 	 */

@@ -3,18 +3,54 @@ package JDBC;
 public class ItemDTO {
 
 	private int itemnumber; // 물품코드
-	private String category;
+	private String category; // 카테고리
 	private String itemname; // 물품명
 	private String modelname; // 모델명
 	private String person; // 소유주
 	private String nickname;// 별명 | 회원 테이블
 	private String rentdate; // ex) 2023-10-10
+	private String rentdate_start; // 대여시작날짜
+	private String rentdate_end; // 대여반납예정일
 	private int rentalfee; // 대여료
 	private int deposit; // 보증금
 	private String explanation; // 설명
 	private String state; // 대여상태
 	private String phonenumber; // 전화번호
 	private String image; // 이미지
+	private String lender; // 대여자
+	private String bookingGuest; // 예약자
+
+	public String getRentdate_end() {
+		return rentdate_end;
+	}
+
+	public void setRentdate_end(String s) {
+		rentdate_end = s;
+	}
+
+	public String getRentdate_start() {
+		return rentdate_start;
+	}
+
+	public void setRentdate_start(String s) {
+		rentdate_start = s;
+	}
+
+	public void setBookingGuest(String s) {
+		bookingGuest = s;
+	}
+
+	public String getBookingGuest() {
+		return bookingGuest;
+	}
+
+	public void setLender(String s) {
+		lender = s;
+	}
+
+	public String getLender() {
+		return lender;
+	}
 
 	public String getImage() {
 		return image;

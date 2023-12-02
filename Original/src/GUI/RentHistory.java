@@ -111,4 +111,8 @@ public class RentHistory extends JPanel implements ActionListener {
 			return false;
 		return true;
 	}
+
+	public void refresh() {
+		is.setItem();
+	}
 }

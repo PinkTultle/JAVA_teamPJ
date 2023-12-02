@@ -335,7 +335,10 @@ public class C_Component {
 			int selectedRow = this.getSelectedRow(); // 행 정보를 받아옴
 			// 선택 항의 PID를 이용하여서 정보 검색이 필요
 			ItemDetail idPanel = new ItemDetail(Integer.parseInt(getValueAt(selectedRow, itemNumIdx).toString()));
-			idPanel.setVisible(true);
+			if (!idPanel.isOpen)
+				idPanel.dispose();
+			else
+				idPanel.setVisible(true);
 		}
 
 		@Override
@@ -427,6 +430,7 @@ public class C_Component {
 
 			// 테이블 디자인
 			initJTableStyle(table, height, 12, false);
+			setSize(getWidth(), getHeight() + 2);
 
 			this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 			this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -544,12 +548,17 @@ public class C_Component {
 		}
 
 		void setItem(String s) throws SQLException {
+			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+			int rowCount = tableModel.getRowCount();
+			while (rowCount != 0) {
+				tableModel.removeRow(0);
+				rowCount--;
+			}
 			Vector<ItemDTO> data = new Vector<ItemDTO>();
 			ItemDAO itemDAO = new ItemDAO();
-
-			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 			data = itemDAO.item_receive_sending(s);
 			for (ItemDTO item : data) {
+				System.out.println(s + " " + item.getItemnumber());
 				tableModel.addRow(new Object[] { "" + item.getItemnumber(), item.getItemname(), item.getRentdate() });
 			}
 
@@ -619,12 +628,22 @@ public class C_Component {
 		}
 
 		void setItem() { // boolean 1개와 String 6개로 값을 변경
+			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 			try {
-				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+				// 오류 발생하나 해결 불가 | 별개의 try/catch 문으로 예외 처리
+				int rowCount = tableModel.getRowCount();
+				while (rowCount != 0) {
+					tableModel.removeRow(0);
+					rowCount--;
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			try {
 				Vector<ItemDTO> data = new Vector<>();
 				ItemDAO itemDAO = new ItemDAO();
 				data = itemDAO.itemRental();
-
 				for (ItemDTO item : data) {
 					Object[] newData;
 					if (item.getState().equals("대여중")) {
@@ -712,10 +731,18 @@ public class C_Component {
 		public void setItem() {
 			try {
 				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+				int rowCount = tableModel.getRowCount();
+				while (rowCount != 0) {
+					tableModel.removeRow(0);
+					rowCount--;
+				}
 				Vector<ItemDTO> data = new Vector<>();
 				ItemDAO itemDAO = new ItemDAO();
 				data = itemDAO.itemRental();
-				for (ItemDTO item : data) {
+				if (data == null)
+					return;
+				for (int i = 0; i < 2; i++) {
+					ItemDTO item = data.get(i);
 					Object[] newData;
 					if (item.getState().equals("대여중")) {
 						newData = new Object[] { Integer.toString(item.getItemnumber()), item.getItemname(),
@@ -773,9 +800,16 @@ public class C_Component {
 		public void setItem() {
 			try {
 				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+				int rowCount = tableModel.getRowCount();
+				while (rowCount != 0) {
+					tableModel.removeRow(0);
+					rowCount--;
+				}
 				Vector<ReportDTO> data = new Vector<>();
 				ReportDAO reportDAO = new ReportDAO();
 				data = reportDAO.loginIDReportData();
+				if (data == null)
+					return;
 				for (ReportDTO item : data) {
 					Object[] newData;
 					newData = new Object[] { Integer.toString(item.getReportNum()),

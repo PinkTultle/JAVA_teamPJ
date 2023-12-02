@@ -78,7 +78,7 @@ public class ReportDAO {
 
 			rs.next();
 
-			sql = "INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지) " + "VALUES (?, ?, ?, ?, ?, ?) ";
+			sql = "INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지, 작성자) " + "VALUES (?, ?, ?, ?, ?, ?, ?) ";
 
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, rs.getInt(1) + 1);
@@ -87,6 +87,7 @@ public class ReportDAO {
 			pstmt.setString(4, v.get(2));
 			pstmt.setString(5, "처리중");
 			pstmt.setString(6, v.get(3));
+			pstmt.setString(7, UserDAO.user_cur);
 
 			rs = pstmt.executeQuery();
 
@@ -152,14 +153,15 @@ public class ReportDAO {
 			pstmt.setInt(1, reportNum);
 			rs = pstmt.executeQuery();
 
-			rs.next();
-			data.setPostID(rs.getString("작성자"));
-			data.setReportNum(rs.getInt("신고번호"));
-			data.setItemNumber(rs.getInt("물품코드"));
-			data.setItemName(rs.getString("물품명"));
-			data.setCategory(rs.getString("신고분류"));
-			data.setStatus(rs.getString("처리상태"));
-			data.setReportDetail(rs.getString("신고메세지"));
+			if (rs.next()) {
+				data.setPostID(rs.getString("작성자"));
+				data.setReportNum(rs.getInt("신고번호"));
+				data.setItemNumber(rs.getInt("물품코드"));
+				data.setItemName(rs.getString("물품명"));
+				data.setCategory(rs.getString("신고분류"));
+				data.setStatus(rs.getString("처리상태"));
+				data.setReportDetail(rs.getString("신고메세지"));
+			}
 
 		} catch (Exception e) {
 			// TODO: handle exception
