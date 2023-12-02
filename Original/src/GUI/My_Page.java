@@ -110,6 +110,7 @@ public class My_Page extends JPanel implements ActionListener {
 		add(lblNewLabel_1);
 
 		table = new myPageTable(587, 495, 389, 144);
+		table.setItem();
 
 		add(table);
 

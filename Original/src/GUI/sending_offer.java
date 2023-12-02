@@ -164,14 +164,19 @@ public class sending_offer extends JFrame implements ActionListener {
 		if (e.getSource() == btn_cancel) {
 			dispose();
 		} else if (e.getSource() == btn_sending) {
-			ItemDAO itemDAO = new ItemDAO();
 			String msg = "예약에 실패했습니다.";
-			if (itemDAO.checkOffer(itemNum, d1, d2) == 0) {
-				if (itemDAO.sendingOffer(data, d1, d2) == 0) {
-					msg = "예약 성공했습니다.";
+			if (d1.isBefore(d2)) {
+				ItemDAO itemDAO = new ItemDAO();
+				if (itemDAO.checkOffer(itemNum, d1, d2) == 0) {
+					if (itemDAO.sendingOffer(data, d1, d2) == 0) {
+						msg = "예약 성공했습니다.";
+					}
 				}
 			}
+
 			JOptionPane.showMessageDialog(null, msg);
+			if (msg.equals("예약 성공했습니다."))
+				dispose();
 		}
 
 	}
