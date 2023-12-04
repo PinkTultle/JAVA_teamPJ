@@ -1,12 +1,22 @@
 package JDBC;
 
 public class ReportDTO {
+
+	private String postid;
 	private int reportnum;
 	private int itemnumber;
 	private String itemname;
 	private String category;
 	private String status;
 	private String reportdetail;
+
+	public String getPostID() {
+		return postid;
+	}
+
+	public void setPostID(String s) {
+		this.postid = s;
+	}
 
 	public int getReportNum() {
 		return reportnum;
