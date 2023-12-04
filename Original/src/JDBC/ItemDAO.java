@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 
 public class ItemDAO {
 
-	// String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
+	//String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
 	String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
 
 	String user = "ABC"; // db 사용자 이름
