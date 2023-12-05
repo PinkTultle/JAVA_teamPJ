@@ -226,10 +226,10 @@ public class LoginGUI extends JFrame implements ActionListener {
 
 				} else if (n == -1) {
 					// 아이디 없음
-					new fail_popup("잘못된 ID!");
+					new popup_JDialog("로그인 실패", "잘못된 ID!");
 				} else if (n == 1) {
 					// 비밀번호 없음
-					new fail_popup("잘못된 PW!");
+					new popup_JDialog("로그인 실패", "잘못된 PW!");
 				}
 
 			} catch (SQLException e1) {
@@ -249,44 +249,4 @@ public class LoginGUI extends JFrame implements ActionListener {
 	// txtPassword : 패스워드 입력 JPasswordField
 }
 
-class fail_popup extends JDialog {
 
-	public fail_popup(String text) {
-
-		setSize(300, 150);
-		setTitle("로그인 실패");
-
-		// 사이즈 조절 off
-		setResizable(false);
-		// 화면 중앙에 출력
-		setLocationRelativeTo(null);
-
-		JPanel jp = (JPanel) getContentPane();
-		jp.setLayout(new BorderLayout(10, 10));
-		setContentPane(jp);
-
-		JLabel jl = new JLabel(text);
-		jl.setFont(new Font("맑은 고딕", Font.BOLD | Font.PLAIN, 25));
-
-		jl.setHorizontalAlignment(JLabel.CENTER);
-
-		JButton jb = new JButton("확인");
-		jb.setBorderPainted(false);
-		jb.setFocusPainted(false);
-		jb.setBackground(Color.darkGray);
-		jb.setFont(new Font("맑은 고딕", Font.BOLD | Font.PLAIN, 22));
-		jb.setForeground(Color.white);
-
-		jb.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
-
-		add(jb, BorderLayout.SOUTH);
-		add(jl, BorderLayout.CENTER);
-
-		setVisible(rootPaneCheckingEnabled);
-	}
-
-}
