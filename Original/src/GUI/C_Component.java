@@ -151,6 +151,7 @@ public class C_Component {
 			super.focusLost();
 			setHorizontalAlignment(JTextField.CENTER);
 		}
+		
 	}
 
 	static class MyPT extends JPasswordField implements BaseTextComponent { // JPasswordField 에 사용자 기능 추가
