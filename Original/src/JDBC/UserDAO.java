@@ -51,6 +51,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		return conn; // 오라클 로그인 연결 정보
 	}
 
+	//이부분 관리자 권한 확인해서 닽이 반환하도록 수정 필요
 	public int checkLogin(UserDTO dto) throws SQLException { // 로그인
 
 		String sql = " SELECT * FROM 회원 WHERE 아이디 = ? ";

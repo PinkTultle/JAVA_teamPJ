@@ -222,7 +222,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 					// 페이지 전환 소스 넣어야함
 
 					setVisible(false);
-					mainFrame = new Main_frame();
+					mainFrame = new Main_frame(true);
 
 				} else if (n == -1) {
 					// 아이디 없음

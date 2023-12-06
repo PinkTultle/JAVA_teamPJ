@@ -48,7 +48,7 @@ public class My_Page extends JPanel implements ActionListener {
 	private ImageIcon resizeIcon1_TOP;
 	protected My_Page_Panel mpp;
 
-	public My_Page() {
+	public My_Page(boolean Administrator) {
 
 		setBackground(new Color(255, 255, 255));
 		setBounds(0, 150, 1050, 800);
@@ -96,13 +96,10 @@ public class My_Page extends JPanel implements ActionListener {
 		Bt_temp1.setFont(new Font("굴림", Font.BOLD, 16));
 		Bt_temp1.setBounds(41, 394, 141, 130);
 		add(Bt_temp1);
-
-		Bt_temp2 = new RoundButton("temp2", Color.LIGHT_GRAY);
-		Bt_temp2.setFont(new Font("굴림", Font.BOLD, 16));
-		Bt_temp2.setBounds(201, 394, 141, 130);
-
-		add(Bt_temp2);
-
+		
+		Bt_temp1.setVisible(Administrator);
+		
+		
 		JLabel lblNewLabel_1 = new JLabel("렌트 알림");
 		lblNewLabel_1.setFont(new Font("굴림", Font.BOLD, 16));
 		lblNewLabel_1.setBounds(587, 426, 72, 32);
@@ -226,8 +223,8 @@ public class My_Page extends JPanel implements ActionListener {
 
 	}
 
-	public My_Page(My_Page_Panel mpp) {
-		this();
+	public My_Page(My_Page_Panel mpp, boolean Administrator) {
+		this(Administrator);
 		this.mpp = mpp;
 	}
 
@@ -279,6 +276,10 @@ public class My_Page extends JPanel implements ActionListener {
 			System.out.println(RankScore);
 			updatelabel();
 			updateImage();
+		} else if(e.getSource() == Bt_temp1) {
+			
+			//관리자 창 연결 함수
+			
 		}
 	}
 

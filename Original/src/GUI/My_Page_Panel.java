@@ -15,12 +15,12 @@ public class My_Page_Panel extends JPanel {
 	private RentHistory rentHistory;
 	private JPanel rentAlarm, myWrite;
 
-	public My_Page_Panel() {
+	public My_Page_Panel(boolean Administrator) {
 		setLayout(null);
 		setBounds(0, 150, 1050, 700);
 		setBackground(new Color(255, 255, 255));
 
-		myPage = new My_Page(this);
+		myPage = new My_Page(this, Administrator);
 		this.add(myPage);
 
 		rentHistory = new RentHistory(this);
