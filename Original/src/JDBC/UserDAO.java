@@ -9,8 +9,8 @@ import java.sql.SQLException;
 public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 	// String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
-	String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
-	//String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe"; //안되면 이걸로!
+	//String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
+	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe"; //안되면 이걸로!
 
 	String user = "ABC"; // db 사용자 이름
 	String password = "1234"; // db
@@ -51,6 +51,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		return conn; // 오라클 로그인 연결 정보
 	}
 
+	//이부분 관리자 권한 확인해서 닽이 반환하도록 수정 필요
 	public int checkLogin(UserDTO dto) throws SQLException { // 로그인
 
 		String sql = " SELECT * FROM 회원 WHERE 아이디 = ? ";
@@ -64,14 +65,19 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			if (rs.next()) {
 				if (rs.getString("비밀번호").equals(dto.getPw())) {
 					user_cur = dto.getId();
-					return 0; // 로그인 성공
+					
+					int Administrator = rs.getInt("관리자여부");
+					dto.setAdministrator(Administrator);
+					
+					return Administrator; // 로그인 성공
 				} else {
-					return 1; // 비밀번호 불일치
+					return -3; // 비밀번호 불일치
 				}
 			}
 			return -1; // 아이디 없음
 
 		} catch (Exception e) {
+			System.out.print(e.getMessage());
 			return -2; // db 오류
 		} finally {
 			rs.close();

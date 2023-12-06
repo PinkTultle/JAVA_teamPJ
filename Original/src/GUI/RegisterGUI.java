@@ -451,7 +451,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 			return;
 		}
 
-		userDTO = new UserDTO(id, pw, nick, name, birth, gender, tel, address, email_1);
+		userDTO = new UserDTO(id, pw, nick, name, birth, gender, tel, address, email_1, 0);
 
 		try {
 			int n = userDAO.userInsert(userDTO);
