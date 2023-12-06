@@ -215,19 +215,18 @@ public class LoginGUI extends JFrame implements ActionListener {
 			try {
 				int n = userDAO.checkLogin(userDTO);
 
-				if (n == 0) {
+				if (n == 0 || n == 1) {
 					// 로그인 성공
-					System.out.println("로그인 성공");
 					userDTO.setLoginid(id); // 로그인한 아이디 저장
 					// 페이지 전환 소스 넣어야함
 
 					setVisible(false);
-					mainFrame = new Main_frame(true);
+					mainFrame = new Main_frame((n==1?true:false));
 
 				} else if (n == -1) {
 					// 아이디 없음
 					new popup_JDialog("로그인 실패", "잘못된 ID!");
-				} else if (n == 1) {
+				} else if (n == -3) {
 					// 비밀번호 없음
 					new popup_JDialog("로그인 실패", "잘못된 PW!");
 				}
