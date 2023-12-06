@@ -20,6 +20,7 @@ public class OfferManage extends JPanel {
 	private String initString[] = { "물품코드", "물품명", "요청기한" };
 	private Font headerFont = new Font("맑은 고딕", Font.PLAIN, 20);
 	private int initBounds[] = { 9, 185, 355, 97, 89, 47 };
+	private static itemSlot_offer is_receive, is_sending;
 
 	/**
 	 * Create the frame.
@@ -48,11 +49,11 @@ public class OfferManage extends JPanel {
 		add(lblNewLabel_1);
 
 		try {
-			itemSlot_offer is_receive = new itemSlot_offer(28, 140, 461, 600);
+			is_receive = new itemSlot_offer(28, 140, 461, 600);
 			is_receive.setItem("receive");
 			add(is_receive);
 
-			itemSlot_offer is_sending = new itemSlot_offer(545, 140, 461, 600);
+			is_sending = new itemSlot_offer(545, 140, 461, 600);
 			is_sending.setItem("sending");
 			add(is_sending);
 		} catch (Exception e) {
@@ -85,4 +86,15 @@ public class OfferManage extends JPanel {
 		
 		*/
 	}
+
+	public static void refresh() {
+		try {
+			is_receive.setItem("receive");
+			is_sending.setItem("sending");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

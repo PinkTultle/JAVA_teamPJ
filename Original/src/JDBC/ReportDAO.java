@@ -8,9 +8,10 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 public class ReportDAO {
-	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
 
+	//String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
 	//String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe"; //안되면 이걸로!
 
 	String user = "ABC"; // db 사용자 이름
 	String password = "1234"; // db
@@ -47,6 +48,7 @@ public class ReportDAO {
 
 			while (rs.next()) {
 				ReportDTO dto = new ReportDTO();
+				dto.setPostID(rs.getString("작성자"));
 				dto.setReportNum(rs.getInt("신고번호"));
 				dto.setItemNumber(rs.getInt("물품코드"));
 				dto.setItemName(rs.getString("물품명"));
@@ -79,7 +81,7 @@ public class ReportDAO {
 
 			rs.next();
 
-			sql = "INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지) " + "VALUES (?, ?, ?, ?, ?, ?) ";
+			sql = "INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지, 작성자) " + "VALUES (?, ?, ?, ?, ?, ?, ?) ";
 
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, rs.getInt(1) + 1);
@@ -88,6 +90,7 @@ public class ReportDAO {
 			pstmt.setString(4, v.get(2));
 			pstmt.setString(5, "처리중");
 			pstmt.setString(6, v.get(3));
+			pstmt.setString(7, UserDAO.user_cur);
 
 			rs = pstmt.executeQuery();
 
@@ -98,5 +101,76 @@ public class ReportDAO {
 		}
 
 		return true;
+	}
+
+	public Vector<ReportDTO> loginIDReportData() {
+		Vector<ReportDTO> list = new Vector<ReportDTO>();
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql = "SELECT * FROM 신고기록 WHERE 작성자 = ?";
+
+		System.out.println(sql + UserDAO.user_cur);
+		try {
+			con = getConn();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, UserDAO.user_cur);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				ReportDTO dto = new ReportDTO();
+				dto.setPostID(rs.getString("작성자"));
+				dto.setReportNum(rs.getInt("신고번호"));
+				dto.setItemNumber(rs.getInt("물품코드"));
+				dto.setItemName(rs.getString("물품명"));
+				dto.setCategory(rs.getString("신고분류"));
+				dto.setStatus(rs.getString("처리상태"));
+				dto.setReportDetail(rs.getString("신고메세지"));
+
+				list.add(dto);
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	public ReportDTO reportNumData(int reportNum) {
+		ReportDTO data = new ReportDTO();
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql = "SELECT * FROM 신고기록 WHERE 신고번호 = ?";
+
+		System.out.println(sql + reportNum);
+		try {
+			con = getConn();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, reportNum);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				data.setPostID(rs.getString("작성자"));
+				data.setReportNum(rs.getInt("신고번호"));
+				data.setItemNumber(rs.getInt("물품코드"));
+				data.setItemName(rs.getString("물품명"));
+				data.setCategory(rs.getString("신고분류"));
+				data.setStatus(rs.getString("처리상태"));
+				data.setReportDetail(rs.getString("신고메세지"));
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+		return data;
 	}
 }
