@@ -92,7 +92,7 @@ public class My_Page extends JPanel implements ActionListener {
 		Bt_Report_History.addActionListener(this);
 		add(Bt_Report_History);
 
-		Bt_temp1 = new RoundButton("temp1", Color.LIGHT_GRAY);
+		Bt_temp1 = new RoundButton("관라자 메뉴", Color.LIGHT_GRAY);
 		Bt_temp1.setFont(new Font("굴림", Font.BOLD, 16));
 		Bt_temp1.setBounds(41, 394, 141, 130);
 		add(Bt_temp1);
