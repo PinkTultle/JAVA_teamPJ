@@ -25,7 +25,7 @@ public class Home_left_pane extends Function_pane {
 
 		new eventLisen();
 
-		setSize(530, 800);
+		setSize(500, 800);
 		setLayout(null);
 		font = new Font("맑은 고딕", Font.PLAIN + Font.BOLD, 24);
 

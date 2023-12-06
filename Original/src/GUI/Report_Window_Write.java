@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 
 import JDBC.ReportDAO;
 
-public class Report_Window {
+public class Report_Window_Write {
 
 	private JFrame frame;
 	private JTextField textField_거래번호;
@@ -25,7 +25,7 @@ public class Report_Window {
 	/**
 	 * Create the application.
 	 */
-	public Report_Window(String itemNum, String itemName) {
+	public Report_Window_Write(String itemNum, String itemName) {
 		initialize(itemNum, itemName);
 		this.frame.setVisible(true);
 	}

@@ -68,7 +68,8 @@ public class Report_Details extends JPanel implements ActionListener {
 		NonEditableTableModel nonEditableModel = new NonEditableTableModel(data, columnNames);
 
 		// JTable에 모델을 설정 // 내용 수정 불가 테이블 모델
-		table = new JTable(nonEditableModel);
+		table = new JTable();
+		table.setModel(nonEditableModel);
 		table.setShowVerticalLines(false);
 		table.setRowSelectionAllowed(false);
 		table.setBounds(176, 243, 698, 291);

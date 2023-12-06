@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,9 +40,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 	UserDTO userDTO;
 	UserDAO userDAO;
 
-	private boolean Id_check;
-	private boolean Num_check;
-	private boolean address_check;
+	private boolean Id_check, Num_check, address_check;
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -72,12 +71,12 @@ public class RegisterGUI extends JDialog implements ActionListener {
 
 	/**
 	 * Launch the application.
-	 *
-	 * public static void main(String[] args) { EventQueue.invokeLater(new
-	 * Runnable() { public void run() { try { RegisterGUI frame = new RegisterGUI();
-	 * frame.setVisible(true); } catch (Exception e) { e.printStackTrace(); } } });
-	 * }
 	 */
+	public static void main(String[] args) { EventQueue.invokeLater(new
+		Runnable() { public void run() { try { RegisterGUI frame = new RegisterGUI(null);
+		frame.setVisible(true); } catch (Exception e) { e.printStackTrace(); } } });
+	}
+	 
 
 	/**
 	 * Create the frame.
@@ -182,7 +181,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		textField_5.setColumns(10);
 		textField_5.setBounds(28, 250, 282, 38);
 		// textField_5.addFocusListener(FL);
-		textField_5.setEditable(false);
+		//textField_5.setEditable(false);
 		panel_2.add(textField_5);
 
 		textField_6 = new MyJT("이메일");
@@ -315,8 +314,6 @@ public class RegisterGUI extends JDialog implements ActionListener {
 	// 아이디 중복 검사 메서드
 	private void Duplicate() {
 
-		System.out.println(textField.getText());
-
 		if (textField.getText() == null || textField.getText().equals("아이디")) {
 			JOptionPane.showConfirmDialog(this, "아이디를 입력하십시오!", "아이디 중복", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
@@ -343,7 +340,6 @@ public class RegisterGUI extends JDialog implements ActionListener {
 						return;
 					if (dlog == 0) {
 						textField.setEditable(false);
-						btnNewButton_4.setEnabled(true);
 						btnNewButton_5.setEnabled(false);
 						Id_check = true;
 					}
@@ -429,7 +425,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 				break;
 			case "주소 검색을":
 			case "전화번호를 인증":
-			case "선택한 email 주소를 확인":
+			case "email 주소를 선택":
 			case "ID":
 				mode = 0;
 				break;
@@ -440,7 +436,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 			}
 
 			if (mode == 0) {
-				JOptionPane.showConfirmDialog(null, "입력한 " + e.getMessage().toString() + "해 주십시요!!", "경고",
+				JOptionPane.showConfirmDialog(null, /*"입력한 " +*/ e.getMessage().toString() + "해 주십시요!!", "경고",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			}
 			if (mode == 1) {
@@ -451,8 +447,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 				JOptionPane.showConfirmDialog(null, "필요한 값을 모두 입력해주십시오!!!", "경고", JOptionPane.DEFAULT_OPTION,
 						JOptionPane.ERROR_MESSAGE);
 			}
-			System.out.println(e.getMessage());
-
+			
 			return;
 		}
 
@@ -461,22 +456,31 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		try {
 			int n = userDAO.userInsert(userDTO);
 			if (n >= 1) {
-				System.out.println("회원가입 성공");
-
+				new popup_JDialog("알림", "회원가입 되었습니다!");
 				LoginGUI.setVisible(true);
 				dispose();
 
 			} else if (n == 0) {
-				System.out.println("회원가입 실패");
+				new popup_JDialog("회원가입 실패", "잠시후 다시시도해 주십시요");
 			} else if (n == -1) {
-				System.out.println("아이디 중복");
+				//System.out.println("아이디 중복");
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
-
+	
+	private boolean satisfaction() {
+		if(Id_check == true && Num_check == true && address_check == true) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -486,13 +490,30 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		}
 
 		if (e.getSource() == btnNewButton_2) { // 검색 버튼
-			address_check = true;
-			System.out.println(((JButton) (e.getSource())).getText());
+			if(!textField_5.getText().equals("주소")) {
+				address_check = true;
+				new popup_JDialog("주소확인", "확인되었습니다");	
+				textField_5.setEditable(false);
+				btnNewButton_2.setEnabled(false);
+			}
+			else {
+				address_check = false;
+				new popup_JDialog("주소확인", "다시 입력해주세요");
+			}
 		}
 
 		if (e.getSource() == btnNewButton_3) { // 인증 버튼 동작
-			Num_check = true;
-			System.out.println(((JButton) (e.getSource())).getText());
+			if((textField_TEL[0].getText().length() == 4) && (textField_TEL[1].getText().length() == 4)) {
+				Num_check = true;
+				new popup_JDialog("번호확인", "확인되었습니다");
+				textField_TEL[0].setEditable(false);
+				textField_TEL[1].setEditable(false);
+				btnNewButton_3.setEnabled(false);
+			}
+			else {
+				Num_check = false;
+				new popup_JDialog("번호확인", "다시 입력해주세요");
+			}
 		}
 
 		if (e.getSource() == btnNewButton_4) { // 가입 버튼 동작
@@ -510,6 +531,10 @@ public class RegisterGUI extends JDialog implements ActionListener {
 				email.setEditable(false);
 				email.removeItem("");
 			}
+		}
+
+		if(satisfaction()) {
+			btnNewButton_4.setEnabled(true);
 		}
 
 	}

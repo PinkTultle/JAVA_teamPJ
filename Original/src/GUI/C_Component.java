@@ -33,6 +33,8 @@ import javax.swing.table.TableCellRenderer;
 
 import JDBC.ItemDAO;
 import JDBC.ItemDTO;
+import JDBC.ReportDAO;
+import JDBC.ReportDTO;
 
 public class C_Component {
 	static private MyFL myFL = new MyFL();
@@ -149,6 +151,7 @@ public class C_Component {
 			super.focusLost();
 			setHorizontalAlignment(JTextField.CENTER);
 		}
+		
 	}
 
 	static class MyPT extends JPasswordField implements BaseTextComponent { // JPasswordField 에 사용자 기능 추가
@@ -333,13 +336,29 @@ public class C_Component {
 			int selectedRow = this.getSelectedRow(); // 행 정보를 받아옴
 			// 선택 항의 PID를 이용하여서 정보 검색이 필요
 			ItemDetail idPanel = new ItemDetail(Integer.parseInt(getValueAt(selectedRow, itemNumIdx).toString()));
-			idPanel.setVisible(true);
+			if (!idPanel.isOpen)
+				idPanel.dispose();
+			else
+				idPanel.setVisible(true);
 		}
 
 		@Override
 		public void focusLost() {
 			// TODO Auto-generated method stub
 			this.clearSelection();
+		}
+
+	}
+
+	static class MyTA_report extends MyTA implements BaseTableComponent {
+
+		@Override
+		public void goDetail() { // 마우스나 키보드 이벤트 발생시 실행하는 메소드
+			// TODO Auto-generated method stub
+			int selectedRow = this.getSelectedRow(); // 행 정보를 받아옴
+			// 선택 항의 PID를 이용하여서 정보 검색이 필요
+			Report_Window_Read RWRPanel = new Report_Window_Read(getValueAt(selectedRow, itemNumIdx).toString());
+			RWRPanel.setVisible(true);
 		}
 
 	}
@@ -412,6 +431,7 @@ public class C_Component {
 
 			// 테이블 디자인
 			initJTableStyle(table, height, 12, false);
+			setSize(getWidth(), getHeight() + 2);
 
 			this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 			this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -529,12 +549,17 @@ public class C_Component {
 		}
 
 		void setItem(String s) throws SQLException {
+			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+			int rowCount = tableModel.getRowCount();
+			while (rowCount != 0) {
+				tableModel.removeRow(0);
+				rowCount--;
+			}
 			Vector<ItemDTO> data = new Vector<ItemDTO>();
 			ItemDAO itemDAO = new ItemDAO();
-
-			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 			data = itemDAO.item_receive_sending(s);
 			for (ItemDTO item : data) {
+				System.out.println(s + " " + item.getItemnumber());
 				tableModel.addRow(new Object[] { "" + item.getItemnumber(), item.getItemname(), item.getRentdate() });
 			}
 
@@ -604,12 +629,22 @@ public class C_Component {
 		}
 
 		void setItem() { // boolean 1개와 String 6개로 값을 변경
+			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 			try {
-				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+				// 오류 발생하나 해결 불가 | 별개의 try/catch 문으로 예외 처리
+				int rowCount = tableModel.getRowCount();
+				while (rowCount != 0) {
+					tableModel.removeRow(0);
+					rowCount--;
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			try {
 				Vector<ItemDTO> data = new Vector<>();
 				ItemDAO itemDAO = new ItemDAO();
 				data = itemDAO.itemRental();
-
 				for (ItemDTO item : data) {
 					Object[] newData;
 					if (item.getState().equals("대여중")) {
@@ -697,16 +732,90 @@ public class C_Component {
 		public void setItem() {
 			try {
 				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+				int rowCount = tableModel.getRowCount();
+				while (rowCount != 0) {
+					tableModel.removeRow(0);
+					rowCount--;
+				}
 				Vector<ItemDTO> data = new Vector<>();
 				ItemDAO itemDAO = new ItemDAO();
 				data = itemDAO.itemRental();
-				for (ItemDTO item : data) {
+				if (data == null)
+					return;
+				for (int i = 0; i < 2; i++) {
+					ItemDTO item = data.get(i);
 					Object[] newData;
 					if (item.getState().equals("대여중")) {
 						newData = new Object[] { Integer.toString(item.getItemnumber()), item.getItemname(),
 								item.getRentdate() };
 						tableModel.addRow(newData);
 					}
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+	}
+
+	static public class reportDetailTable extends base_itemSlot {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public reportDetailTable(int x, int y, int width, int height) {
+			setBounds(x, y, width, height);
+			getViewport().setBackground(Color.white);
+
+			table = new MyTA_report();
+			table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "", "", "", "" }) {
+				Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class };
+
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+
+				boolean[] columnEditables = new boolean[] { true, false, false, false, false, false, false };
+
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+			table.setRowHeight(60); // 각 행의 높이 설정
+
+			// 가운데 정렬
+			int columnSize[] = { 50, 50, 360, 50 };
+			for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+				table.getColumnModel().getColumn(i).setPreferredWidth(columnSize[i]);
+			}
+
+			initJTableStyle(table, height, 10, false);
+
+			this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+			this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			this.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, Color.BLACK));
+			this.setViewportView(table);
+		}
+
+		public void setItem() {
+			try {
+				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+				int rowCount = tableModel.getRowCount();
+				while (rowCount != 0) {
+					tableModel.removeRow(0);
+					rowCount--;
+				}
+				Vector<ReportDTO> data = new Vector<>();
+				ReportDAO reportDAO = new ReportDAO();
+				data = reportDAO.loginIDReportData();
+				if (data == null)
+					return;
+				for (ReportDTO item : data) {
+					Object[] newData;
+					newData = new Object[] { Integer.toString(item.getReportNum()),
+							Integer.toString(item.getItemNumber()), item.getItemName(), item.getStatus() };
+					tableModel.addRow(newData);
 				}
 			} catch (Exception e) {
 				// TODO: handle exception

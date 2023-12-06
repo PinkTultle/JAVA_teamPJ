@@ -11,7 +11,9 @@ public class My_Page_Panel extends JPanel {
 
 	private My_Page myPage;
 	private ProfilePanel profile;
-	private JPanel rentHistory, rentAlarm, myWrite, reportHistory;
+	private Report_Details_1 reportHistory;
+	private RentHistory rentHistory;
+	private JPanel rentAlarm, myWrite;
 
 	public My_Page_Panel() {
 		setLayout(null);
@@ -24,7 +26,7 @@ public class My_Page_Panel extends JPanel {
 		rentHistory = new RentHistory(this);
 		// rentAlarm = new
 		// myWrite = new
-		reportHistory = new Report_Details(this);
+		reportHistory = new Report_Details_1(this);
 		profile = new ProfilePanel(this);
 
 		this.add(rentHistory);
@@ -49,6 +51,7 @@ public class My_Page_Panel extends JPanel {
 
 	void Open_rentHistory() {
 		myPage.setVisible(false);
+		rentHistory.refresh();
 		rentHistory.setVisible(true);
 		// rentAlarm.setVisible(false);
 		// myWrite.setVisible(false);
@@ -61,6 +64,7 @@ public class My_Page_Panel extends JPanel {
 		rentHistory.setVisible(false);
 		// rentAlarm.setVisible(false);
 		// myWrite.setVisible(false);
+		reportHistory.refresh();
 		reportHistory.setVisible(true);
 		profile.setVisible(false);
 	}

@@ -130,6 +130,7 @@ public class Main_frame extends JFrame {
 
 				P1.setVisible(false);
 				P2.setVisible(false);
+				OfferManage.refresh();
 				P3.setVisible(true);
 				P4.setVisible(false);
 				break;
