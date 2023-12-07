@@ -46,18 +46,19 @@ public class My_Writing_History extends JPanel {
         textField.setFont(new Font("굴림", Font.PLAIN, 13));
         textField.setBounds(203, 63, 205, 33);
         textField.setColumns(10);
-        	textField.addFocusListener(new FocusListener() {
+        textField.addFocusListener(new FocusListener() {
 	            public void focusGained(FocusEvent e) {
 	                // 텍스트 필드에 포커스가 생기면 기본값을 지움
-	                if (textField.getText().equals("기본값 입력")) {
-	                    textField.setText("");
+	            	JTextField j = (JTextField) e.getSource();
+	    			if (j.getText().equals("검색어를 입력하세요")) {
+	    				j.setText("");
 	                }
 	            }
 	            
 	            public void focusLost(FocusEvent e) {
 	                // 텍스트 필드에서 포커스가 떠나면, 값이 비어있으면 다시 기본값을 설정
 	                if (textField.getText().isEmpty()) {
-	                    textField.setText("기본값 입력");
+	                    textField.setText("검색어를 입력하세요");
 	                }
 	            }
 	        });
