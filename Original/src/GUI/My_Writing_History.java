@@ -33,7 +33,7 @@ public class My_Writing_History extends JPanel {
 		
 		//콤보박스
 		JComboBox comboBox = new JComboBox();
-		comboBox.setFont(new Font("굴림", Font.PLAIN, 13));
+		comboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
         comboBox.setBounds(68, 63, 123, 33);
         comboBox.addItem("대여중");
         comboBox.addItem("대여");
@@ -43,7 +43,7 @@ public class My_Writing_History extends JPanel {
         
         //검색창
         textField = new JTextField("검색어를 입력하세요");
-        textField.setFont(new Font("굴림", Font.PLAIN, 13));
+        textField.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
         textField.setBounds(203, 63, 205, 33);
         textField.setColumns(10);
         textField.addFocusListener(new FocusListener() {
