@@ -16,6 +16,7 @@ public class My_Page_Panel extends JPanel {
 	private My_Writing_History myWrite;
 	private JPanel rentAlarm;
 
+
 	public My_Page_Panel(boolean Administrator) {
 		
 		System.out.print(Administrator);
@@ -31,16 +32,19 @@ public class My_Page_Panel extends JPanel {
 		myWrite = new My_Writing_History(this);
 		reportHistory = new Report_Details_1(this);
 		profile = new ProfilePanel(this);
+		rentnotifi = new Rent_Notification(this);
 
 		this.add(rentHistory);
 		this.add(myWrite);
 		this.add(reportHistory);
 		this.add(profile);
+		this.add(rentnotifi);
 
 		rentHistory.setVisible(false);
 		reportHistory.setVisible(false);
 		profile.setVisible(false);
 		myWrite.setVisible(false);
+
 		myPage.setVisible(true);
 	}
 
@@ -51,6 +55,7 @@ public class My_Page_Panel extends JPanel {
 		myWrite.setVisible(false);
 		reportHistory.setVisible(false);
 		profile.setVisible(false);
+		rentnotifi.setVisible(false);
 	}
 
 	void Open_rentHistory() {
@@ -61,6 +66,7 @@ public class My_Page_Panel extends JPanel {
 		myWrite.setVisible(false);
 		reportHistory.setVisible(false);
 		profile.setVisible(false);
+		rentnotifi.setVisible(false);
 	}
 
 	void Open_reportHistory() {
@@ -71,6 +77,7 @@ public class My_Page_Panel extends JPanel {
 		reportHistory.refresh();
 		reportHistory.setVisible(true);
 		profile.setVisible(false);
+		rentnotifi.setVisible(false);
 	}
 
 	void Open_profile() {
@@ -80,6 +87,7 @@ public class My_Page_Panel extends JPanel {
 		myWrite.setVisible(false);
 		reportHistory.setVisible(false);
 		profile.setVisible(true);
+		rentnotifi.setVisible(false);
 	}
 	
 	void Open_myWrite() {
@@ -100,5 +108,15 @@ public class My_Page_Panel extends JPanel {
 			profile.changeMode(false);
 		}
 		return true;
+	}
+	
+	void Open_rentnotifi() {
+		myPage.setVisible(false);
+		rentHistory.setVisible(false);
+		// rentAlarm.setVisible(false);
+		// myWrite.setVisible(false);
+		reportHistory.setVisible(false);
+		profile.setVisible(false);
+		rentnotifi.setVisible(true);
 	}
 }
