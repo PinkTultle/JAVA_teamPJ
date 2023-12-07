@@ -102,7 +102,7 @@ public class ListPanel extends JPanel implements ActionListener {
 
 		int[] xLoc = { 67, 180, 415, 652, 770, 880 };
 		String[] headerText = { "물품코드", "카테고리", "물품명", "등록자", "렌트 기한", "처리 상태" };
-		Font hFont = new Font("굴림", Font.PLAIN, 16);
+		Font hFont = new Font("맑은 고딕", Font.PLAIN, 16);
 
 		for (int i = 0; i < 6; i++) {
 			tableHeader[i] = new JLabel(headerText[i]);
