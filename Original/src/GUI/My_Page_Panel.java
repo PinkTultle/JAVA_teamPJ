@@ -15,6 +15,7 @@ public class My_Page_Panel extends JPanel {
 	private RentHistory rentHistory;
 	private My_Writing_History myWrite;
 	private JPanel rentAlarm;
+	private Rent_Notification rentnotifi;
 
 
 	public My_Page_Panel(boolean Administrator) {

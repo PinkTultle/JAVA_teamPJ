@@ -6,8 +6,8 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/qptmx/OneDrive/바탕 화면/java_pro/Original/ojdbc8.jar"/>
-	<classpathentry kind="lib" path="C:/Users/qptmx/OneDrive/바탕 화면/java_pro/Original/miglayout15-swing.jar"/>
-	<classpathentry kind="lib" path="C:/Users/qptmx/OneDrive/바탕 화면/java_pro/Original/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/user/OneDrive/base folder/대학/4학년 2학기/자바 프로그램래밍/팀 프로젝트/프로그램/Original/Original/ojdbc8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/user/OneDrive/base folder/대학/4학년 2학기/자바 프로그램래밍/팀 프로젝트/프로그램/Original/Original/miglayout15-swing.jar"/>
+	<classpathentry kind="lib" path="C:/Users/user/OneDrive/base folder/대학/4학년 2학기/자바 프로그램래밍/팀 프로젝트/프로그램/Original/Original/jcalendar-1.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
