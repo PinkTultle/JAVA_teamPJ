@@ -67,11 +67,11 @@ public class ListPanel extends JPanel implements ActionListener {
 		btnNewButton.addActionListener(this);
 		add(btnNewButton);
 
-		btnNewButton_1 = new RoundButton("상품 등록하기");
+		btnNewButton_1 = new RoundButton("상품 등록");
 		btnNewButton_1.setForeground(new Color(255, 255, 255));
 		btnNewButton_1.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 		btnNewButton_1.setColorNormal(new Color(41, 76, 121));
-		btnNewButton_1.setBounds(842, 31, 154, 45);
+		btnNewButton_1.setBounds(880, 70, 100, 35);
 		btnNewButton_1.addActionListener(this);
 		add(btnNewButton_1);
 
