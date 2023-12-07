@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -36,8 +38,8 @@ public class Home_left_pane extends Function_pane {
 		L1.setForeground(Color.black);
 		add(L1);
 
-		L2 = new JLabel("최신 등록 물품");
-		L2.setBounds(L1.getX(), L1.getY() + 170, 150, 50);
+		L2 = new JLabel("최근 방문");
+		L2.setBounds(L1.getX(), L1.getY() + 200, 150, 50);
 		L2.setFont(font);
 		L2.setForeground(Color.black);
 		add(L2);
@@ -58,12 +60,37 @@ public class Home_left_pane extends Function_pane {
 		// 검색 버튼 생성
 		Jb1 = new search_bt();
 		Jb1.addActionListener(new eventLisen());
-
 		add(Jb1);
 
-		// 최근 방문 글 목록 생성할 곳
-		// 아무래도 패널 따로 빼서 클래스 만드는게 좋을듯
-
+	
+		//최근방문 버튼
+		JButton img1_btn = new JButton("");
+		img1_btn.setIcon(new ImageIcon("../Original/src/images/Img_Computer.jpg"));   // 버튼 경로
+		img1_btn.setBounds(50, BP.getHeight() + 300, 210, 180);  //버튼 크기
+		img1_btn.setBorderPainted(false);   // 버튼 테두리 없앰
+		img1_btn.setContentAreaFilled(false);
+		add(img1_btn);
+		
+		JButton img2_btn = new JButton("");
+		img2_btn.setIcon(new ImageIcon("../Original/src/images/Img_Book.png"));   // 버튼 경로
+		img2_btn.setBounds(270, BP.getHeight() + 310, 200, 160);  //버튼 크기
+		img2_btn.setBorderPainted(false);   // 버튼 테두리 없앰
+		img2_btn.setContentAreaFilled(false);
+		add(img2_btn);
+		
+		JButton img3_btn = new JButton("");
+		img3_btn.setIcon(new ImageIcon("../Original/src/images/Img_Generated.jpg"));   // 버튼 경로
+		img3_btn.setBounds(50, BP.getHeight() + 480, 210, 160);  //버튼 크기
+		img3_btn.setBorderPainted(false);   // 버튼 테두리 없앰
+		img3_btn.setContentAreaFilled(false);
+		add(img3_btn);
+		
+		JButton img4_btn = new JButton("");
+		img4_btn.setIcon(new ImageIcon("../Original/src/images/Img_Bicycle.png"));   // 버튼 경로
+		img4_btn.setBounds(270, BP.getHeight() + 480, 200, 160);  //버튼 크기
+		img4_btn.setBorderPainted(false);   // 버튼 테두리 없앰
+		img4_btn.setContentAreaFilled(false);
+		add(img4_btn);
 	}
 
 	public void paintComponent(Graphics g) {
