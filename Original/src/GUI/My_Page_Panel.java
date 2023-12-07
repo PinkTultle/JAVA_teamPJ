@@ -14,6 +14,7 @@ public class My_Page_Panel extends JPanel {
 	private Report_Details_1 reportHistory;
 	private RentHistory rentHistory;
 	private JPanel rentAlarm, myWrite;
+	private Rent_Notification rentnotifi;
 
 	public My_Page_Panel(boolean Administrator) {
 		
@@ -30,14 +31,17 @@ public class My_Page_Panel extends JPanel {
 		// myWrite = new
 		reportHistory = new Report_Details_1(this);
 		profile = new ProfilePanel(this);
+		rentnotifi = new Rent_Notification(this);
 
 		this.add(rentHistory);
 		this.add(reportHistory);
 		this.add(profile);
+		this.add(rentnotifi);
 
 		rentHistory.setVisible(false);
 		reportHistory.setVisible(false);
 		profile.setVisible(false);
+		rentnotifi.setVisible(false);
 
 		myPage.setVisible(true);
 	}
@@ -49,6 +53,7 @@ public class My_Page_Panel extends JPanel {
 		// myWrite.setVisible(false);
 		reportHistory.setVisible(false);
 		profile.setVisible(false);
+		rentnotifi.setVisible(false);
 	}
 
 	void Open_rentHistory() {
@@ -59,6 +64,7 @@ public class My_Page_Panel extends JPanel {
 		// myWrite.setVisible(false);
 		reportHistory.setVisible(false);
 		profile.setVisible(false);
+		rentnotifi.setVisible(false);
 	}
 
 	void Open_reportHistory() {
@@ -69,6 +75,7 @@ public class My_Page_Panel extends JPanel {
 		reportHistory.refresh();
 		reportHistory.setVisible(true);
 		profile.setVisible(false);
+		rentnotifi.setVisible(false);
 	}
 
 	void Open_profile() {
@@ -78,6 +85,7 @@ public class My_Page_Panel extends JPanel {
 		// myWrite.setVisible(false);
 		reportHistory.setVisible(false);
 		profile.setVisible(true);
+		rentnotifi.setVisible(false);
 	}
 
 	public boolean Close_profile() {
@@ -89,5 +97,15 @@ public class My_Page_Panel extends JPanel {
 			profile.changeMode(false);
 		}
 		return true;
+	}
+	
+	void Open_rentnotifi() {
+		myPage.setVisible(false);
+		rentHistory.setVisible(false);
+		// rentAlarm.setVisible(false);
+		// myWrite.setVisible(false);
+		reportHistory.setVisible(false);
+		profile.setVisible(false);
+		rentnotifi.setVisible(true);
 	}
 }
