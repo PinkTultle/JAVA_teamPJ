@@ -26,7 +26,7 @@ public class Main_frame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Main_frame frame = new Main_frame();
+					Main_frame frame = new Main_frame(false);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,7 +41,7 @@ public class Main_frame extends JFrame {
 	 * 
 	 * @throws SQLException
 	 */
-	public Main_frame() {
+	public Main_frame(boolean Administrator) {
 
 		// 프레임 설정
 		setTitle("랜트 프로그램!");
@@ -72,7 +72,7 @@ public class Main_frame extends JFrame {
 		P1 = new Main_home();
 		P2 = new ListPanel();
 		P3 = new OfferManage();
-		P4 = new My_Page_Panel();
+		P4 = new My_Page_Panel(Administrator);
 
 		setContentPane(contentPane);
 

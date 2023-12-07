@@ -16,8 +16,7 @@ public class UserDTO { // 로그인 ,회원가입 등 유저 정보
 	private String rentalstatus; // ex) 대여가능, 대여중
 	private String bank; // ex) 하나은행
 	private int accountnumber; // ex) 1357924684
-	
-	
+	private int Administrator; //관리자 여부 0 : 일반 사용자, 1 : 관리자
 	
 	public UserDTO() {
 		super();
@@ -25,7 +24,7 @@ public class UserDTO { // 로그인 ,회원가입 등 유저 정보
 
 
 	public UserDTO(String id, String pw, String nickname, String name, int birth, String gender, int tel,
-			String address, String email, String rentalstatus, String bank, int accountnumber) {
+			String address, String email, String rentalstatus, String bank, int accountnumber, int Administrator) {
 		super();
 		this.id = id;
 		this.pw = pw;
@@ -38,10 +37,11 @@ public class UserDTO { // 로그인 ,회원가입 등 유저 정보
 		this.rentalstatus = rentalstatus;
 		this.bank = bank;
 		this.accountnumber = accountnumber;
+		this.Administrator = Administrator;
 	}
 	
 	public UserDTO(String id, String pw, String nickname, String name, int birth, String gender, int tel,
-			String address, String email) {
+			String address, String email, int Administrator) {
 		super();
 		this.id = id;
 		this.pw = pw;
@@ -52,9 +52,16 @@ public class UserDTO { // 로그인 ,회원가입 등 유저 정보
 		this.tel = tel;
 		this.address = address;
 		this.email = email;
+		this.Administrator = Administrator;
 	}
 	
+	public int getAdministrator() {
+		return Administrator;
+	}
 	
+	public void setAdministrator(int Administrator) {
+		this.Administrator = Administrator;
+	}
 	
 	public String getLoginid() {
 		return loginid;

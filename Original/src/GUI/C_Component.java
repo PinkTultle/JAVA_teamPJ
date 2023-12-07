@@ -743,7 +743,7 @@ public class C_Component {
 				if (data == null)
 					return;
 				for (int i = 0; i < 2; i++) {
-					ItemDTO item = data.get(i);
+						ItemDTO item = data.get(i);
 					Object[] newData;
 					if (item.getState().equals("대여중")) {
 						newData = new Object[] { Integer.toString(item.getItemnumber()), item.getItemname(),
