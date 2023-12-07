@@ -20,13 +20,15 @@ public class My_Writing_History extends JPanel {
     private DefaultTableModel model;
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
-
+	private JPanel BP = new Baener_pane();
+	protected My_Page_Panel mpp;
+	
 	
 	public My_Writing_History() {
 		
 		//패널 크기 및 배경색
 		setBackground(new Color(255,255,255));
-		setBounds(0, 150, 1050, 700);
+		setBounds(0, BP.getHeight(), 1050, 700);
 		setLayout(null);
 		
 		//콤보박스
@@ -76,6 +78,7 @@ public class My_Writing_History extends JPanel {
         add(btn_search);
         
         
+        
         // 표 -> db 연결
         Object[] columnNames = {"Name", "Age", "Gender"};
         Object[][] data = {
@@ -92,4 +95,9 @@ public class My_Writing_History extends JPanel {
         
         
 	}
+	public My_Writing_History(My_Page_Panel mpp) {
+ 		this();
+ 		this.mpp = mpp;
+ 	}
+	 
 }
