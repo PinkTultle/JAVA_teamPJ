@@ -14,15 +14,18 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import GUI.C_Component.reportDetailTable;
+
 public class Administrator_pane extends JPanel {
 	
 	protected JButton close_bt;
 	protected Font font = new Font("굴림", Font.BOLD + Font.PLAIN, 12);
-	protected JTable Table;
+	//protected JTable Table;
 	protected JScrollPane scrollPane;
 	protected Object [] colNames;
 	protected Object [][] data;
 	protected DefaultTableModel model;
+	protected reportDetailTable table;
 
 	
 	public Administrator_pane(JFrame master) {

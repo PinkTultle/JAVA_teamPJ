@@ -822,6 +822,31 @@ public class C_Component {
 				e.printStackTrace();
 			}
 		}
+		
+		public void setItem_allreport() {
+			try {
+				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+				int rowCount = tableModel.getRowCount();
+				while (rowCount != 0) {
+					tableModel.removeRow(0);
+					rowCount--;
+				}
+				Vector<ReportDTO> data = new Vector<>();
+				ReportDAO reportDAO = new ReportDAO();
+				data = reportDAO.allReportData();
+				if (data == null)
+					return;
+				for (ReportDTO item : data) {
+					Object[] newData;
+					newData = new Object[] { Integer.toString(item.getReportNum()),
+							Integer.toString(item.getItemNumber()), item.getItemName(), item.getStatus() };
+					tableModel.addRow(newData);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
 	}
 
 	static class My_KL implements KeyListener {

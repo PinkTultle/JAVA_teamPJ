@@ -44,7 +44,7 @@ public class Baener_pane extends JPanel {
 		Graphics2D g2 = (Graphics2D) g;
 		
 		
-		GradientPaint gp = new GradientPaint(0, 0, new Color(0xc2e9fb), 1050, 150, new Color(0xa1c4fd));
+		GradientPaint gp = new GradientPaint(0, 0, new Color(0xc2e9fb), 1050, 150, new Color(0,191,255));
 		
 		g2.setPaint(gp);
 		g2.fillRect(0, 0, 1050, 150);
