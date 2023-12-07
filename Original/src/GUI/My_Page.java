@@ -279,7 +279,7 @@ public class My_Page extends JPanel implements ActionListener {
 			updateImage();
 		} else if(e.getSource() == Bt_temp1) {
 			
-			new Management();
+			new Administrator();
 			
 		}
 	}
