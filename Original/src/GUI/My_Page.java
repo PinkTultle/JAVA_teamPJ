@@ -256,6 +256,7 @@ public class My_Page extends JPanel implements ActionListener {
 		} else if (e.getSource() == Bt_Rent_Alarm) {
 			// 렌트 알림 창 호출
 			System.out.println("렌트 알림 호출");
+			mpp.Open_rentnotifi();
 		} else if (e.getSource() == Bt_My_Post) {
 			// 나의 글 창 호출
 			System.out.println("나의 글 창 호출");
