@@ -256,6 +256,7 @@ public class My_Page extends JPanel implements ActionListener {
 		} else if (e.getSource() == Bt_My_Post) {
 			// 나의 글 창 호출
 			System.out.println("나의 글 창 호출");
+			mpp.Open_myWrite();
 		} else if (e.getSource() == Bt_Report_History) {
 			// 신고/접수 내역 창 호출
 			mpp.Open_reportHistory();
