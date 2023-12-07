@@ -181,7 +181,7 @@ public class Management extends JFrame {
 
 		
 		
-		
+		setVisible(true);
 		
 	}
 }
