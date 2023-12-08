@@ -546,11 +546,11 @@ public class C_Component {
 				}
 			});
 
-			table.getColumnModel().getColumn(0).setPreferredWidth(30);
+			table.getColumnModel().getColumn(0).setPreferredWidth(20);
 			table.getColumnModel().getColumn(0).setMinWidth(10);
-			table.getColumnModel().getColumn(1).setPreferredWidth(150);
+			table.getColumnModel().getColumn(1).setPreferredWidth(100);
 			table.getColumnModel().getColumn(1).setMinWidth(100);
-			table.getColumnModel().getColumn(2).setPreferredWidth(60);
+			table.getColumnModel().getColumn(2).setPreferredWidth(100);
 			table.getColumnModel().getColumn(2).setMinWidth(15);
 
 			initJTableStyle(table, height, 10, false);

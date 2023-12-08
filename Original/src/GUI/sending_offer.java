@@ -52,7 +52,7 @@ public class sending_offer extends JFrame implements ActionListener {
 		lblNewLabel.setBounds(48, 34, 100, 45);
 		getContentPane().add(lblNewLabel);
 
-		String[] s = { Integer.toString(itemNum), "시작 날짜", "종료 날짜", "0" };
+		String[] s = { Integer.toString(itemNum), "시작 날짜", "반납 날짜", "0" };
 		int[][] bound = { { 158, 34, 326, 45 }, { 158, 94, 116, 45 }, { 309, 94, 116, 45 }, { 158, 157, 326, 45 } };
 
 		for (int i = 0; i < 4; i++) {
@@ -95,6 +95,7 @@ public class sending_offer extends JFrame implements ActionListener {
 		getContentPane().add(lblNewLabel_2);
 
 		dateChooser = new dateChooser(437, 94, 45, 45);
+		// 이 명령어 필요한지 확인 필요
 		dateChooser.setBounds(437, 94, 45, 45);
 		dateChooser.addPropertyChangeListener(new PropertyChangeListener() {
 
@@ -140,7 +141,9 @@ public class sending_offer extends JFrame implements ActionListener {
 			dispose();
 		} else if (e.getSource() == btn_sending) {
 			String msg = "예약에 실패했습니다.";
-			if (d1.isBefore(d2)) {
+			if (d1.isBefore(LocalDate.now()))
+				msg = "날짜를 확인해주세요.";
+			else if (d1.isBefore(d2)) {
 				ItemDAO itemDAO = new ItemDAO();
 				if (itemDAO.checkOffer(itemNum, d1, d2) == 0) {
 					if (itemDAO.sendingOffer(data, d1, d2) == 0) {

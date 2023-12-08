@@ -103,13 +103,16 @@ public class RentHistory extends JPanel implements ActionListener {
 		}
 	}
 
-	boolean returnItem() {
-		if (is.getSelectItemNum() == -1)
-			return false;
-		int closeProfile = JOptionPane.showConfirmDialog(null, "반납하시겠습니까?", "경고", JOptionPane.YES_NO_OPTION);
-		if (closeProfile == JOptionPane.NO_OPTION)
-			return false;
-		return true;
+	int returnItem() {
+		if (is.getSelectItemNum() != -1) {
+			int closeProfile = JOptionPane.showConfirmDialog(null, "반납하시겠습니까?", "경고", JOptionPane.YES_NO_OPTION,
+					JOptionPane.WARNING_MESSAGE);
+			if (closeProfile == JOptionPane.YES_OPTION) {
+
+				return 0;
+			}
+		}
+		return 1;
 	}
 
 	public void refresh() {

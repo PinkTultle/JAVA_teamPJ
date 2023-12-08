@@ -14,9 +14,9 @@ import javax.swing.JLabel;
 
 public class ItemDAO {
 
-	//String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
-	//String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
-	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe"; 
+	// String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
+	// String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
+	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
 
 	String user = "ABC"; // db 사용자 이름
 	String password = "1234"; // db
@@ -385,7 +385,7 @@ public class ItemDAO {
 			pstmt.setString(6, UserDAO.user_cur);
 			pstmt.setString(7, "대기중");
 
-			ResultSet rs = pstmt.executeQuery();
+			pstmt.executeQuery();
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -394,5 +394,24 @@ public class ItemDAO {
 		}
 
 		return 0;
+	}
+
+	public int returnItem(int offerNum) {
+		int result = 0;
+		try {
+			Connection con = getConn();
+			// 대여기록 번호 추가 필요
+			String sql = "DELETE FROM 대여기록 WHERE  = ? ";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+
+			pstmt.setInt(1, offerNum);
+
+			pstmt.executeQuery();
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = 1;
+		}
+
+		return result;
 	}
 }
