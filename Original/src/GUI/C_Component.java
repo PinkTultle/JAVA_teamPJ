@@ -54,6 +54,8 @@ public class C_Component {
 
 		abstract boolean isEnable();
 
+		abstract void clear();
+
 	}
 
 	static interface BaseTableComponent {
@@ -126,6 +128,12 @@ public class C_Component {
 			return isEnabled();
 		}
 
+		@Override
+		public void clear() {
+			setText(init);
+			isTyped = false;
+		}
+
 	}
 
 	static class MyJT_TEL extends MyJT { // MyJT 에서 전화번호 용
@@ -151,7 +159,7 @@ public class C_Component {
 			super.focusLost();
 			setHorizontalAlignment(JTextField.CENTER);
 		}
-		
+
 	}
 
 	static class MyPT extends JPasswordField implements BaseTextComponent { // JPasswordField 에 사용자 기능 추가
@@ -211,6 +219,12 @@ public class C_Component {
 			return isEnabled();
 		}
 
+		@Override
+		public void clear() {
+			setText(init);
+			setEchoChar((char) 0);
+			isTyped = false;
+		}
 	}
 
 	static class MyFL implements FocusListener { // MyPT, MyJT 용 포커스 리스터
@@ -743,7 +757,7 @@ public class C_Component {
 				if (data == null)
 					return;
 				for (int i = 0; i < 2; i++) {
-						ItemDTO item = data.get(i);
+					ItemDTO item = data.get(i);
 					Object[] newData;
 					if (item.getState().equals("대여중")) {
 						newData = new Object[] { Integer.toString(item.getItemnumber()), item.getItemname(),

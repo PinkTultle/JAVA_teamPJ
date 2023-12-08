@@ -13,7 +13,7 @@ public class dateChooser extends JDateChooser {
 		setIcon(new ImageIcon(sending_offer.class.getResource("/COMP_IMG/calender.png")));
 		getCalendarButton().setBackground(Color.white);
 		getCalendarButton().setBorder(null);
-		getCalendarButton().setOpaque(false);
+		getCalendarButton().setOpaque(true);
 		getCalendarButton().setFocusPainted(false);
 		getCalendarButton().setBorderPainted(false);
 		setBounds(x, y, width, height);

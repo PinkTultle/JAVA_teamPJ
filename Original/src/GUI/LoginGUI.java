@@ -1,21 +1,19 @@
 package GUI;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.font.TextAttribute;
 import java.sql.SQLException;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -45,6 +43,8 @@ public class LoginGUI extends JFrame implements ActionListener {
 	private JButton btnNewButton_2;
 	private JFrame mainFrame;
 
+	public static JFrame loginFrame;
+
 	/**
 	 * Launch the application.
 	 */
@@ -65,6 +65,8 @@ public class LoginGUI extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public LoginGUI() {
+
+		loginFrame = this;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1050, 600);
@@ -159,8 +161,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 		contentPane.add(lblNewLabel);
 	}
 
-	class ML_btn implements MouseListener {
-
+	class ML_btn extends MouseAdapter {
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			Cursor cursor = new Cursor(HAND_CURSOR);
@@ -172,25 +173,6 @@ public class LoginGUI extends JFrame implements ActionListener {
 			Cursor cursor = new Cursor(DEFAULT_CURSOR);
 			setCursor(cursor);
 		}
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
 	}
 
 	@Override
@@ -198,13 +180,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 		if (e.getSource() == btnNewButton) { // 로그인 버튼 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 			userDTO = new UserDTO();
-
-			try {
-				userDAO = new UserDAO();
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			userDAO = new UserDAO();
 
 			String id = txtId.getText();
 			String pw = new String(txtPassword.getPassword());
@@ -221,7 +197,9 @@ public class LoginGUI extends JFrame implements ActionListener {
 					// 페이지 전환 소스 넣어야함
 
 					setVisible(false);
-					mainFrame = new Main_frame((n==1?true:false));
+					mainFrame = new Main_frame((n == 1 ? true : false));
+					txtId.clear();
+					txtPassword.clear();
 
 				} else if (n == -1) {
 					// 아이디 없음
@@ -247,5 +225,3 @@ public class LoginGUI extends JFrame implements ActionListener {
 	// txtId : 아이디 입력 JTextField
 	// txtPassword : 패스워드 입력 JPasswordField
 }
-
-
