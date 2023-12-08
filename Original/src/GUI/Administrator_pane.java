@@ -25,7 +25,7 @@ public class Administrator_pane extends JPanel {
 	protected Object [] colNames;
 	protected Object [][] data;
 	protected DefaultTableModel model;
-	protected reportDetailTable table;
+	protected JTable table;
 
 	
 	public Administrator_pane(JFrame master) {
