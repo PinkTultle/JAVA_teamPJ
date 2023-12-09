@@ -4,7 +4,7 @@
 ALTER session set "_ORACLE_SCRIPT"=true; -- 12c 이후 
 
 DROP USER ABC1 CASCADE; -- 기존 사용자 삭제(현재 접속되어 있으면 삭제 안 됨)
-	-- CASCADE option : 관련 스키마 개체들도 함께 삭제.  Default는 No Action
+   -- CASCADE option : 관련 스키마 개체들도 함께 삭제.  Default는 No Action
 CREATE USER ABC IDENTIFIED BY 1234  -- 사용자 ID : ABC, 비밀번호 : 1234
     DEFAULT TABLESPACE USERS
     TEMPORARY TABLESPACE TEMP;

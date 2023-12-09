@@ -72,11 +72,18 @@ public class RegisterGUI extends JDialog implements ActionListener {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) { EventQueue.invokeLater(new
-		Runnable() { public void run() { try { RegisterGUI frame = new RegisterGUI(null);
-		frame.setVisible(true); } catch (Exception e) { e.printStackTrace(); } } });
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					RegisterGUI frame = new RegisterGUI(null);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
-	 
 
 	/**
 	 * Create the frame.
@@ -181,7 +188,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		textField_5.setColumns(10);
 		textField_5.setBounds(28, 250, 282, 38);
 		// textField_5.addFocusListener(FL);
-		//textField_5.setEditable(false);
+		// textField_5.setEditable(false);
 		panel_2.add(textField_5);
 
 		textField_6 = new MyJT("이메일");
@@ -321,12 +328,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 
 		} else {
 
-			try {
-				userDAO = new UserDAO();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			userDAO = new UserDAO();
 
 			try {
 				int n = userDAO.userIdCheck(textField.getText());
@@ -362,12 +364,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		String id = null, pw = null, name = null, address = null, email_1 = null, gender = null, nick = null;
 		int birth = 0, tel = 0;
 
-		try {
-			userDAO = new UserDAO();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		userDAO = new UserDAO();
 
 		try {
 
@@ -447,7 +444,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 				JOptionPane.showConfirmDialog(null, "필요한 값을 모두 입력해주십시오!!!", "경고", JOptionPane.DEFAULT_OPTION,
 						JOptionPane.ERROR_MESSAGE);
 			}
-			
+
 			return;
 		}
 
@@ -463,24 +460,22 @@ public class RegisterGUI extends JDialog implements ActionListener {
 			} else if (n == 0) {
 				new popup_JDialog("회원가입 실패", "잠시후 다시시도해 주십시요");
 			} else if (n == -1) {
-				//System.out.println("아이디 중복");
+				// System.out.println("아이디 중복");
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
-	
+
 	private boolean satisfaction() {
-		if(Id_check == true && Num_check == true && address_check == true) {
+		if (Id_check == true && Num_check == true && address_check == true) {
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
-	
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -490,27 +485,25 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		}
 
 		if (e.getSource() == btnNewButton_2) { // 검색 버튼
-			if(!textField_5.getText().equals("주소")) {
+			if (!textField_5.getText().equals("주소")) {
 				address_check = true;
-				new popup_JDialog("주소확인", "확인되었습니다");	
+				new popup_JDialog("주소확인", "확인되었습니다");
 				textField_5.setEditable(false);
 				btnNewButton_2.setEnabled(false);
-			}
-			else {
+			} else {
 				address_check = false;
 				new popup_JDialog("주소확인", "다시 입력해주세요");
 			}
 		}
 
 		if (e.getSource() == btnNewButton_3) { // 인증 버튼 동작
-			if((textField_TEL[0].getText().length() == 4) && (textField_TEL[1].getText().length() == 4)) {
+			if ((textField_TEL[0].getText().length() == 4) && (textField_TEL[1].getText().length() == 4)) {
 				Num_check = true;
 				new popup_JDialog("번호확인", "확인되었습니다");
 				textField_TEL[0].setEditable(false);
 				textField_TEL[1].setEditable(false);
 				btnNewButton_3.setEnabled(false);
-			}
-			else {
+			} else {
 				Num_check = false;
 				new popup_JDialog("번호확인", "다시 입력해주세요");
 			}
@@ -533,7 +526,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 			}
 		}
 
-		if(satisfaction()) {
+		if (satisfaction()) {
 			btnNewButton_4.setEnabled(true);
 		}
 
