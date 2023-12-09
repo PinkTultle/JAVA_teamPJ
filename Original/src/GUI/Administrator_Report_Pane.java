@@ -48,16 +48,6 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 		
 		add(approve);
 		
-		
-		
-		
-		
-		
-		//scrollPane.add(table);
-		
-		
-
-		
 	}
 	
 	
