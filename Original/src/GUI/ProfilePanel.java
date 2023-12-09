@@ -51,7 +51,7 @@ public class ProfilePanel extends JPanel implements ActionListener {
 		setBounds(0, BP.getHeight(), 1034, 700);
 		setLayout(null);
 
-		int[] loc = { 108, 158, 207, 256, 306, 455, 505 };
+		int[] loc = { 105, 157, 209, 261, 313, 417, 469 };
 		Font slotFont = new Font("맑은 고딕", Font.PLAIN, 18);
 
 		for (int i = 0; i < 7; i++) {
@@ -60,7 +60,7 @@ public class ProfilePanel extends JPanel implements ActionListener {
 				width = 244;
 			textFields[i] = new MyJT();
 			textFields[i].setFont(slotFont);
-			textFields[i].setBounds(307, loc[i], width, 50);
+			textFields[i].setBounds(307, loc[i], width, 47);
 			add(textFields[i]);
 		}
 
@@ -94,7 +94,7 @@ public class ProfilePanel extends JPanel implements ActionListener {
 
 		tglbtnNewToggleButton = new JToggleButton("남자");
 		tglbtnNewToggleButton.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		tglbtnNewToggleButton.setBounds(338, 345, 76, 50);
+		tglbtnNewToggleButton.setBounds(563, 313, 76, 47);
 		tglbtnNewToggleButton.setForeground(new Color(0, 0, 0));
 		tglbtnNewToggleButton.setBackground(new Color(255, 255, 255));
 		tglbtnNewToggleButton.setFocusPainted(false);
@@ -104,7 +104,7 @@ public class ProfilePanel extends JPanel implements ActionListener {
 
 		tglbtnNewToggleButton_1 = new JToggleButton("여자");
 		tglbtnNewToggleButton_1.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		tglbtnNewToggleButton_1.setBounds(426, 345, 76, 50);
+		tglbtnNewToggleButton_1.setBounds(651, 313, 76, 47);
 		tglbtnNewToggleButton_1.setForeground(new Color(0, 0, 0));
 		tglbtnNewToggleButton_1.setBackground(new Color(255, 255, 255));
 		tglbtnNewToggleButton_1.setFocusPainted(false);
@@ -114,7 +114,7 @@ public class ProfilePanel extends JPanel implements ActionListener {
 
 		btnNewButton = new JButton("인증");
 		btnNewButton.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		btnNewButton.setBounds(426, 464, 76, 50);
+		btnNewButton.setBounds(651, 364, 76, 47);
 		btnNewButton.setForeground(new Color(0, 0, 0));
 		btnNewButton.setBackground(new Color(255, 255, 255));
 		btnNewButton.setFocusPainted(false);
@@ -144,7 +144,7 @@ public class ProfilePanel extends JPanel implements ActionListener {
 			textFields_TEL[i] = new MyJT_TEL("");
 			textFields_TEL[i].setHorizontalAlignment(SwingConstants.CENTER);
 			textFields_TEL[i].setFont(slotFont);
-			textFields_TEL[i].setBounds(loc_TEL[i], 354, (i == 0) ? 76 : 95, 50);
+			textFields_TEL[i].setBounds(loc_TEL[i], 364, (i == 0) ? 76 : 95, 47);
 			textFields_TEL[i].addKeyListener(KA);
 			add(textFields_TEL[i]);
 		}
@@ -251,6 +251,7 @@ public class ProfilePanel extends JPanel implements ActionListener {
 		}
 		tglbtnNewToggleButton.setEnabled(v);
 		tglbtnNewToggleButton_1.setEnabled(v);
+		btnNewButton.setEnabled(v);
 	}
 
 	void changeMode(boolean write) {
