@@ -19,6 +19,8 @@ public class Main_frame extends JFrame {
 	private static My_Page_Panel P4;
 	private static JPanel P1, P2, P3;
 
+	public static JFrame mainFrame;
+
 	/**
 	 * Launch the application.
 	 */
@@ -42,6 +44,8 @@ public class Main_frame extends JFrame {
 	 * @throws SQLException
 	 */
 	public Main_frame(boolean Administrator) {
+
+		mainFrame = this;
 
 		// 프레임 설정
 		setTitle("랜트 프로그램!");

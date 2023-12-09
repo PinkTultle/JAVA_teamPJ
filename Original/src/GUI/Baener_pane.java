@@ -10,22 +10,19 @@ public class Baener_pane extends JPanel {
 	private JLabel LOGO;
 	private JPanel MenuBar;
 	private Font LFont;
-	private Color BColor;
 	
 	public Baener_pane() {
 		// TODO Auto-generated constructor stub
 		
 		//배너 사이즈 및 위치설정
 		setBounds(0, 0, 1050, 150);
-		
 		//자유 레이아웃 설정
 		setLayout(null);
 		//배너 설정
-		//색깔 설정 푸른색 + 투명도 비활성화
-		//BColor = new Color(0x31BAF5, false);
-		//setBackground(BColor);
 		setToolTipText("배너 패널");
 		
+		//배너 배경색(진한 파랑)
+    //setBackground(new Color(0,191,255));
 		
 		//로고 초기설정
 		LOGO = new JLabel("렌트");
@@ -39,7 +36,6 @@ public class Baener_pane extends JPanel {
 		add(MenuBar);
 	}
 
-
 	protected void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		
@@ -49,5 +45,6 @@ public class Baener_pane extends JPanel {
 		g2.setPaint(gp);
 		g2.fillRect(0, 0, 1050, 150);
 	}
+
 	
 }

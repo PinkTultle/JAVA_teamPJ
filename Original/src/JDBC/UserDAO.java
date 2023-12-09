@@ -9,9 +9,8 @@ import java.sql.SQLException;
 public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 	// String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
-	//String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
-
-	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe"; //안되면 이걸로!
+	// String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
+	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
 
 	String user = "ABC"; // db 사용자 이름
 	String password = "1234"; // db
@@ -22,7 +21,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 	ResultSet rs;
 	PreparedStatement pstmt;
 
-	public UserDAO() throws ClassNotFoundException {
+	public UserDAO() {
 		try {
 
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -33,6 +32,8 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 		} catch (SQLException e) {
 			System.out.println("DB 로그인 실패");
+		} catch (ClassNotFoundException e) {
+			System.out.println("OracleDriver 없음");
 		}
 
 	}
@@ -52,7 +53,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		return conn; // 오라클 로그인 연결 정보
 	}
 
-	//이부분 관리자 권한 확인해서 닽이 반환하도록 수정 필요
+	// 이부분 관리자 권한 확인해서 닽이 반환하도록 수정 필요
 	public int checkLogin(UserDTO dto) throws SQLException { // 로그인
 
 		String sql = " SELECT * FROM 회원 WHERE 아이디 = ? ";
@@ -65,11 +66,10 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 			if (rs.next()) {
 				if (rs.getString("비밀번호").equals(dto.getPw())) {
-					user_cur = dto.getId();
-					
+
 					int Administrator = rs.getInt("관리자여부");
 					dto.setAdministrator(Administrator);
-					
+
 					return Administrator; // 로그인 성공
 				} else {
 					return -3; // 비밀번호 불일치
@@ -214,8 +214,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		try {
 			con = getConn();
 			pstmt = con.prepareStatement(sql);
-			// pstmt.setString(1, user_cur);
-			pstmt.setString(1, "asd1");
+			pstmt.setString(1, user_cur);
 			rs = pstmt.executeQuery();
 
 			rs.next();
@@ -244,6 +243,22 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		}
 
 		return userDTO;
+	}
+
+	public int userDelete() {
+		int result = 0;
+		try {
+			Connection con = getConn();
+			String sql = "DELETE FROM 회원 WHERE 아이디 = ? ";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, user_cur);
+			pstmt.executeQuery();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = 1;
+		}
+		return result;
 	}
 
 }

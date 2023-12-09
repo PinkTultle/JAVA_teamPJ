@@ -23,7 +23,7 @@ public class MenuBar extends JPanel implements ActionListener{
 		for(int i = 0 ; i < 4; i++) {
 			MenuButton = new JButton(tagList[i]);
 			MenuButton.setPreferredSize(new Dimension(Bnum, 30));
-			MenuButton.setBackground(Color.gray);
+			MenuButton.setBackground(new Color(59, 56, 56));
 			MenuButton.setHorizontalAlignment(SwingConstants.CENTER);
 			MenuButton.setVerticalAlignment(SwingConstants.CENTER);
 			add(MenuButton);
