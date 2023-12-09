@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.plaf.RootPaneUI;
 
 public class Baener_pane extends JPanel {
 	
@@ -11,6 +12,7 @@ public class Baener_pane extends JPanel {
 	private JPanel MenuBar;
 	private Font LFont;
 	private JButton logout;	
+	private JFrame login, Main;
 	
 	public Baener_pane() {
 		// TODO Auto-generated constructor stub
@@ -61,10 +63,19 @@ public class Baener_pane extends JPanel {
 		g2.setPaint(gp);
 		g2.fillRect(0, 0, 1050, 150);
 	}
+	
+	public void setLogin(LoginGUI Login) {
+		login = Login;
+	}
+	public void setMain(Main_frame main_frame) {
+		Main = main_frame;
+	}
+	
+	
 	class logo_eve implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-		
-			new LoginGUI();
+			Main.dispose();
+			login.setVisible(true);
 			
 		}		
 	}

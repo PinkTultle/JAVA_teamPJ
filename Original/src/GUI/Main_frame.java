@@ -28,7 +28,7 @@ public class Main_frame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Main_frame frame = new Main_frame(false);
+					Main_frame frame = new Main_frame(false, null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,10 +40,11 @@ public class Main_frame extends JFrame {
 
 	/**
 	 * Create the frame. 메인 프레임 위에 콘텐츠 팬 그위 배너 팬과 기능 팬 올림
+	 * @param loginGUI 
 	 * 
 	 * @throws SQLException
 	 */
-	public Main_frame(boolean Administrator) {
+	public Main_frame(boolean Administrator, LoginGUI loginGUI) {
 
 		mainFrame = this;
 
@@ -67,6 +68,10 @@ public class Main_frame extends JFrame {
 		// 배널 클래스 생성
 		// Baener_pane.java 파일에 정의
 		Baener = new Baener_pane();
+		
+		((Baener_pane) Baener).setLogin(loginGUI);
+		((Baener_pane) Baener).setMain(this);
+		
 
 		// 콘텐츠 패널 위에 배너 패널 추가
 		contentPane.add(Baener);

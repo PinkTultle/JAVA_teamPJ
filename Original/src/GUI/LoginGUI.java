@@ -221,7 +221,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 				// 페이지 전환 소스 넣어야함
 
 				setVisible(false);
-				mainFrame = new Main_frame((n == 1 ? true : false));
+				mainFrame = new Main_frame((n == 1 ? true : false), this);
 				txtId.clear();
 				txtPassword.clear();
 
@@ -237,5 +237,9 @@ public class LoginGUI extends JFrame implements ActionListener {
 			e1.printStackTrace();
 		} // 로그인 확인
 
+	}
+	
+	public JFrame sendme() {
+		return this;
 	}
 }
