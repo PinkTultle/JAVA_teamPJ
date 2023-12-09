@@ -94,7 +94,6 @@ public class My_Page extends JPanel implements ActionListener {
 		Bt_temp1 = new RoundButton("관라자 메뉴", Color.LIGHT_GRAY);
 		Bt_temp1.setFont(new Font("굴림", Font.BOLD, 16));
 		Bt_temp1.setBounds(41, 394, 141, 130);
-		Bt_temp1.addActionListener(this);
 		add(Bt_temp1);
 
 		Bt_temp1.setVisible(Administrator);
@@ -261,15 +260,9 @@ public class My_Page extends JPanel implements ActionListener {
 			System.out.println(RankScore);
 			updatelabel();
 			updateImage();
+		} else if (e.getSource() == Bt_temp1) {
 
-		} else if(e.getSource() == Bt_temp1) {
-			try {
-				new Administrator();
-			} catch (ClassNotFoundException e1) {
-				e1.printStackTrace();
-			}
-			//관리자 창 연결 함수
-			
+			// 관리자 창 연결 함수
 
 		}
 	}
