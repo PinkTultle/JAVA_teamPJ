@@ -17,7 +17,8 @@ class popup_JDialog extends JDialog {
 
 		setSize(300, 150);
 		setTitle(Title);
-
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		
 		// 사이즈 조절 off
 		setResizable(false);
 		// 화면 중앙에 출력
