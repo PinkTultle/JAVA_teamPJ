@@ -280,8 +280,12 @@ public class My_Page extends JPanel implements ActionListener {
 			updatelabel();
 			updateImage();
 		} else if(e.getSource() == Bt_temp1) {
-			
-			new Administrator();
+			try {
+				new Administrator();
+			} catch (ClassNotFoundException e1) {
+				e1.printStackTrace();
+			}
+			//관리자 창 연결 함수
 			
 		}
 	}

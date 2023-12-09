@@ -31,7 +31,7 @@ public class Administrator extends JFrame {
 	}
 
 	
-	public Administrator() {
+	public Administrator() throws ClassNotFoundException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 500);
 		// 사이즈 조절 off
@@ -46,6 +46,8 @@ public class Administrator extends JFrame {
 		
 		// <패널>-------------------------------------------------------------
 		
+		Administrator_pane a = new Administrator_pane(this);
+		
 		// 상단 메뉴바 패널
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(0, 0, 597, 79);
@@ -54,7 +56,7 @@ public class Administrator extends JFrame {
 		panel_1.setLayout(null);
 		
 		Report = new Administrator_Report_Pane(this);
-		Member = new Administrator_Members_Pane(this);
+		Member = new Administrator_Members_Pane(this, a);
 		Products = new Administrator_Products_Pane(this);
 
 		contentPane.add(Report);

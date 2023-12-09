@@ -32,6 +32,15 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 
 		setBackground(Color.white);
 		
+		dao = new ReportDAO();
+		
+		Refresh_table();
+
+		scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(18, 30, 460, 344);
+		scrollPane.setBackground(Color.white);
+		add(scrollPane);
+		
 		approve = new JButton("선택");
 		approve.setBounds(close_bt.getX(), scrollPane.getY(),
 				close_bt.getWidth(), close_bt.getHeight());
@@ -40,10 +49,12 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 		add(approve);
 		
 		
-		dao = new ReportDAO();
 		
-		Refresh_table();
-		scrollPane.add(table);
+		
+		
+		
+		//scrollPane.add(table);
+		
 		
 
 		
@@ -51,7 +62,7 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 	
 	
 	private void Refresh_table() {
-				
+		
 		Vector<ReportDTO> list = dao.allReportData();
 		Vector<ReportDTO> ptr = new Vector<ReportDTO>();
 		
@@ -60,7 +71,7 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 		table = new JTable(model);
 		
 		
-				
+		
 		for (ReportDTO item : list) {
 			Object [] data = new Object[] { Integer.toString(item.getReportNum()),
 					Integer.toString(item.getItemNumber()), item.getItemName(),

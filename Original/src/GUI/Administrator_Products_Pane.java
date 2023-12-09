@@ -4,14 +4,31 @@ import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import JDBC.ItemDAO;
+import JDBC.UserDAO;
 
 public class Administrator_Products_Pane extends Administrator_pane  {
 	
 	private JButton revise, delete;
+	private String colNames[] = {"물품코드","카테고리","물품명","소유주", "대여상태"};  // 테이블 컬럼 값들
+    private DefaultTableModel model = new DefaultTableModel(colNames, 0);
+    private JTable table ;
+    ItemDAO dao;
 	
-	
-	public Administrator_Products_Pane(JFrame master) {
+	public Administrator_Products_Pane(JFrame master) throws ClassNotFoundException {
 		super(master);
+		table = new JTable(model);
+		dao = new ItemDAO();
+		dao.itemAll(model);
+		
+		scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(18, 30, 460, 344);
+		scrollPane.setBackground(Color.white);
+		add(scrollPane);
 
 
 		revise = new JButton("수정");

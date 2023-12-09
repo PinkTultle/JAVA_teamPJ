@@ -102,7 +102,7 @@ public class ItemDetail extends JFrame implements ActionListener {
 			btnNewButton_2 = new RoundButton("삭제");
 			btnNewButton_2.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 			if (!isWriter)
-				btnNewButton_2.setText("대여");
+				btnNewButton_2.setText("예약");
 			btnNewButton_2.setBounds(726, 466, 75, 40);
 			btnNewButton_2.addActionListener(this);
 			panel.add(btnNewButton_2);
@@ -246,7 +246,6 @@ public class ItemDetail extends JFrame implements ActionListener {
 					// 삭제 확인한 경우 | DB 에서 DELETE 필요
 					ItemDAO itemDAO = new ItemDAO();
 					if (itemDAO.deleteItem(itemNum)) {
-						JOptionPane.showMessageDialog(null, "삭제했습니다.");
 						dispose();
 					} else {
 						JOptionPane.showMessageDialog(null, "삭제할 수 없습니다.");

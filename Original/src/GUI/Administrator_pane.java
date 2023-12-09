@@ -46,9 +46,7 @@ public class Administrator_pane extends JPanel {
 		add(close_bt);		
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(18, 30, 460, 344);
-		scrollPane.setBackground(Color.white);
-		add(scrollPane);
+		
 			
 		
 	}

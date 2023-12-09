@@ -1,21 +1,21 @@
 package GUI;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.font.TextAttribute;
 import java.sql.SQLException;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -45,8 +45,6 @@ public class LoginGUI extends JFrame implements ActionListener {
 	private JButton btnNewButton_2;
 	private JFrame mainFrame;
 
-	public static JFrame loginFrame;
-
 	/**
 	 * Launch the application.
 	 */
@@ -67,8 +65,6 @@ public class LoginGUI extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public LoginGUI() {
-
-		loginFrame = this;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1050, 600);
@@ -138,14 +134,6 @@ public class LoginGUI extends JFrame implements ActionListener {
 		txtPassword.setColumns(10);
 		txtPassword.setBounds(30, 109, 370, 50);
 		txtPassword.setEchoChar((char) 0);
-		txtPassword.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					Login();
-				}
-			}
-		});
 		panel_1_1.add(txtPassword);
 
 		removefirstfocus = new JTextField();
@@ -169,12 +157,10 @@ public class LoginGUI extends JFrame implements ActionListener {
 		lblNewLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 34));
 		lblNewLabel.setBounds(375, 21, 298, 66);
 		contentPane.add(lblNewLabel);
-		
-		setVisible(true);
-
 	}
 
-	class ML_btn extends MouseAdapter {
+	class ML_btn implements MouseListener {
+
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			Cursor cursor = new Cursor(HAND_CURSOR);
@@ -186,12 +172,69 @@ public class LoginGUI extends JFrame implements ActionListener {
 			Cursor cursor = new Cursor(DEFAULT_CURSOR);
 			setCursor(cursor);
 		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnNewButton) { // 로그인 버튼 동작
-			Login();
+			System.out.println(((JButton) (e.getSource())).getText());
+			userDTO = new UserDTO();
+
+			try {
+				userDAO = new UserDAO();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			String id = txtId.getText();
+			String pw = new String(txtPassword.getPassword());
+
+			userDTO.setId(id);
+			userDTO.setPw(pw);
+
+			try {
+				int n = userDAO.checkLogin(userDTO);
+
+				if (n == 0 || n == 1) {
+					// 로그인 성공
+					userDTO.setLoginid(id); // 로그인한 아이디 저장
+					// 페이지 전환 소스 넣어야함
+
+					setVisible(false);
+					mainFrame = new Main_frame((n==1?true:false));
+
+				} else if (n == -1) {
+					// 아이디 없음
+					new popup_JDialog("로그인 실패", "잘못된 ID!");
+				} else if (n == -3) {
+					// 비밀번호 없음
+					new popup_JDialog("로그인 실패", "잘못된 PW!");
+				}
+
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			} // 로그인 확인
+
 		} else if (e.getSource() == btnNewButton_1) { // 회원가입 버튼 동작
 
 			new RegisterGUI(this);
@@ -201,41 +244,8 @@ public class LoginGUI extends JFrame implements ActionListener {
 			System.out.println(((JButton) (e.getSource())).getText());
 		}
 	}
-
-	void Login() {
-		userDTO = new UserDTO();
-		userDAO = new UserDAO();
-
-		String id = txtId.getText();
-		String pw = new String(txtPassword.getPassword());
-
-		userDTO.setId(id);
-		userDTO.setPw(pw);
-
-		try {
-			int n = userDAO.checkLogin(userDTO);
-
-			if (n == 0 || n == 1) {
-				// 로그인 성공
-				userDTO.setLoginid(id); // 로그인한 아이디 저장
-				// 페이지 전환 소스 넣어야함
-
-				setVisible(false);
-				mainFrame = new Main_frame((n == 1 ? true : false));
-				txtId.clear();
-				txtPassword.clear();
-
-			} else if (n == -1) {
-				// 아이디 없음
-				new popup_JDialog("로그인 실패", "잘못된 ID!");
-			} else if (n == -3) {
-				// 비밀번호 없음
-				new popup_JDialog("로그인 실패", "잘못된 PW!");
-			}
-
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		} // 로그인 확인
-
-	}
+	// txtId : 아이디 입력 JTextField
+	// txtPassword : 패스워드 입력 JPasswordField
 }
+
+

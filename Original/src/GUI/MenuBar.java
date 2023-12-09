@@ -26,14 +26,13 @@ public class MenuBar extends JPanel implements ActionListener{
 			MenuButton.setBackground(new Color(59, 56, 56));
 			MenuButton.setHorizontalAlignment(SwingConstants.CENTER);
 			MenuButton.setVerticalAlignment(SwingConstants.CENTER);
+			add(MenuButton);
 			MenuButton.setBorderPainted(false);
 			MenuButton.setFocusPainted(false);
 			//MenuButton.setContentAreaFilled(false);
 			MenuButton.addActionListener(this);
 			MenuButton.setFont(new Font("맑은고딕", Font.BOLD, 15));
 			MenuButton.setForeground(Color.white);
-			
-			add(MenuButton);
 		}
 		
 		
