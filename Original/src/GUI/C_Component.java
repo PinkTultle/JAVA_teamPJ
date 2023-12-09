@@ -631,7 +631,6 @@ public class C_Component {
 		void setItem() { // boolean 1개와 String 6개로 값을 변경
 			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 			try {
-				// 오류 발생하나 해결 불가 | 별개의 try/catch 문으로 예외 처리
 				int rowCount = tableModel.getRowCount();
 				while (rowCount != 0) {
 					tableModel.removeRow(0);
@@ -742,8 +741,8 @@ public class C_Component {
 				data = itemDAO.itemRental();
 				if (data == null)
 					return;
-				for (int i = 0; i < 2; i++) {
-						ItemDTO item = data.get(i);
+				for (int i = 0; i < ((data.size() < 2) ? 1 : 2); i++) {
+					ItemDTO item = data.get(i);
 					Object[] newData;
 					if (item.getState().equals("대여중")) {
 						newData = new Object[] { Integer.toString(item.getItemnumber()), item.getItemname(),

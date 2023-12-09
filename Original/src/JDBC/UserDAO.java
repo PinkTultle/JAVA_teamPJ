@@ -116,6 +116,11 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		String tel1 = Integer.toString(dto.getTel()).substring(0, 4); // 전화번호 중간 4자리
 		String tel2 = Integer.toString(dto.getTel()).substring(4); // 전화번호 마지막 4자리
 
+		String tmp = Integer.toString(dto.getBirth());
+		if (tmp.length() < 8)
+			tmp = "0" + tmp;
+		String bir = tmp.substring(0, 4) + "-" + tmp.substring(4, 6) + "-" + tmp.substring(6, 8);
+
 		String tel = "010-" + tel1 + "-" + tel2;
 
 		try {
@@ -126,7 +131,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			pstmt.setString(2, dto.getPw());
 			pstmt.setString(3, dto.getNickname());
 			pstmt.setString(4, dto.getName());
-			pstmt.setInt(5, dto.getBirth());
+			pstmt.setString(5, bir);
 			pstmt.setString(6, dto.getGender());
 			pstmt.setString(7, tel);
 			pstmt.setString(8, dto.getAddress());
@@ -182,8 +187,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			}
 		}
 
-		// sql += "WHERE 아이디 = '" + user_cur + "'";
-		sql += "WHERE 아이디 = '" + "asd1" + "'";
+		sql += "WHERE 아이디 = '" + user_cur + "'";
 
 		try {
 
@@ -203,6 +207,8 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			pstmt.close();
 			con.close();
 		}
+
+		System.out.println(sql);
 
 		return rs; // 프로필 수정
 	}

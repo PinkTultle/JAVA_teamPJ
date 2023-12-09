@@ -156,6 +156,7 @@ public class ItemDAO {
 				itemdto.setRentdate(rs.getString("렌트기한"));
 				itemdto.setBookingGuest(rs.getString("예약자"));
 				itemdto.setLender(rs.getString("대여자"));
+				itemdto.setState(rs.getString("대여상태"));
 			}
 
 		} catch (ClassNotFoundException e) {
@@ -389,6 +390,14 @@ public class ItemDAO {
 
 			ResultSet rs = pstmt.executeQuery();
 
+			sql = "UPDATE 물품목록 SET 대여상태 = ? WHERE 물품코드 = ? ";
+			pstmt = con.prepareStatement(sql);
+
+			pstmt.setString(1, "승인대기");
+			pstmt.setInt(2, data.getItemnumber());
+
+			pstmt.executeQuery();
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -397,9 +406,86 @@ public class ItemDAO {
 
 		return 0;
 	}
-	
-	
-	
+
+	public int returnItem(int offerNum) {
+		int result = 0;
+		try {
+			Connection con = getConn();
+			String sql = "UPDATE 대여기록 SET 반납상태 = ? WHERE 대여번호 = ? ";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+
+			pstmt.setString(1, "반납");
+			pstmt.setInt(2, offerNum);
+
+			pstmt.executeQuery();
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = 1;
+		}
+
+		return result;
+	}
+
+	public ItemDTO getOffer(int offerNum) {
+		ItemDTO result = new ItemDTO();
+		try {
+			Connection con = getConn();
+			String sql = "SELECT * FROM 대여기록 WHERE 대여번호 = ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, offerNum);
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				result.setRentNum(rs.getInt("대여번호"));
+				result.setItemnumber(rs.getInt("물품코드"));
+				result.setItemname(rs.getString("물품이름"));
+				result.setRentdate_start(rs.getString("대여시작날짜"));
+				result.setRentdate_end(rs.getString("대여반납예정일"));
+				result.setPerson(rs.getString("소유주"));
+				result.setLender(rs.getString("대여자"));
+				result.setState(rs.getString("반납상태"));
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = null;
+		}
+		return (result);
+	}
+
+	public int checkOffer(int offerNum, int mode) {
+		// 0: 승인 | 1: 거절
+		int result = 0;
+		try {
+			ItemDTO offerData = this.getOffer(offerNum);
+			String sql = "UPDATE 물품목록 SET 대여상태 = ? WHERE 물품코드 = ? ";
+			String state = "대여중";
+			if (mode == 1)
+				state = "대여가능";
+
+			Connection con = getConn();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, state);
+			pstmt.setInt(2, offerData.getItemnumber());
+
+			pstmt.executeQuery();
+
+			sql = "UPDATE 대여기록 SET 반납상태 = ? WHERE 대여번호 = ?";
+			pstmt = con.prepareStatement(sql);
+			if (mode == 1)
+				state = "대여거부";
+			pstmt.setString(1, state);
+			pstmt.setInt(2, offerData.getItemnumber());
+
+			pstmt.executeQuery();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 	//물뭄 목록 불러오기
     public void itemAll(DefaultTableModel model) throws ClassNotFoundException {
     	Connection con = null;
