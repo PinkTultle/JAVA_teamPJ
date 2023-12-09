@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import GUI.C_Component.itemSlot_history;
+import JDBC.ItemDAO;
 
 public class RentHistory extends JPanel implements ActionListener {
 
@@ -66,7 +67,7 @@ public class RentHistory extends JPanel implements ActionListener {
 		btnNewButton_2.setBounds(903, 600, 104, 33);
 		add(btnNewButton_2);
 
-		String[] headerText = { "물품코드", "거래자", "물품명", "남은 기간", "이용 상태", "반납/연장 상태" };
+		String[] headerText = { "물품번호", "거래자", "물품명", "남은 기간", "이용 상태", "반납/연장 상태" };
 		int[] xLoc = { 55, 175, 425, 665, 775, 885 };
 		Font hFont = new Font("맑은 고딕", Font.PLAIN, 16);
 
@@ -93,7 +94,7 @@ public class RentHistory extends JPanel implements ActionListener {
 			System.out.println(((JButton) (e.getSource())).getText());
 			if (is.getSelectItemNum() != -1) {
 				// 거래 번호 추가 필요
-				JFrame eO = new extendOffer(1);
+				JFrame eO = new extendOffer(is.getSelectRentNum());
 				eO.setVisible(true);
 			}
 
@@ -109,13 +110,17 @@ public class RentHistory extends JPanel implements ActionListener {
 	}
 
 	int returnItem() {
-		if (is.getSelectItemNum() != -1) {
+		if (is.getSelectItemNum() != -1 && is.getSelectState() != null) {
 			int closeProfile = JOptionPane.showConfirmDialog(null, "반납하시겠습니까?", "경고", JOptionPane.YES_NO_OPTION,
 					JOptionPane.WARNING_MESSAGE);
 			if (closeProfile == JOptionPane.YES_OPTION) {
-				System.out.println("물품 반납 메소드 필요");
+				ItemDAO itemDAO = new ItemDAO();
+				itemDAO.returnItem(is.getSelectRentNum(), is.getSelectItemNum());
 				return 0;
 			}
+		} else {
+			JOptionPane.showMessageDialog(null, "반납할 수 없습니다.");
+			return 1;
 		}
 		return 1;
 	}

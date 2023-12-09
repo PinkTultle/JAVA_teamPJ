@@ -88,12 +88,13 @@ public class ItemDetail extends JFrame implements ActionListener {
 			btnNewButton.addActionListener(this);
 			panel.add(btnNewButton);
 
-			btnNewButton_1 = new RoundButton("수정");
-			btnNewButton_1.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
+			btnNewButton_1 = new RoundButton("신고");
+			btnNewButton_1.setVisible(false);
 			if (!isWriter) {
-				btnNewButton_1.setText("신고");
+				btnNewButton_1.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 				btnNewButton_1.setForeground(new Color(255, 255, 255));
 				btnNewButton_1.setColorNormal(new Color(31, 78, 121));
+				btnNewButton_1.setVisible(true);
 			}
 			btnNewButton_1.setBounds(813, 466, 75, 40);
 			btnNewButton_1.addActionListener(this);
@@ -107,7 +108,10 @@ public class ItemDetail extends JFrame implements ActionListener {
 			else if (!isWriter) {
 				btnNewButton_2.setVisible(false);
 			}
-			btnNewButton_2.setBounds(726, 466, 75, 40);
+			int xLoc = 726;
+			if (isWriter)
+				xLoc = 813;
+			btnNewButton_2.setBounds(xLoc, 466, 75, 40);
 			btnNewButton_2.addActionListener(this);
 			panel.add(btnNewButton_2);
 
@@ -217,16 +221,9 @@ public class ItemDetail extends JFrame implements ActionListener {
 	}
 
 	/*
-	 * 타이틀 바 
-	 * lbl[0] : 타이틀 바 별명 JLable
-	 * lbl[1] : 타이틀 바 물품이름 JLable
-	 * 메인 화면
-	 * String Description : 설명 내용을 받는 String 
-	 * lbl[2] : 물품코드 JLable 
-	 * lbl[3] : 모델명 JLable 
-	 * lbl[4] : 렌트기한 JLable 
-	 * lbl[5] : 금액/보증금 JLable 
-	 * lbl[6] : 전화번호 JLable 
+	 * 타이틀 바 lbl[0] : 타이틀 바 별명 JLable lbl[1] : 타이틀 바 물품이름 JLable 메인 화면 String
+	 * Description : 설명 내용을 받는 String lbl[2] : 물품코드 JLable lbl[3] : 모델명 JLable
+	 * lbl[4] : 렌트기한 JLable lbl[5] : 금액/보증금 JLable lbl[6] : 전화번호 JLable
 	 */
 
 	@Override

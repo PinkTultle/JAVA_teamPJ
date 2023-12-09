@@ -43,7 +43,7 @@ public class My_Page extends JPanel implements ActionListener {
 	private JLabel Rank_lb1;
 	private JLabel Rank_lb2;
 	private JButton Bt_Test;
-	private String name = "KJH";
+	private String name;
 	private JLabel lb_image;
 	private ImageIcon resizeIcon3_TOP;
 	private ImageIcon resizeIcon2_TOP;
@@ -56,7 +56,8 @@ public class My_Page extends JPanel implements ActionListener {
 		setBounds(0, 150, 1050, 800);
 		setLayout(null);
 
-		JLabel Label_NickName = new JLabel("KJH");
+		name=My_Page_Panel.userInfo_cur.getNickname();
+		JLabel Label_NickName = new JLabel(name);
 
 		Label_NickName.setFont(new Font("굴림", Font.BOLD, 19));
 		Label_NickName.setBounds(50, 18, 112, 46); // 원래 좌표 -> 131, 198

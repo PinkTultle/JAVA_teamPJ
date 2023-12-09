@@ -11,7 +11,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -128,7 +127,7 @@ public class C_Component {
 			// TODO Auto-generated method stub
 			return isEnabled();
 		}
-		
+
 		@Override
 		public void clear() {
 			setText(init);
@@ -219,7 +218,7 @@ public class C_Component {
 			// TODO Auto-generated method stub
 			return isEnabled();
 		}
-	
+
 		@Override
 		public void clear() {
 			setText(init);
@@ -331,8 +330,7 @@ public class C_Component {
 
 	static class MyTA extends JTable implements BaseTableComponent {
 		/*
-		 * JTable 에 사용자 기능들을 추가한 클래스 
-		 * goDetail : 클릭 이벤트 또는 enter 이벤트 발생 시 해당 메소드를 실행함
+		 * JTable 에 사용자 기능들을 추가한 클래스 goDetail : 클릭 이벤트 또는 enter 이벤트 발생 시 해당 메소드를 실행함
 		 * focusLost : focus 가 사라지는 경우 Select 된 행을 초기화
 		 */
 		protected int itemNumIdx = 0;
@@ -376,6 +374,29 @@ public class C_Component {
 			RWRPanel.setVisible(true);
 		}
 
+	}
+
+	static class MyTA_Offer extends MyTA implements BaseTableComponent {
+		boolean mode;
+		Vector<Integer> offerNum = new Vector<>();
+
+		public void goDetail() { // 마우스나 키보드 이벤트 발생시 실행하는 메소드
+			if (mode) {
+				// TODO Auto-generated method stub
+				int selectedRow = this.getSelectedRow(); // 행 정보를 받아옴
+				// 선택 항의 PID를 이용하여서 정보 검색이 필요
+				checkOffer cO = new checkOffer(offerNum.get(selectedRow));
+				cO.setVisible(true);
+			} else {
+				int selectedRow = this.getSelectedRow(); // 행 정보를 받아옴
+				// 선택 항의 PID를 이용하여서 정보 검색이 필요
+				ItemDetail idPanel = new ItemDetail(Integer.parseInt(getValueAt(selectedRow, itemNumIdx).toString()));
+				if (!idPanel.isOpen)
+					idPanel.dispose();
+				else
+					idPanel.setVisible(true);
+			}
+		}
 	}
 
 	static class base_itemSlot extends JScrollPane {
@@ -527,11 +548,16 @@ public class C_Component {
 		 * String.class 3개
 		 */
 		private static final long serialVersionUID = 1L;
+		private MyTA_Offer p_t;
 
-		public itemSlot_offer(int x, int y, int width, int height) {
+		public itemSlot_offer(int x, int y, int width, int height, boolean mode) {
+			// true: receive | false: send
 			setBounds(x, y, width, height);
 			getViewport().setBackground(Color.white);
-			table = new MyTA();
+
+			table = new MyTA_Offer();
+			p_t = (MyTA_Offer) table;
+			p_t.mode = mode;
 			table.setModel(new DefaultTableModel(new Object[][] {},
 					new String[] { "\uBB3C\uD488\uCF54\uB4DC", "\uBB3C\uD488\uBA85", "\uC694\uCCAD\uAE30\uD55C" }) {
 				Class[] columnTypes = new Class[] { String.class, String.class, String.class };
@@ -575,10 +601,13 @@ public class C_Component {
 			data = itemDAO.item_receive_sending(s);
 			for (ItemDTO item : data) {
 				System.out.println(s + " " + item.getItemnumber());
+				if (p_t.mode)
+					p_t.offerNum.add(item.getRentNum());
 				tableModel.addRow(new Object[] { "" + item.getItemnumber(), item.getItemname(), item.getRentdate() });
 			}
 
 		}
+
 	}
 
 	static public class itemSlot_history extends base_itemSlot {
@@ -588,6 +617,7 @@ public class C_Component {
 		private static final long serialVersionUID = 1L;
 
 		private int selectedIndex = -1;
+		private Vector<Integer> offerNum = new Vector<>();
 
 		public itemSlot_history(int x, int y, int width, int height) {
 			setBounds(x, y, width, height);
@@ -651,6 +681,7 @@ public class C_Component {
 					tableModel.removeRow(0);
 					rowCount--;
 				}
+				offerNum.clear();
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
@@ -661,8 +692,8 @@ public class C_Component {
 				data = itemDAO.itemRental();
 				for (ItemDTO item : data) {
 					Object[] newData;
+					offerNum.add(item.getRentNum());
 					if (item.getState().equals("대여중")) {
-						LocalDate ld;
 						newData = new Object[] { false, Integer.toString(item.getItemnumber()), item.getPerson(),
 								item.getItemname(), item.getRentdate(), item.getState(), null };
 					} else {
@@ -686,6 +717,25 @@ public class C_Component {
 				returnItemNum = Integer.parseInt(table.getValueAt(selectedIndex, 1).toString());
 			}
 			return returnItemNum;
+		}
+
+		int getSelectRentNum() {
+			int returnRentNum = -1;
+			if (selectedIndex != -1 && (boolean) table.getValueAt(selectedIndex, 0)) {
+				returnRentNum = offerNum.get(selectedIndex);
+			}
+			return returnRentNum;
+		}
+
+		String getSelectState() {
+			String s = null;
+			if (selectedIndex != -1 && (boolean) table.getValueAt(selectedIndex, 0)) {
+				try {
+					s = table.getValueAt(selectedIndex, 5).toString();
+				} catch (Exception e) {
+				}
+			}
+			return s;
 		}
 
 		protected void handleTableChangedEvent(TableModelEvent e) { // checkBox가 하나만 선택되도록 설정
