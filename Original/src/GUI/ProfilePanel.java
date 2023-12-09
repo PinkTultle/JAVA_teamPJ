@@ -192,8 +192,6 @@ public class ProfilePanel extends JPanel implements ActionListener {
 			}
 
 			textFields[0].setEnabled(false);
-			textFields[7].setEnabled(false);
-			textFields[8].setEnabled(false);
 			textFields_TEL[0].setEnabled(false);
 			setEditable(false);
 		} catch (Exception e) {

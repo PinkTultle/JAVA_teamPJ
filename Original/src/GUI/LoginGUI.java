@@ -158,8 +158,6 @@ public class LoginGUI extends JFrame implements ActionListener {
 		lblNewLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 34));
 		lblNewLabel.setBounds(375, 21, 298, 66);
 		contentPane.add(lblNewLabel);
-		
-		setVisible(true);
 
 	}
 
@@ -191,7 +189,12 @@ public class LoginGUI extends JFrame implements ActionListener {
 
 	void Login() {
 		userDTO = new UserDTO();
-		userDAO = new UserDAO();
+		try {
+			userDAO = new UserDAO();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		String id = txtId.getText();
 		String pw = new String(txtPassword.getPassword());
@@ -208,7 +211,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 				// 페이지 전환 소스 넣어야함
 
 				setVisible(false);
-				mainFrame = new Main_frame((n == 1 ? true : false), this);
+				mainFrame = new Main_frame((n == 1 ? true : false));
 				txtId.clear();
 				txtPassword.clear();
 				mainFrame.setVisible(true);
@@ -224,9 +227,5 @@ public class LoginGUI extends JFrame implements ActionListener {
 			e1.printStackTrace();
 		} // 로그인 확인
 
-	}
-	
-	public JFrame sendme() {
-		return this;
 	}
 }

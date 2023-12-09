@@ -22,15 +22,21 @@ public class My_Page_Panel extends JPanel {
 
 	public static UserDTO userInfo_cur;
 
-	public My_Page_Panel(boolean Administrator) {
+	public My_Page_Panel(boolean Administrator){
 
 		System.out.print(Administrator);
 		setLayout(null);
 		setBounds(0, 150, 1050, 700);
 		setBackground(new Color(255, 255, 255));
 
-		UserDAO userDAO = new UserDAO();
-		userInfo_cur = userDAO.userSelect();
+		UserDAO userDAO;
+		try {
+			userDAO = new UserDAO();
+			userInfo_cur = userDAO.userSelect();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		myPage = new My_Page(this, Administrator);
 		this.add(myPage);

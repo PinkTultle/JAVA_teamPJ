@@ -11,6 +11,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -53,6 +54,8 @@ public class C_Component {
 		abstract boolean isTyped();
 
 		abstract boolean isEnable();
+
+		abstract void clear();
 
 	}
 
@@ -125,6 +128,17 @@ public class C_Component {
 			// TODO Auto-generated method stub
 			return isEnabled();
 		}
+		
+		public void clear() {
+			setText(init);
+			isTyped = false;
+		}
+
+		@Override
+		public void clear() {
+			setText(init);
+			isTyped = false;
+		}
 
 	}
 
@@ -151,7 +165,7 @@ public class C_Component {
 			super.focusLost();
 			setHorizontalAlignment(JTextField.CENTER);
 		}
-		
+
 	}
 
 	static class MyPT extends JPasswordField implements BaseTextComponent { // JPasswordField 에 사용자 기능 추가
@@ -210,7 +224,18 @@ public class C_Component {
 			// TODO Auto-generated method stub
 			return isEnabled();
 		}
+		
+		public void clear() {
+			setText(init);
+			isTyped = false;
+		}
 
+		@Override
+		public void clear() {
+			setText(init);
+			setEchoChar((char) 0);
+			isTyped = false;
+		}
 	}
 
 	static class MyFL implements FocusListener { // MyPT, MyJT 용 포커스 리스터
@@ -532,11 +557,11 @@ public class C_Component {
 				}
 			});
 
-			table.getColumnModel().getColumn(0).setPreferredWidth(30);
+			table.getColumnModel().getColumn(0).setPreferredWidth(20);
 			table.getColumnModel().getColumn(0).setMinWidth(10);
-			table.getColumnModel().getColumn(1).setPreferredWidth(150);
+			table.getColumnModel().getColumn(1).setPreferredWidth(100);
 			table.getColumnModel().getColumn(1).setMinWidth(100);
-			table.getColumnModel().getColumn(2).setPreferredWidth(60);
+			table.getColumnModel().getColumn(2).setPreferredWidth(100);
 			table.getColumnModel().getColumn(2).setMinWidth(15);
 
 			initJTableStyle(table, height, 10, false);
@@ -576,7 +601,7 @@ public class C_Component {
 
 		public itemSlot_history(int x, int y, int width, int height) {
 			setBounds(x, y, width, height);
-			getViewport().setBackground(Color.white);
+			getViewport().setBackground(new Color(243, 246, 249));
 			table = new MyTA();
 			table.setModel(new DefaultTableModel(new Object[][] {},
 					new String[] { "", "\ubb3c\ud488\ucf54\ub4dc", "\uac70\ub798\uc790", "\ubb3c\ud488\uba85",
@@ -647,6 +672,7 @@ public class C_Component {
 				for (ItemDTO item : data) {
 					Object[] newData;
 					if (item.getState().equals("대여중")) {
+						LocalDate ld;
 						newData = new Object[] { false, Integer.toString(item.getItemnumber()), item.getPerson(),
 								item.getItemname(), item.getRentdate(), item.getState(), null };
 					} else {
@@ -765,7 +791,7 @@ public class C_Component {
 
 		public reportDetailTable(int x, int y, int width, int height) {
 			setBounds(x, y, width, height);
-			getViewport().setBackground(Color.white);
+			getViewport().setBackground(new Color(243, 246, 249));
 
 			table = new MyTA_report();
 			table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "", "", "", "" }) {
