@@ -6,11 +6,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.table.DefaultTableModel;
 
 public class ItemDAO {
 
@@ -485,4 +487,33 @@ public class ItemDAO {
 		}
 		return result;
 	}
+	
+	//물뭄 목록 불러오기
+    public void itemAll(DefaultTableModel model) throws Exception {
+        Connection con = null;
+        try {
+            con = getConn();
+            Statement stmt = con.createStatement();
+            String query = "SELECT 물품코드,카테고리,물품명,소유주, 대여상태 FROM 물품목록";
+            ResultSet rs = stmt.executeQuery(query);
+        
+        
+        while(rs.next()) {
+            
+            int itemNum = rs.getInt("물품코드");
+            String category = rs.getString("카테고리");
+            String itemName = rs.getString("물품명");
+            String admin = rs.getString("소유주");
+            String state = rs.getString("대여상태");
+            
+            
+
+            model.addRow(new Object[]{itemNum, category, itemName, admin, state});
+        }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+	
 }

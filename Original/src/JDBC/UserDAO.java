@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.table.DefaultTableModel;
 
 public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
@@ -38,7 +41,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 	}
 
-	public Connection getConn() throws ClassNotFoundException {
+	public Connection getConn(){
 		try {
 
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -47,7 +50,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 			System.out.println("DB 로그인 성공");
 
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			System.out.println("DB 로그인 실패");
 		}
 		return conn; // 오라클 로그인 연결 정보
@@ -156,7 +159,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		conn.close();
 	}
 
-	public int userUpdate(String[] data) throws SQLException {
+	public int userUpdate(String[] data) throws SQLException, ClassNotFoundException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		boolean c = false;
@@ -191,9 +194,6 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			rs = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
@@ -262,7 +262,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 	
 	
 	//유저 목록 불러오기
-    public void userAll(DefaultTableModel model) throws ClassNotFoundException {
+    public void userAll(DefaultTableModel model){
     	Connection con = null;
     	try {
     		con = getConn();
@@ -285,33 +285,27 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
     	catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    }    
     
     
-    
-	public int milerege(String id) throws SQLException  { 
+	public int milerege(String id) throws SQLException, ClassNotFoundException  { 
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null; // 결과 담는 곳
 		int m = 0;
 		String sql = " SELECT 마일리지 FROM 회원 WHERE 아이디 = ? ";
 		
-		try {
-			con = getConn();
+		con = getConn();
 
-			pstmt = con.prepareStatement(sql);
+		pstmt = con.prepareStatement(sql);
 
-			pstmt.setString(1, id);
+		pstmt.setString(1, id);
 
-			rs = pstmt.executeQuery();
+		rs = pstmt.executeQuery();
 
-			if(rs.next()) {
-				m = rs.getInt("마일리지");
-				System.out.println("마일리지 점수 : " + m);
-			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(rs.next()) {
+			m = rs.getInt("마일리지");
+			System.out.println("마일리지 점수 : " + m);
 		}
 		
 		

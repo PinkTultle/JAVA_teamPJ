@@ -129,11 +129,6 @@ public class C_Component {
 			return isEnabled();
 		}
 		
-		public void clear() {
-			setText(init);
-			isTyped = false;
-		}
-
 		@Override
 		public void clear() {
 			setText(init);
@@ -224,12 +219,7 @@ public class C_Component {
 			// TODO Auto-generated method stub
 			return isEnabled();
 		}
-		
-		public void clear() {
-			setText(init);
-			isTyped = false;
-		}
-
+	
 		@Override
 		public void clear() {
 			setText(init);

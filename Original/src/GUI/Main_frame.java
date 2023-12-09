@@ -82,7 +82,6 @@ public class Main_frame extends JFrame {
 		P2 = new ListPanel();
 		P3 = new OfferManage();
 		
-		
 		P4 = new My_Page_Panel(Administrator);
 
 		setContentPane(contentPane);
@@ -165,6 +164,9 @@ public class Main_frame extends JFrame {
 				P4.setVisible(true);
 				break;
 			}
+			
+			System.out.println("");
+
 		}
 	}
 

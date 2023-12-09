@@ -68,7 +68,7 @@ public class My_Page extends JPanel implements ActionListener {
 			dao = new UserDAO();
 			RankScore = dao.milerege("asd1"); // 이 부분 로그인한 id 가져와서 넣어야함@!@!@@@!@!@!@!@!
 			
-		} catch (ClassNotFoundException | SQLException e1) {
+		} catch (SQLException | ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -258,7 +258,7 @@ public class My_Page extends JPanel implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e){
 		if (e.getSource() == Bt_profile) {
 			System.out.println("프로필 창 호출");
 			mpp.Open_profile();
@@ -291,7 +291,7 @@ public class My_Page extends JPanel implements ActionListener {
 				dao = new UserDAO();
 				RankScore = dao.milerege("asd1"); // 이 부분 로그인한 id 가져와서 넣어야함@!@!@@@!@!@!@!@!
 				
-			} catch (ClassNotFoundException | SQLException e1) {
+			} catch (SQLException | ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}

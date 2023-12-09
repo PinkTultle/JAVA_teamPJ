@@ -30,13 +30,8 @@ public class My_Page_Panel extends JPanel {
 		setBackground(new Color(255, 255, 255));
 
 		UserDAO userDAO;
-		try {
-			userDAO = new UserDAO();
-			userInfo_cur = userDAO.userSelect();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		userDAO = new UserDAO();
+		userInfo_cur = userDAO.userSelect();
 
 		myPage = new My_Page(this, Administrator);
 		this.add(myPage);
