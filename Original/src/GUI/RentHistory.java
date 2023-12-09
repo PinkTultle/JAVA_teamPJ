@@ -67,7 +67,7 @@ public class RentHistory extends JPanel implements ActionListener {
 
 		String[] headerText = { "물품코드", "거래자", "물품명", "남은 기간", "이용 상태", "반납/연장 상태" };
 		int[] xLoc = { 55, 175, 425, 665, 775, 885 };
-		Font hFont = new Font("굴림", Font.PLAIN, 16);
+		Font hFont = new Font("맑은 고딕", Font.PLAIN, 16);
 
 		for (int i = 0; i < 6; i++) {
 			tableHeader[i] = new JLabel(headerText[i]);

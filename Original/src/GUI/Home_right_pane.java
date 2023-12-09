@@ -24,18 +24,18 @@ public class Home_right_pane extends Function_pane implements ActionListener {
 			"요청" + "" };
 	
 	private ImageIcon [] main_btn_img = {
-			new ImageIcon("./src/images/main_btn_1.png"),
-			new ImageIcon("./src/images/main_btn_2.png"),
-			new ImageIcon("./src/images/main_btn_3.png"),
-			new ImageIcon("./src/images/main_btn_4.png"),
-			new ImageIcon("./src/images/main_btn_5.png"),
-			new ImageIcon("./src/images/main_btn_6.png"),
-			new ImageIcon("./src/images/main_btn_7.png"),
-			new ImageIcon("./src/images/main_btn_8.png"),
-			new ImageIcon("./src/images/main_btn_9.png"),
-			new ImageIcon("./src/images/main_btn_10.png"),
-			new ImageIcon("./src/images/main_btn_11.png"),
-			new ImageIcon("./src/images/main_btn_12.png")			
+			new ImageIcon("./src/COMP_IMG/Img_Electronics.png"),
+			new ImageIcon("./src/COMP_IMG/Img_Furniture.png"),
+			new ImageIcon("./src/COMP_IMG/Img_Baby_Products.png"),
+			new ImageIcon("./src/COMP_IMG/Img_Cosmetics.png"),
+			new ImageIcon("./src/COMP_IMG/Img_Fashion.png"),
+			new ImageIcon("./src/COMP_IMG/Img_Fridge.png"),
+			new ImageIcon("./src/COMP_IMG/Img_Sports.png"),
+			new ImageIcon("./src/COMP_IMG/Img_Book.png"),
+			new ImageIcon("./src/COMP_IMG/Img_Game.png"),
+			new ImageIcon("./src/COMP_IMG/Img_Petfood.png"),
+			new ImageIcon("./src/COMP_IMG/Img_Box.png"),
+			new ImageIcon("./src/COMP_IMG/Img_chat.png")			
 	};
 	private Font font = new Font("맑은 고딕", Font.PLAIN + Font.BOLD, 16);
 	
