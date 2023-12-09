@@ -33,12 +33,15 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 		setBackground(Color.white);
 		
 		dao = new ReportDAO();
-		
-		Refresh_table();
 
+
+		Refresh_table();
+		set_table();
+		
 		scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(18, 30, 460, 344);
 		scrollPane.setBackground(Color.white);
+		scrollPane.setBackground(null);
 		add(scrollPane);
 		
 		approve = new JButton("선택");
@@ -53,24 +56,35 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 	
 	private void Refresh_table() {
 		
-		Vector<ReportDTO> list = dao.allReportData();
-		Vector<ReportDTO> ptr = new Vector<ReportDTO>();
 		
 		
-		model = new DefaultTableModel(header, 0);
+		
+		Vector<ReportDTO> list = dao.allReportData();		
+		
+		model = new DefaultTableModel(header, 0) {
+			 public boolean isCellEditable(int row, int column) {
+			    	if(column >= 0) {
+			    		return false;
+			    	}else {
+			    		return true;
+			    	}
+			    }
+		};
+		
 		table = new JTable(model);
 		
+		table.getColumn("신고번호").setPreferredWidth(30); 
+		table.getColumn("물품코드").setPreferredWidth(30); 
+		table.getColumn("물품명").setPreferredWidth(50);
+		table.getColumn("처리상태").setPreferredWidth(50); 
 		
 		
+
 		for (ReportDTO item : list) {
 			Object [] data = new Object[] { Integer.toString(item.getReportNum()),
 					Integer.toString(item.getItemNumber()), item.getItemName(),
 					item.getCategory(), item.getStatus()};
 			model.addRow(data);
 		}		
-		
-		
 	}
-	
-
 }
