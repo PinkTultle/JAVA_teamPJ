@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -90,8 +91,12 @@ public class RentHistory extends JPanel implements ActionListener {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnNewButton) { // 연장 요청 동작
 			System.out.println(((JButton) (e.getSource())).getText());
-			if (is.getSelectItemNum() != -1)
-				System.out.println("물품 번호: " + is.getSelectItemNum());
+			if (is.getSelectItemNum() != -1) {
+				// 거래 번호 추가 필요
+				JFrame eO = new extendOffer(1);
+				eO.setVisible(true);
+			}
+
 		} else if (e.getSource() == btnNewButton_1) { // 반납 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 			returnItem();
@@ -108,7 +113,7 @@ public class RentHistory extends JPanel implements ActionListener {
 			int closeProfile = JOptionPane.showConfirmDialog(null, "반납하시겠습니까?", "경고", JOptionPane.YES_NO_OPTION,
 					JOptionPane.WARNING_MESSAGE);
 			if (closeProfile == JOptionPane.YES_OPTION) {
-
+				System.out.println("물품 반납 메소드 필요");
 				return 0;
 			}
 		}

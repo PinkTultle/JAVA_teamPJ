@@ -1,7 +1,6 @@
 package GUI;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +16,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import JDBC.ItemDAO;
+
 public class extendOffer extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -27,35 +28,16 @@ public class extendOffer extends JFrame implements ActionListener {
 	private JLabel[] item = new JLabel[4];
 
 	private LocalDate date;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					extendOffer frame = new extendOffer();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	private int rentNum = 0;
 
 	// 호출시 itemDTO 전달 필요
-	public extendOffer() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public extendOffer(int rentNum) {
 		setBounds(100, 100, 480, 290);
 		setTitle("거래 연장");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setBackground(Color.white);
+		this.rentNum = rentNum;
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -124,6 +106,9 @@ public class extendOffer extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btn1) {
+			ItemDAO itemDAO = new ItemDAO();
+			// ItemDTO data=itemDAO.serchRent(rentNum);
+
 		} else if (e.getSource() == btn2) {
 			dispose();
 		}

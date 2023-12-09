@@ -11,6 +11,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -590,7 +591,7 @@ public class C_Component {
 
 		public itemSlot_history(int x, int y, int width, int height) {
 			setBounds(x, y, width, height);
-			getViewport().setBackground(Color.white);
+			getViewport().setBackground(new Color(243, 246, 249));
 			table = new MyTA();
 			table.setModel(new DefaultTableModel(new Object[][] {},
 					new String[] { "", "\ubb3c\ud488\ucf54\ub4dc", "\uac70\ub798\uc790", "\ubb3c\ud488\uba85",
@@ -662,6 +663,7 @@ public class C_Component {
 				for (ItemDTO item : data) {
 					Object[] newData;
 					if (item.getState().equals("대여중")) {
+						LocalDate ld;
 						newData = new Object[] { false, Integer.toString(item.getItemnumber()), item.getPerson(),
 								item.getItemname(), item.getRentdate(), item.getState(), null };
 					} else {
@@ -780,7 +782,7 @@ public class C_Component {
 
 		public reportDetailTable(int x, int y, int width, int height) {
 			setBounds(x, y, width, height);
-			getViewport().setBackground(Color.white);
+			getViewport().setBackground(new Color(243, 246, 249));
 
 			table = new MyTA_report();
 			table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "", "", "", "" }) {
