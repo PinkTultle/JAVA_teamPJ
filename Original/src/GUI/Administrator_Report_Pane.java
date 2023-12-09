@@ -24,6 +24,8 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 	private JButton approve;
 	private ReportDAO dao;
 	private String[] head = {"신고번호", "물품코드", "물품명", "신고분류", "처리상태"};
+	private Vector<String> header = new Vector<String>(Arrays.asList("신고번호", "물품코드", "물품명", "신고분류", "처리상태"));
+	
 	
 	public Administrator_Report_Pane(JFrame master) {
 		super(master);
@@ -51,9 +53,13 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 	private void Refresh_table() {
 				
 		Vector<ReportDTO> list = dao.allReportData();
+		Vector<ReportDTO> ptr = new Vector<ReportDTO>();
 		
-		model = new DefaultTableModel(null, head);
+		
+		model = new DefaultTableModel(header, 0);
 		table = new JTable(model);
+		
+		
 				
 		for (ReportDTO item : list) {
 			Object [] data = new Object[] { Integer.toString(item.getReportNum()),

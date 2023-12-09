@@ -169,6 +169,8 @@ public class LoginGUI extends JFrame implements ActionListener {
 		lblNewLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 34));
 		lblNewLabel.setBounds(375, 21, 298, 66);
 		contentPane.add(lblNewLabel);
+		
+		setVisible(true);
 
 	}
 
