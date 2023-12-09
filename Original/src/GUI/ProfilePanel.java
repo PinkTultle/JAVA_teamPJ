@@ -10,9 +10,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
@@ -192,6 +190,12 @@ public class ProfilePanel extends JPanel implements ActionListener {
 			} else {
 				tglbtnNewToggleButton_1.setSelected(false);
 			}
+
+			textFields[0].setEnabled(false);
+			textFields[7].setEnabled(false);
+			textFields[8].setEnabled(false);
+			textFields_TEL[0].setEnabled(false);
+			setEditable(false);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -199,6 +203,7 @@ public class ProfilePanel extends JPanel implements ActionListener {
 		textFields[0].setEnabled(false);
 		textFields_TEL[0].setEnabled(false);
 		setEditable(false);
+
 	}
 	/*
 	 * textField 번호 
@@ -218,19 +223,6 @@ public class ProfilePanel extends JPanel implements ActionListener {
 		// TODO Auto-generated method stub
 		if (e.getSource() == button) { // 회원탈퇴 동작
 			System.out.println(((JButton) (e.getSource())).getText());
-			int sel = JOptionPane.showConfirmDialog(null, "계정을 삭제하시겠습니까?", "경고", JOptionPane.YES_NO_OPTION,
-					JOptionPane.WARNING_MESSAGE);
-			if (sel == JOptionPane.YES_OPTION) {
-				UserDAO userDAO = new UserDAO();
-				int result = userDAO.userDelete();
-				if (result == 0) {
-					LoginGUI.loginFrame.setVisible(true);
-					Main_frame.mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-					Main_frame.mainFrame.dispose();
-				} else {
-
-				}
-			}
 		} else if (e.getSource() == button_1) { // 변경 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 			changeMode(true);
@@ -324,9 +316,5 @@ public class ProfilePanel extends JPanel implements ActionListener {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-	}
-
-	void delete() {
-
 	}
 }

@@ -250,7 +250,6 @@ public class ItemDetail extends JFrame implements ActionListener {
 					// 삭제 확인한 경우 | DB 에서 DELETE 필요
 					ItemDAO itemDAO = new ItemDAO();
 					if (itemDAO.deleteItem(itemNum)) {
-						JOptionPane.showMessageDialog(null, "삭제했습니다.");
 						dispose();
 					} else {
 						JOptionPane.showMessageDialog(null, "삭제할 수 없습니다.");

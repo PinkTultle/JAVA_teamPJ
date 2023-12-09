@@ -9,9 +9,9 @@ import java.util.Vector;
 
 public class ReportDAO {
 
-	// String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
-	// String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
+	//String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
+	//String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe"; 
 
 	String user = "ABC"; // db 사용자 이름
 	String password = "1234"; // db
@@ -81,16 +81,16 @@ public class ReportDAO {
 
 			rs.next();
 
-			sql = "INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지, 작성자) "
-					+ "VALUES (신고_seq.nextval, ?, ?, ?, ?, ?, ?) ";
+			sql = "INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지, 작성자) " + "VALUES (?, ?, ?, ?, ?, ?, ?) ";
 
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, Integer.parseInt(v.get(0)));
-			pstmt.setString(2, v.get(1));
-			pstmt.setString(3, v.get(2));
-			pstmt.setString(4, "처리중");
-			pstmt.setString(5, v.get(3));
-			pstmt.setString(6, UserDAO.user_cur);
+			pstmt.setInt(1, rs.getInt(1) + 1);
+			pstmt.setInt(2, Integer.parseInt(v.get(0)));
+			pstmt.setString(3, v.get(1));
+			pstmt.setString(4, v.get(2));
+			pstmt.setString(5, "처리중");
+			pstmt.setString(6, v.get(3));
+			pstmt.setString(7, UserDAO.user_cur);
 
 			rs = pstmt.executeQuery();
 
