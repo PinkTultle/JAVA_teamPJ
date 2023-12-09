@@ -49,13 +49,7 @@ public class Administrator_pane extends JPanel {
 		scrollPane.setBounds(18, 30, 460, 344);
 		scrollPane.setBackground(Color.white);
 		add(scrollPane);
-		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(new Object[][] {{},{},{},{},{}}, new String[] {}));
-		scrollPane.setViewportView(table);
-		
-		
-		
+			
 		
 	}
 
