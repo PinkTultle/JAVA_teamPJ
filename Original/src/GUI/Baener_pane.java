@@ -22,7 +22,7 @@ public class Baener_pane extends JPanel {
 		setToolTipText("배너 패널");
 		
 		//배너 배경색(진한 파랑)
-        setBackground(new Color(0,191,255));
+    //setBackground(new Color(0,191,255));
 		
 		//로고 초기설정
 		LOGO = new JLabel("렌트");
@@ -35,5 +35,16 @@ public class Baener_pane extends JPanel {
 		
 		add(MenuBar);
 	}
+
+	protected void paintComponent(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		
+		
+		GradientPaint gp = new GradientPaint(0, 0, new Color(0xc2e9fb), 1050, 150, new Color(0,191,255));
+		
+		g2.setPaint(gp);
+		g2.fillRect(0, 0, 1050, 150);
+	}
+
 	
 }
