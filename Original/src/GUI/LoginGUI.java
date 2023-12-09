@@ -42,7 +42,6 @@ public class LoginGUI extends JFrame implements ActionListener {
 	private JTextField removefirstfocus;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
-	private JButton btnNewButton_2;
 	private JFrame mainFrame;
 
 	public static JFrame loginFrame;
@@ -92,13 +91,13 @@ public class LoginGUI extends JFrame implements ActionListener {
 		panel_1.setForeground(new Color(255, 255, 255));
 		panel_1.setBackground(new Color(0, 191, 255));
 		panel_1.setBorder(new LineBorder(new Color(255, 255, 255), 25, true));
-		panel_1.setBounds(12, 10, 450, 380);
+		panel_1.setBounds(12, 10, 450, 360);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 
 		JPanel panel_1_1 = new JPanel();
 		panel_1_1.setBackground(new Color(255, 255, 255));
-		panel_1_1.setBounds(10, 10, 430, 360);
+		panel_1_1.setBounds(10, 10, 430, 340);
 		panel_1.add(panel_1_1);
 		panel_1_1.setLayout(null);
 
@@ -106,7 +105,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 		btnNewButton.setFont(new Font("굴림", Font.PLAIN, 20));
 		btnNewButton.setForeground(new Color(0, 0, 0));
 		btnNewButton.setBackground(new Color(255, 255, 255));
-		btnNewButton.setBounds(80, 213, 270, 50);
+		btnNewButton.setBounds(80, 200, 270, 50);
 		btnNewButton.setFocusPainted(false);
 		btnNewButton.setBorder(bf.createLineBorder(new Color(128, 128, 128)));
 		btnNewButton.addMouseListener(listener_btn);
@@ -124,7 +123,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 		btnNewButton_1.setContentAreaFilled(false);
 		btnNewButton_1.addMouseListener(listener_btn);
 		btnNewButton_1.addActionListener(this);
-		btnNewButton_1.setBounds(166, 295, 98, 22);
+		btnNewButton_1.setBounds(166, 275, 98, 22);
 		panel_1_1.add(btnNewButton_1);
 
 		txtId = new MyJT("Id");
@@ -152,16 +151,6 @@ public class LoginGUI extends JFrame implements ActionListener {
 		removefirstfocus.setBounds(-200, 10, 116, 21);
 		panel_1_1.add(removefirstfocus);
 		removefirstfocus.setColumns(10);
-
-		btnNewButton_2 = new JButton("아이디/비밀번호 찾기");
-		btnNewButton_2.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		btnNewButton_2.setBounds(256, 165, 162, 23);
-		btnNewButton_2.setBorderPainted(false);
-		btnNewButton_2.setFocusPainted(false);
-		btnNewButton_2.setContentAreaFilled(false);
-		btnNewButton_2.addMouseListener(listener_btn);
-		btnNewButton_2.addActionListener(this);
-		panel_1_1.add(btnNewButton_2);
 
 		JLabel lblNewLabel = new JLabel("렌트 프로그램");
 		lblNewLabel.setForeground(new Color(255, 255, 255));
@@ -195,8 +184,6 @@ public class LoginGUI extends JFrame implements ActionListener {
 			new RegisterGUI(this);
 			setVisible(false);
 
-		} else if (e.getSource() == btnNewButton_2) { // 아이디/비밀번호 찾기 동작
-			System.out.println(((JButton) (e.getSource())).getText());
 		}
 	}
 
@@ -222,7 +209,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 				mainFrame = new Main_frame((n == 1 ? true : false));
 				txtId.clear();
 				txtPassword.clear();
-
+				mainFrame.setVisible(true);
 			} else if (n == -1) {
 				// 아이디 없음
 				new popup_JDialog("로그인 실패", "잘못된 ID!");

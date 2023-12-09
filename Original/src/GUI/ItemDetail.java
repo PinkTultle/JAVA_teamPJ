@@ -101,8 +101,12 @@ public class ItemDetail extends JFrame implements ActionListener {
 
 			btnNewButton_2 = new RoundButton("삭제");
 			btnNewButton_2.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
-			if (!isWriter)
+			String state = itemdto.getState();
+			if (!isWriter && state.equals("대여가능"))
 				btnNewButton_2.setText("대여");
+			else if (!isWriter) {
+				btnNewButton_2.setVisible(false);
+			}
 			btnNewButton_2.setBounds(726, 466, 75, 40);
 			btnNewButton_2.addActionListener(this);
 			panel.add(btnNewButton_2);

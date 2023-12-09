@@ -29,13 +29,12 @@ public class ProfilePanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	Baener_pane BP = new Baener_pane();
-	private MyJT[] textFields = new MyJT[9];
+	private MyJT[] textFields = new MyJT[7];
 	private MyJT_TEL[] textFields_TEL = new MyJT_TEL[3];
 	private RoundButton button;
 	private RoundButton button_1;
 	private RoundButton button_2;
 	private JButton btnNewButton;
-	private JButton btnNewButton_1;
 	private JToggleButton tglbtnNewToggleButton;
 	private JToggleButton tglbtnNewToggleButton_1;
 	private ButtonGroup BG = new ButtonGroup();
@@ -52,18 +51,16 @@ public class ProfilePanel extends JPanel implements ActionListener {
 		setBounds(0, BP.getHeight(), 1034, 700);
 		setLayout(null);
 
-		int[] loc = { 108, 168, 227, 286, 346, 405 };
+		int[] loc = { 108, 158, 207, 256, 306, 455, 505 };
 		Font slotFont = new Font("맑은 고딕", Font.PLAIN, 18);
 
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 7; i++) {
 			int width = 420;
 			if (i == 4)
 				width = 244;
-			if (i == 8)
-				width = 332;
 			textFields[i] = new MyJT();
 			textFields[i].setFont(slotFont);
-			textFields[i].setBounds((i > 5) ? 532 : 82, loc[i % 6], width, 50);
+			textFields[i].setBounds(307, loc[i], width, 50);
 			add(textFields[i]);
 		}
 
@@ -124,16 +121,7 @@ public class ProfilePanel extends JPanel implements ActionListener {
 		btnNewButton.setBorder(bf.createLineBorder(new Color(128, 128, 128)));
 		add(btnNewButton);
 
-		btnNewButton_1 = new JButton("인증");
-		btnNewButton_1.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		btnNewButton_1.setBounds(876, 227, 76, 50);
-		btnNewButton_1.setForeground(new Color(0, 0, 0));
-		btnNewButton_1.setBackground(new Color(255, 255, 255));
-		btnNewButton_1.setFocusPainted(false);
-		btnNewButton_1.setBorder(bf.createLineBorder(new Color(128, 128, 128)));
-		add(btnNewButton_1);
-
-		int[] loc_TEL = { 82, 191, 319 };
+		int[] loc_TEL = { 307, 416, 544 };
 
 		KeyAdapter KA = new KeyAdapter() {
 			public void keyTyped(KeyEvent k) {
@@ -156,7 +144,7 @@ public class ProfilePanel extends JPanel implements ActionListener {
 			textFields_TEL[i] = new MyJT_TEL("");
 			textFields_TEL[i].setHorizontalAlignment(SwingConstants.CENTER);
 			textFields_TEL[i].setFont(slotFont);
-			textFields_TEL[i].setBounds(loc_TEL[i], 464, (i == 0) ? 76 : 95, 50);
+			textFields_TEL[i].setBounds(loc_TEL[i], 354, (i == 0) ? 76 : 95, 50);
 			textFields_TEL[i].addKeyListener(KA);
 			add(textFields_TEL[i]);
 		}
@@ -166,13 +154,13 @@ public class ProfilePanel extends JPanel implements ActionListener {
 		JLabel lblNewLabel_1 = new JLabel("-");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
-		lblNewLabel_1.setBounds(158, 464, 33, 50);
+		lblNewLabel_1.setBounds(383, 354, 33, 50);
 		add(lblNewLabel_1);
 
 		JLabel lblNewLabel_1_1 = new JLabel("-");
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
-		lblNewLabel_1_1.setBounds(286, 464, 33, 50);
+		lblNewLabel_1_1.setBounds(511, 354, 33, 50);
 		add(lblNewLabel_1_1);
 
 		setPanel();
@@ -195,7 +183,6 @@ public class ProfilePanel extends JPanel implements ActionListener {
 			textFields[4].setInit(Integer.toString(data.getBirth()));
 			textFields[5].setInit(data.getAddress());
 			textFields[6].setInit(data.getEmail());
-			textFields[7].setInit(data.getBank());
 			String temp = Integer.toString(data.getTel());
 			textFields_TEL[1].setInit(temp.substring(2, 6));
 			textFields_TEL[2].setInit(temp.substring(6, 10));
@@ -210,8 +197,6 @@ public class ProfilePanel extends JPanel implements ActionListener {
 			e.printStackTrace();
 		}
 		textFields[0].setEnabled(false);
-		textFields[7].setEnabled(false);
-		textFields[8].setEnabled(false);
 		textFields_TEL[0].setEnabled(false);
 		setEditable(false);
 	}
@@ -258,7 +243,7 @@ public class ProfilePanel extends JPanel implements ActionListener {
 	}
 
 	void setEditable(boolean v) {
-		for (int i = 1; i < 8; i++) {
+		for (int i = 1; i < 7; i++) {
 			textFields[i].setEnabled(v);
 		}
 		for (int i = 1; i < 3; i++) {
@@ -299,7 +284,7 @@ public class ProfilePanel extends JPanel implements ActionListener {
 			} else {
 				data[7] = "여성";
 			}
-			for (int i = 1; i < 8; i++) {
+			for (int i = 1; i < 7; i++) {
 				if (i == 6) {
 					// 전화번호 처리
 					if (!textFields_TEL[1].isTyped && !textFields_TEL[2].isTyped) {

@@ -141,14 +141,15 @@ public class sending_offer extends JFrame implements ActionListener {
 			dispose();
 		} else if (e.getSource() == btn_sending) {
 			String msg = "예약에 실패했습니다.";
-			if (d1.isBefore(LocalDate.now()))
+			String rentDate = data.getRentdate();
+			LocalDate tmp = LocalDate.of(Integer.parseInt(rentDate.substring(0, 4)),
+					Integer.parseInt(rentDate.substring(5, 7)), Integer.parseInt(rentDate.substring(8, 10)));
+			if (d1.isBefore(LocalDate.now()) || d2.isAfter(tmp))
 				msg = "날짜를 확인해주세요.";
 			else if (d1.isBefore(d2)) {
 				ItemDAO itemDAO = new ItemDAO();
-				if (itemDAO.checkOffer(itemNum, d1, d2) == 0) {
-					if (itemDAO.sendingOffer(data, d1, d2) == 0) {
-						msg = "예약 성공했습니다.";
-					}
+				if (itemDAO.sendingOffer(data, d1, d2) == 0) {
+					msg = "예약 성공했습니다.";
 				}
 			}
 

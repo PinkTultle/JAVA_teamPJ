@@ -154,6 +154,7 @@ public class ItemDAO {
 				itemdto.setRentdate(rs.getString("렌트기한"));
 				itemdto.setBookingGuest(rs.getString("예약자"));
 				itemdto.setLender(rs.getString("대여자"));
+				itemdto.setState(rs.getString("대여상태"));
 			}
 
 		} catch (ClassNotFoundException e) {
