@@ -17,7 +17,8 @@ public class UserDTO { // 로그인 ,회원가입 등 유저 정보
 	private String bank; // ex) 하나은행
 	private int accountnumber; // ex) 1357924684
 	private int Administrator; //관리자 여부 0 : 일반 사용자, 1 : 관리자
-	
+	private int milerege;
+
 	public UserDTO() {
 		super();
 	}
@@ -55,6 +56,26 @@ public class UserDTO { // 로그인 ,회원가입 등 유저 정보
 		this.Administrator = Administrator;
 	}
 	
+	
+	
+	public int getMilerege() {
+		return milerege;
+	}
+
+
+	public void setMilerege(int milerege) {
+		this.milerege = milerege;
+	}
+
+
+	public int getMileage() {
+		return mileage;
+	}
+
+	public void setMileage(int mileage) {
+		this.mileage = mileage;
+	}
+
 	public int getAdministrator() {
 		return Administrator;
 	}

@@ -5,6 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+
+import javax.swing.table.DefaultTableModel;
 
 public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
@@ -112,6 +116,11 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		String tel1 = Integer.toString(dto.getTel()).substring(0, 4); // 전화번호 중간 4자리
 		String tel2 = Integer.toString(dto.getTel()).substring(4); // 전화번호 마지막 4자리
 
+		String tmp = Integer.toString(dto.getBirth());
+		if (tmp.length() < 8)
+			tmp = "0" + tmp;
+		String bir = tmp.substring(0, 4) + "-" + tmp.substring(4, 6) + "-" + tmp.substring(6, 8);
+
 		String tel = "010-" + tel1 + "-" + tel2;
 
 		try {
@@ -122,7 +131,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			pstmt.setString(2, dto.getPw());
 			pstmt.setString(3, dto.getNickname());
 			pstmt.setString(4, dto.getName());
-			pstmt.setInt(5, dto.getBirth());
+			pstmt.setString(5, bir);
 			pstmt.setString(6, dto.getGender());
 			pstmt.setString(7, tel);
 			pstmt.setString(8, dto.getAddress());
@@ -178,8 +187,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			}
 		}
 
-		// sql += "WHERE 아이디 = '" + user_cur + "'";
-		sql += "WHERE 아이디 = '" + "asd1" + "'";
+		sql += "WHERE 아이디 = '" + user_cur + "'";
 
 		try {
 
@@ -199,6 +207,8 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			pstmt.close();
 			con.close();
 		}
+
+		System.out.println(sql);
 
 		return rs; // 프로필 수정
 	}
@@ -233,7 +243,6 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			TEL = temp.substring(0, 3) + temp.substring(4, 8) + temp.substring(9, 13);
 			userDTO.setTel(Integer.parseInt(TEL));
 			userDTO.setEmail(rs.getString("이메일"));
-			userDTO.setBank(rs.getString("은행"));
 
 			// 계좌번호 추가 필요
 
@@ -244,5 +253,34 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 		return userDTO;
 	}
+	
+	
+	//유저 목록 불러오기
+    public void userAll(DefaultTableModel model) throws ClassNotFoundException {
+    	Connection con = null;
+    	try {
+    		con = getConn();
+	    	Statement stmt = con.createStatement();
+	    	String query = "SELECT 아이디, 이름, 전화번호, 관리자여부 FROM 회원";
+	        ResultSet rs = stmt.executeQuery(query);
+        
+        
+        while(rs.next()) {
+        	
+        	String id = rs.getString("아이디");
+        	String name = rs.getString("이름");
+            String tel = rs.getString("전화번호");
+            int admin = rs.getInt("관리자여부");
+            
+
+            model.addRow(new Object[]{id, name, tel, admin});
+        }
+    	}
+    	catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
 
 }

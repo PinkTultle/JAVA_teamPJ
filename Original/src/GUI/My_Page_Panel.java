@@ -5,6 +5,9 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import JDBC.UserDAO;
+import JDBC.UserDTO;
+
 public class My_Page_Panel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -17,13 +20,17 @@ public class My_Page_Panel extends JPanel {
 	private JPanel rentAlarm;
 	private Rent_Notification rentnotifi;
 
+	public static UserDTO userInfo_cur;
 
 	public My_Page_Panel(boolean Administrator) {
-		
+
 		System.out.print(Administrator);
 		setLayout(null);
 		setBounds(0, 150, 1050, 700);
 		setBackground(new Color(255, 255, 255));
+
+		UserDAO userDAO = new UserDAO();
+		userInfo_cur = userDAO.userSelect();
 
 		myPage = new My_Page(this, Administrator);
 		this.add(myPage);
@@ -90,7 +97,7 @@ public class My_Page_Panel extends JPanel {
 		profile.setVisible(true);
 		rentnotifi.setVisible(false);
 	}
-	
+
 	void Open_myWrite() {
 		myPage.setVisible(false);
 		rentHistory.setVisible(false);
@@ -110,7 +117,7 @@ public class My_Page_Panel extends JPanel {
 		}
 		return true;
 	}
-	
+
 	void Open_rentnotifi() {
 		myPage.setVisible(false);
 		rentHistory.setVisible(false);
