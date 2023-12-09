@@ -5,16 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
-
-import javax.swing.table.DefaultTableModel;
 
 public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 	// String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
-	//String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
-	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe"; 
+	// String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
+	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
 
 	String user = "ABC"; // db 사용자 이름
 	String password = "1234"; // db
@@ -25,7 +21,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 	ResultSet rs;
 	PreparedStatement pstmt;
 
-	public UserDAO() throws ClassNotFoundException {
+	public UserDAO() {
 		try {
 
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -36,6 +32,8 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 		} catch (SQLException e) {
 			System.out.println("DB 로그인 실패");
+		} catch (ClassNotFoundException e) {
+			System.out.println("OracleDriver 없음");
 		}
 
 	}
@@ -55,7 +53,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		return conn; // 오라클 로그인 연결 정보
 	}
 
-	//이부분 관리자 권한 확인해서 닽이 반환하도록 수정 필요
+	// 이부분 관리자 권한 확인해서 닽이 반환하도록 수정 필요
 	public int checkLogin(UserDTO dto) throws SQLException { // 로그인
 
 		String sql = " SELECT * FROM 회원 WHERE 아이디 = ? ";
@@ -68,11 +66,10 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 			if (rs.next()) {
 				if (rs.getString("비밀번호").equals(dto.getPw())) {
-					user_cur = dto.getId();
-					
+
 					int Administrator = rs.getInt("관리자여부");
 					dto.setAdministrator(Administrator);
-					
+
 					return Administrator; // 로그인 성공
 				} else {
 					return -3; // 비밀번호 불일치
@@ -116,11 +113,6 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		String tel1 = Integer.toString(dto.getTel()).substring(0, 4); // 전화번호 중간 4자리
 		String tel2 = Integer.toString(dto.getTel()).substring(4); // 전화번호 마지막 4자리
 
-		String tmp = Integer.toString(dto.getBirth());
-		if (tmp.length() < 8)
-			tmp = "0" + tmp;
-		String bir = tmp.substring(0, 4) + "-" + tmp.substring(4, 6) + "-" + tmp.substring(6, 8);
-
 		String tel = "010-" + tel1 + "-" + tel2;
 
 		try {
@@ -131,7 +123,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			pstmt.setString(2, dto.getPw());
 			pstmt.setString(3, dto.getNickname());
 			pstmt.setString(4, dto.getName());
-			pstmt.setString(5, bir);
+			pstmt.setInt(5, dto.getBirth());
 			pstmt.setString(6, dto.getGender());
 			pstmt.setString(7, tel);
 			pstmt.setString(8, dto.getAddress());
@@ -187,7 +179,8 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			}
 		}
 
-		sql += "WHERE 아이디 = '" + user_cur + "'";
+		// sql += "WHERE 아이디 = '" + user_cur + "'";
+		sql += "WHERE 아이디 = '" + "asd1" + "'";
 
 		try {
 
@@ -208,8 +201,6 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			con.close();
 		}
 
-		System.out.println(sql);
-
 		return rs; // 프로필 수정
 	}
 
@@ -223,8 +214,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		try {
 			con = getConn();
 			pstmt = con.prepareStatement(sql);
-			// pstmt.setString(1, user_cur);
-			pstmt.setString(1, "asd1");
+			pstmt.setString(1, user_cur);
 			rs = pstmt.executeQuery();
 
 			rs.next();
@@ -252,6 +242,22 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		}
 
 		return userDTO;
+	}
+
+	public int userDelete() {
+		int result = 0;
+		try {
+			Connection con = getConn();
+			String sql = "DELETE FROM 회원 WHERE 아이디 = ? ";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, user_cur);
+			pstmt.executeQuery();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = 1;
+		}
+		return result;
 	}
 	
 	
@@ -281,6 +287,37 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
         }
     }
     
+    
+    
+	public int milerege(String id) throws SQLException  { 
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null; // 결과 담는 곳
+		int m = 0;
+		String sql = " SELECT 마일리지 FROM 회원 WHERE 아이디 = ? ";
+		
+		try {
+			con = getConn();
+
+			pstmt = con.prepareStatement(sql);
+
+			pstmt.setString(1, id);
+
+			rs = pstmt.executeQuery();
+
+			if(rs.next()) {
+				m = rs.getInt("마일리지");
+				System.out.println("마일리지 점수 : " + m);
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+
+		return m;
+	}
     
 
 }
