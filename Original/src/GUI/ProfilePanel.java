@@ -192,6 +192,10 @@ public class ProfilePanel extends JPanel implements ActionListener {
 			} else {
 				tglbtnNewToggleButton_1.setSelected(false);
 			}
+
+			textFields[0].setEnabled(false);
+			textFields_TEL[0].setEnabled(false);
+			setEditable(false);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

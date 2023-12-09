@@ -21,6 +21,7 @@ public class ItemDTO {
 	private String bookingGuest; // 예약자
 	private int rentNum;
 
+
 	public void setRentNum(int n) {
 		rentNum = n;
 	}
@@ -28,7 +29,7 @@ public class ItemDTO {
 	public int getRentNum() {
 		return rentNum;
 	}
-
+	
 	public String getRentdate_end() {
 		return rentdate_end;
 	}

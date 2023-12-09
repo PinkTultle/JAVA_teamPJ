@@ -22,14 +22,15 @@ public class My_Page_Panel extends JPanel {
 
 	public static UserDTO userInfo_cur;
 
-	public My_Page_Panel(boolean Administrator) {
+	public My_Page_Panel(boolean Administrator){
 
 		System.out.print(Administrator);
 		setLayout(null);
 		setBounds(0, 150, 1050, 700);
 		setBackground(new Color(255, 255, 255));
 
-		UserDAO userDAO = new UserDAO();
+		UserDAO userDAO;
+		userDAO = new UserDAO();
 		userInfo_cur = userDAO.userSelect();
 
 		myPage = new My_Page(this, Administrator);

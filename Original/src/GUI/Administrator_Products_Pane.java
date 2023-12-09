@@ -17,13 +17,18 @@ public class Administrator_Products_Pane extends Administrator_pane  {
 	private String colNames[] = {"물품코드","카테고리","물품명","소유주", "대여상태"};  // 테이블 컬럼 값들
     private DefaultTableModel model = new DefaultTableModel(colNames, 0);
     private JTable table ;
-    ItemDAO dao;
+    private ItemDAO dao;
 	
-	public Administrator_Products_Pane(JFrame master) throws ClassNotFoundException {
+	public Administrator_Products_Pane(JFrame master){
 		super(master);
 		table = new JTable(model);
 		dao = new ItemDAO();
-		dao.itemAll(model);
+		try {
+			dao.itemAll(model);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(18, 30, 460, 344);
