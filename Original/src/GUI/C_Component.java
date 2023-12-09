@@ -125,6 +125,11 @@ public class C_Component {
 			// TODO Auto-generated method stub
 			return isEnabled();
 		}
+		
+		public void clear() {
+			setText(init);
+			isTyped = false;
+		}
 
 	}
 
@@ -209,6 +214,11 @@ public class C_Component {
 		public boolean isEnable() {
 			// TODO Auto-generated method stub
 			return isEnabled();
+		}
+		
+		public void clear() {
+			setText(init);
+			isTyped = false;
 		}
 
 	}

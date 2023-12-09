@@ -191,7 +191,12 @@ public class LoginGUI extends JFrame implements ActionListener {
 
 	void Login() {
 		userDTO = new UserDTO();
-		userDAO = new UserDAO();
+		try {
+			userDAO = new UserDAO();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		String id = txtId.getText();
 		String pw = new String(txtPassword.getPassword());

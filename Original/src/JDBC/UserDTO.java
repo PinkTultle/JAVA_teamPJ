@@ -69,11 +69,11 @@ public class UserDTO { // 로그인 ,회원가입 등 유저 정보
 
 
 	public int getMileage() {
-		return mileage;
+		return milerege;
 	}
 
 	public void setMileage(int mileage) {
-		this.mileage = mileage;
+		this.milerege = mileage;
 	}
 
 	public int getAdministrator() {

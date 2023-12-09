@@ -84,6 +84,8 @@ public class Main_frame extends JFrame {
 		P1 = new Main_home();
 		P2 = new ListPanel();
 		P3 = new OfferManage();
+		
+		
 		P4 = new My_Page_Panel(Administrator);
 
 		setContentPane(contentPane);
