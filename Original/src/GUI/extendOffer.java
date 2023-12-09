@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import JDBC.ItemDAO;
+import JDBC.ItemDTO;
 
 public class extendOffer extends JFrame implements ActionListener {
 
@@ -28,6 +29,7 @@ public class extendOffer extends JFrame implements ActionListener {
 	private JLabel[] item = new JLabel[4];
 
 	private LocalDate date;
+	ItemDTO data;
 	private int rentNum = 0;
 
 	// 호출시 itemDTO 전달 필요
@@ -42,6 +44,9 @@ public class extendOffer extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		ItemDAO itemDAO = new ItemDAO();
+		data = itemDAO.getOffer(rentNum);
+
 		Font nFont = new Font("굴림", Font.PLAIN, 16);
 		String[] s_h = { "거래번호", "반납날짜", "연장기간" };
 		int[] bound_h = { 30, 20, 96, 40 };
@@ -55,7 +60,7 @@ public class extendOffer extends JFrame implements ActionListener {
 			contentPane.add(itemHeader[i]);
 		}
 
-		String[] s_i = { "", "", "", "반납날짜" };
+		String[] s_i = { Integer.toString(data.getRentNum()), "", "", "반납날짜" };
 		int[][] bound_i = { { 135, 20, 282, 40 }, { 135, 70, 282, 40 }, { 135, 120, 100, 40 }, { 273, 120, 100, 40 } };
 
 		for (int i = 0; i < 4; i++) {
@@ -106,8 +111,6 @@ public class extendOffer extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btn1) {
-			ItemDAO itemDAO = new ItemDAO();
-			// ItemDTO data=itemDAO.serchRent(rentNum);
 
 		} else if (e.getSource() == btn2) {
 			dispose();
