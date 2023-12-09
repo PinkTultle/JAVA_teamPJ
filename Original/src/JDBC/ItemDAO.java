@@ -14,9 +14,9 @@ import javax.swing.JLabel;
 
 public class ItemDAO {
 
-	//String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
-	//String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
-	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe"; 
+	// String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
+	// String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
+	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
 
 	String user = "ABC"; // db 사용자 이름
 	String password = "1234"; // db
@@ -170,8 +170,8 @@ public class ItemDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null; // 결과 담는 곳
-		String sql = " SELECT 물품코드, 소유자, 물품명, (SELECT 대여반납예정일 - 대여시작날짜 FROM DUAL ) as 렌트기한, 반납상태 " + " FROM 대여기록 "
-				+ " WHERE 대여자 = ? ";
+		String sql = " SELECT 물품코드, 소유자, 물품명, (SELECT 대여반납예정일 - 대여시작날짜 FROM DUAL ) as 렌트기한, 대여시작날짜, 대여반납예정일, 반납상태 "
+				+ " FROM 대여기록 " + " WHERE 대여자 = ? ";
 		try {
 			con = getConn();
 			pstmt = con.prepareStatement(sql);
@@ -186,6 +186,8 @@ public class ItemDAO {
 				itemdto.setItemname(rs.getString("물품명"));
 				itemdto.setRentdate(rs.getString("렌트기한"));
 				itemdto.setState(rs.getString("반납상태"));
+				itemdto.setRentdate_start(rs.getString("대여시작날짜"));
+				itemdto.setRentdate_end(rs.getString("대여반납예정일"));
 
 				list.add(itemdto); // 리스트에 한줄 추가
 			}
@@ -370,8 +372,8 @@ public class ItemDAO {
 
 	public int sendingOffer(ItemDTO data, LocalDate d1, LocalDate d2) {
 		try {
-			String sql = "INSERT INTO 대여기록 (물품코드, 물품명, 대여시작날짜, 대여반납예정일, 소유자, 대여자, 반납상태) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?) ";
+			String sql = "INSERT INTO 대여기록 (대여번호 ,물품코드, 물품명, 대여시작날짜, 대여반납예정일, 소유자, 대여자, 반납상태) "
+					+ "VALUES (대여_seq.nextval,?, ?, ?, ?, ?, ?, ?) ";
 			Connection con = getConn();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 
@@ -385,7 +387,7 @@ public class ItemDAO {
 			pstmt.setString(6, UserDAO.user_cur);
 			pstmt.setString(7, "대기중");
 
-			ResultSet rs = pstmt.executeQuery();
+			pstmt.executeQuery();
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -394,5 +396,24 @@ public class ItemDAO {
 		}
 
 		return 0;
+	}
+
+	public int returnItem(int offerNum) {
+		int result = 0;
+		try {
+			Connection con = getConn();
+			// 대여기록 번호 추가 필요
+			String sql = "DELETE FROM 대여기록 WHERE  = ? ";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+
+			pstmt.setInt(1, offerNum);
+
+			pstmt.executeQuery();
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = 1;
+		}
+
+		return result;
 	}
 }
