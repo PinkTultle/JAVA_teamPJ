@@ -8,11 +8,12 @@ import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JCheckBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 
-public class Product_Register extends JPanel {
+public class Product_Register extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel BP = new Baener_pane();
@@ -23,8 +24,11 @@ public class Product_Register extends JPanel {
 	private JTextField LentalFee_text;
 	private JTextField Attachment_text;
 	private JTextField Phone_text;
-
+	
 	public Product_Register() {
+		
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		
 		//패널 크기 및 배경색
 		setBackground(new Color(255, 255, 255));
 		setBounds(0, BP.getHeight(), 1050, 700);
@@ -158,6 +162,8 @@ public class Product_Register extends JPanel {
 		Cancel_btn.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 		Cancel_btn.setBounds(901, 641, 83, 42);
 		add(Cancel_btn);
+		
+		setVisible(true);
 
 	}
 	
