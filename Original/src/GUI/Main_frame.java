@@ -70,8 +70,11 @@ public class Main_frame extends JFrame {
 
 		// 콘텐츠 패널 위에 배너 패널 추가
 		contentPane.add(Baener);
-
-		// 패널 교체를 위한 임시 코드
+		
+		P1 = new Main_home();
+		setContentPane(contentPane);
+		contentPane.add(P1);
+		P1.setVisible(true);
 
 		P1 = new Main_home();
 		P2 = new ListPanel();
@@ -181,5 +184,5 @@ public class Main_frame extends JFrame {
 		P2.setVisible(true);
 
 		ListPanel.serachItemName(itemName);
-	}
+	}	
 }

@@ -31,6 +31,7 @@ public class Report_Details_1 extends JPanel implements ActionListener {
 		add(lblNewLabel);
 
 		table = new reportDetailTable(30, 150, 975, 480);
+		table.getViewport().setBackground(new Color(243, 246, 249));
 		table.setItem();
 		add(table);
 
