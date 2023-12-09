@@ -2,11 +2,14 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.lang.reflect.Member;
+import java.util.Arrays;
 import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
@@ -20,7 +23,7 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 	
 	private JButton approve;
 	private ReportDAO dao;
-	private String [] head = {"신고번호", "물품코드", "물품명", "신고분류", "처리상태"};
+	private String[] head = {"신고번호", "물품코드", "물품명", "신고분류", "처리상태"};
 	
 	public Administrator_Report_Pane(JFrame master) {
 		super(master);
@@ -39,28 +42,28 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 		
 		Refresh_table();
 		scrollPane.add(table);
+		
 
-	
+		
 	}
 	
 	
 	private void Refresh_table() {
-		
+				
 		Vector<ReportDTO> list = dao.allReportData();
-
-		model = new DefaultTableModel(list, 0);
 		
+		model = new DefaultTableModel(null, head);
+		table = new JTable(model);
 				
 		for (ReportDTO item : list) {
 			Object [] data = new Object[] { Integer.toString(item.getReportNum()),
 					Integer.toString(item.getItemNumber()), item.getItemName(),
 					item.getCategory(), item.getStatus()};
 			model.addRow(data);
-		}
-		
-		table = new JTable(model);
+		}		
 		
 		
 	}
+	
 
 }
