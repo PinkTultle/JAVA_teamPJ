@@ -63,7 +63,8 @@ public class Rent_Notification extends JPanel implements ActionListener{ // ë Œí
 		    columnNames.add(name);
 		}
 		
-		DefaultTableModel tableModel = new DefaultTableModel();
+		table = new JTable();
+		DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 		tableModel.setColumnIdentifiers(columnNames);
 		
 		String id = "qwerqwerqwer";
@@ -80,8 +81,9 @@ public class Rent_Notification extends JPanel implements ActionListener{ // ë Œí
 	         
 	         tableModel.addRow(newdata);
 	        }
-		 table.setModel(tableModel);
-		 add(table);
+		
+		table.setModel(tableModel);
+		add(table);
 		}
 		
 		
