@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.Vector;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,6 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import GUI.C_Component.reportDetailTable;
+import JDBC.MyHistoryDTO;
 
 import java.awt.Font;
 
@@ -26,8 +29,7 @@ public class My_Writing_History extends JPanel implements ActionListener {
 	private JPanel BP = new Baener_pane();
 	protected My_Page_Panel mpp;
 	private RoundButton btn_back;
-	
-	
+	private Vector<String> v2 = new Vector<String>(10);
 	public My_Writing_History() {
 		
 		//패널 크기 및 배경색
@@ -45,14 +47,12 @@ public class My_Writing_History extends JPanel implements ActionListener {
 		btn_back = new RoundButton("뒤로가기");
 		btn_back.setForeground(new Color(255, 255, 255));
 		btn_back.setColorNormal(new Color(31, 78, 121));
-		btn_back.setBounds(853, 596, 110, 30);
+		btn_back.setBounds(863, 610, 110, 30);
 		btn_back.addActionListener(this);
 		add(btn_back);
-		
+		/*
 		
 		JLabel[] labels = new JLabel[5];
-        String[] productInfo = {"물품코드", "카테고리", "물품명", "반납기한", "처리상태"};
-        Font slotFont = new Font("맑은 고딕", Font.PLAIN, 20);
         int[] xLoc = { 76, 240, 440, 640, 840};
         
         for (int i = 0; i < labels.length; i++) {
@@ -61,9 +61,25 @@ public class My_Writing_History extends JPanel implements ActionListener {
             labels[i].setHorizontalAlignment(SwingConstants.CENTER);
             labels[i].setBounds(xLoc[i], 110, 110, 50);
             add(labels[i]);
+        }*/
+		select();
+        int n1 = v2.size();
+        int cnt = 0;
+        n1 = n1/5;
+        String changeData[][] = new String[n1][5];
+        for(int i = 0; i < n1; i++) {
+           for(int j =0; j < 5; j++) {
+              changeData[i][j] = v2.get(cnt);
+              cnt++;
+           }
         }
-		
-
+        String colume[] = {"물품코드", "카테고리", "물품명", "반납기한", "처리상태"};
+        JTable table = new JTable(changeData,colume);
+        DefaultTableModel model = new DefaultTableModel(colume,0);
+        Font slotFont = new Font("맑은 고딕", Font.PLAIN, 20);
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(68, 117, 904, 445);
+        add(scrollPane);
         /*
         // 표 -> db 연결
         Object[] columnNames = {"Name", "Age", "Gender"};
@@ -93,6 +109,11 @@ public class My_Writing_History extends JPanel implements ActionListener {
 		if (e.getSource() == btn_back) {
 			mpp.Open_My_Page();
 		}
+	}
+	public void select() {
+		MyHistoryDTO data = new MyHistoryDTO();
+		v2 = data.select();
+		System.out.println(v2.size());
 	}
 	 
 }
