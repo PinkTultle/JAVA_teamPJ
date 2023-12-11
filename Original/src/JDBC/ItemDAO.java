@@ -568,7 +568,7 @@ public class ItemDAO {
 			pstmt.setNull(11, java.sql.Types.NULL);
 			pstmt.setNull(12, java.sql.Types.NULL);
 
-			System.out.println(pstmt);
+			System.out.println(sql);
 
 			pstmt.executeQuery();
 

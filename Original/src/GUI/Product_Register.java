@@ -305,42 +305,88 @@ public class Product_Register extends JFrame implements ActionListener {
 			if (result == JOptionPane.YES_OPTION)
 				dispose();
 		} else if (e.getSource() == Register_btn) {
-			// 입력확인후 sql 명령어 수행
-			int result = 0;
-			ItemDAO itemDAO = new ItemDAO();
-			ItemDTO itemDTO = new ItemDTO();
-
-			itemDTO.setCategory(Category_combox.getSelectedItem().toString());
-			itemDTO.setItemname(PdName_text.getText());
-			itemDTO.setRentdate(date.toString());
-			itemDTO.setModelname(Model_text.getText());
-			itemDTO.setRentalfee(Integer.parseInt(LentalFee_text.getText()));
-			// 끝에 공백 삭제
-			itemDTO.setDeposit(
-					Integer.parseInt(depositLabel.getText().substring(0, depositLabel.getText().length() - 1)));
-			itemDTO.setExplanation(Description_text.getText());
-			itemDTO.setPerson(UserDAO.user_cur);
-
-			// DB 연결 없이
-			result = itemDAO.insertItem(itemDTO);
+			int result = check();
 
 			if (result == 0) {
-				JOptionPane.showMessageDialog(null, "등록했습니다.");
-				dispose();
-			} else if (result == 1) {
-				JOptionPane.showMessageDialog(null, "오류 발생");
+				insert();
 			}
+
 		}
 	}
 
 	// 인식 못하는 문제 해결 필요
-	public void update_deposit() {
+	void update_deposit() {
 		if (Deposit_text.isTyped && LentalFee_text.isTyped) {
 			int per = Integer.parseInt(Deposit_text.getText());
 			int fee = Integer.parseInt(LentalFee_text.getText());
 			depositLabel.setText(Integer.toString((int) (fee / 100 * per)) + " ");
 		} else {
 			depositLabel.setText("0 ");
+		}
+	}
+
+	int check() {
+		int result = 0;
+		String warn = "아래 항목들이 부족합니다.\n";
+
+		if (Category_combox.getSelectedItem().toString().equals("카테고리")) {
+			result++;
+			warn += "카테고리\n";
+		}
+
+		if (PdName_text.getText().equals("")) {
+			result++;
+			warn += "물품명\n";
+		}
+		if (LentDate_text.getText().equals("")) {
+			result++;
+			warn += "렌트기한\n";
+		}
+
+		if (Model_text.getText().equals("")) {
+			result++;
+			warn += "모델명\n";
+		}
+
+		if (LentalFee_text.getText().equals("")) {
+			result++;
+			warn += "대여료\n";
+		}
+
+		if (Deposit_text.getText().equals("")) {
+			result++;
+			warn += "보증금\n";
+		}
+
+		if (result != 0) {
+			JOptionPane.showMessageDialog(null, warn, "경고", JOptionPane.WARNING_MESSAGE);
+		}
+		return result;
+	}
+
+	void insert() {
+		int result = 0;
+		ItemDAO itemDAO = new ItemDAO();
+		ItemDTO itemDTO = new ItemDTO();
+
+		itemDTO.setCategory(Category_combox.getSelectedItem().toString());
+		itemDTO.setItemname(PdName_text.getText());
+		itemDTO.setRentdate(date.toString());
+		itemDTO.setModelname(Model_text.getText());
+		itemDTO.setRentalfee(Integer.parseInt(LentalFee_text.getText()));
+		// 끝에 공백 삭제
+		itemDTO.setDeposit(Integer.parseInt(depositLabel.getText().substring(0, depositLabel.getText().length() - 1)));
+		itemDTO.setExplanation(Description_text.getText());
+		itemDTO.setPerson(UserDAO.user_cur);
+
+		// DB 연결 없이
+		result = itemDAO.insertItem(itemDTO);
+
+		if (result == 0) {
+			JOptionPane.showMessageDialog(null, "등록했습니다.");
+			dispose();
+		} else if (result == 1) {
+			JOptionPane.showMessageDialog(null, "오류 발생");
 		}
 	}
 }
