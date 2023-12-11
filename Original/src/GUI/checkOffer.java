@@ -105,6 +105,9 @@ public class checkOffer extends JFrame implements ActionListener {
 			} else
 				JOptionPane.showMessageDialog(null, "승인 거부하였습니다.");
 		}
+		OfferManage.refresh();
+		OfferManage tmp = (OfferManage) Main_frame.P3;
+		tmp.repaint();
 		dispose();
 
 	}

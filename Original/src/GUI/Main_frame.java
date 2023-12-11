@@ -17,7 +17,7 @@ public class Main_frame extends JFrame {
 	 */
 	private JPanel contentPane, Baener;
 	private static My_Page_Panel P4;
-	private static JPanel P1, P2, P3;
+	static JPanel P1, P2, P3;
 
 	public static JFrame mainFrame;
 
@@ -158,7 +158,7 @@ public class Main_frame extends JFrame {
 				P4.setVisible(true);
 				break;
 			}
-			
+
 			System.out.println("");
 
 		}
@@ -184,5 +184,5 @@ public class Main_frame extends JFrame {
 		P2.setVisible(true);
 
 		ListPanel.serachItemName(itemName);
-	}	
+	}
 }
