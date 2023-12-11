@@ -69,7 +69,7 @@ public class extendOffer extends JFrame implements ActionListener {
 			item[i] = new JLabel(s_i[i]);
 			item[i].setFont(nFont);
 			item[i].setHorizontalAlignment(SwingConstants.CENTER);
-			item[i].setBorder(new LineBorder(Color.black));
+			item[i].setBorder(new LineBorder(Color.lightGray));
 			item[i].setBounds(bound_i[i][0], bound_i[i][1], bound_i[i][2], bound_i[i][3]);
 			contentPane.add(item[i]);
 		}

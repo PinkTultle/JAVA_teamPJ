@@ -47,7 +47,7 @@ public class checkOffer extends JFrame implements ActionListener {
 		JLabel lblNewLabel_1 = new JLabel(Integer.toString(data.getItemnumber()));
 		lblNewLabel_1.setFont(new Font("Dialog", Font.PLAIN, 14));
 		lblNewLabel_1.setBounds(100, 25, 290, 40);
-		lblNewLabel_1.setBorder(new LineBorder(Color.black));
+		lblNewLabel_1.setBorder(new LineBorder(Color.lightGray));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblNewLabel_1);
 
@@ -59,14 +59,14 @@ public class checkOffer extends JFrame implements ActionListener {
 		JLabel lblNewLabel_1_1 = new JLabel(data.getRentdate_start().toString().substring(0, 10));
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1.setFont(new Font("Dialog", Font.PLAIN, 14));
-		lblNewLabel_1_1.setBorder(new LineBorder(Color.black));
+		lblNewLabel_1_1.setBorder(new LineBorder(Color.lightGray));
 		lblNewLabel_1_1.setBounds(100, 75, 130, 40);
 		contentPane.add(lblNewLabel_1_1);
 
 		JLabel lblNewLabel_1_2 = new JLabel(data.getRentdate_end().toString().substring(0, 10));
 		lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_2.setFont(new Font("Dialog", Font.PLAIN, 14));
-		lblNewLabel_1_2.setBorder(new LineBorder(Color.black));
+		lblNewLabel_1_2.setBorder(new LineBorder(Color.lightGray));
 		lblNewLabel_1_2.setBounds(260, 75, 130, 40);
 		contentPane.add(lblNewLabel_1_2);
 

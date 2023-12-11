@@ -18,8 +18,8 @@ import javax.swing.table.DefaultTableModel;
 public class ItemDAO {
 
 	// String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
-	// String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
-	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
+	String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
+	// String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
 
 	String user = "ABC"; // db 사용자 이름
 	String password = "1234"; // db
@@ -473,15 +473,21 @@ public class ItemDAO {
 			ItemDTO offerData = this.getOffer(offerNum);
 			if (!offerData.getState().equals("대기중"))
 				return 1;
-			String sql = "UPDATE 물품목록 SET 대여상태 = ? WHERE 물품코드 = ? ";
+			String sql = "UPDATE 물품목록 SET 대여상태 = ? AND 대여자 = ? WHERE 물품코드 = ? ";
 			String state = "대여중";
-			if (mode == 1)
-				state = "대여가능";
 
 			Connection con = getConn();
 			PreparedStatement pstmt = con.prepareStatement(sql);
+
+			if (mode == 1) {
+				state = "대여가능";
+				pstmt.setNull(2, java.sql.Types.NULL);
+			} else {
+				pstmt.setString(2, offerData.getLender());
+			}
+
 			pstmt.setString(1, state);
-			pstmt.setInt(2, offerData.getItemnumber());
+			pstmt.setInt(3, offerData.getItemnumber());
 
 			pstmt.executeQuery();
 
@@ -540,5 +546,37 @@ public class ItemDAO {
 			result = 1;
 		}
 		return (result);
+	}
+
+	public int insertItem(ItemDTO data) {
+		int result = 0;
+		try {
+			String sql = "INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 설명, 소유주, 대여상태, 예약자, 대여자, 첨부) VALUES (물품_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+			Connection con = getConn();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+
+			pstmt.setString(1, data.getCategory());
+			pstmt.setString(2, data.getItemname());
+			pstmt.setDate(3, Date.valueOf(changeDate(data.getRentdate())));
+			pstmt.setString(4, data.getModelname());
+			pstmt.setInt(5, data.getRentalfee());
+			pstmt.setInt(6, data.getDeposit());
+			pstmt.setString(7, data.getExplanation());
+			pstmt.setString(8, data.getPerson());
+			pstmt.setString(9, "대여가능");
+			pstmt.setNull(10, java.sql.Types.NULL);
+			pstmt.setNull(11, java.sql.Types.NULL);
+			pstmt.setNull(12, java.sql.Types.NULL);
+
+			System.out.println(pstmt);
+
+			pstmt.executeQuery();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = 1;
+		}
+
+		return result;
 	}
 }

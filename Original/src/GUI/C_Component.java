@@ -738,9 +738,16 @@ public class C_Component {
 			return s;
 		}
 
+		void clear() {
+			if (selectedIndex != -1)
+				table.setValueAt(false, selectedIndex, 0);
+			table.focusLost();
+
+		}
+
 		protected void handleTableChangedEvent(TableModelEvent e) { // checkBox가 하나만 선택되도록 설정
 			int tempIndex = e.getFirstRow();
-			if (tempIndex != -1) {
+			if (tempIndex != -1 && table.getRowCount() != 0) {
 				if ((Boolean) table.getValueAt(tempIndex, 0) == true) {
 					if (selectedIndex != -1 && selectedIndex != tempIndex)
 						table.setValueAt(false, selectedIndex, 0);

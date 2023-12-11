@@ -24,7 +24,8 @@ public class Report_Window_Read extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public Report_Window_Read(String reportNum) {
-		setBounds(100, 100, 364, 273);
+		getContentPane().setBackground(new Color(250, 250, 250));
+		setBounds(100, 100, 360, 400);
 		setTitle("신고");
 		getContentPane().setLayout(null);
 
@@ -69,11 +70,27 @@ public class Report_Window_Read extends JFrame implements ActionListener {
 		getContentPane().add(reportDetail);
 
 		btn_back = new RoundButton("뒤로");
-		btn_back.setBounds(132, 201, 100, 23);
+		btn_back.setBounds(130, 328, 100, 23);
 		btn_back.setForeground(new Color(255, 255, 255));
 		btn_back.setColorNormal(new Color(31, 78, 121));
 		btn_back.addActionListener(this);
 		getContentPane().add(btn_back);
+
+		RoundJLabel reportDetail_1 = new RoundJLabel();
+		reportDetail_1.setVerticalAlignment(SwingConstants.TOP);
+		reportDetail_1.setText("");
+		reportDetail_1.setHorizontalAlignment(SwingConstants.LEFT);
+		reportDetail_1.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		reportDetail_1.setBounds(27, 238, 300, 80);
+		getContentPane().add(reportDetail_1);
+
+		if (data.getReportComment() != null) {
+			reportDetail_1.setText(SwingCRLF.CRLF(data.getReportComment(), 36));
+		}
+
+		JLabel lblNewLabel_2 = new JLabel("답변");
+		lblNewLabel_2.setBounds(27, 213, 57, 15);
+		getContentPane().add(lblNewLabel_2);
 
 	}
 
@@ -84,5 +101,4 @@ public class Report_Window_Read extends JFrame implements ActionListener {
 			dispose();
 		}
 	}
-
 }

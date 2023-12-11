@@ -105,6 +105,7 @@ public class RentHistory extends JPanel implements ActionListener {
 				System.out.println("물품 번호: " + is.getSelectItemNum());
 		} else if (e.getSource() == btnNewButton_2) { // 뒤로 동작
 			System.out.println(((JButton) (e.getSource())).getText());
+			is.clear();
 			mpp.Open_My_Page();
 		}
 	}
@@ -126,6 +127,7 @@ public class RentHistory extends JPanel implements ActionListener {
 	}
 
 	public void refresh() {
+		is.clear();
 		is.setItem();
 	}
 }

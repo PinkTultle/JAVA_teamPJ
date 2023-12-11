@@ -124,6 +124,7 @@ public class ListPanel extends JPanel implements ActionListener {
 			}
 		} else if (e.getSource() == btnNewButton_1) { // 상품 등록하기 동작
 			System.out.println(((JButton) (e.getSource())).getText());
+			new Product_Register();
 		} else if (e.getSource() == btnNewButton_2) { // 이전 페이지 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 			lblNewLabel_1.setText(String.valueOf(is.prevPage()));

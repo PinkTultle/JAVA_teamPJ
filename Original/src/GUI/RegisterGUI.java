@@ -204,13 +204,16 @@ public class RegisterGUI extends JDialog implements ActionListener {
 		gol.setBounds(textField_6.getX() + 155, textField_6.getY() - 10, 50, 50);
 		panel_2.add(gol);
 
+		String[] item = new String[] { "선택", "naver.com", "daum.net", "gmail.com", "직접입력", "" };
+		ComboBoxModel_register<String> cmr = new ComboBoxModel_register<String>(item);
+		cmr.setInvisibleItem("");
 		email = new JComboBox<String>();
 		email.setFont(slotFont);
-		email.setModel(
-				new DefaultComboBoxModel<String>(new String[] { "선택", "naver.com", "daum.net", "gmail.com", "직접입력" }));
+		email.setModel(cmr);
 		email.setBounds(gol.getX() + gol.getWidth() - 5, textField_6.getY(), textField_6.getWidth() + 20,
 				textField_6.getHeight());
 		email.addActionListener(this);
+		email.setSelectedIndex(0);
 		panel_2.add(email);
 
 		btnNewButton = new JToggleButton("남자", true); // 아무것도 체크 안할경우 에러방지
@@ -400,7 +403,7 @@ public class RegisterGUI extends JDialog implements ActionListener {
 			name = textField_3.getText();
 			birth = Integer.parseInt(textField_4.getText());
 			address = textField_5.getText();
-			email_1 = textField_6.getText() + email.getSelectedItem().toString();
+			email_1 = textField_6.getText() + "@" + email.getSelectedItem().toString();
 			tel = Integer.parseInt(textField_TEL[0].getText() + textField_TEL[1].getText());
 
 			if (btnNewButton.isSelected()) {
@@ -518,11 +521,9 @@ public class RegisterGUI extends JDialog implements ActionListener {
 
 			if (email.getSelectedItem().toString().equals("직접입력")) {
 				email.setEditable(true);
-				email.insertItemAt("", 0);
-				email.setSelectedIndex(0);
+				email.setSelectedItem("");
 			} else {
 				email.setEditable(false);
-				email.removeItem("");
 			}
 		}
 
@@ -530,6 +531,38 @@ public class RegisterGUI extends JDialog implements ActionListener {
 			btnNewButton_4.setEnabled(true);
 		}
 
+	}
+
+	private static class ComboBoxModel_register<E> extends DefaultComboBoxModel<E> {
+		private Object[] visibleItems = null;
+
+		ComboBoxModel_register(E[] items) {
+			super();
+			this.visibleItems = items;
+		}
+
+		@Override
+		public int getSize() {
+			return visibleItems.length;
+		}
+
+		@Override
+		public E getElementAt(int index) {
+			return (E) visibleItems[index];
+		}
+
+		// 특정 아이템을 제외하고 모델을 갱신
+		public void setInvisibleItem(E item) {
+			Object[] newArray = new Object[visibleItems.length - 1];
+			int newIndex = 0;
+			for (Object currentItem : visibleItems) {
+				if (!currentItem.equals(item)) {
+					newArray[newIndex++] = currentItem;
+				}
+			}
+			visibleItems = newArray;
+			fireContentsChanged(this, 0, getSize() - 1);
+		}
 	}
 
 	// textField : 아이디 입력 JTextField
