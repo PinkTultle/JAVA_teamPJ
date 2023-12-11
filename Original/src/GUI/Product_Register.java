@@ -319,7 +319,7 @@ public class Product_Register extends JFrame implements ActionListener {
 		if (Deposit_text.isTyped && LentalFee_text.isTyped) {
 			int per = Integer.parseInt(Deposit_text.getText());
 			int fee = Integer.parseInt(LentalFee_text.getText());
-			depositLabel.setText(Integer.toString((int) (fee / 100 * per)) + " ");
+			depositLabel.setText(Integer.toString((int) (fee / 100.0 * per)) + " ");
 		} else {
 			depositLabel.setText("0 ");
 		}
