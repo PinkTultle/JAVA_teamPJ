@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -96,28 +99,49 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			
 			int row = table.getSelectedRow();
-			
+
 			if(row != -1) {
-				//model.getValueAt(row, )
+				int report_num = Integer.parseInt((String)model.getValueAt(row, 0));
+				ReportDTO report = 	dao.reportNumData(report_num);
+				
+				new Answer(report);
 			}
-			
-			
-			
 		}
-		
 	}
 	
 	
 	class Answer extends JDialog{
 		
-		public Answer() {
+		private JTextArea Detail, Answer_ta; 
+		private JButton OK, cancle;
+		
+		
+		public Answer(ReportDTO report) {
+			
+			setModal(true);
+			setSize(300, 300);
+			setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			
+			Container c = getContentPane();
+			c.setLayout(null);
+			
+			//			텍스트 에이리어
+			//			텍스트 에이리어
+			// 			벝느 1, 버튼 2
 			
 			
 			
 			
+			
+			setVisible(true);
 		}
 		
+	}
+	
+	public static void main(String[] args) {
+		new Answer(null);
 	}
 	
 }

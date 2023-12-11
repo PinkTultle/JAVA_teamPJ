@@ -164,6 +164,7 @@ public class ReportDAO {
 				data.setCategory(rs.getString("신고분류"));
 				data.setStatus(rs.getString("처리상태"));
 				data.setReportDetail(rs.getString("신고메세지"));
+				data.setAnswer(rs.getString("답변"));
 			}
 
 		} catch (Exception e) {
@@ -173,4 +174,42 @@ public class ReportDAO {
 
 		return data;
 	}
+	
+	public boolean report_add_Answer(ReportDTO dto) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		int up_row;
+		String sql = "UPDATE 신고기록 SET 답변 = ? where 신고번호 = ?;";
+
+		System.out.println(dto.getReportNum() + "의 답변 : " + dto.getAnswer());
+		try {
+			
+			con = getConn();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, dto.getAnswer());
+			pstmt.setInt(2, dto.getReportNum());
+			
+			up_row = pstmt.executeUpdate(sql);
+			
+			con.close();
+			pstmt.close();
+
+			if(up_row == 1)
+				return true;
+			else throw(null);
+
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+
+	}
+		
+		
+		
 }
+

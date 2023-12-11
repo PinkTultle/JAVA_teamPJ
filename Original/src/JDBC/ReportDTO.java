@@ -9,6 +9,8 @@ public class ReportDTO {
 	private String category;
 	private String status;
 	private String reportdetail;
+	private String Answer;
+	
 
 	public String getPostID() {
 		return postid;
@@ -64,6 +66,14 @@ public class ReportDTO {
 
 	public void setReportDetail(String s) {
 		reportdetail = s;
+	}
+
+	public String getAnswer() {
+		return Answer;
+	}
+
+	public void setAnswer(String answer) {
+		this.Answer = answer;
 	}
 
 }
