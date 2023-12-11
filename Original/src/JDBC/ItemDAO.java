@@ -133,7 +133,7 @@ public class ItemDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null; // 결과 담는 곳
-		String sql = " SELECT 물품코드, 모델명, 렌트기한, 대여료, 보증금, 전화번호, 설명, 첨부, 물품명, 별명, 아이디, 예약자, 물품목록.대여상태, 대여자 "
+		String sql = " SELECT 물품코드, 모델명, 렌트기한, 대여료, 보증금, 전화번호, 설명, 첨부, 물품명, 별명, 아이디, 물품목록.대여상태, 대여자, 물품목록.안심번호 "
 				+ " FROM 물품목록 " + " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 " + " WHERE 물품코드 = ? ";
 		try {
 			con = getConn();
@@ -154,8 +154,8 @@ public class ItemDAO {
 				itemdto.setPerson(rs.getString("아이디"));
 				itemdto.setImage(rs.getString("첨부"));
 				itemdto.setRentdate(rs.getString("렌트기한"));
-				itemdto.setBookingGuest(rs.getString("예약자"));
 				itemdto.setLender(rs.getString("대여자"));
+				itemdto.setSafeTEL(rs.getString("안심번호") != null);
 				itemdto.setState(rs.getString("대여상태"));
 			}
 
@@ -516,41 +516,33 @@ public class ItemDAO {
         }
     }
     
-    public Vector<ItemDTO> rent_noti_table(String id) {
-    	Vector<ItemDTO> list = new Vector<ItemDTO>();
-    	
-    	Connection con = null;
-    	PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		id = "%"+id+"%";
-		
-		String sql = "SELECT 물품코드, 물품명, 대여반납예정일 FROM 물품목록 WHERE 대여자 LIKE ?";
-		
-		try	{
-			con = getConn();
-			pstmt = con.prepareStatement(sql);
-			
-			pstmt.setString(1, id);
-			
-			rs = pstmt.executeQuery(sql);
-			
-			while (rs.next()) {
-				ItemDTO itemdto = new ItemDTO();
-				itemdto.setItemnumber(Integer.parseInt(rs.getString("물품코드")));
-				itemdto.setItemname(rs.getString("물품명"));
-				itemdto.setRentdate_end(rs.getString("대여반납예정일"));
+    
+    public int insertItem(ItemDTO data) {
+		int result = 0;
+		try {
+			String sql = "INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 설명, 소유주, 대여상태, 대여자, 첨부, 안심번호) VALUES (물품_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+			Connection con = getConn();
+			PreparedStatement pstmt = con.prepareStatement(sql);
 
-				list.add(itemdto);
+
+			pstmt.setString(9, "대여가능");
+			pstmt.setNull(10, java.sql.Types.NULL);
+			pstmt.setNull(11, java.sql.Types.NULL);
+			pstmt.setNull(12, java.sql.Types.NULL);
+			if (data.getSafeTEL()) {
+				pstmt.setString(12, "1");
+			} else {
+				pstmt.setNull(12, java.sql.Types.NULL);
 			}
-			con.close();
-    		pstmt.close();
-    		rs.close();
-		}catch (Exception e) {
-			// TODO Auto-generated catch block
+
+			System.out.println(sql);
+
+			pstmt.executeQuery();
+		} catch (Exception e) {
 			e.printStackTrace();
+			result = 1;
 		}
-    	return list;
-    }
-	
+		return result;
+	}
 }
+

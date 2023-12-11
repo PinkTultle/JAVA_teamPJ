@@ -120,8 +120,8 @@ public class My_Page extends JPanel implements ActionListener {
 		lblNewLabel_1.setBounds(587, 426, 72, 32);
 		add(lblNewLabel_1);
 
-		table = new myPageTable(587, 495, 389, 144);
-		table.setItem();
+		table = new myPageTable(587, 495, 389, 144,false);
+		table.setItem(false);
 		add(table);
 
 		JLabel Label_Trade_Num = new JLabel("거래번호");
