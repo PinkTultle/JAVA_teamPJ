@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,7 +31,6 @@ public class RentHistory extends JPanel implements ActionListener {
 	/**
 	 * Create the frame.
 	 * 
-	 * @throws SQLException
 	 */
 	public RentHistory() {
 
@@ -89,7 +87,6 @@ public class RentHistory extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getSource() == btnNewButton) { // 연장 요청 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 			if (is.getSelectItemNum() != -1) {

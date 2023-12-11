@@ -69,7 +69,6 @@ public class My_Page extends JPanel implements ActionListener {
 			RankScore = dao.milerege("asd1"); // 이 부분 로그인한 id 가져와서 넣어야함@!@!@@@!@!@!@!@!
 
 		} catch (SQLException | ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -109,7 +108,7 @@ public class My_Page extends JPanel implements ActionListener {
 		Bt_temp1.setFont(new Font("굴림", Font.BOLD, 16));
 		Bt_temp1.setBounds(41, 394, 141, 130);
 		Bt_temp1.addActionListener(this);
-		
+
 		add(Bt_temp1);
 
 		Bt_temp1.setVisible(Administrator);
@@ -278,7 +277,6 @@ public class My_Page extends JPanel implements ActionListener {
 				RankScore = dao.milerege("asd1"); // 이 부분 로그인한 id 가져와서 넣어야함@!@!@@@!@!@!@!@!
 
 			} catch (SQLException | ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 

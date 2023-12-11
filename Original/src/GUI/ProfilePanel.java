@@ -202,7 +202,6 @@ public class ProfilePanel extends JPanel implements ActionListener {
 			textFields_TEL[0].setEnabled(false);
 			setEditable(false);
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		textFields[0].setEnabled(false);
@@ -224,7 +223,6 @@ public class ProfilePanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getSource() == button) { // 회원탈퇴 동작
 			System.out.println(((JButton) (e.getSource())).getText());
 			int sel = JOptionPane.showConfirmDialog(null, "계정을 삭제하시겠습니까?", "경고", JOptionPane.YES_NO_OPTION,
@@ -335,7 +333,6 @@ public class ProfilePanel extends JPanel implements ActionListener {
 			}
 			userDAO.userUpdate(data);
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}

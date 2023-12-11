@@ -7,9 +7,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.Vector;
 
@@ -78,7 +77,6 @@ public class C_Component {
 		}
 
 		public MyJT(String s) {
-			// TODO Auto-generated constructor stub
 			this();
 			init = s;
 			setText(s);
@@ -86,7 +84,6 @@ public class C_Component {
 
 		@Override
 		public void focusGained() {
-			// TODO Auto-generated method stub
 			if (!isTyped) {
 				setText("");
 			}
@@ -94,7 +91,6 @@ public class C_Component {
 
 		@Override
 		public void focusLost() {
-			// TODO Auto-generated method stub
 			if (!getText().isEmpty()) {
 				isTyped = true;
 			} else {
@@ -107,13 +103,11 @@ public class C_Component {
 
 		@Override
 		public String getString() {
-			// TODO Auto-generated method stub
 			return getText();
 		}
 
 		@Override
 		public boolean isTyped() {
-			// TODO Auto-generated method stub
 			return isTyped;
 		}
 
@@ -124,7 +118,6 @@ public class C_Component {
 
 		@Override
 		public boolean isEnable() {
-			// TODO Auto-generated method stub
 			return isEnabled();
 		}
 
@@ -149,7 +142,6 @@ public class C_Component {
 
 		@Override
 		public void focusGained() {
-			// TODO Auto-generated method stub
 			super.focusGained();
 			setHorizontalAlignment(JTextField.LEFT);
 		}
@@ -171,7 +163,6 @@ public class C_Component {
 		protected String init;
 
 		public MyPT(String s) {
-			// TODO Auto-generated constructor stub
 			init = s;
 			setText(s);
 			setEchoChar((char) 0);
@@ -180,7 +171,6 @@ public class C_Component {
 
 		@Override
 		public void focusGained() {
-			// TODO Auto-generated method stub
 			if (!isTyped) {
 				setText("");
 				setEchoChar('*');
@@ -189,7 +179,6 @@ public class C_Component {
 
 		@Override
 		public void focusLost() {
-			// TODO Auto-generated method stub
 			if (!getText().isEmpty()) {
 				isTyped = true;
 			} else {
@@ -203,19 +192,16 @@ public class C_Component {
 
 		@Override
 		public String getString() {
-			// TODO Auto-generated method stub
 			return getText();
 		}
 
 		@Override
 		public boolean isTyped() {
-			// TODO Auto-generated method stub
 			return isTyped;
 		}
 
 		@Override
 		public boolean isEnable() {
-			// TODO Auto-generated method stub
 			return isEnabled();
 		}
 
@@ -230,7 +216,6 @@ public class C_Component {
 	static class MyFL implements FocusListener { // MyPT, MyJT 용 포커스 리스터
 		@Override
 		public void focusGained(FocusEvent e) {
-			// TODO Auto-generated method stub
 			if (e.getSource() instanceof BaseTextComponent) {
 				BaseTextComponent baseTextComponent;
 				baseTextComponent = (BaseTextComponent) e.getSource();
@@ -240,7 +225,6 @@ public class C_Component {
 
 		@Override
 		public void focusLost(FocusEvent e) {
-			// TODO Auto-generated method stub
 			if (e.getSource() instanceof BaseTextComponent) {
 				BaseTextComponent baseTextComponent;
 				baseTextComponent = (BaseTextComponent) e.getSource();
@@ -257,7 +241,6 @@ public class C_Component {
 		int limit;
 
 		public MyKA_Num(int limit) {
-			// TODO Auto-generated constructor stub
 			this.limit = limit - 1;
 		}
 
@@ -330,13 +313,13 @@ public class C_Component {
 
 	static class MyTA extends JTable implements BaseTableComponent {
 		/*
-		 * JTable 에 사용자 기능들을 추가한 클래스 goDetail : 클릭 이벤트 또는 enter 이벤트 발생 시 해당 메소드를 실행함
+		 * JTable 에 사용자 기능들을 추가한 클래스 
+		 * goDetail : 클릭 이벤트 또는 enter 이벤트 발생 시 해당 메소드를 실행함
 		 * focusLost : focus 가 사라지는 경우 Select 된 행을 초기화
 		 */
 		protected int itemNumIdx = 0;
 
 		MyTA() {
-			// TODO Auto-generated constructor stub
 		}
 
 		MyTA(String[][] s1, String[] s2) {
@@ -345,7 +328,6 @@ public class C_Component {
 
 		@Override
 		public void goDetail() { // 마우스나 키보드 이벤트 발생시 실행하는 메소드
-			// TODO Auto-generated method stub
 			int selectedRow = this.getSelectedRow(); // 행 정보를 받아옴
 			// 선택 항의 PID를 이용하여서 정보 검색이 필요
 			ItemDetail idPanel = new ItemDetail(Integer.parseInt(getValueAt(selectedRow, itemNumIdx).toString()));
@@ -357,17 +339,19 @@ public class C_Component {
 
 		@Override
 		public void focusLost() {
-			// TODO Auto-generated method stub
 			this.clearSelection();
 		}
 
 	}
 
 	static class MyTA_report extends MyTA implements BaseTableComponent {
+		/*
+		 * reportDetailTable를 위해서 goDetail을 재정의한 테이블
+		 * 이 테이블은 선택 항목에 대해서 Report_Window_Read 를 표시한다.
+		 */
 
 		@Override
 		public void goDetail() { // 마우스나 키보드 이벤트 발생시 실행하는 메소드
-			// TODO Auto-generated method stub
 			int selectedRow = this.getSelectedRow(); // 행 정보를 받아옴
 			// 선택 항의 PID를 이용하여서 정보 검색이 필요
 			Report_Window_Read RWRPanel = new Report_Window_Read(getValueAt(selectedRow, itemNumIdx).toString());
@@ -377,12 +361,16 @@ public class C_Component {
 	}
 
 	static class MyTA_Offer extends MyTA implements BaseTableComponent {
+		/*
+		 * itemSlot_offer를 위해서 goDetail을 재정의한 테이블
+		 * 이 테이블은 선택 항목에 대해서 설정된 모드에 따라 
+		 * checkOffer / ItemDetail을 표시한다.
+		 */
 		boolean mode;
 		Vector<Integer> offerNum = new Vector<>();
 
 		public void goDetail() { // 마우스나 키보드 이벤트 발생시 실행하는 메소드
 			if (mode) {
-				// TODO Auto-generated method stub
 				int selectedRow = this.getSelectedRow(); // 행 정보를 받아옴
 				// 선택 항의 PID를 이용하여서 정보 검색이 필요
 				checkOffer cO = new checkOffer(offerNum.get(selectedRow));
@@ -401,10 +389,10 @@ public class C_Component {
 
 	static class base_itemSlot extends JScrollPane {
 		/*
-		 * JTable 을 사용하는 클래스들의 기본 상속 클래스 table : 실제로 화면에 표시될 JTable | 사용자 기능들을 추가한 MyTA
-		 * 클래스를 이용함 | C_Component: 276 setItem : table 의 행을 설정하는 메소드 | Vector<String> 을
-		 * 이용해서 table 에 행을 추가함 | ListPanel 사용 불가 setHeaderColor : table 의 Header 의 색을
-		 * 변경함
+		 * JTable 을 사용하는 클래스들의 기본 상속 클래스 
+		 * table : 실제로 화면에 표시될 JTable | 사용자 기능들을 추가한 MyTA 클래스를 이용함 | C_Component: 276 
+		 * setItem : table 의 행을 설정하는 메소드
+		 * setHeaderColor : table 의 Header 의 색을 변경함
 		 */
 		MyTA table;
 
@@ -427,7 +415,9 @@ public class C_Component {
 
 	static class itemSlot_list extends base_itemSlot {
 		/*
-		 * String.class 6개
+		 *	목록 패널에 사용될 JTable
+		 *	생성자의 count 의 값에 따라 동시에 보여주는 항목의 개수를 설정
+		 *	
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -478,7 +468,7 @@ public class C_Component {
 
 		}
 
-		public void setPage(String category, String itemName, String status) { // 15개 행 생성을 기본으로 함 |
+		public void setPage(String category, String itemName, String status) { // count 만큼의 행을 표시함
 			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 			int rowCount = tableModel.getRowCount();
 			while (rowCount != 0) {
@@ -496,7 +486,6 @@ public class C_Component {
 					page_max++;
 				}
 			} catch (SQLException e) {
-				// TODO: handle exception
 				e.printStackTrace();
 			}
 			// 처음 페이지로 전환
@@ -542,6 +531,11 @@ public class C_Component {
 	}
 
 	static public class itemSlot_myWriting extends itemSlot_list {
+		/*
+		 * 나의 글 패널에 사용될 JTable
+		 * itemSlot_list 를 상속받아 같은 형식으로 생성됨
+		 * setPage를 오버로딩하여서 현재 접속된 계정의 물품만 불러옴
+		*/
 
 		public itemSlot_myWriting(int x, int y, int width, int height, int count) {
 			super(x, y, width, height, count);
@@ -575,7 +569,8 @@ public class C_Component {
 
 	static public class itemSlot_offer extends base_itemSlot {
 		/*
-		 * String.class 3개
+		 * 신청 관리 패널에 사용될 JTable
+		 * mode 입력에 따라서 서로 다른 동작을 함
 		 */
 		private static final long serialVersionUID = 1L;
 		private MyTA_Offer p_t;
@@ -642,7 +637,8 @@ public class C_Component {
 
 	static public class itemSlot_history extends base_itemSlot {
 		/*
-		 * String.class 6개
+		 * 렌트 내역 패널에 사용될 JTable
+		 * 다른 테이블과 boolean 값을 추가로 가짐
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -690,7 +686,6 @@ public class C_Component {
 
 				@Override
 				public void tableChanged(TableModelEvent e) {
-					// TODO Auto-generated method stub
 					handleTableChangedEvent(e);
 				}
 			});
@@ -703,7 +698,7 @@ public class C_Component {
 
 		}
 
-		void setItem() { // boolean 1개와 String 6개로 값을 변경
+		void setItem() {
 			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 			try {
 				int rowCount = tableModel.getRowCount();
@@ -713,7 +708,6 @@ public class C_Component {
 				}
 				offerNum.clear();
 			} catch (Exception e) {
-				// TODO: handle exception
 				e.printStackTrace();
 			}
 			try {
@@ -736,12 +730,11 @@ public class C_Component {
 					tableModel.addRow(newData);
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
 				e.printStackTrace();
 			}
 		}
 
-		int getSelectItemNum() { // checkBox가 선택된 항목의 번호를 반환함
+		int getSelectItemNum() { // checkBox가 선택된 항목의 물품코드를 반환함
 			int returnItemNum = -1;
 			if (selectedIndex != -1 && (boolean) table.getValueAt(selectedIndex, 0)) {
 				returnItemNum = Integer.parseInt(table.getValueAt(selectedIndex, 1).toString());
@@ -749,7 +742,7 @@ public class C_Component {
 			return returnItemNum;
 		}
 
-		int getSelectRentNum() {
+		int getSelectRentNum() { // checkBox가 선택된 항목의 대여번호를 반환함
 			int returnRentNum = -1;
 			if (selectedIndex != -1 && (boolean) table.getValueAt(selectedIndex, 0)) {
 				returnRentNum = offerNum.get(selectedIndex);
@@ -757,7 +750,7 @@ public class C_Component {
 			return returnRentNum;
 		}
 
-		String getSelectState() {
+		String getSelectState() { // checkBox가 선택된 항목의 대여상태를 반환함
 			String s = null;
 			if (selectedIndex != -1 && (boolean) table.getValueAt(selectedIndex, 0)) {
 				try {
@@ -789,8 +782,10 @@ public class C_Component {
 	}
 
 	static public class myPageTable extends base_itemSlot {
-		/**
-		 * 
+		/*
+		 *	마이페이지 패널에 사용될 JTable
+		 *	대여기간이 짧게 남은
+		 *	항목을 최대 2개까지 보여줌 
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -864,15 +859,14 @@ public class C_Component {
 					}
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
 				e.printStackTrace();
 			}
 		}
 	}
 
 	static public class reportDetailTable extends base_itemSlot {
-		/**
-		 * 
+		/*
+		 *	신고 내역 패널에 사용될 JTable 
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -930,24 +924,21 @@ public class C_Component {
 					tableModel.addRow(newData);
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
 				e.printStackTrace();
 			}
 		}
 	}
 
-	static class My_KL implements KeyListener {
+	static class My_KL extends KeyAdapter {
+		/*
+		 * JTable 에서 Enter 입력을 변경
+		 * Enter 입력이 되었을 경우 goDetail 함수를 호출
+		 */
 
 		boolean pressed = false;
 
 		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
 		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
 			if (e.getKeyChar() == '\n' && !pressed) { // Enter 키를 누른 경우
 				if (e.getSource() instanceof BaseTableComponent) { // JTable 인 경우
 					BaseTableComponent baseTableComponent = (BaseTableComponent) e.getSource();
@@ -959,7 +950,6 @@ public class C_Component {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
 			if (e.getKeyChar() == '\n' && pressed) {
 				pressed = false;
 			}
@@ -967,41 +957,21 @@ public class C_Component {
 
 	}
 
-	static class My_ML implements MouseListener {
+	static class My_ML extends MouseAdapter {
+
+		/*
+		 *  JTable 에서 MouseAdapter 를 추가
+		 *  더블 클릭을 통해서 해당 항목의 goDetail 함수를 호출
+		 */
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
 			if (e.getClickCount() == 2) { // 더블 클릭했을 경우
 				if (e.getSource() instanceof BaseTableComponent) { // JTable 인 경우
 					BaseTableComponent baseTableComponent = (BaseTableComponent) e.getSource();
 					baseTableComponent.goDetail();
 				}
 			}
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-
 		}
 	}
 }

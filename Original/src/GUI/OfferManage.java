@@ -57,7 +57,6 @@ public class OfferManage extends JPanel {
 			is_sending.setItem("sending");
 			add(is_sending);
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 

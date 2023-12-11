@@ -95,7 +95,6 @@ public class Main_frame extends JFrame {
 
 	// MenuBar.java의 버튼 이벤트와 연동할 패널 교체 함수
 	public static void Changepane(String text) {
-		// TODO Auto-generated method stub
 
 		// 패널 교체 메서
 		if (text != null) {

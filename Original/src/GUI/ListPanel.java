@@ -115,7 +115,6 @@ public class ListPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getSource() == btnNewButton) { // 검색 동작
 			// textField : 검색어 텍스트 필드 객체
 			search(comboBox.getSelectedItem().toString(), textField.getText(), comboBox_1.getSelectedItem().toString());

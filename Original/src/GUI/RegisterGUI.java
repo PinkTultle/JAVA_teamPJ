@@ -355,7 +355,6 @@ public class RegisterGUI extends JDialog implements ActionListener {
 				}
 
 			} catch (SQLException | ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -466,7 +465,6 @@ public class RegisterGUI extends JDialog implements ActionListener {
 				// System.out.println("아이디 중복");
 			}
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
@@ -481,7 +479,6 @@ public class RegisterGUI extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 
 		if (e.getSource() == btnNewButton_5) { // 중복 버튼 동작
 			Duplicate();
