@@ -698,7 +698,7 @@ public class C_Component {
 								item.getItemname(), item.getRentdate(), item.getState(), null };
 					} else {
 						newData = new Object[] { false, Integer.toString(item.getItemnumber()), item.getPerson(),
-								item.getItemname(), item.getRentdate(), null, item.getState() };
+								item.getItemname(), null, null, item.getState() };
 					}
 
 					// System.out.println(item.getItemname());
@@ -798,7 +798,14 @@ public class C_Component {
 
 			setItem();
 
+			setSize(getWidth(), getHeight() + 3);
+			this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+			this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			this.setViewportView(table);
+		}
+
+		public void refresh() {
+			setItem();
 		}
 
 		public void setItem() {
@@ -812,15 +819,18 @@ public class C_Component {
 				Vector<ItemDTO> data = new Vector<>();
 				ItemDAO itemDAO = new ItemDAO();
 				data = itemDAO.itemRental();
-				if (data == null)
-					return;
-				for (int i = 0; i < ((data.size() < 2) ? 1 : 2); i++) {
-					ItemDTO item = data.get(i);
+				for (int i = 0, j = 0; i < 2; j++) {
+					if (data.size() == j) {
+						System.out.println(i + " " + j);
+						break;
+					}
+					ItemDTO item = data.get(j);
 					Object[] newData;
 					if (item.getState().equals("대여중")) {
 						newData = new Object[] { Integer.toString(item.getItemnumber()), item.getItemname(),
 								item.getRentdate() };
 						tableModel.addRow(newData);
+						i++;
 					}
 				}
 			} catch (Exception e) {

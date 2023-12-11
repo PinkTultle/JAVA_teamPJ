@@ -83,24 +83,15 @@ public class ItemDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = " SELECT 물품목록.물품코드, 물품목록.카테고리, 물품목록.물품명, 회원.별명, (SELECT 물품목록.렌트기한 - TRUNC(SYSDATE) FROM DUAL ) as 렌트기한, 물품목록.대여상태 "
-				+ " FROM 물품목록 " + " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 ";
-		if (category != null || itemName != null || status != null) {
-			sql += "WHERE";
-		}
+				+ " FROM 물품목록 " + " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 WHERE 렌트기한 > SYSDATE AND 물품목록.대여상태 <> '삭제' ";
 		if (category != null) {
-			sql += " 물품목록.카테고리 = '" + category + "'";
+			sql += "AND 물품목록.카테고리 = '" + category + "'";
 		}
 		if (itemName != null) {
-			if (category != null) {
-				sql += " AND ";
-			}
-			sql += " 물품목록.물품명 LIKE '%" + itemName + "%'";
+			sql += "AND 물품목록.물품명 LIKE '%" + itemName + "%'";
 		}
 		if (status != null) {
-			if (category != null || itemName != null) {
-				sql += " AND ";
-			}
-			sql += " 물품목록.대여상태 = '" + status + "'";
+			sql += "AND 물품목록.대여상태 = '" + status + "'";
 		}
 
 		System.out.println(sql);
@@ -129,7 +120,7 @@ public class ItemDAO {
 		return list;
 	}
 
-	public ItemDTO itemdetail(int n) throws SQLException {
+	public ItemDTO itemdetail(int n) {
 		ItemDTO itemdto = new ItemDTO();
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -160,7 +151,7 @@ public class ItemDAO {
 				itemdto.setState(rs.getString("대여상태"));
 			}
 
-		} catch (ClassNotFoundException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -175,7 +166,7 @@ public class ItemDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null; // 결과 담는 곳
 		String sql = " SELECT 물품코드, 소유자, 물품명, (SELECT 대여반납예정일 - 대여시작날짜 FROM DUAL ) as 렌트기한, 대여시작날짜, 대여반납예정일, 반납상태, 대여번호 "
-				+ " FROM 대여기록 " + " WHERE 대여자 = ? ";
+				+ " FROM 대여기록 " + " WHERE 대여자 = ? ORDER BY 대여반납예정일 ASC";
 		try {
 			con = getConn();
 			pstmt = con.prepareStatement(sql);
@@ -309,11 +300,7 @@ public class ItemDAO {
 			rs.next();
 			if (rs.getString("대여상태").equals("대여중"))
 				return false;
-			sql = "DELETE FROM 신고기록 WHERE 물품코드 = ?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, Integer.toString(n));
-			pstmt.executeQuery();
-			sql = "DELETE FROM 물품목록 WHERE 물품코드 = ? ";
+			sql = "UPDATE 물품목록 SET 대여상태 = '삭제' WHERE 물품코드 = ? ";
 			con = getConn();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, Integer.toString(n));

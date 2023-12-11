@@ -50,12 +50,12 @@ public class RentHistory extends JPanel implements ActionListener {
 		is = new itemSlot_history(38, 140, 960, 425);
 		add(is);
 
-		btnNewButton = new RoundButton("연장 요청");
+		btnNewButton = new RoundButton("연장 요청", Color.black);
 		btnNewButton.addActionListener(this);
 		btnNewButton.setBounds(671, 600, 104, 33);
 		add(btnNewButton);
 
-		btnNewButton_1 = new RoundButton("반납");
+		btnNewButton_1 = new RoundButton("반납", Color.black);
 		btnNewButton_1.addActionListener(this);
 		btnNewButton_1.setBounds(787, 600, 104, 33);
 		add(btnNewButton_1);
@@ -108,6 +108,8 @@ public class RentHistory extends JPanel implements ActionListener {
 			is.clear();
 			mpp.Open_My_Page();
 		}
+		this.refresh();
+		this.repaint();
 	}
 
 	int returnItem() {

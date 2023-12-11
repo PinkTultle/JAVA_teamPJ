@@ -2,11 +2,13 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -51,16 +53,11 @@ public class ItemDetail extends JFrame implements ActionListener {
 
 		ItemDAO itemdao = new ItemDAO(), itemDAO = new ItemDAO();
 		itemdto = null;
-		try {
-			itemdto = itemdao.itemdetail(itemNum);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} // 클릭한 물품번호 넘겨 받기
+		itemdto = itemdao.itemdetail(itemNum);
 
-		if (itemdto.getPerson() == null) {
-			JOptionPane.showMessageDialog(null, "존재하지 않는 게시글입니다.");
-			isOpen = false;
+		if (itemdto.getState().equals("삭제")) {
+			JOptionPane.showMessageDialog(null, "삭제된 게시글입니다.");
+			dispose();
 		} else {
 
 			isWriter = itemdto.getPerson().equals(UserDAO.user_cur);
@@ -100,7 +97,7 @@ public class ItemDetail extends JFrame implements ActionListener {
 			btnNewButton_1.addActionListener(this);
 			panel.add(btnNewButton_1);
 
-			btnNewButton_2 = new RoundButton("삭제");
+			btnNewButton_2 = new RoundButton("삭제", Color.black);
 			btnNewButton_2.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 			String state = itemdto.getState();
 			if (!isWriter && state.equals("대여가능"))
@@ -122,12 +119,16 @@ public class ItemDetail extends JFrame implements ActionListener {
 			panel.add(panel_1);
 			panel_1.setLayout(null);
 
-			JLabel lblNewLabel_4 = new JLabel("image");
+			ImageIcon user_img = new ImageIcon(ItemDetail.class.getResource("../COMP_IMG/user.png"));
+			Image img = user_img.getImage();
+			user_img.setImage(img.getScaledInstance(35, 35, Image.SCALE_SMOOTH));
+
+			JLabel lblNewLabel_4 = new JLabel(user_img);
 			lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
-			lblNewLabel_4.setBounds(12, 10, 42, 42);
+			lblNewLabel_4.setBounds(18, 16, 35, 35);
 			panel_1.add(lblNewLabel_4);
 
-			lbl[0] = new JLabel(itemdto.getPerson());
+			lbl[0] = new JLabel(itemdto.getNickname());
 			lbl[0].setHorizontalAlignment(SwingConstants.LEFT);
 			lbl[0].setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 			lbl[0].setBounds(66, 10, 247, 42);
@@ -201,7 +202,7 @@ public class ItemDetail extends JFrame implements ActionListener {
 			panel_3.add(lbl[3]);
 
 			lbl[4] = new JLabel("렌트기한 입력");
-			lbl[4].setText(itemdto.getRentdate());
+			lbl[4].setText(itemdto.getRentdate().substring(0, 10));
 			lbl[4].setFont(nF);
 			lbl[4].setBounds(154, 90, 250, 25);
 			panel_3.add(lbl[4]);

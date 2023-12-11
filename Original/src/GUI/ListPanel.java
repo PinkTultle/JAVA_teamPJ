@@ -51,7 +51,7 @@ public class ListPanel extends JPanel implements ActionListener {
 
 		comboBox_1 = new JComboBox();
 		comboBox_1.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] { "전체", "대여가능", "예약중", "대여중" }));
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] { "전체", "대여가능", "승인대기", "대여중" }));
 		comboBox_1.setBounds(184, 46, 110, 35);
 		comboBox_1.addActionListener(this);
 		add(comboBox_1);

@@ -176,7 +176,6 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 		for (int i = 0; i < column.length; i++) {
 			if (data[i] == null) {
-				System.out.println(i);
 				continue;
 			} else {
 				if (!c)
@@ -187,8 +186,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			}
 		}
 
-		// sql += "WHERE 아이디 = '" + user_cur + "'";
-		sql += "WHERE 아이디 = '" + "asd1" + "'";
+		sql += "WHERE 아이디 = '" + user_cur + "'";
 
 		try {
 
