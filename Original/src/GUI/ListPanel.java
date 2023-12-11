@@ -75,7 +75,7 @@ public class ListPanel extends JPanel implements ActionListener {
 		btnNewButton_1.addActionListener(this);
 		add(btnNewButton_1);
 
-		is = new itemSlot_list(57, 150, 920, 480);
+		is = new itemSlot_list(57, 150, 920, 480, 12);
 		is.getViewport().setBackground(new Color(243, 246, 249));
 		add(is);
 

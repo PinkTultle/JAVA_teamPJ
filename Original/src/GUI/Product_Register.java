@@ -379,6 +379,7 @@ public class Product_Register extends JFrame implements ActionListener {
 		itemDTO.setDeposit(Integer.parseInt(depositLabel.getText().substring(0, depositLabel.getText().length() - 1)));
 		itemDTO.setExplanation(Description_text.getText());
 		itemDTO.setPerson(UserDAO.user_cur);
+		itemDTO.setSafeTEL(SafeNumber_Check.isSelected());
 
 		// DB 연결 없이
 		result = itemDAO.insertItem(itemDTO);

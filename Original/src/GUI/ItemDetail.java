@@ -214,7 +214,11 @@ public class ItemDetail extends JFrame implements ActionListener {
 			panel_3.add(lbl[5]);
 
 			lbl[6] = new JLabel("전화번호");
-			lbl[6].setText(itemdto.getPhonenumber());
+			if (!itemdto.getSafeTEL()) {
+				lbl[6].setText(itemdto.getPhonenumber());
+			} else {
+				lbl[6].setText("010-XXXX-XXXX");
+			}
 			lbl[6].setFont(nF);
 			lbl[6].setBounds(154, 170, 250, 25);
 			panel_3.add(lbl[6]);

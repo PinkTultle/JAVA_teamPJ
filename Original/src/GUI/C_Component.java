@@ -432,10 +432,10 @@ public class C_Component {
 		private static final long serialVersionUID = 1L;
 
 		Vector<ItemDTO> data = new Vector<>();
-		int page_max, page_cur = 1;
+		int page_max, page_cur = 1, itemCount;
 
-		public itemSlot_list(int x, int y, int width, int height) {
-			// TODO Auto-generated constructor stub
+		public itemSlot_list(int x, int y, int width, int height, int count) {
+			this.itemCount = count;
 			this.setBounds(x, y, width, height);
 			table = new MyTA();
 			table.setModel(new DefaultTableModel(new Object[][] {},
@@ -466,8 +466,8 @@ public class C_Component {
 			table.getColumnModel().getColumn(5).setPreferredWidth(50);
 
 			// 테이블 디자인
-			initJTableStyle(table, height, 12, false);
-			setSize(getWidth(), getHeight() + 2);
+			initJTableStyle(table, height, itemCount, false);
+			setSize(getWidth(), getHeight() + 3);
 
 			this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 			this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -492,7 +492,7 @@ public class C_Component {
 				data = itemDAO.searchItemData(category, itemName, status);
 				// 최대 페이지 설정
 				page_max = 1;
-				while (page_max * 12 < data.size()) {
+				while (page_max * itemCount < data.size()) {
 					page_max++;
 				}
 			} catch (SQLException e) {
@@ -500,7 +500,7 @@ public class C_Component {
 				e.printStackTrace();
 			}
 			// 처음 페이지로 전환
-			for (int i = 0; i < ((data.size() > 12) ? 12 : data.size()); i++) {
+			for (int i = 0; i < ((data.size() > itemCount) ? itemCount : data.size()); i++) {
 				ItemDTO item = data.get(i);
 				tableModel.addRow(new Object[] { Integer.toString(item.getItemnumber()), item.getCategory(),
 						item.getItemname(), item.getPerson(), item.getRentdate(), item.getState() });
@@ -514,7 +514,7 @@ public class C_Component {
 				rowCount--;
 				tableModel.removeRow(0);
 			}
-			for (int idx = (page - 1) * 12, i = 0; i < 12; i++, idx++) {
+			for (int idx = (page - 1) * itemCount, i = 0; i < itemCount; i++, idx++) {
 				if (idx == data.size()) {
 					break;
 				}
@@ -528,7 +528,6 @@ public class C_Component {
 		public int nextPage() {
 			if (page_cur == page_max)
 				return page_cur;
-			System.out.println(page_cur + " " + page_max);
 			changePage(++page_cur);
 			return page_cur;
 		}
@@ -536,9 +535,40 @@ public class C_Component {
 		public int prevPage() {
 			if (page_cur == 1)
 				return page_cur;
-			System.out.println(page_cur + " " + page_max);
 			changePage(--page_cur);
 			return page_cur;
+		}
+
+	}
+
+	static public class itemSlot_myWriting extends itemSlot_list {
+
+		public itemSlot_myWriting(int x, int y, int width, int height, int count) {
+			super(x, y, width, height, count);
+		}
+
+		public void setPage() { // 10개 행 생성을 기본으로 함 |
+			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+			int rowCount = tableModel.getRowCount();
+			while (rowCount != 0) {
+				tableModel.removeRow(0);
+				rowCount--;
+			}
+			ItemDAO itemDAO = new ItemDAO();
+			data.clear();
+			// 패널 내에 데이터 저장
+			data = itemDAO.searchItemData_MY();
+			// 최대 페이지 설정
+			page_max = 1;
+			while (page_max * itemCount < data.size()) {
+				page_max++;
+			}
+			// 처음 페이지로 전환
+			for (int i = 0; i < ((data.size() > itemCount) ? itemCount : data.size()); i++) {
+				ItemDTO item = data.get(i);
+				tableModel.addRow(new Object[] { Integer.toString(item.getItemnumber()), item.getCategory(),
+						item.getItemname(), item.getPerson(), item.getRentdate(), item.getState() });
+			}
 		}
 
 	}

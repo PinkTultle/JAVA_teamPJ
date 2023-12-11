@@ -18,8 +18,8 @@ import javax.swing.table.DefaultTableModel;
 public class ItemDAO {
 
 	// String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
-	String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
-	// String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
+	// String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
+	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
 
 	String user = "ABC"; // db 사용자 이름
 	String password = "1234"; // db
@@ -83,7 +83,8 @@ public class ItemDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = " SELECT 물품목록.물품코드, 물품목록.카테고리, 물품목록.물품명, 회원.별명, (SELECT 물품목록.렌트기한 - TRUNC(SYSDATE) FROM DUAL ) as 렌트기한, 물품목록.대여상태 "
-				+ " FROM 물품목록 " + " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 WHERE 렌트기한 > SYSDATE AND 물품목록.대여상태 <> '삭제' ";
+				+ " FROM 물품목록 "
+				+ " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 WHERE 렌트기한 > SYSDATE AND 물품목록.대여상태 <> '삭제' ORDER BY 물품목록.물품코드 ASC ";
 		if (category != null) {
 			sql += "AND 물품목록.카테고리 = '" + category + "'";
 		}
@@ -120,12 +121,47 @@ public class ItemDAO {
 		return list;
 	}
 
+	public Vector<ItemDTO> searchItemData_MY() {
+		System.out.println("searchItemData");
+		Vector<ItemDTO> list = new Vector<ItemDTO>();
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = " SELECT 물품목록.물품코드, 물품목록.카테고리, 물품목록.물품명, 회원.별명, (SELECT 물품목록.렌트기한 - TRUNC(SYSDATE) FROM DUAL ) as 렌트기한, 물품목록.대여상태 "
+				+ " FROM 물품목록 "
+				+ " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 WHERE 물품목록.대여상태 <> '삭제' AND 물품목록.소유주 = ? ORDER BY 물품목록.물품코드 ASC ";
+
+		System.out.println(sql);
+
+		try {
+			con = getConn();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, UserDAO.user_cur);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ItemDTO dto = new ItemDTO();
+				dto.setItemnumber(Integer.valueOf(rs.getString("물품코드")));
+				dto.setCategory(rs.getString("카테고리"));
+				dto.setItemname(rs.getString("물품명"));
+				dto.setPerson(rs.getString("별명"));
+				dto.setRentdate(rs.getString("렌트기한"));
+				dto.setState(rs.getString("대여상태"));
+				list.add(dto); // 리스트에 한줄 추가
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 	public ItemDTO itemdetail(int n) {
 		ItemDTO itemdto = new ItemDTO();
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null; // 결과 담는 곳
-		String sql = " SELECT 물품코드, 모델명, 렌트기한, 대여료, 보증금, 전화번호, 설명, 첨부, 물품명, 별명, 아이디, 예약자, 물품목록.대여상태, 대여자 "
+		String sql = " SELECT 물품코드, 모델명, 렌트기한, 대여료, 보증금, 전화번호, 설명, 첨부, 물품명, 별명, 아이디, 물품목록.대여상태, 대여자, 물품목록.안심번호 "
 				+ " FROM 물품목록 " + " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 " + " WHERE 물품코드 = ? ";
 		try {
 			con = getConn();
@@ -146,8 +182,8 @@ public class ItemDAO {
 				itemdto.setPerson(rs.getString("아이디"));
 				itemdto.setImage(rs.getString("첨부"));
 				itemdto.setRentdate(rs.getString("렌트기한"));
-				itemdto.setBookingGuest(rs.getString("예약자"));
 				itemdto.setLender(rs.getString("대여자"));
+				itemdto.setSafeTEL(rs.getString("안심번호") != null);
 				itemdto.setState(rs.getString("대여상태"));
 			}
 
@@ -539,7 +575,7 @@ public class ItemDAO {
 	public int insertItem(ItemDTO data) {
 		int result = 0;
 		try {
-			String sql = "INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 설명, 소유주, 대여상태, 예약자, 대여자, 첨부) VALUES (물품_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+			String sql = "INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 설명, 소유주, 대여상태, 대여자, 첨부, 안심번호) VALUES (물품_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 			Connection con = getConn();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 
@@ -554,7 +590,11 @@ public class ItemDAO {
 			pstmt.setString(9, "대여가능");
 			pstmt.setNull(10, java.sql.Types.NULL);
 			pstmt.setNull(11, java.sql.Types.NULL);
-			pstmt.setNull(12, java.sql.Types.NULL);
+			if (data.getSafeTEL()) {
+				pstmt.setString(12, "1");
+			} else {
+				pstmt.setNull(12, java.sql.Types.NULL);
+			}
 
 			System.out.println(sql);
 
