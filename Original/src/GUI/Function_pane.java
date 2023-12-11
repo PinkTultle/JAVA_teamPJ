@@ -23,6 +23,4 @@ abstract public class Function_pane extends JPanel {
 		back_c = new Color(r, g, b);
 		setBackground(back_c);
 	}
-	
-
 }

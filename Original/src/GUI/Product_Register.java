@@ -2,6 +2,7 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Font;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -67,6 +68,7 @@ public class Product_Register extends JFrame implements ActionListener {
 		phoneNum = tmp.substring(0, 3) + "-" + tmp.substring(3, 7) + "-" + tmp.substring(7, 11);
 
 		// 라벨
+
 		JLabel PdName_Label = new JLabel("품 목 명");
 		PdName_Label.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		PdName_Label.setBounds(40, 30, 90, 32);
@@ -383,6 +385,7 @@ public class Product_Register extends JFrame implements ActionListener {
 
 		// DB 연결 없이
 		result = itemDAO.insertItem(itemDTO);
+
 
 		if (result == 0) {
 			JOptionPane.showMessageDialog(null, "등록했습니다.");
