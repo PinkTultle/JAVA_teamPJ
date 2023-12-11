@@ -302,11 +302,12 @@ public class ItemDAO {
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			con = getConn();
-			String sql = "SELECT * FROM 대여기록 WHERE 물품코드 = ?";
+			String sql = "SELECT * FROM 물품목록 WHERE 물품코드 = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, Integer.toString(n));
 			rs = pstmt.executeQuery();
-			if (rs.next())
+			rs.next();
+			if (rs.getString("대여상태").equals("대여중"))
 				return false;
 			sql = "DELETE FROM 신고기록 WHERE 물품코드 = ?";
 			pstmt = con.prepareStatement(sql);
@@ -466,14 +467,14 @@ public class ItemDAO {
 		return (result);
 	}
 
-	public int checkOffer(int offerNum, int mode) {
+	public int acceptOffer(int offerNum, int mode) {
 		// 0: 승인 | 1: 거절
 		int result = 0;
 		try {
 			ItemDTO offerData = this.getOffer(offerNum);
 			if (!offerData.getState().equals("대기중"))
 				return 1;
-			String sql = "UPDATE 물품목록 SET 대여상태 = ? AND 대여자 = ? WHERE 물품코드 = ? ";
+			String sql = "UPDATE 물품목록 SET 대여상태 = ?, 대여자 = ? WHERE 물품코드 = ? ";
 			String state = "대여중";
 
 			Connection con = getConn();

@@ -230,6 +230,7 @@ public class Product_Register extends JFrame implements ActionListener {
 		SafeNumber_Check.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		SafeNumber_Check.setBackground(Color.WHITE);
 		SafeNumber_Check.setBounds(695, 180, 80, 32);
+		SafeNumber_Check.setOpaque(false);
 		SafeNumber_Check.addActionListener(new ActionListener() {
 
 			@Override
@@ -331,35 +332,35 @@ public class Product_Register extends JFrame implements ActionListener {
 
 		if (Category_combox.getSelectedItem().toString().equals("카테고리")) {
 			result++;
-			warn += "카테고리\n";
+			warn += "-카테고리\n";
 		}
 
 		if (PdName_text.getText().equals("")) {
 			result++;
-			warn += "물품명\n";
+			warn += "-물품명\n";
 		}
 		if (LentDate_text.getText().equals("")) {
 			result++;
-			warn += "렌트기한\n";
+			warn += "-렌트기한\n";
 		}
 
 		if (Model_text.getText().equals("")) {
 			result++;
-			warn += "모델명\n";
+			warn += "-모델명\n";
 		}
 
 		if (LentalFee_text.getText().equals("")) {
 			result++;
-			warn += "대여료\n";
+			warn += "-대여료\n";
 		}
 
 		if (Deposit_text.getText().equals("")) {
 			result++;
-			warn += "보증금\n";
+			warn += "-보증금\n";
 		}
 
 		if (result != 0) {
-			JOptionPane.showMessageDialog(null, warn, "경고", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, warn, "-경고", JOptionPane.WARNING_MESSAGE);
 		}
 		return result;
 	}

@@ -24,7 +24,6 @@ public class checkOffer extends JFrame implements ActionListener {
 	private int offerNum;
 
 	public checkOffer(int offerNum) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 235);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -94,13 +93,13 @@ public class checkOffer extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		ItemDAO itemDAO = new ItemDAO();
 		if (e.getSource() == btnNewButton) {
-			int result = itemDAO.checkOffer(offerNum, 0);
+			int result = itemDAO.acceptOffer(offerNum, 0);
 			if (result == 1) {
 				JOptionPane.showMessageDialog(null, "오류발생");
 			} else
 				JOptionPane.showMessageDialog(null, "대여 승인하였습니다.");
 		} else if (e.getSource() == btnNewButton_1) {
-			int result = itemDAO.checkOffer(offerNum, 1);
+			int result = itemDAO.acceptOffer(offerNum, 1);
 			if (result == 1) {
 				JOptionPane.showMessageDialog(null, "오류발생");
 			} else
