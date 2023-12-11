@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -34,6 +35,7 @@ public class Administrator_pane extends JPanel {
 	protected DefaultTableModel model;
 	protected JTable table;
 	private TableCellRenderer renderer;
+	
 	
 	public Administrator_pane(JFrame master) {
 		

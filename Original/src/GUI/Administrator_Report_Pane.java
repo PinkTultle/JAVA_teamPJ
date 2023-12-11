@@ -2,11 +2,14 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.reflect.Member;
 import java.util.Arrays;
 import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -48,6 +51,7 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 		approve.setBounds(close_bt.getX(), scrollPane.getY(),
 				close_bt.getWidth(), close_bt.getHeight());
 		approve.setBackground(null);
+		approve.addActionListener(new approve_bt());
 		
 		add(approve);
 		
@@ -87,4 +91,33 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 			model.addRow(data);
 		}		
 	}
+	
+	class approve_bt implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int row = table.getSelectedRow();
+			
+			if(row != -1) {
+				//model.getValueAt(row, )
+			}
+			
+			
+			
+		}
+		
+	}
+	
+	
+	class Answer extends JDialog{
+		
+		public Answer() {
+			
+			
+			
+			
+		}
+		
+	}
+	
 }
