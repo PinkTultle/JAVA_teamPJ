@@ -290,7 +290,7 @@ public class C_Component {
 		}
 	}
 
-	static void initJTableStyle(JTable jt, int height, int rowCount, boolean isHeader, boolean rent_noti) { // JTable 클래스들의 기본 설정
+	static void initJTableStyle(JTable jt, int height, int rowCount, boolean isHeader) { // JTable 클래스들의 기본 설정
 		final Border DEFAULT_BORDER = new EmptyBorder(1, 1, 1, 1);
 
 		// Enter 키 이벤트 제거
@@ -303,10 +303,7 @@ public class C_Component {
 		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 		renderer.setHorizontalAlignment(renderer.CENTER);
 		jt.setDefaultRenderer(String.class, renderer); // 중앙 정렬
-		if (rent_noti == false)
-			jt.setRowHeight((height) / rowCount); // JTable의 헤더의 높이는 25임
-		else 
-			jt.setRowHeight(60); // 렌트 알림 테이블 행 높이
+		jt.setRowHeight((height) / rowCount); // JTable의 헤더의 높이는 25임
 		jt.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 		jt.setSelectionBackground(new Color(106, 172, 208));
 		jt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -448,7 +445,7 @@ public class C_Component {
 			table.getColumnModel().getColumn(5).setPreferredWidth(50);
 
 			// 테이블 디자인
-			initJTableStyle(table, height, 12, false,false);
+			initJTableStyle(table, height, 12, false);
 			setSize(getWidth(), getHeight() + 2);
 
 			this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -557,7 +554,7 @@ public class C_Component {
 			table.getColumnModel().getColumn(2).setPreferredWidth(100);
 			table.getColumnModel().getColumn(2).setMinWidth(15);
 
-			initJTableStyle(table, height, 10, false,false);
+			initJTableStyle(table, height, 10, false);
 
 			this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 			this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -614,7 +611,7 @@ public class C_Component {
 				}
 			});
 
-			initJTableStyle(table, height, 10, false,false);
+			initJTableStyle(table, height, 10, false);
 
 			table.getColumnModel().getColumn(0).setPreferredWidth(20);
 			table.getColumnModel().getColumn(0).setMinWidth(20);
@@ -710,9 +707,9 @@ public class C_Component {
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public myPageTable(int x, int y, int width, int height, boolean rent_noti) { // 렌트 알림에서 쓰는 테이블인지 확인용으로 boolean 매개변수 추가했음
-			setBounds(x, y, width, height);                                          // 렌트 알림에서 쓰는 테이블이면 setItem 메소드에 else문 내 for문 실행
-			getViewport().setBackground(Color.white);                               
+		public myPageTable(int x, int y, int width, int height) {
+			setBounds(x, y, width, height);
+			getViewport().setBackground(Color.white);
 
 			table = new MyTA();
 
@@ -729,12 +726,11 @@ public class C_Component {
 					return columnEditables[column];
 				}
 			});
-			
-			table.setRowHeight(70); // 각 행의 높이 설정
-			
 
-			initJTableStyle(table, height, 2, false, rent_noti);
-			getViewport().setBackground(new Color(243, 246, 249));
+			table.setRowHeight(70); // 각 행의 높이 설정
+
+			initJTableStyle(table, height, 2, false);
+
 			// 테이블 내 텍스트 가운데 정렬
 			DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 			centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER); // 수평 가운데 정렬
@@ -742,17 +738,13 @@ public class C_Component {
 				table.getColumnModel().getColumn(i).setPreferredWidth(128);
 				table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
 			}
-			this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-			this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-			this.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.BLACK));
+
+			setItem();
+
 			this.setViewportView(table);
-
-
-			setItem(rent_noti);
-
 		}
 
-		public void setItem(boolean noti_rent) {
+		public void setItem() {
 			try {
 				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 				int rowCount = tableModel.getRowCount();
@@ -765,30 +757,15 @@ public class C_Component {
 				data = itemDAO.itemRental();
 				if (data == null)
 					return;
-				if (noti_rent == false) {
-					for (int i = 0; i < ((data.size() < 2) ? 1 : 2); i++) {
-						ItemDTO item = data.get(i);
-						Object[] newData;
-						
-						if (item.getState().equals("대여중")) {
-							newData = new Object[] { Integer.toString(item.getItemnumber()), item.getItemname(),
-									item.getRentdate() };
-							tableModel.addRow(newData);
-						}
+				for (int i = 0; i < ((data.size() < 2) ? 1 : 2); i++) {
+					ItemDTO item = data.get(i);
+					Object[] newData;
+					if (item.getState().equals("대여중")) {
+						newData = new Object[] { Integer.toString(item.getItemnumber()), item.getItemname(),
+								item.getRentdate() };
+						tableModel.addRow(newData);
 					}
 				}
-				else {
-					for (int i = 0; i <data.size() ; i++) {
-						ItemDTO item = data.get(i);
-						Object[] newData;
-						if (item.getState().equals("대여중")) {
-							newData = new Object[] { Integer.toString(item.getItemnumber()), item.getItemname(),
-									item.getRentdate() };
-							tableModel.addRow(newData);
-						}
-					}
-				}
-					
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
@@ -828,7 +805,7 @@ public class C_Component {
 				table.getColumnModel().getColumn(i).setPreferredWidth(columnSize[i]);
 			}
 
-			initJTableStyle(table, height, 10, false,false);
+			initJTableStyle(table, height, 10, false);
 
 			this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 			this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
