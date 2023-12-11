@@ -18,10 +18,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import GUI.C_Component.reportDetailTable;
 import JDBC.MyHistoryDTO;
 
 import java.awt.Font;
+import javax.swing.border.TitledBorder;
 
 public class My_Writing_History extends JPanel implements ActionListener {
     private DefaultTableModel model;
@@ -80,21 +80,7 @@ public class My_Writing_History extends JPanel implements ActionListener {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(68, 117, 904, 445);
         add(scrollPane);
-        /*
-        // 표 -> db 연결
-        Object[] columnNames = {"Name", "Age", "Gender"};
-        Object[][] data = {
-                {"John", 28, "Male"},
-                {"Anna", 22, "Female"},
-                {"Bob", 35, "Male"}
-        };
-        model = new DefaultTableModel(data, columnNames);
-
-        table = new JTable(model);
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(68, 134, 890, 378);
-        add(scrollPane);
-        */
+       
         
 	}
 	public My_Writing_History(My_Page_Panel mpp) {
@@ -105,7 +91,6 @@ public class My_Writing_History extends JPanel implements ActionListener {
 
 	
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getSource() == btn_back) {
 			mpp.Open_My_Page();
 		}
