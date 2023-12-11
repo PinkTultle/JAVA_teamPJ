@@ -515,5 +515,42 @@ public class ItemDAO {
             e.printStackTrace();
         }
     }
+    
+    public Vector<ItemDTO> rent_noti_table(String id) {
+    	Vector<ItemDTO> list = new Vector<ItemDTO>();
+    	
+    	Connection con = null;
+    	PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		id = "%"+id+"%";
+		
+		String sql = "SELECT 물품코드, 물품명, 대여반납예정일 FROM 물품목록 WHERE 대여자 LIKE ?";
+		
+		try	{
+			con = getConn();
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery(sql);
+			
+			while (rs.next()) {
+				ItemDTO itemdto = new ItemDTO();
+				itemdto.setItemnumber(Integer.parseInt(rs.getString("물품코드")));
+				itemdto.setItemname(rs.getString("물품명"));
+				itemdto.setRentdate_end(rs.getString("대여반납예정일"));
+
+				list.add(itemdto);
+			}
+			con.close();
+    		pstmt.close();
+    		rs.close();
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return list;
+    }
 	
 }

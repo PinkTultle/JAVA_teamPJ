@@ -6,17 +6,24 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
+
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+
+import JDBC.ItemDAO;
+import JDBC.ItemDTO;
 
 public class Rent_Notification extends JPanel implements ActionListener{ // 렌트 알림 창
 	private static final long serialVersionUID = 1L;
 
-	Vector<String> columnNames;
+	Vector<String> columnNames = new Vector<String>();
 	Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 	
 	private JTable table;
@@ -38,6 +45,8 @@ public class Rent_Notification extends JPanel implements ActionListener{ // 렌�
 		
 		String[] columnName = { "거래번호", "물품명", "반납 기한" };
 		
+		
+		
 		for (int i = 0; i < columnName.length; i++) {
 			columnLbl[i] = new JLabel(columnName[i]);
 			columnLbl[i].setBounds(xLoc[i], 110, 110, 50);
@@ -45,41 +54,57 @@ public class Rent_Notification extends JPanel implements ActionListener{ // 렌�
 			columnLbl[i].setFont(new Font("굴림", Font.PLAIN, 20));
 			add(columnLbl[i]);
 		}
-		
-		// 임시 데이터
-//		  columnNames = new Vector<String>(); columnNames.add("거래번호");
-//		  columnNames.add("물품명"); columnNames.add("반납 기한"); Vector<Object> row1 = new
-//		  Vector<>(); row1.add("1"); row1.add("Item 1"); row1.add("2023-12-31");
-//		  data.add(row1);
-//		  
-//		  Vector<Object> row2 = new Vector<>(); row2.add("2"); row2.add("Item 2");
-//		  row2.add("2023-11-15"); data.add(row2);
-		 
-		   
-		
+				
 		/* 
 		 * TODO: 테이블 내용(data 벡터)을 DB랑 연동
 		*/
 		
-		
-		NonEditableTableModel nonEditableModel = new NonEditableTableModel(data, columnNames);
-		table = new JTable();
-		table.setBackground(new Color(192, 192, 192));
-		table.setModel(nonEditableModel);
-		table.setShowVerticalLines(false);
-		table.setRowSelectionAllowed(false);
-		table.setBounds(30, 150, 975, 480);
-		table.setRowHeight(60); // 각 행의 높이 설정
-		table.getTableHeader().setReorderingAllowed(false); // 열 위치 드래그해서 바꿔지는 기능 비활성화
-		
-		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-		centerRenderer.setHorizontalAlignment(JLabel.CENTER); // 수평 가운데 정렬
-		TableColumnModel columnModel = table.getColumnModel();
-		for (int i = 0; i < columnModel.getColumnCount(); i++) {
-			table.getColumnModel().getColumn(i).setPreferredWidth(128); // setPreferredWidth() 열 너비 설정 메소드
-			columnModel.getColumn(i).setCellRenderer(centerRenderer);
+		for (String name : columnName) {
+		    columnNames.add(name);
 		}
-		add(table);
+		
+		DefaultTableModel tableModel = new DefaultTableModel();
+		tableModel.setColumnIdentifiers(columnNames);
+		
+		String id = "qwerqwerqwer";
+		
+		ItemDAO itemDAO = new ItemDAO();
+		Vector<ItemDTO> list = itemDAO.rent_noti_table(id);
+		
+		if (list.isEmpty()) {
+		    System.out.println("리스트에 데이터 없음"); // 확인용 if else 문
+		} else {
+		 for (ItemDTO item : list) {
+			 Object[] newdata;
+	         newdata = new Object[] { Integer.toString(item.getItemnumber()),item.getItemname(),item.getRentdate_end()};
+	         
+	         tableModel.addRow(newdata);
+	        }
+		 table.setModel(tableModel);
+		 add(table);
+		}
+		
+		
+			/*
+			 * NonEditableTableModel nonEditableModel = new NonEditableTableModel(data,
+			 * columnNames);
+			 * 
+			 * table = new JTable(); table.setBackground(new Color(192, 192, 192));
+			 * table.setModel(nonEditableModel); table.setShowVerticalLines(false);
+			 * table.setRowSelectionAllowed(false); table.setBounds(30, 150, 975, 480);
+			 * table.setRowHeight(60); // 각 행의 높이 설정
+			 * table.getTableHeader().setReorderingAllowed(false); // 열 위치 드래그해서 바꿔지는 기능
+			 * 비활성화
+			 * 
+			 * DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+			 * centerRenderer.setHorizontalAlignment(JLabel.CENTER); // 수평 가운데 정렬
+			 * TableColumnModel columnModel = table.getColumnModel(); for (int i = 0; i <
+			 * columnModel.getColumnCount(); i++) {
+			 * table.getColumnModel().getColumn(i).setPreferredWidth(128); //
+			 * setPreferredWidth() 열 너비 설정 메소드
+			 * columnModel.getColumn(i).setCellRenderer(centerRenderer); }
+			 */
+		
 		
 		Bt_Back = new RoundButton("뒤로");
 		Bt_Back.setBounds(890, 635, 110, 30);
