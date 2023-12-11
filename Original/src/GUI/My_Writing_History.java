@@ -45,7 +45,7 @@ public class My_Writing_History extends JPanel implements ActionListener {
 		btn_back = new RoundButton("뒤로가기");
 		btn_back.setForeground(new Color(255, 255, 255));
 		btn_back.setColorNormal(new Color(31, 78, 121));
-		btn_back.setBounds(890, 660, 110, 30);
+		btn_back.setBounds(853, 596, 110, 30);
 		btn_back.addActionListener(this);
 		add(btn_back);
 		
