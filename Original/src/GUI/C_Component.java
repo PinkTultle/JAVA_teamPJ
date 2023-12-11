@@ -753,6 +753,7 @@ public class C_Component {
 		}
 
 		public void setItem(boolean noti_rent) {
+			//
 			try {
 				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 				int rowCount = tableModel.getRowCount();
