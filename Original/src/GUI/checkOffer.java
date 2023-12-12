@@ -1,7 +1,6 @@
 package GUI;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import JDBC.ItemDAO;
+import JDBC.ItemDTO;
 
 public class checkOffer extends JFrame implements ActionListener {
 
@@ -23,27 +23,7 @@ public class checkOffer extends JFrame implements ActionListener {
 	private RoundButton btnNewButton, btnNewButton_1;
 	private int offerNum;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					checkOffer frame = new checkOffer();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public checkOffer() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public checkOffer(int offerNum) {
 		setBounds(100, 100, 450, 235);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -53,16 +33,20 @@ public class checkOffer extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		this.offerNum = offerNum;
+		ItemDAO itemDAO = new ItemDAO();
+		ItemDTO data = itemDAO.getOffer(offerNum);
+
 		JLabel lblNewLabel = new JLabel("물품번호");
 		lblNewLabel.setFont(new Font("Dialog", Font.PLAIN, 14));
 		lblNewLabel.setBounds(30, 25, 61, 40);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblNewLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("");
+		JLabel lblNewLabel_1 = new JLabel(Integer.toString(data.getItemnumber()));
 		lblNewLabel_1.setFont(new Font("Dialog", Font.PLAIN, 14));
 		lblNewLabel_1.setBounds(100, 25, 290, 40);
-		lblNewLabel_1.setBorder(new LineBorder(Color.black));
+		lblNewLabel_1.setBorder(new LineBorder(Color.lightGray));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblNewLabel_1);
 
@@ -71,17 +55,17 @@ public class checkOffer extends JFrame implements ActionListener {
 		lblNewLabel_2.setBounds(33, 84, 57, 15);
 		contentPane.add(lblNewLabel_2);
 
-		JLabel lblNewLabel_1_1 = new JLabel("");
+		JLabel lblNewLabel_1_1 = new JLabel(data.getRentdate_start().toString().substring(0, 10));
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1.setFont(new Font("Dialog", Font.PLAIN, 14));
-		lblNewLabel_1_1.setBorder(new LineBorder(Color.black));
+		lblNewLabel_1_1.setBorder(new LineBorder(Color.lightGray));
 		lblNewLabel_1_1.setBounds(100, 75, 130, 40);
 		contentPane.add(lblNewLabel_1_1);
 
-		JLabel lblNewLabel_1_2 = new JLabel("");
+		JLabel lblNewLabel_1_2 = new JLabel(data.getRentdate_end().toString().substring(0, 10));
 		lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_2.setFont(new Font("Dialog", Font.PLAIN, 14));
-		lblNewLabel_1_2.setBorder(new LineBorder(Color.black));
+		lblNewLabel_1_2.setBorder(new LineBorder(Color.lightGray));
 		lblNewLabel_1_2.setBounds(260, 75, 130, 40);
 		contentPane.add(lblNewLabel_1_2);
 
@@ -109,18 +93,24 @@ public class checkOffer extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		ItemDAO itemDAO = new ItemDAO();
 		if (e.getSource() == btnNewButton) {
-			int result = itemDAO.checkOffer(offerNum, 0);
+			int result = itemDAO.acceptOffer(offerNum, 0);
 			if (result == 1) {
-				JOptionPane.showConfirmDialog(null, "오류발생");
+				JOptionPane.showMessageDialog(null, "오류발생");
 			} else
-				JOptionPane.showConfirmDialog(null, "대여 승인하였습니다.");
+				JOptionPane.showMessageDialog(null, "대여 승인하였습니다.");
 		} else if (e.getSource() == btnNewButton_1) {
-			int result = itemDAO.checkOffer(offerNum, 0);
+			int result = itemDAO.acceptOffer(offerNum, 1);
 			if (result == 1) {
-				JOptionPane.showConfirmDialog(null, "오류발생");
+				JOptionPane.showMessageDialog(null, "오류발생");
 			} else
-				JOptionPane.showConfirmDialog(null, "승인 거부하였습니다.");
+				JOptionPane.showMessageDialog(null, "승인 거부하였습니다.");
 		}
+		OfferManage.refresh();
+		OfferManage tmp = (OfferManage) Main_frame.P3;
+		tmp.repaint();
+		dispose();
 
 	}
+
+	// 대여 거부 승인 한번 더 확인 필요
 }

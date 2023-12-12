@@ -11,6 +11,7 @@ import java.time.ZoneId;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -60,14 +61,15 @@ public class extendOffer extends JFrame implements ActionListener {
 			contentPane.add(itemHeader[i]);
 		}
 
-		String[] s_i = { Integer.toString(data.getRentNum()), "", "", "반납날짜" };
+		String[] s_i = { Integer.toString(data.getRentNum()), data.getRentdate_end().substring(0, 10),
+				data.getRentdate_end().substring(0, 10), "반납날짜" };
 		int[][] bound_i = { { 135, 20, 282, 40 }, { 135, 70, 282, 40 }, { 135, 120, 100, 40 }, { 273, 120, 100, 40 } };
 
 		for (int i = 0; i < 4; i++) {
 			item[i] = new JLabel(s_i[i]);
 			item[i].setFont(nFont);
 			item[i].setHorizontalAlignment(SwingConstants.CENTER);
-			item[i].setBorder(new LineBorder(Color.black));
+			item[i].setBorder(new LineBorder(Color.lightGray));
 			item[i].setBounds(bound_i[i][0], bound_i[i][1], bound_i[i][2], bound_i[i][3]);
 			contentPane.add(item[i]);
 		}
@@ -111,8 +113,17 @@ public class extendOffer extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btn1) {
+			ItemDAO itemDAO = new ItemDAO();
+			int result = itemDAO.extendOffer(rentNum, date);
+			if (result == 1) {
+				JOptionPane.showMessageDialog(null, "오류 발생");
+			} else if (result == 0) {
+				JOptionPane.showMessageDialog(null, "연장되었습니다.");
+			}
+			dispose();
+		} else if (e.getSource() == btn2)
 
-		} else if (e.getSource() == btn2) {
+		{
 			dispose();
 		}
 	}

@@ -51,7 +51,7 @@ public class ListPanel extends JPanel implements ActionListener {
 
 		comboBox_1 = new JComboBox();
 		comboBox_1.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] { "전체", "대여가능", "예약중", "대여중" }));
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] { "전체", "대여가능", "승인대기", "대여중" }));
 		comboBox_1.setBounds(184, 46, 110, 35);
 		comboBox_1.addActionListener(this);
 		add(comboBox_1);
@@ -75,7 +75,7 @@ public class ListPanel extends JPanel implements ActionListener {
 		btnNewButton_1.addActionListener(this);
 		add(btnNewButton_1);
 
-		is = new itemSlot_list(57, 150, 920, 480);
+		is = new itemSlot_list(57, 150, 920, 480, 12);
 		is.getViewport().setBackground(new Color(243, 246, 249));
 		add(is);
 
@@ -115,7 +115,6 @@ public class ListPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getSource() == btnNewButton) { // 검색 동작
 			// textField : 검색어 텍스트 필드 객체
 			search(comboBox.getSelectedItem().toString(), textField.getText(), comboBox_1.getSelectedItem().toString());
@@ -169,5 +168,11 @@ public class ListPanel extends JPanel implements ActionListener {
 			status = null;
 		System.out.println("search| " + category + " " + itemName + " " + status);
 		is.setPage(category, itemName, status);
+	}
+
+	public void refresh() {
+		clear();
+		searchCategory("전체");
+		repaint();
 	}
 }

@@ -88,7 +88,7 @@ public class ReportDAO {
 			pstmt.setInt(1, Integer.parseInt(v.get(0)));
 			pstmt.setString(2, v.get(1));
 			pstmt.setString(3, v.get(2));
-			pstmt.setString(4, "처리중");
+			pstmt.setString(4, "신청");
 			pstmt.setString(5, v.get(3));
 			pstmt.setString(6, UserDAO.user_cur);
 
@@ -165,6 +165,7 @@ public class ReportDAO {
 				data.setStatus(rs.getString("처리상태"));
 				data.setReportDetail(rs.getString("신고메세지"));
 				data.setAnswer(rs.getString("답변"));
+
 			}
 
 		} catch (Exception e) {

@@ -2,11 +2,13 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -51,16 +53,11 @@ public class ItemDetail extends JFrame implements ActionListener {
 
 		ItemDAO itemdao = new ItemDAO(), itemDAO = new ItemDAO();
 		itemdto = null;
-		try {
-			itemdto = itemdao.itemdetail(itemNum);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} // 클릭한 물품번호 넘겨 받기
+		itemdto = itemdao.itemdetail(itemNum);
 
-		if (itemdto.getPerson() == null) {
-			JOptionPane.showMessageDialog(null, "존재하지 않는 게시글입니다.");
-			isOpen = false;
+		if (itemdto.getState().equals("삭제")) {
+			JOptionPane.showMessageDialog(null, "삭제된 게시글입니다.");
+			dispose();
 		} else {
 
 			isWriter = itemdto.getPerson().equals(UserDAO.user_cur);
@@ -88,18 +85,19 @@ public class ItemDetail extends JFrame implements ActionListener {
 			btnNewButton.addActionListener(this);
 			panel.add(btnNewButton);
 
-			btnNewButton_1 = new RoundButton("수정");
-			btnNewButton_1.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
+			btnNewButton_1 = new RoundButton("신고");
+			btnNewButton_1.setVisible(false);
 			if (!isWriter) {
-				btnNewButton_1.setText("신고");
+				btnNewButton_1.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 				btnNewButton_1.setForeground(new Color(255, 255, 255));
 				btnNewButton_1.setColorNormal(new Color(31, 78, 121));
+				btnNewButton_1.setVisible(true);
 			}
 			btnNewButton_1.setBounds(813, 466, 75, 40);
 			btnNewButton_1.addActionListener(this);
 			panel.add(btnNewButton_1);
 
-			btnNewButton_2 = new RoundButton("삭제");
+			btnNewButton_2 = new RoundButton("삭제", Color.black);
 			btnNewButton_2.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 			String state = itemdto.getState();
 			if (!isWriter && state.equals("대여가능"))
@@ -107,7 +105,10 @@ public class ItemDetail extends JFrame implements ActionListener {
 			else if (!isWriter) {
 				btnNewButton_2.setVisible(false);
 			}
-			btnNewButton_2.setBounds(726, 466, 75, 40);
+			int xLoc = 726;
+			if (isWriter)
+				xLoc = 813;
+			btnNewButton_2.setBounds(xLoc, 466, 75, 40);
 			btnNewButton_2.addActionListener(this);
 			panel.add(btnNewButton_2);
 
@@ -118,12 +119,16 @@ public class ItemDetail extends JFrame implements ActionListener {
 			panel.add(panel_1);
 			panel_1.setLayout(null);
 
-			JLabel lblNewLabel_4 = new JLabel("image");
+			ImageIcon user_img = new ImageIcon(ItemDetail.class.getResource("../COMP_IMG/user.png"));
+			Image img = user_img.getImage();
+			user_img.setImage(img.getScaledInstance(35, 35, Image.SCALE_SMOOTH));
+
+			JLabel lblNewLabel_4 = new JLabel(user_img);
 			lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
-			lblNewLabel_4.setBounds(12, 10, 42, 42);
+			lblNewLabel_4.setBounds(18, 16, 35, 35);
 			panel_1.add(lblNewLabel_4);
 
-			lbl[0] = new JLabel(itemdto.getPerson());
+			lbl[0] = new JLabel(itemdto.getNickname());
 			lbl[0].setHorizontalAlignment(SwingConstants.LEFT);
 			lbl[0].setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 			lbl[0].setBounds(66, 10, 247, 42);
@@ -172,9 +177,54 @@ public class ItemDetail extends JFrame implements ActionListener {
 			panel_3.add(lblNewLabel_2_4);
 
 			lblNewLabel = new JLabel(); // 물품 사진 라벨
-			itemDAO.displayImage(itemdto.getImage(), lblNewLabel); // 사진 표시
+			String path = "../COMP_IMG/Img_";
+			switch (itemdto.getCategory()) {
+			case "유아용품":
+				path += "Baby_Products";
+				break;
+			case "도서":
+				path += "Book";
+				break;
+			case "기타":
+				path += "Box";
+				break;
+			case "요청":
+				path += "chat";
+				break;
+			case "뷰티":
+				path += "Cosmetics";
+				break;
+			case "전자기기":
+				path += "Electronics";
+				break;
+			case "패션잡화":
+				path += "Fashion";
+				break;
+			case "가전/생활":
+				path += "Fridge";
+				break;
+			case "가구/인테리어":
+				path += "Furniture";
+				break;
+			case "취미/게임":
+				path += "Game";
+				break;
+			case "동물용품":
+				path += "Petfood";
+				break;
+			case "스포츠/레져":
+				path += "Sports";
+				break;
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + itemdto);
+			}
+			path += ".png";
+			ImageIcon img_p = new ImageIcon(ItemDetail.class.getResource(path));
+			img = img_p.getImage();
+			img_p.setImage(img.getScaledInstance(185, 185, Image.SCALE_SMOOTH));
+			lblNewLabel.setIcon(img_p);
 			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			lblNewLabel.setBounds(12, 10, 329, 185);
+			lblNewLabel.setBounds(12, 10, 185, 185);
 			panel_2.add(lblNewLabel);
 
 			lblNewLabel_1 = new JLabel();
@@ -197,7 +247,7 @@ public class ItemDetail extends JFrame implements ActionListener {
 			panel_3.add(lbl[3]);
 
 			lbl[4] = new JLabel("렌트기한 입력");
-			lbl[4].setText(itemdto.getRentdate());
+			lbl[4].setText(itemdto.getRentdate().substring(0, 10));
 			lbl[4].setFont(nF);
 			lbl[4].setBounds(154, 90, 250, 25);
 			panel_3.add(lbl[4]);
@@ -209,7 +259,11 @@ public class ItemDetail extends JFrame implements ActionListener {
 			panel_3.add(lbl[5]);
 
 			lbl[6] = new JLabel("전화번호");
-			lbl[6].setText(itemdto.getPhonenumber());
+			if (!itemdto.getSafeTEL()) {
+				lbl[6].setText(itemdto.getPhonenumber());
+			} else {
+				lbl[6].setText("010-XXXX-XXXX");
+			}
 			lbl[6].setFont(nF);
 			lbl[6].setBounds(154, 170, 250, 25);
 			panel_3.add(lbl[6]);
@@ -217,16 +271,9 @@ public class ItemDetail extends JFrame implements ActionListener {
 	}
 
 	/*
-	 * 타이틀 바 
-	 * lbl[0] : 타이틀 바 별명 JLable
-	 * lbl[1] : 타이틀 바 물품이름 JLable
-	 * 메인 화면
-	 * String Description : 설명 내용을 받는 String 
-	 * lbl[2] : 물품코드 JLable 
-	 * lbl[3] : 모델명 JLable 
-	 * lbl[4] : 렌트기한 JLable 
-	 * lbl[5] : 금액/보증금 JLable 
-	 * lbl[6] : 전화번호 JLable 
+	 * 타이틀 바 lbl[0] : 타이틀 바 별명 JLable lbl[1] : 타이틀 바 물품이름 JLable 메인 화면 String
+	 * Description : 설명 내용을 받는 String lbl[2] : 물품코드 JLable lbl[3] : 모델명 JLable
+	 * lbl[4] : 렌트기한 JLable lbl[5] : 금액/보증금 JLable lbl[6] : 전화번호 JLable
 	 */
 
 	@Override

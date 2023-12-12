@@ -7,11 +7,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -79,7 +77,6 @@ public class C_Component {
 		}
 
 		public MyJT(String s) {
-			// TODO Auto-generated constructor stub
 			this();
 			init = s;
 			setText(s);
@@ -87,7 +84,6 @@ public class C_Component {
 
 		@Override
 		public void focusGained() {
-			// TODO Auto-generated method stub
 			if (!isTyped) {
 				setText("");
 			}
@@ -95,7 +91,6 @@ public class C_Component {
 
 		@Override
 		public void focusLost() {
-			// TODO Auto-generated method stub
 			if (!getText().isEmpty()) {
 				isTyped = true;
 			} else {
@@ -108,13 +103,11 @@ public class C_Component {
 
 		@Override
 		public String getString() {
-			// TODO Auto-generated method stub
 			return getText();
 		}
 
 		@Override
 		public boolean isTyped() {
-			// TODO Auto-generated method stub
 			return isTyped;
 		}
 
@@ -125,10 +118,9 @@ public class C_Component {
 
 		@Override
 		public boolean isEnable() {
-			// TODO Auto-generated method stub
 			return isEnabled();
 		}
-		
+
 		@Override
 		public void clear() {
 			setText(init);
@@ -150,7 +142,6 @@ public class C_Component {
 
 		@Override
 		public void focusGained() {
-			// TODO Auto-generated method stub
 			super.focusGained();
 			setHorizontalAlignment(JTextField.LEFT);
 		}
@@ -172,7 +163,6 @@ public class C_Component {
 		protected String init;
 
 		public MyPT(String s) {
-			// TODO Auto-generated constructor stub
 			init = s;
 			setText(s);
 			setEchoChar((char) 0);
@@ -181,7 +171,6 @@ public class C_Component {
 
 		@Override
 		public void focusGained() {
-			// TODO Auto-generated method stub
 			if (!isTyped) {
 				setText("");
 				setEchoChar('*');
@@ -190,7 +179,6 @@ public class C_Component {
 
 		@Override
 		public void focusLost() {
-			// TODO Auto-generated method stub
 			if (!getText().isEmpty()) {
 				isTyped = true;
 			} else {
@@ -204,22 +192,19 @@ public class C_Component {
 
 		@Override
 		public String getString() {
-			// TODO Auto-generated method stub
 			return getText();
 		}
 
 		@Override
 		public boolean isTyped() {
-			// TODO Auto-generated method stub
 			return isTyped;
 		}
 
 		@Override
 		public boolean isEnable() {
-			// TODO Auto-generated method stub
 			return isEnabled();
 		}
-	
+
 		@Override
 		public void clear() {
 			setText(init);
@@ -231,7 +216,6 @@ public class C_Component {
 	static class MyFL implements FocusListener { // MyPT, MyJT 용 포커스 리스터
 		@Override
 		public void focusGained(FocusEvent e) {
-			// TODO Auto-generated method stub
 			if (e.getSource() instanceof BaseTextComponent) {
 				BaseTextComponent baseTextComponent;
 				baseTextComponent = (BaseTextComponent) e.getSource();
@@ -241,7 +225,6 @@ public class C_Component {
 
 		@Override
 		public void focusLost(FocusEvent e) {
-			// TODO Auto-generated method stub
 			if (e.getSource() instanceof BaseTextComponent) {
 				BaseTextComponent baseTextComponent;
 				baseTextComponent = (BaseTextComponent) e.getSource();
@@ -258,7 +241,6 @@ public class C_Component {
 		int limit;
 
 		public MyKA_Num(int limit) {
-			// TODO Auto-generated constructor stub
 			this.limit = limit - 1;
 		}
 
@@ -303,7 +285,7 @@ public class C_Component {
 		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 		renderer.setHorizontalAlignment(renderer.CENTER);
 		jt.setDefaultRenderer(String.class, renderer); // 중앙 정렬
-		jt.setRowHeight((height) / rowCount); // JTable의 헤더의 높이는 25임
+		jt.setRowHeight(height / rowCount); // JTable의 헤더의 높이는 25임
 		jt.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 		jt.setSelectionBackground(new Color(106, 172, 208));
 		jt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -331,14 +313,12 @@ public class C_Component {
 
 	static class MyTA extends JTable implements BaseTableComponent {
 		/*
-		 * JTable 에 사용자 기능들을 추가한 클래스 
-		 * goDetail : 클릭 이벤트 또는 enter 이벤트 발생 시 해당 메소드를 실행함
+		 * JTable 에 사용자 기능들을 추가한 클래스 goDetail : 클릭 이벤트 또는 enter 이벤트 발생 시 해당 메소드를 실행함
 		 * focusLost : focus 가 사라지는 경우 Select 된 행을 초기화
 		 */
 		protected int itemNumIdx = 0;
 
 		MyTA() {
-			// TODO Auto-generated constructor stub
 		}
 
 		MyTA(String[][] s1, String[] s2) {
@@ -347,7 +327,6 @@ public class C_Component {
 
 		@Override
 		public void goDetail() { // 마우스나 키보드 이벤트 발생시 실행하는 메소드
-			// TODO Auto-generated method stub
 			int selectedRow = this.getSelectedRow(); // 행 정보를 받아옴
 			// 선택 항의 PID를 이용하여서 정보 검색이 필요
 			ItemDetail idPanel = new ItemDetail(Integer.parseInt(getValueAt(selectedRow, itemNumIdx).toString()));
@@ -359,17 +338,19 @@ public class C_Component {
 
 		@Override
 		public void focusLost() {
-			// TODO Auto-generated method stub
 			this.clearSelection();
 		}
 
 	}
 
 	static class MyTA_report extends MyTA implements BaseTableComponent {
+		/*
+		 * reportDetailTable를 위해서 goDetail을 재정의한 테이블 이 테이블은 선택 항목에 대해서
+		 * Report_Window_Read 를 표시한다.
+		 */
 
 		@Override
 		public void goDetail() { // 마우스나 키보드 이벤트 발생시 실행하는 메소드
-			// TODO Auto-generated method stub
 			int selectedRow = this.getSelectedRow(); // 행 정보를 받아옴
 			// 선택 항의 PID를 이용하여서 정보 검색이 필요
 			Report_Window_Read RWRPanel = new Report_Window_Read(getValueAt(selectedRow, itemNumIdx).toString());
@@ -378,12 +359,37 @@ public class C_Component {
 
 	}
 
+	static class MyTA_Offer extends MyTA implements BaseTableComponent {
+		/*
+		 * itemSlot_offer를 위해서 goDetail을 재정의한 테이블 이 테이블은 선택 항목에 대해서 설정된 모드에 따라
+		 * checkOffer / ItemDetail을 표시한다.
+		 */
+		boolean mode;
+		Vector<Integer> offerNum = new Vector<>();
+
+		public void goDetail() { // 마우스나 키보드 이벤트 발생시 실행하는 메소드
+			if (mode) {
+				int selectedRow = this.getSelectedRow(); // 행 정보를 받아옴
+				// 선택 항의 PID를 이용하여서 정보 검색이 필요
+				checkOffer cO = new checkOffer(offerNum.get(selectedRow));
+				cO.setVisible(true);
+			} else {
+				int selectedRow = this.getSelectedRow(); // 행 정보를 받아옴
+				// 선택 항의 PID를 이용하여서 정보 검색이 필요
+				ItemDetail idPanel = new ItemDetail(Integer.parseInt(getValueAt(selectedRow, itemNumIdx).toString()));
+				if (!idPanel.isOpen)
+					idPanel.dispose();
+				else
+					idPanel.setVisible(true);
+			}
+		}
+	}
+
 	static class base_itemSlot extends JScrollPane {
 		/*
 		 * JTable 을 사용하는 클래스들의 기본 상속 클래스 table : 실제로 화면에 표시될 JTable | 사용자 기능들을 추가한 MyTA
-		 * 클래스를 이용함 | C_Component: 276 setItem : table 의 행을 설정하는 메소드 | Vector<String> 을
-		 * 이용해서 table 에 행을 추가함 | ListPanel 사용 불가 setHeaderColor : table 의 Header 의 색을
-		 * 변경함
+		 * 클래스를 이용함 | C_Component: 276 setItem : table 의 행을 설정하는 메소드 setHeaderColor :
+		 * table 의 Header 의 색을 변경함
 		 */
 		MyTA table;
 
@@ -406,15 +412,16 @@ public class C_Component {
 
 	static class itemSlot_list extends base_itemSlot {
 		/*
-		 * String.class 6개
+		 * 목록 패널에 사용될 JTable 생성자의 count 의 값에 따라 동시에 보여주는 항목의 개수를 설정
+		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 
 		Vector<ItemDTO> data = new Vector<>();
-		int page_max, page_cur = 1;
+		int page_max, page_cur = 1, itemCount;
 
-		public itemSlot_list(int x, int y, int width, int height) {
-			// TODO Auto-generated constructor stub
+		public itemSlot_list(int x, int y, int width, int height, int count) {
+			this.itemCount = count;
 			this.setBounds(x, y, width, height);
 			table = new MyTA();
 			table.setModel(new DefaultTableModel(new Object[][] {},
@@ -445,8 +452,8 @@ public class C_Component {
 			table.getColumnModel().getColumn(5).setPreferredWidth(50);
 
 			// 테이블 디자인
-			initJTableStyle(table, height, 12, false);
-			setSize(getWidth(), getHeight() + 2);
+			initJTableStyle(table, height, itemCount, false);
+			setSize(getWidth(), getHeight() + 3);
 
 			this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 			this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -457,7 +464,7 @@ public class C_Component {
 
 		}
 
-		public void setPage(String category, String itemName, String status) { // 15개 행 생성을 기본으로 함 |
+		public void setPage(String category, String itemName, String status) { // count 만큼의 행을 표시함
 			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 			int rowCount = tableModel.getRowCount();
 			while (rowCount != 0) {
@@ -471,15 +478,14 @@ public class C_Component {
 				data = itemDAO.searchItemData(category, itemName, status);
 				// 최대 페이지 설정
 				page_max = 1;
-				while (page_max * 12 < data.size()) {
+				while (page_max * itemCount < data.size()) {
 					page_max++;
 				}
 			} catch (SQLException e) {
-				// TODO: handle exception
 				e.printStackTrace();
 			}
 			// 처음 페이지로 전환
-			for (int i = 0; i < ((data.size() > 12) ? 12 : data.size()); i++) {
+			for (int i = 0; i < ((data.size() > itemCount) ? itemCount : data.size()); i++) {
 				ItemDTO item = data.get(i);
 				tableModel.addRow(new Object[] { Integer.toString(item.getItemnumber()), item.getCategory(),
 						item.getItemname(), item.getPerson(), item.getRentdate(), item.getState() });
@@ -493,7 +499,7 @@ public class C_Component {
 				rowCount--;
 				tableModel.removeRow(0);
 			}
-			for (int idx = (page - 1) * 12, i = 0; i < 12; i++, idx++) {
+			for (int idx = (page - 1) * itemCount, i = 0; i < itemCount; i++, idx++) {
 				if (idx == data.size()) {
 					break;
 				}
@@ -507,7 +513,6 @@ public class C_Component {
 		public int nextPage() {
 			if (page_cur == page_max)
 				return page_cur;
-			System.out.println(page_cur + " " + page_max);
 			changePage(++page_cur);
 			return page_cur;
 		}
@@ -515,23 +520,63 @@ public class C_Component {
 		public int prevPage() {
 			if (page_cur == 1)
 				return page_cur;
-			System.out.println(page_cur + " " + page_max);
 			changePage(--page_cur);
 			return page_cur;
 		}
 
 	}
 
+	static public class itemSlot_myWriting extends itemSlot_list {
+		/*
+		 * 나의 글 패널에 사용될 JTable itemSlot_list 를 상속받아 같은 형식으로 생성됨 setPage를 오버로딩하여서 현재 접속된
+		 * 계정의 물품만 불러옴
+		 */
+
+		public itemSlot_myWriting(int x, int y, int width, int height, int count) {
+			super(x, y, width, height, count);
+		}
+
+		public void setPage() { // 10개 행 생성을 기본으로 함 |
+			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+			int rowCount = tableModel.getRowCount();
+			while (rowCount != 0) {
+				tableModel.removeRow(0);
+				rowCount--;
+			}
+			ItemDAO itemDAO = new ItemDAO();
+			data.clear();
+			// 패널 내에 데이터 저장
+			data = itemDAO.searchItemData_MY();
+			// 최대 페이지 설정
+			page_max = 1;
+			while (page_max * itemCount < data.size()) {
+				page_max++;
+			}
+			// 처음 페이지로 전환
+			for (int i = 0; i < ((data.size() > itemCount) ? itemCount : data.size()); i++) {
+				ItemDTO item = data.get(i);
+				tableModel.addRow(new Object[] { Integer.toString(item.getItemnumber()), item.getCategory(),
+						item.getItemname(), item.getPerson(), item.getRentdate(), item.getState() });
+			}
+		}
+
+	}
+
 	static public class itemSlot_offer extends base_itemSlot {
 		/*
-		 * String.class 3개
+		 * 신청 관리 패널에 사용될 JTable mode 입력에 따라서 서로 다른 동작을 함
 		 */
 		private static final long serialVersionUID = 1L;
+		private MyTA_Offer p_t;
 
-		public itemSlot_offer(int x, int y, int width, int height) {
+		public itemSlot_offer(int x, int y, int width, int height, boolean mode) {
+			// true: receive | false: send
 			setBounds(x, y, width, height);
 			getViewport().setBackground(Color.white);
-			table = new MyTA();
+
+			table = new MyTA_Offer();
+			p_t = (MyTA_Offer) table;
+			p_t.mode = mode;
 			table.setModel(new DefaultTableModel(new Object[][] {},
 					new String[] { "\uBB3C\uD488\uCF54\uB4DC", "\uBB3C\uD488\uBA85", "\uC694\uCCAD\uAE30\uD55C" }) {
 				Class[] columnTypes = new Class[] { String.class, String.class, String.class };
@@ -575,19 +620,23 @@ public class C_Component {
 			data = itemDAO.item_receive_sending(s);
 			for (ItemDTO item : data) {
 				System.out.println(s + " " + item.getItemnumber());
+				if (p_t.mode)
+					p_t.offerNum.add(item.getRentNum());
 				tableModel.addRow(new Object[] { "" + item.getItemnumber(), item.getItemname(), item.getRentdate() });
 			}
 
 		}
+
 	}
 
 	static public class itemSlot_history extends base_itemSlot {
 		/*
-		 * String.class 6개
+		 * 렌트 내역 패널에 사용될 JTable 다른 테이블과 boolean 값을 추가로 가짐
 		 */
 		private static final long serialVersionUID = 1L;
 
 		private int selectedIndex = -1;
+		private Vector<Integer> offerNum = new Vector<>();
 
 		public itemSlot_history(int x, int y, int width, int height) {
 			setBounds(x, y, width, height);
@@ -630,7 +679,6 @@ public class C_Component {
 
 				@Override
 				public void tableChanged(TableModelEvent e) {
-					// TODO Auto-generated method stub
 					handleTableChangedEvent(e);
 				}
 			});
@@ -643,7 +691,7 @@ public class C_Component {
 
 		}
 
-		void setItem() { // boolean 1개와 String 6개로 값을 변경
+		void setItem() {
 			DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 			try {
 				int rowCount = tableModel.getRowCount();
@@ -651,8 +699,8 @@ public class C_Component {
 					tableModel.removeRow(0);
 					rowCount--;
 				}
+				offerNum.clear();
 			} catch (Exception e) {
-				// TODO: handle exception
 				e.printStackTrace();
 			}
 			try {
@@ -661,13 +709,13 @@ public class C_Component {
 				data = itemDAO.itemRental();
 				for (ItemDTO item : data) {
 					Object[] newData;
+					offerNum.add(item.getRentNum());
 					if (item.getState().equals("대여중")) {
-						LocalDate ld;
 						newData = new Object[] { false, Integer.toString(item.getItemnumber()), item.getPerson(),
 								item.getItemname(), item.getRentdate(), item.getState(), null };
 					} else {
 						newData = new Object[] { false, Integer.toString(item.getItemnumber()), item.getPerson(),
-								item.getItemname(), item.getRentdate(), null, item.getState() };
+								item.getItemname(), null, null, item.getState() };
 					}
 
 					// System.out.println(item.getItemname());
@@ -675,12 +723,11 @@ public class C_Component {
 					tableModel.addRow(newData);
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
 				e.printStackTrace();
 			}
 		}
 
-		int getSelectItemNum() { // checkBox가 선택된 항목의 번호를 반환함
+		int getSelectItemNum() { // checkBox가 선택된 항목의 물품코드를 반환함
 			int returnItemNum = -1;
 			if (selectedIndex != -1 && (boolean) table.getValueAt(selectedIndex, 0)) {
 				returnItemNum = Integer.parseInt(table.getValueAt(selectedIndex, 1).toString());
@@ -688,9 +735,35 @@ public class C_Component {
 			return returnItemNum;
 		}
 
+		int getSelectRentNum() { // checkBox가 선택된 항목의 대여번호를 반환함
+			int returnRentNum = -1;
+			if (selectedIndex != -1 && (boolean) table.getValueAt(selectedIndex, 0)) {
+				returnRentNum = offerNum.get(selectedIndex);
+			}
+			return returnRentNum;
+		}
+
+		String getSelectState() { // checkBox가 선택된 항목의 대여상태를 반환함
+			String s = null;
+			if (selectedIndex != -1 && (boolean) table.getValueAt(selectedIndex, 0)) {
+				try {
+					s = table.getValueAt(selectedIndex, 5).toString();
+				} catch (Exception e) {
+				}
+			}
+			return s;
+		}
+
+		void clear() {
+			if (selectedIndex != -1)
+				table.setValueAt(false, selectedIndex, 0);
+			table.focusLost();
+
+		}
+
 		protected void handleTableChangedEvent(TableModelEvent e) { // checkBox가 하나만 선택되도록 설정
 			int tempIndex = e.getFirstRow();
-			if (tempIndex != -1) {
+			if (tempIndex != -1 && table.getRowCount() != 0) {
 				if ((Boolean) table.getValueAt(tempIndex, 0) == true) {
 					if (selectedIndex != -1 && selectedIndex != tempIndex)
 						table.setValueAt(false, selectedIndex, 0);
@@ -702,8 +775,8 @@ public class C_Component {
 	}
 
 	static public class myPageTable extends base_itemSlot {
-		/**
-		 * 
+		/*
+		 * 마이페이지 패널에 사용될 JTable 대여기간이 짧게 남은 항목을 최대 2개까지 보여줌
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -741,7 +814,14 @@ public class C_Component {
 
 			setItem();
 
+			setSize(getWidth(), getHeight() + 3);
+			this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+			this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			this.setViewportView(table);
+		}
+
+		public void refresh() {
+			setItem();
 		}
 
 		public void setItem() {
@@ -755,27 +835,29 @@ public class C_Component {
 				Vector<ItemDTO> data = new Vector<>();
 				ItemDAO itemDAO = new ItemDAO();
 				data = itemDAO.itemRental();
-				if (data == null)
-					return;
-				for (int i = 0; i < ((data.size() < 2) ? 1 : 2); i++) {
-					ItemDTO item = data.get(i);
+				for (int i = 0, j = 0; i < 2; j++) {
+					if (data.size() == j) {
+						System.out.println(i + " " + j);
+						break;
+					}
+					ItemDTO item = data.get(j);
 					Object[] newData;
 					if (item.getState().equals("대여중")) {
 						newData = new Object[] { Integer.toString(item.getItemnumber()), item.getItemname(),
 								item.getRentdate() };
 						tableModel.addRow(newData);
+						i++;
 					}
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
 				e.printStackTrace();
 			}
 		}
 	}
 
 	static public class reportDetailTable extends base_itemSlot {
-		/**
-		 * 
+		/*
+		 * 신고 내역 패널에 사용될 JTable
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -791,7 +873,7 @@ public class C_Component {
 					return columnTypes[columnIndex];
 				}
 
-				boolean[] columnEditables = new boolean[] { true, false, false, false, false, false, false };
+				boolean[] columnEditables = new boolean[] { false, false, false, false, false, false, false };
 
 				public boolean isCellEditable(int row, int column) {
 					return columnEditables[column];
@@ -833,24 +915,20 @@ public class C_Component {
 					tableModel.addRow(newData);
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
 				e.printStackTrace();
 			}
 		}
 	}
 
-	static class My_KL implements KeyListener {
+	static class My_KL extends KeyAdapter {
+		/*
+		 * JTable 에서 Enter 입력을 변경 Enter 입력이 되었을 경우 goDetail 함수를 호출
+		 */
 
 		boolean pressed = false;
 
 		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
 		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
 			if (e.getKeyChar() == '\n' && !pressed) { // Enter 키를 누른 경우
 				if (e.getSource() instanceof BaseTableComponent) { // JTable 인 경우
 					BaseTableComponent baseTableComponent = (BaseTableComponent) e.getSource();
@@ -862,7 +940,6 @@ public class C_Component {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
 			if (e.getKeyChar() == '\n' && pressed) {
 				pressed = false;
 			}
@@ -870,41 +947,20 @@ public class C_Component {
 
 	}
 
-	static class My_ML implements MouseListener {
+	static class My_ML extends MouseAdapter {
+
+		/*
+		 * JTable 에서 MouseAdapter 를 추가 더블 클릭을 통해서 해당 항목의 goDetail 함수를 호출
+		 */
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
 			if (e.getClickCount() == 2) { // 더블 클릭했을 경우
 				if (e.getSource() instanceof BaseTableComponent) { // JTable 인 경우
 					BaseTableComponent baseTableComponent = (BaseTableComponent) e.getSource();
 					baseTableComponent.goDetail();
 				}
 			}
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-
 		}
 	}
 }

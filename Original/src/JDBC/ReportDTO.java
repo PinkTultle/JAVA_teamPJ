@@ -10,7 +10,6 @@ public class ReportDTO {
 	private String status;
 	private String reportdetail;
 	private String Answer;
-	
 
 	public String getPostID() {
 		return postid;
