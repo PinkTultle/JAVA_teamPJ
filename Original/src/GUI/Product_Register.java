@@ -235,7 +235,8 @@ public class Product_Register extends JFrame implements ActionListener {
 
 		Register_btn = new RoundButton("등록");
 		Register_btn.setForeground(new Color(255, 255, 255));
-		Register_btn.setBackground(new Color(41, 76, 121));
+		//Register_btn.setBackground(new Color(41, 76, 121));
+		Register_btn.setColorNormal(new Color(41, 76, 121));
 		Register_btn.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 
 		Register_btn.setBounds(555, 571, 83, 42);
@@ -293,6 +294,12 @@ public class Product_Register extends JFrame implements ActionListener {
 
 			if (result == 0) {
 				insert();
+				
+				JOptionPane.showMessageDialog(null, "물품 등록이 완료되었습니다!","상품등록",
+						JOptionPane.DEFAULT_OPTION);
+				
+				dispose();
+				
 			}
 
 		}
