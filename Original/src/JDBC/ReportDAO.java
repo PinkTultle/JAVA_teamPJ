@@ -164,6 +164,7 @@ public class ReportDAO {
 				data.setCategory(rs.getString("신고분류"));
 				data.setStatus(rs.getString("처리상태"));
 				data.setReportDetail(rs.getString("신고메세지"));
+				data.setReportComment(rs.getString("답변"));
 			}
 
 		} catch (Exception e) {

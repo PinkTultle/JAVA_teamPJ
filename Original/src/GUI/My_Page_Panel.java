@@ -16,13 +16,13 @@ public class My_Page_Panel extends JPanel {
 	private ProfilePanel profile;
 	private Report_Details_1 reportHistory;
 	private RentHistory rentHistory;
-	private My_Writing_History myWrite;
+	private My_Writing myWrite;
 	private JPanel rentAlarm;
 	private Rent_Notification rentnotifi;
 
 	public static UserDTO userInfo_cur;
 
-	public My_Page_Panel(boolean Administrator){
+	public My_Page_Panel(boolean Administrator) {
 
 		System.out.print(Administrator);
 		setLayout(null);
@@ -38,7 +38,7 @@ public class My_Page_Panel extends JPanel {
 
 		rentHistory = new RentHistory(this);
 		// rentAlarm = new
-		myWrite = new My_Writing_History(this);
+		myWrite = new My_Writing(this);
 		reportHistory = new Report_Details_1(this);
 		profile = new ProfilePanel(this);
 		rentnotifi = new Rent_Notification(this);
@@ -59,6 +59,7 @@ public class My_Page_Panel extends JPanel {
 
 	void Open_My_Page() {
 		myPage.setVisible(true);
+		myPage.table.refresh();
 		rentHistory.setVisible(false);
 		// rentAlarm.setVisible(false);
 		myWrite.setVisible(false);
@@ -103,6 +104,8 @@ public class My_Page_Panel extends JPanel {
 		myPage.setVisible(false);
 		rentHistory.setVisible(false);
 		// rentAlarm.setVisible(false);
+		My_Writing tmp = (My_Writing) myWrite;
+		tmp.refresh();
 		myWrite.setVisible(true);
 		reportHistory.setVisible(false);
 		profile.setVisible(false);
@@ -123,7 +126,7 @@ public class My_Page_Panel extends JPanel {
 		myPage.setVisible(false);
 		rentHistory.setVisible(false);
 		// rentAlarm.setVisible(false);
-		// myWrite.setVisible(false);
+		myWrite.setVisible(false);
 		reportHistory.setVisible(false);
 		profile.setVisible(false);
 		rentnotifi.setVisible(true);

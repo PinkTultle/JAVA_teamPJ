@@ -41,7 +41,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 	}
 
-	public Connection getConn(){
+	public Connection getConn() {
 		try {
 
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -118,6 +118,11 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 		String tel = "010-" + tel1 + "-" + tel2;
 
+		String tmp = Integer.toString(dto.getBirth());
+		if (tmp.length() < 8)
+			tmp = "0" + tmp;
+		String bir = tmp.substring(0, 4) + "-" + tmp.substring(4, 6) + "-" + tmp.substring(6, 8);
+
 		try {
 
 			pstmt = conn.prepareStatement(sql);
@@ -126,7 +131,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			pstmt.setString(2, dto.getPw());
 			pstmt.setString(3, dto.getNickname());
 			pstmt.setString(4, dto.getName());
-			pstmt.setInt(5, dto.getBirth());
+			pstmt.setString(5, bir);
 			pstmt.setString(6, dto.getGender());
 			pstmt.setString(7, tel);
 			pstmt.setString(8, dto.getAddress());
@@ -171,7 +176,6 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 		for (int i = 0; i < column.length; i++) {
 			if (data[i] == null) {
-				System.out.println(i);
 				continue;
 			} else {
 				if (!c)
@@ -182,8 +186,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			}
 		}
 
-		// sql += "WHERE 아이디 = '" + user_cur + "'";
-		sql += "WHERE 아이디 = '" + "asd1" + "'";
+		sql += "WHERE 아이디 = '" + user_cur + "'";
 
 		try {
 
@@ -259,42 +262,37 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		}
 		return result;
 	}
-	
-	
-	//유저 목록 불러오기
-    public void userAll(DefaultTableModel model){
-    	Connection con = null;
-    	try {
-    		con = getConn();
-	    	Statement stmt = con.createStatement();
-	    	String query = "SELECT 아이디, 이름, 전화번호, 관리자여부 FROM 회원";
-	        ResultSet rs = stmt.executeQuery(query);
-        
-        
-        while(rs.next()) {
-        	
-        	String id = rs.getString("아이디");
-        	String name = rs.getString("이름");
-            String tel = rs.getString("전화번호");
-            int admin = rs.getInt("관리자여부");
-            
 
-            model.addRow(new Object[]{id, name, tel, admin});
-        }
-    	}
-    	catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }    
-    
-    
-	public int milerege(String id) throws SQLException, ClassNotFoundException  { 
+	// 유저 목록 불러오기
+	public void userAll(DefaultTableModel model) {
+		Connection con = null;
+		try {
+			con = getConn();
+			Statement stmt = con.createStatement();
+			String query = "SELECT 아이디, 이름, 전화번호, 관리자여부 FROM 회원";
+			ResultSet rs = stmt.executeQuery(query);
+
+			while (rs.next()) {
+
+				String id = rs.getString("아이디");
+				String name = rs.getString("이름");
+				String tel = rs.getString("전화번호");
+				int admin = rs.getInt("관리자여부");
+
+				model.addRow(new Object[] { id, name, tel, admin });
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public int milerege(String id) throws SQLException, ClassNotFoundException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null; // 결과 담는 곳
 		int m = 0;
 		String sql = " SELECT 마일리지 FROM 회원 WHERE 아이디 = ? ";
-		
+
 		con = getConn();
 
 		pstmt = con.prepareStatement(sql);
@@ -303,15 +301,12 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 		rs = pstmt.executeQuery();
 
-		if(rs.next()) {
+		if (rs.next()) {
 			m = rs.getInt("마일리지");
 			System.out.println("마일리지 점수 : " + m);
 		}
-		
-		
 
 		return m;
 	}
-    
 
 }

@@ -5,8 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,7 +23,6 @@ public class Home_left_pane extends Function_pane {
 	private JPanel BP = new Baener_pane();
 
 	public Home_left_pane() {
-		// TODO Auto-generated constructor stub
 
 		new eventLisen();
 
@@ -62,33 +61,32 @@ public class Home_left_pane extends Function_pane {
 		Jb1.addActionListener(new eventLisen());
 		add(Jb1);
 
-	
-		//최근방문 버튼
+		// 최근방문 버튼
 		JButton img1_btn = new JButton("");
-		img1_btn.setIcon(new ImageIcon("../Original/src/images/Img_Computer.jpg"));   // 버튼 경로
-		img1_btn.setBounds(50, BP.getHeight() + 300, 210, 180);  //버튼 크기
-		img1_btn.setBorderPainted(false);   // 버튼 테두리 없앰
+		img1_btn.setIcon(new ImageIcon("../Original/src/images/Img_Computer.jpg")); // 버튼 경로
+		img1_btn.setBounds(50, BP.getHeight() + 300, 210, 180); // 버튼 크기
+		img1_btn.setBorderPainted(false); // 버튼 테두리 없앰
 		img1_btn.setContentAreaFilled(false);
 		add(img1_btn);
-		
+
 		JButton img2_btn = new JButton("");
-		img2_btn.setIcon(new ImageIcon("../Original/src/images/Img_Book.png"));   // 버튼 경로
-		img2_btn.setBounds(270, BP.getHeight() + 310, 200, 160);  //버튼 크기
-		img2_btn.setBorderPainted(false);   // 버튼 테두리 없앰
+		img2_btn.setIcon(new ImageIcon("../Original/src/images/Img_Book.png")); // 버튼 경로
+		img2_btn.setBounds(270, BP.getHeight() + 310, 200, 160); // 버튼 크기
+		img2_btn.setBorderPainted(false); // 버튼 테두리 없앰
 		img2_btn.setContentAreaFilled(false);
 		add(img2_btn);
-		
+
 		JButton img3_btn = new JButton("");
-		img3_btn.setIcon(new ImageIcon("../Original/src/images/Img_Generated.jpg"));   // 버튼 경로
-		img3_btn.setBounds(50, BP.getHeight() + 480, 210, 160);  //버튼 크기
-		img3_btn.setBorderPainted(false);   // 버튼 테두리 없앰
+		img3_btn.setIcon(new ImageIcon("../Original/src/images/Img_Generated.jpg")); // 버튼 경로
+		img3_btn.setBounds(50, BP.getHeight() + 480, 210, 160); // 버튼 크기
+		img3_btn.setBorderPainted(false); // 버튼 테두리 없앰
 		img3_btn.setContentAreaFilled(false);
 		add(img3_btn);
-		
+
 		JButton img4_btn = new JButton("");
-		img4_btn.setIcon(new ImageIcon("../Original/src/images/Img_Bicycle.png"));   // 버튼 경로
-		img4_btn.setBounds(270, BP.getHeight() + 480, 200, 160);  //버튼 크기
-		img4_btn.setBorderPainted(false);   // 버튼 테두리 없앰
+		img4_btn.setIcon(new ImageIcon("../Original/src/images/Img_Bicycle.png")); // 버튼 경로
+		img4_btn.setBounds(270, BP.getHeight() + 480, 200, 160); // 버튼 크기
+		img4_btn.setBorderPainted(false); // 버튼 테두리 없앰
 		img4_btn.setContentAreaFilled(false);
 		add(img4_btn);
 	}
@@ -102,11 +100,10 @@ public class Home_left_pane extends Function_pane {
 
 	}
 
-	class eventLisen implements ActionListener, FocusListener {
+	class eventLisen extends FocusAdapter implements ActionListener {
 
 		@Override
 		public void focusGained(FocusEvent e) {
-			// TODO Auto-generated method stub
 			JTextField j = (JTextField) e.getSource();
 			if (j.getText().equals("검색어를 입력하세요")) {
 				j.setText("");
@@ -114,14 +111,7 @@ public class Home_left_pane extends Function_pane {
 		}
 
 		@Override
-		public void focusLost(FocusEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 
 			if (e.getSource().equals(Jb1)) {
 				// 검색 기능

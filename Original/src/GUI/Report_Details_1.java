@@ -66,7 +66,6 @@ public class Report_Details_1 extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getSource() == bt_back) {
 			mpp.Open_My_Page();
 		}

@@ -2,6 +2,7 @@ package JDBC;
 
 import java.awt.Image;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -82,24 +83,16 @@ public class ItemDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = " SELECT 물품목록.물품코드, 물품목록.카테고리, 물품목록.물품명, 회원.별명, (SELECT 물품목록.렌트기한 - TRUNC(SYSDATE) FROM DUAL ) as 렌트기한, 물품목록.대여상태 "
-				+ " FROM 물품목록 " + " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 ";
-		if (category != null || itemName != null || status != null) {
-			sql += "WHERE";
-		}
+				+ " FROM 물품목록 "
+				+ " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 WHERE 렌트기한 > SYSDATE AND 물품목록.대여상태 <> '삭제' ORDER BY 물품목록.물품코드 ASC ";
 		if (category != null) {
-			sql += " 물품목록.카테고리 = '" + category + "'";
+			sql += "AND 물품목록.카테고리 = '" + category + "'";
 		}
 		if (itemName != null) {
-			if (category != null) {
-				sql += " AND ";
-			}
-			sql += " 물품목록.물품명 LIKE '%" + itemName + "%'";
+			sql += "AND 물품목록.물품명 LIKE '%" + itemName + "%'";
 		}
 		if (status != null) {
-			if (category != null || itemName != null) {
-				sql += " AND ";
-			}
-			sql += " 물품목록.대여상태 = '" + status + "'";
+			sql += "AND 물품목록.대여상태 = '" + status + "'";
 		}
 
 		System.out.println(sql);
@@ -128,12 +121,47 @@ public class ItemDAO {
 		return list;
 	}
 
-	public ItemDTO itemdetail(int n) throws SQLException {
+	public Vector<ItemDTO> searchItemData_MY() {
+		System.out.println("searchItemData");
+		Vector<ItemDTO> list = new Vector<ItemDTO>();
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = " SELECT 물품목록.물품코드, 물품목록.카테고리, 물품목록.물품명, 회원.별명, (SELECT 물품목록.렌트기한 - TRUNC(SYSDATE) FROM DUAL ) as 렌트기한, 물품목록.대여상태 "
+				+ " FROM 물품목록 "
+				+ " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 WHERE 물품목록.대여상태 <> '삭제' AND 물품목록.소유주 = ? ORDER BY 물품목록.물품코드 ASC ";
+
+		System.out.println(sql);
+
+		try {
+			con = getConn();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, UserDAO.user_cur);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ItemDTO dto = new ItemDTO();
+				dto.setItemnumber(Integer.valueOf(rs.getString("물품코드")));
+				dto.setCategory(rs.getString("카테고리"));
+				dto.setItemname(rs.getString("물품명"));
+				dto.setPerson(rs.getString("별명"));
+				dto.setRentdate(rs.getString("렌트기한"));
+				dto.setState(rs.getString("대여상태"));
+				list.add(dto); // 리스트에 한줄 추가
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public ItemDTO itemdetail(int n) {
 		ItemDTO itemdto = new ItemDTO();
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null; // 결과 담는 곳
-		String sql = " SELECT 물품코드, 모델명, 렌트기한, 대여료, 보증금, 전화번호, 설명, 첨부, 물품명, 별명, 아이디, 예약자, 물품목록.대여상태, 대여자 "
+		String sql = " SELECT 물품코드, 모델명, 렌트기한, 대여료, 보증금, 전화번호, 설명, 첨부, 물품명, 별명, 아이디, 물품목록.대여상태, 대여자, 물품목록.안심번호 "
 				+ " FROM 물품목록 " + " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 " + " WHERE 물품코드 = ? ";
 		try {
 			con = getConn();
@@ -154,12 +182,12 @@ public class ItemDAO {
 				itemdto.setPerson(rs.getString("아이디"));
 				itemdto.setImage(rs.getString("첨부"));
 				itemdto.setRentdate(rs.getString("렌트기한"));
-				itemdto.setBookingGuest(rs.getString("예약자"));
 				itemdto.setLender(rs.getString("대여자"));
+				itemdto.setSafeTEL(rs.getString("안심번호") != null);
 				itemdto.setState(rs.getString("대여상태"));
 			}
 
-		} catch (ClassNotFoundException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -173,8 +201,8 @@ public class ItemDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null; // 결과 담는 곳
-		String sql = " SELECT 물품코드, 소유자, 물품명, (SELECT 대여반납예정일 - 대여시작날짜 FROM DUAL ) as 렌트기한, 대여시작날짜, 대여반납예정일, 반납상태 "
-				+ " FROM 대여기록 " + " WHERE 대여자 = ? ";
+		String sql = " SELECT 물품코드, 소유자, 물품명, (SELECT 대여반납예정일 - 대여시작날짜 FROM DUAL ) as 렌트기한, 대여시작날짜, 대여반납예정일, 반납상태, 대여번호 "
+				+ " FROM 대여기록 " + " WHERE 대여자 = ? ORDER BY 대여반납예정일 ASC";
 		try {
 			con = getConn();
 			pstmt = con.prepareStatement(sql);
@@ -191,6 +219,7 @@ public class ItemDAO {
 				itemdto.setState(rs.getString("반납상태"));
 				itemdto.setRentdate_start(rs.getString("대여시작날짜"));
 				itemdto.setRentdate_end(rs.getString("대여반납예정일"));
+				itemdto.setRentNum(rs.getInt("대여번호"));
 
 				list.add(itemdto); // 리스트에 한줄 추가
 			}
@@ -246,7 +275,8 @@ public class ItemDAO {
 
 		String sql = "";
 		if (s.equals("receive")) {
-			sql = " SELECT 물품코드, 물품명, CONCAT(CONCAT(대여시작날짜, ' ~ '), 대여반납예정일) 요청기한 " + " FROM 대여기록 " + " WHERE 소유자 = ? ";
+			sql = " SELECT 물품코드, 물품명, CONCAT(CONCAT(대여시작날짜, ' ~ '), 대여반납예정일) 요청기한, 대여번호 " + " FROM 대여기록 "
+					+ " WHERE 소유자 = ? AND 반납상태 = '대기중' ";
 
 		} else if (s.equals("sending")) {
 			sql = " SELECT 물품코드, 물품명, CONCAT(CONCAT(대여시작날짜, ' ~ '), 대여반납예정일) 요청기한 " + " FROM 대여기록 " + " WHERE 대여자 = ? ";
@@ -263,6 +293,8 @@ public class ItemDAO {
 				itemdto.setItemnumber(Integer.parseInt(rs.getString("물품코드")));
 				itemdto.setItemname(rs.getString("물품명"));
 				itemdto.setRentdate(rs.getString("요청기한"));
+				if (s.equals("receive"))
+					itemdto.setRentNum(rs.getInt("대여번호"));
 
 				list.add(itemdto); // 리스트에 한줄 추가
 			}
@@ -297,17 +329,14 @@ public class ItemDAO {
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			con = getConn();
-			String sql = "SELECT * FROM 대여기록 WHERE 물품코드 = ?";
+			String sql = "SELECT * FROM 물품목록 WHERE 물품코드 = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, Integer.toString(n));
 			rs = pstmt.executeQuery();
-			if (rs.next())
+			rs.next();
+			if (rs.getString("대여상태").equals("대여중"))
 				return false;
-			sql = "DELETE FROM 신고기록 WHERE 물품코드 = ?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, Integer.toString(n));
-			pstmt.executeQuery();
-			sql = "DELETE FROM 물품목록 WHERE 물품코드 = ? ";
+			sql = "UPDATE 물품목록 SET 대여상태 = '삭제' WHERE 물품코드 = ? ";
 			con = getConn();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, Integer.toString(n));
@@ -323,9 +352,7 @@ public class ItemDAO {
 
 	public int checkOffer(int itemNum, LocalDate d1, LocalDate d2) {
 		/*
-		 * -1: 처리되지 않은 오류
-		 * 0: 성공
-		 * 1: 해당 기간에 예약자가 있음
+		 * -1: 처리되지 않은 오류 0: 성공 1: 해당 기간에 예약자가 있음
 		 */
 		try {
 			// 신청하기 전에 마지막으로 성태를 확인
@@ -409,7 +436,7 @@ public class ItemDAO {
 		return 0;
 	}
 
-	public int returnItem(int offerNum) {
+	public int returnItem(int offerNum, int itemNum) {
 		int result = 0;
 		try {
 			Connection con = getConn();
@@ -419,6 +446,13 @@ public class ItemDAO {
 			pstmt.setString(1, "반납");
 			pstmt.setInt(2, offerNum);
 
+			pstmt.executeQuery();
+
+			sql = "UPDATE 물품목록 SET 대여상태 = ? WHERE 물품코드 = ? ";
+			pstmt = con.prepareStatement(sql);
+
+			pstmt.setString(1, "대여가능");
+			pstmt.setInt(2, itemNum);
 			pstmt.executeQuery();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -440,10 +474,10 @@ public class ItemDAO {
 			if (rs.next()) {
 				result.setRentNum(rs.getInt("대여번호"));
 				result.setItemnumber(rs.getInt("물품코드"));
-				result.setItemname(rs.getString("물품이름"));
+				result.setItemname(rs.getString("물품명"));
 				result.setRentdate_start(rs.getString("대여시작날짜"));
 				result.setRentdate_end(rs.getString("대여반납예정일"));
-				result.setPerson(rs.getString("소유주"));
+				result.setPerson(rs.getString("소유자"));
 				result.setLender(rs.getString("대여자"));
 				result.setState(rs.getString("반납상태"));
 
@@ -456,20 +490,28 @@ public class ItemDAO {
 		return (result);
 	}
 
-	public int checkOffer(int offerNum, int mode) {
+	public int acceptOffer(int offerNum, int mode) {
 		// 0: 승인 | 1: 거절
 		int result = 0;
 		try {
 			ItemDTO offerData = this.getOffer(offerNum);
-			String sql = "UPDATE 물품목록 SET 대여상태 = ? WHERE 물품코드 = ? ";
+			if (!offerData.getState().equals("대기중"))
+				return 1;
+			String sql = "UPDATE 물품목록 SET 대여상태 = ?, 대여자 = ? WHERE 물품코드 = ? ";
 			String state = "대여중";
-			if (mode == 1)
-				state = "대여가능";
 
 			Connection con = getConn();
 			PreparedStatement pstmt = con.prepareStatement(sql);
+
+			if (mode == 1) {
+				state = "대여가능";
+				pstmt.setNull(2, java.sql.Types.NULL);
+			} else {
+				pstmt.setString(2, offerData.getLender());
+			}
+
 			pstmt.setString(1, state);
-			pstmt.setInt(2, offerData.getItemnumber());
+			pstmt.setInt(3, offerData.getItemnumber());
 
 			pstmt.executeQuery();
 
@@ -478,7 +520,7 @@ public class ItemDAO {
 			if (mode == 1)
 				state = "대여거부";
 			pstmt.setString(1, state);
-			pstmt.setInt(2, offerData.getItemnumber());
+			pstmt.setInt(2, offerNum);
 
 			pstmt.executeQuery();
 
@@ -487,33 +529,82 @@ public class ItemDAO {
 		}
 		return result;
 	}
-	
-	//물뭄 목록 불러오기
-    public void itemAll(DefaultTableModel model) throws Exception {
-        Connection con = null;
-        try {
-            con = getConn();
-            Statement stmt = con.createStatement();
-            String query = "SELECT 물품코드,카테고리,물품명,소유주, 대여상태 FROM 물품목록";
-            ResultSet rs = stmt.executeQuery(query);
-        
-        
-        while(rs.next()) {
-            
-            int itemNum = rs.getInt("물품코드");
-            String category = rs.getString("카테고리");
-            String itemName = rs.getString("물품명");
-            String admin = rs.getString("소유주");
-            String state = rs.getString("대여상태");
-            
-            
 
-            model.addRow(new Object[]{itemNum, category, itemName, admin, state});
-        }
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-	
+	// 물뭄 목록 불러오기
+	public void itemAll(DefaultTableModel model) throws Exception {
+		Connection con = null;
+		try {
+			con = getConn();
+			Statement stmt = con.createStatement();
+			String query = "SELECT 물품코드,카테고리,물품명,소유주, 대여상태 FROM 물품목록";
+			ResultSet rs = stmt.executeQuery(query);
+
+			while (rs.next()) {
+
+				int itemNum = rs.getInt("물품코드");
+				String category = rs.getString("카테고리");
+				String itemName = rs.getString("물품명");
+				String admin = rs.getString("소유주");
+				String state = rs.getString("대여상태");
+
+				model.addRow(new Object[] { itemNum, category, itemName, admin, state });
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public int extendOffer(int rentNum, LocalDate d) {
+		int result = 0;
+		try {
+			String sql = "UPDATE 대여기록 SET 대여반납예정일 = ? WHERE 대여번호 = ? ";
+			Connection con = getConn();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+
+			pstmt.setDate(1, Date.valueOf(d));
+			pstmt.setInt(2, rentNum);
+
+			pstmt.executeQuery();
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = 1;
+		}
+		return (result);
+	}
+
+	public int insertItem(ItemDTO data) {
+		int result = 0;
+		try {
+			String sql = "INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 설명, 소유주, 대여상태, 대여자, 첨부, 안심번호) VALUES (물품_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+			Connection con = getConn();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+
+			pstmt.setString(1, data.getCategory());
+			pstmt.setString(2, data.getItemname());
+			pstmt.setDate(3, Date.valueOf(changeDate(data.getRentdate())));
+			pstmt.setString(4, data.getModelname());
+			pstmt.setInt(5, data.getRentalfee());
+			pstmt.setInt(6, data.getDeposit());
+			pstmt.setString(7, data.getExplanation());
+			pstmt.setString(8, data.getPerson());
+			pstmt.setString(9, "대여가능");
+			pstmt.setNull(10, java.sql.Types.NULL);
+			pstmt.setNull(11, java.sql.Types.NULL);
+			if (data.getSafeTEL()) {
+				pstmt.setString(12, "1");
+			} else {
+				pstmt.setNull(12, java.sql.Types.NULL);
+			}
+
+			System.out.println(sql);
+
+			pstmt.executeQuery();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = 1;
+		}
+
+		return result;
+	}
 }

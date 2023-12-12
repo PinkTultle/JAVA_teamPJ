@@ -49,15 +49,14 @@ public class OfferManage extends JPanel {
 		add(lblNewLabel_1);
 
 		try {
-			is_receive = new itemSlot_offer(28, 140, 461, 600);
+			is_receive = new itemSlot_offer(28, 140, 461, 600, true);
 			is_receive.setItem("receive");
 			add(is_receive);
 
-			is_sending = new itemSlot_offer(545, 140, 461, 600);
+			is_sending = new itemSlot_offer(545, 140, 461, 600, false);
 			is_sending.setItem("sending");
 			add(is_sending);
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 
