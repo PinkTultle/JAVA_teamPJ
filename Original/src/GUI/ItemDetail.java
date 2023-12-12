@@ -177,9 +177,54 @@ public class ItemDetail extends JFrame implements ActionListener {
 			panel_3.add(lblNewLabel_2_4);
 
 			lblNewLabel = new JLabel(); // 물품 사진 라벨
-			itemDAO.displayImage(itemdto.getImage(), lblNewLabel); // 사진 표시
+			String path = "../COMP_IMG/Img_";
+			switch (itemdto.getCategory()) {
+			case "유아용품":
+				path += "Baby_Products";
+				break;
+			case "도서":
+				path += "Book";
+				break;
+			case "기타":
+				path += "Box";
+				break;
+			case "요청":
+				path += "chat";
+				break;
+			case "뷰티":
+				path += "Cosmetics";
+				break;
+			case "전자기기":
+				path += "Electronics";
+				break;
+			case "패션잡화":
+				path += "Fashion";
+				break;
+			case "가전/생활":
+				path += "Fridge";
+				break;
+			case "가구/인테리어":
+				path += "Furniture";
+				break;
+			case "취미/게임":
+				path += "Game";
+				break;
+			case "동물용품":
+				path += "Petfood";
+				break;
+			case "스포츠/레져":
+				path += "Sports";
+				break;
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + itemdto);
+			}
+			path += ".png";
+			ImageIcon img_p = new ImageIcon(ItemDetail.class.getResource(path));
+			img = img_p.getImage();
+			img_p.setImage(img.getScaledInstance(185, 185, Image.SCALE_SMOOTH));
+			lblNewLabel.setIcon(img_p);
 			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			lblNewLabel.setBounds(12, 10, 329, 185);
+			lblNewLabel.setBounds(12, 10, 185, 185);
 			panel_2.add(lblNewLabel);
 
 			lblNewLabel_1 = new JLabel();

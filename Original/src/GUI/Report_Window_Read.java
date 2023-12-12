@@ -76,16 +76,15 @@ public class Report_Window_Read extends JFrame implements ActionListener {
 		btn_back.addActionListener(this);
 		getContentPane().add(btn_back);
 
-		RoundJLabel reportDetail_1 = new RoundJLabel();
-		reportDetail_1.setVerticalAlignment(SwingConstants.TOP);
-		reportDetail_1.setText("");
-		reportDetail_1.setHorizontalAlignment(SwingConstants.LEFT);
+		RoundJTextArea reportDetail_1 = new RoundJTextArea();
 		reportDetail_1.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 		reportDetail_1.setBounds(27, 238, 300, 80);
+		reportDetail_1.setEditable(false);
+		reportDetail_1.setLineWrap(true);
 		getContentPane().add(reportDetail_1);
 
 		if (data.getReportComment() != null) {
-			reportDetail_1.setText(SwingCRLF.CRLF(data.getReportComment(), 36));
+			reportDetail_1.setText(data.getReportComment());
 		}
 
 		JLabel lblNewLabel_2 = new JLabel("답변");
