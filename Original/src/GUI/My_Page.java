@@ -265,6 +265,7 @@ public class My_Page extends JPanel implements ActionListener {
 			UserDAO dao;
 			UserDTO dto = new UserDTO();
 			dao = new UserDAO();
+
 			dao.milerege_sum(); // 마일리지 +5
 			int return_mile = dao.milerege();
 
@@ -272,6 +273,7 @@ public class My_Page extends JPanel implements ActionListener {
 
 			jpb.setValue(return_mile);
 			jpb.setString(String.valueOf(return_mile) + "점");
+
 			System.out.println(return_mile);
 
 			updatelabel(return_mile);
@@ -290,7 +292,7 @@ public class My_Page extends JPanel implements ActionListener {
 	// 랭크점수가 증가함에 따른 라벨 내용 업데이트 메소드
 	private void updatelabel(int RankScore) {
 		String nextRank = "";
-		RankScore %= 101;
+		RankScore = RankScore > 100 ? 100 : RankScore;
 		if (RankScore < 30) {
 			Rank = "없음";
 			Rank_lb2.setText("<html><font color='red'>" + String.valueOf(30 - RankScore) + "</font>점 남았습니다!");

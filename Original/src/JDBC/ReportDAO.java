@@ -10,7 +10,7 @@ import java.util.Vector;
 public class ReportDAO {
 
 	// String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
-	// String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	//String url = "jdbc:oracle:thin:@localhost:1521:xe";
 	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
 
 	String user = "ABC"; // db 사용자 이름

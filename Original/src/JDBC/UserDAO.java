@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
 public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 	// String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
-	// String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
+	//String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
 	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
 
 	String user = "ABC"; // db 사용자 이름
@@ -84,9 +84,9 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			System.out.print(e.getMessage());
 			return -2; // db 오류
 		} finally {
-			rs.close();
-			pstmt.close();
-			conn.close();
+			if(rs != null) rs.close();
+			if(pstmt!= null) pstmt.close();
+			if(conn != null)  conn.close();
 		}
 
 	}
@@ -292,6 +292,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		}
 	}
 
+
 	public int milerege() {
 
 		int m = 0;
@@ -320,6 +321,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			e.printStackTrace();
 		}
 		return m;
+
 	}
 
 	public boolean milerege_sum() {
