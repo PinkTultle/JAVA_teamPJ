@@ -42,9 +42,7 @@ public class Administrator_Members_Pane extends Administrator_pane {
 				close_bt.getWidth(), close_bt.getHeight());
 		delete.setBackground(null);
 		add(delete);
-		
-		System.out.print("dada");
-		
+			
 		
 		setBackground(Color.white);
 		
