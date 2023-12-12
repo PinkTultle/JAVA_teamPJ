@@ -83,8 +83,8 @@ public class Report_Window_Read extends JFrame implements ActionListener {
 		reportDetail_1.setLineWrap(true);
 		getContentPane().add(reportDetail_1);
 
-		if (data.getReportComment() != null) {
-			reportDetail_1.setText(data.getReportComment());
+		if (data.getAnswer() != null) {
+			reportDetail_1.setText(data.getAnswer());
 		}
 
 		JLabel lblNewLabel_2 = new JLabel("답변");
