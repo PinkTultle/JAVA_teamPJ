@@ -200,6 +200,8 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 					if(dao.report_add_Answer(report)) {
 						JOptionPane.showMessageDialog(null, "처리되었습니다.","답변 완료",
 								JOptionPane.INFORMATION_MESSAGE);
+						
+						dispose();
 					}
 					
 					
