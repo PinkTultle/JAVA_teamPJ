@@ -1,12 +1,15 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import JDBC.UserDAO;
@@ -41,9 +44,10 @@ public class Administrator_Members_Pane extends Administrator_pane {
 		delete.setBounds(close_bt.getX(), revise.getY()+revise.getHeight()+20,
 				close_bt.getWidth(), close_bt.getHeight());
 		delete.setBackground(null);
-		add(delete);
-	
+		delete.addActionListener(new Action());
 		
+		add(delete);
+			
 		
 		setBackground(Color.white);
 		
@@ -73,6 +77,27 @@ public class Administrator_Members_Pane extends Administrator_pane {
         revalidate();
         repaint();
 
+	}
+	
+	
+	class Action implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {			
+			
+			if(e.getSource() == delete) {
+				dao.admin_user_delete(table.getValueAt(table.getSelectedRow(), 0).toString());
+				
+				((AbstractTableModel) table.getModel()).fireTableCellUpdated(table.getSelectedRow(), 0);
+				table.repaint();
+				revalidate();
+		        repaint();
+			}
+			if(e.getSource() == revise) {
+				//회원 프로필 오픈
+			}
+			
+		}
 	}
 
 }
