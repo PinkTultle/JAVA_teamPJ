@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 
 import GUI.C_Component.myPageTable;
 import JDBC.UserDAO;
+import JDBC.UserDTO;
 
 // 메인 프레임 코드의 89번째 줄을 P4 = new My_Page(); 구문으로 수정하여 실행
 
@@ -34,7 +35,7 @@ public class My_Page extends JPanel implements ActionListener {
 	private JButton Bt_temp1;
 	private JButton Bt_temp2;
 	private JProgressBar jpb;
-	protected int RankScore = 0; // TODO: 계정에 따라 각기다른 랭크 점수를 DB에서 받아와서 필드에 저장
+	protected int RankScore; 
 	private String Rank;
 	private JLabel lb_MyRank;
 	private String previousRank;
@@ -47,6 +48,7 @@ public class My_Page extends JPanel implements ActionListener {
 	private ImageIcon resizeIcon2_TOP;
 	private ImageIcon resizeIcon1_TOP;
 	protected My_Page_Panel mpp;
+	
 
 	public My_Page(boolean Administrator) {
 
@@ -63,13 +65,8 @@ public class My_Page extends JPanel implements ActionListener {
 
 		// 마일리지 점수
 		UserDAO dao;
-		try {
-			dao = new UserDAO();
-			RankScore = dao.milerege("asd1"); // 이 부분 로그인한 id 가져와서 넣어야함@!@!@@@!@!@!@!@!
-
-		} catch (SQLException | ClassNotFoundException e1) {
-			e1.printStackTrace();
-		}
+		dao = new UserDAO();
+		RankScore = dao.milerege("asd1")%101; // 이 부분 로그인한 id 가져와서 넣어야함@!@!@@@!@!@!@!@!
 
 		Bt_profile = new RoundButton("프로필");
 		Bt_profile.setForeground(new Color(255, 255, 255));
@@ -205,8 +202,7 @@ public class My_Page extends JPanel implements ActionListener {
 		Rank_lb1.setBounds(582, 70, 397, 120);
 		add(Rank_lb1);
 
-		updatelabel(); // 랭크점수가 증가함에 따른 라벨 내용 업데이트 함수
-
+		
 		lb_image = new JLabel("");
 		lb_image.setFont(new Font("굴림", Font.BOLD, 13));
 		lb_image.setHorizontalAlignment(SwingConstants.CENTER);
@@ -221,7 +217,8 @@ public class My_Page extends JPanel implements ActionListener {
 		Image change1_TOP = image1.getScaledInstance(90, 90, Image.SCALE_SMOOTH);
 		resizeIcon1_TOP = new ImageIcon(change1_TOP);
 		
-		updateImage();
+		updatelabel(RankScore);
+		updateImage(RankScore);
 	}
 
 	public My_Page(My_Page_Panel mpp, boolean Administrator) {
@@ -265,30 +262,22 @@ public class My_Page extends JPanel implements ActionListener {
 			System.out.println("신고 접수/내역 창 호출");
 
 			Main_frame.Changepane("신고내역");
-		} else if (e.getSource() == Bt_Test && RankScore < 100) {
-			
-			//FIXME 버튼 점수 증가 버튼이 안먹음
-			previousRank = Rank;
-			UserDAO dao;
-			try { 
-				dao = new UserDAO();
-				RankScore = dao.milerege("asd1"); // 이 부분 로그인한 id 가져와서 넣어야함@!@!@@@!@!@!@!@!
-			  
-			  } catch (SQLException | ClassNotFoundException e1) {
-				  e1.printStackTrace(); 
-			  }
-			  
-			  // RankScore += 5; // TODO: 게시물 작성, 신고완료 등의 활동에 따라 등급 점수 부여
-			
-			if (RankScore > 100)
-				RankScore -= (RankScore - 100);
-			jpb.setValue(RankScore);
-			jpb.setString(String.valueOf(RankScore)+"점");
-			updatelabel();
-			updateImage();
-			 
-			
+		} else if (e.getSource() == Bt_Test ) {
 
+			UserDAO dao;
+			UserDTO dto = new UserDTO();
+			dao = new UserDAO();
+			int return_mile = dao.milerege("asd1");
+			
+			dao.milerege_sum("asd1"); // 마일리지 +5
+			//dao.milerege_init("asd1"); // 마일리지 0 초기화	
+			
+			jpb.setValue(return_mile%101);
+			jpb.setString(String.valueOf(return_mile%101) + "점");
+			System.out.println(return_mile);
+			
+			updatelabel(return_mile);
+			updateImage(return_mile);
 		} else if (e.getSource() == Bt_temp1) {
 			try {
 				new Administrator();
@@ -301,9 +290,9 @@ public class My_Page extends JPanel implements ActionListener {
 	}
 
 	// 랭크점수가 증가함에 따른 라벨 내용 업데이트 메소드
-	private void updatelabel() {
+	private void updatelabel(int RankScore) {
 		String nextRank = "";
-
+		RankScore %= 101;
 		if (RankScore < 30) {
 			Rank = "없음";
 			Rank_lb2.setText("<html><font color='red'>" + String.valueOf(30 - RankScore) + "</font>점 남았습니다!");
@@ -331,9 +320,10 @@ public class My_Page extends JPanel implements ActionListener {
 	}
 
 	// <내 등급> 레이블 옆에 랭크 아이콘 이미지 업데이트 메소드
-	private void updateImage() {
+	private void updateImage(int RankScore) {
+		RankScore %= 101;
 		if (RankScore < 30)
-			;
+			lb_image.setIcon(null);
 		else if (RankScore < 60) {
 			lb_image.setIcon(resizeIcon3_TOP);
 		} else if (RankScore < 100) {

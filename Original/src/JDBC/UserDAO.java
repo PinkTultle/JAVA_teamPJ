@@ -286,27 +286,85 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		}
 	}
 
-	public int milerege(String id) throws SQLException, ClassNotFoundException {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null; // 결과 담는 곳
+	public int milerege(String id)  {
+		
+		
 		int m = 0;
 		String sql = " SELECT 마일리지 FROM 회원 WHERE 아이디 = ? ";
 
-		con = getConn();
+		try {
+			con = getConn();
 
-		pstmt = con.prepareStatement(sql);
+			pstmt = con.prepareStatement(sql);
 
-		pstmt.setString(1, id);
+			pstmt.setString(1, id);
 
-		rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
-		if (rs.next()) {
-			m = rs.getInt("마일리지");
-			System.out.println("마일리지 점수 : " + m);
+			if (rs.next()) {
+				m = rs.getInt("마일리지");
+				System.out.println("마일리지 점수 : " + m);
+			}
+			
+			con.close();
+			pstmt.close();
+			rs.close();
+			
+			return m;
+
 		}
-
-		return m;
+		catch(Exception e) {
+			e.printStackTrace();
+			return m;
+		}
+		
 	}
-
+	
+	
+	public boolean milerege_sum(String id) {
+				
+		String sql = "UPdate 회원 set 마일리지 = 마일리지+5 where 아이디 = ?";
+		
+		try {
+			con = getConn();
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			
+			pstmt.executeUpdate();
+			
+			con.close();
+			pstmt.close();
+						
+			return true;
+			
+		}catch(Exception e) {
+			return false;
+		}
+	}
+	
+	public boolean milerege_init(String id) {
+		
+		String sql = "UPdate 회원 set 마일리지 = 0 where 아이디 = ?";
+		
+		try {
+			con = getConn();
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			
+			pstmt.executeUpdate();
+			
+			con.close();
+			pstmt.close();
+						
+			return true;
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	
 }
