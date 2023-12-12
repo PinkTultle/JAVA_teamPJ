@@ -10,6 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import GUI.Administrator_Products_Pane.Action;
 import JDBC.UserDAO;
 
 public class Administrator_Members_Pane extends Administrator_pane {
@@ -28,19 +29,25 @@ public class Administrator_Members_Pane extends Administrator_pane {
 		scrollPane.setBounds(18, 30, 460, 344);
 		scrollPane.setBackground(Color.white);
 		add(scrollPane);
-		// master.add(table);
+
+		//master.add(table);
+		
+		Action act =  new Action();
 
 		revise = new JButton("수정");
 		revise.setBounds(close_bt.getX(), scrollPane.getY(), close_bt.getWidth(), close_bt.getHeight());
 		revise.setBackground(null);
-		revise.addActionListener(new Action());
+
+		revise.addActionListener(act);
+
 		add(revise);
 
 		delete = new JButton("삭제");
 		delete.setBounds(close_bt.getX(), revise.getY() + revise.getHeight() + 20, close_bt.getWidth(),
 				close_bt.getHeight());
 		delete.setBackground(null);
-		delete.addActionListener(new Action());
+
+		delete.addActionListener(act);
 
 		add(delete);
 
