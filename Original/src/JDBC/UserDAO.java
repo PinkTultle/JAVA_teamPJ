@@ -12,8 +12,8 @@ import javax.swing.table.DefaultTableModel;
 public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 	// String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
-	// String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
-	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
+	String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
+	// String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
 
 	String user = "ABC"; // db 사용자 이름
 	String password = "1234"; // db
@@ -277,21 +277,23 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			ResultSet rs = stmt.executeQuery(query);
 
 			while (rs.next()) {
-
+				System.out.println(rs.getString("아이디"));
 				String id = rs.getString("아이디");
 				String name = rs.getString("이름");
 				String tel = rs.getString("전화번호");
 				int admin = rs.getInt("관리자여부");
 
 				model.addRow(new Object[] { id, name, tel, admin });
+
 			}
+			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public int milerege(String id) throws SQLException, ClassNotFoundException {
-		
+
 		int m = 0;
 		String sql = " SELECT 마일리지 FROM 회원 WHERE 아이디 = ? ";
 
@@ -307,55 +309,53 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			m = rs.getInt("마일리지");
 			System.out.println("마일리지 점수 : " + m);
 		}
-		
+
 		con.close();
 		pstmt.close();
 		rs.close();
 
 		return m;
 	}
-	
-	
+
 	public boolean milerege_sum(String id) {
-				
+
 		String sql = "UPdate 회원 set 마일리지 = 마일리지+5 where 아이디 = ?";
-		
+
 		try {
 			con = getConn();
-			
+
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
-			
+
 			pstmt.executeUpdate();
-			
+
 			con.close();
 			pstmt.close();
-						
+
 			return true;
-			
-		}catch(Exception e) {
+
+		} catch (Exception e) {
 			return false;
 		}
 	}
-	
+
 	public boolean admin_user_delete(String id) {
-		
+
 		String sql = "DELETE FROM 회원 WHERE 아이디 = ?";
 		Connection con = null;
 		try {
 			con = getConn();
-			
+
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
-			
+
 			pstmt.executeUpdate();
-			
+
 			pstmt.close();
 			con.close();
-			
+
 			return true;
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			return false;
 		}
 	}
