@@ -308,5 +308,27 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 		return m;
 	}
-
+	
+	
+	public boolean milerege_sum(String id) {
+				
+		String sql = "UPdate 회원 set 마일리지 = 마일리지+5 where 아이디 = ?";
+		
+		try {
+			con = getConn();
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			
+			pstmt.executeUpdate();
+			
+			con.close();
+			pstmt.close();
+						
+			return true;
+			
+		}catch(Exception e) {
+			return false;
+		}
+	}
 }
