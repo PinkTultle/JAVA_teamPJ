@@ -84,7 +84,7 @@ public class ItemDAO {
 		ResultSet rs = null;
 		String sql = " SELECT 물품목록.물품코드, 물품목록.카테고리, 물품목록.물품명, 회원.별명, (SELECT 물품목록.렌트기한 - TRUNC(SYSDATE) FROM DUAL ) as 렌트기한, 물품목록.대여상태 "
 				+ " FROM 물품목록 "
-				+ " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 WHERE 렌트기한 > SYSDATE AND 물품목록.대여상태 <> '삭제' ORDER BY 물품목록.물품코드 ASC ";
+				+ " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 WHERE 렌트기한 > SYSDATE AND 물품목록.대여상태 <> '삭제'";
 		if (category != null) {
 			sql += "AND 물품목록.카테고리 = '" + category + "'";
 		}
@@ -94,6 +94,8 @@ public class ItemDAO {
 		if (status != null) {
 			sql += "AND 물품목록.대여상태 = '" + status + "'";
 		}
+		
+		sql += "ORDER BY 물품목록.물품코드 ASC";
 
 		System.out.println(sql);
 
