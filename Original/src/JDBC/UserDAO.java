@@ -291,9 +291,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 	}
 
 	public int milerege(String id) throws SQLException, ClassNotFoundException {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null; // 결과 담는 곳
+		
 		int m = 0;
 		String sql = " SELECT 마일리지 FROM 회원 WHERE 아이디 = ? ";
 
@@ -309,6 +307,10 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			m = rs.getInt("마일리지");
 			System.out.println("마일리지 점수 : " + m);
 		}
+		
+		con.close();
+		pstmt.close();
+		rs.close();
 
 		return m;
 	}
@@ -332,6 +334,28 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			return true;
 			
 		}catch(Exception e) {
+			return false;
+		}
+	}
+	
+	public boolean admin_user_delete(String id) {
+		
+		String sql = "DELETE FROM 회원 WHERE 아이디 = ?";
+		Connection con = null;
+		try {
+			con = getConn();
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+			con.close();
+			
+			return true;
+		}
+		catch(Exception e){
 			return false;
 		}
 	}

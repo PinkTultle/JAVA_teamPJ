@@ -1,0 +1,268 @@
+
+
+
+ALTER session set "_ORACLE_SCRIPT"=true; -- 12c 이후 
+
+DROP USER ABC1 CASCADE; -- 기존 사용자 삭제(현재 접속되어 있으면 삭제 안 됨)
+   -- CASCADE option : 관련 스키마 개체들도 함께 삭제.  Default는 No Action
+CREATE USER ABC IDENTIFIED BY 1234  -- 사용자 ID : ABC, 비밀번호 : 1234
+    DEFAULT TABLESPACE USERS
+    TEMPORARY TABLESPACE TEMP;
+    
+GRANT connect, resource, dba TO ABC; -- 권한 부여
+
+
+
+
+
+
+-- 회원 테이블
+CREATE TABLE 회원 (
+    아이디 VARCHAR2(50) PRIMARY KEY,
+    비밀번호 VARCHAR2(40),
+    별명 VARCHAR2(50),
+    이름 VARCHAR2(30),
+    생년월일 VARCHAR2(30),
+    성별 VARCHAR2(10),
+    전화번호 VARCHAR2(30),
+    주소 VARCHAR2(100),
+    이메일 VARCHAR2(100),
+    대여상태 VARCHAR2(20),
+    관리자여부 VARCHAR2(20) DEFAULT 0, -- 0이 일반회원
+    마일리지 NUMBER DEFAULT 0
+);
+
+-- 물품목록 테이블
+CREATE TABLE 물품목록 (
+    물품코드 NUMBER PRIMARY KEY,
+    카테고리 VARCHAR2(50),
+    물품명 VARCHAR2(100),
+    렌트기한 DATE,
+    모델명 VARCHAR2(100),
+    대여료 NUMBER,
+    보증금 NUMBER,
+    설명 VARCHAR2(200),
+    소유주 VARCHAR2(50) NOT NULL,
+    대여상태 VARCHAR2(20),
+    안심번호 VARCHAR2(50),
+    대여자 VARCHAR2(50),
+    첨부 VARCHAR2(150),
+    
+    CONSTRAINT FK_물품_회원_소유자 FOREIGN KEY(소유주) REFERENCES 회원(아이디),
+    CONSTRAINT FK_물품_회원_대여자 FOREIGN KEY(대여자) REFERENCES 회원(아이디)
+);
+
+
+-- 대여 기록 테이블
+CREATE TABLE 대여기록 (
+    대여번호 NUMBER PRIMARY KEY,
+    물품코드 NUMBER ,
+    물품명 VARCHAR2(100),
+    대여시작날짜 DATE,
+    대여반납예정일 DATE,
+    소유자 VARCHAR2(50),
+    대여자 VARCHAR2(50),
+    반납상태 VARCHAR2(20),
+    
+    CONSTRAINT FK_물품목록_대여기록 FOREIGN KEY(물품코드) REFERENCES 물품목록(물품코드),
+    CONSTRAINT FK_회원_대여기록_소유자 FOREIGN KEY(소유자) REFERENCES 회원(아이디),
+    CONSTRAINT FK_회원_대여기록_대여자 FOREIGN KEY(대여자) REFERENCES 회원(아이디)
+);
+
+
+-- 신고 기록 테이블
+CREATE TABLE 신고기록 (
+    신고번호 NUMBER PRIMARY KEY,
+    물품코드 NUMBER,
+    물품명 VARCHAR2(50),
+    신고분류 VARCHAR2(50),
+    처리상태 VARCHAR2(20),
+    신고메세지 VARCHAR2(200),
+    작성자 VARCHAR2(100),
+    답변 VARCHAR2(200),
+    
+    CONSTRAINT FK_물품목록_신고기록 FOREIGN KEY(물품코드) REFERENCES 물품목록(물품코드)
+    
+);
+
+
+CREATE SEQUENCE 물품_seq
+    START WITH 1  
+    INCREMENT BY 1
+    NOMAXVALUE -- 최대값 설정 옵션
+    NOCYCLE -- 사이클 안돌게 쭉 증가 옵션
+    ORDER;
+
+CREATE SEQUENCE 대여_seq
+    START WITH 1  
+    INCREMENT BY 1
+    NOMAXVALUE -- 최대값 설정 옵션
+    NOCYCLE -- 사이클 안돌게 쭉 증가 옵션
+    ORDER;
+    
+CREATE SEQUENCE 신고_seq
+    START WITH 1 
+    INCREMENT BY 1
+    NOMAXVALUE -- 최대값 설정 옵션
+    NOCYCLE -- 사이클 안돌게 쭉 증가 옵션
+    ORDER;
+    
+DROP TABLE 회원;
+DROP TABLE 물품목록;
+DROP TABLE 신고기록;
+DROP TABLE 대여기록;
+
+
+TRUNCATE TABLE 회원;
+TRUNCATE TABLE 물품목록;
+TRUNCATE TABLE 신고기록;
+TRUNCATE TABLE 대여기록;
+
+-- 회원 데이터     
+INSERT INTO 회원 VALUES ('탈퇴계정', '0', '사용자1', '김철수', '1990-05-15', '남성', '010-1234-5678', '서울시 강남구', 'user1@example.com', '대여가능',0 , 0);
+INSERT INTO 회원 VALUES ('asd1', 'pa1', '사용자1', '김철수', '1990-05-15', '남성', '010-1234-5678', '서울시 강남구', 'user1@example.com', '대여가능',1 , 0);
+INSERT INTO 회원 VALUES ('asd2', 'pa2', '사용자2', '이영희', '1985-08-20', '여성', '010-9876-5432', '서울시 강동구', 'user2@example.com', '대여중',0 , 0);
+INSERT INTO 회원 VALUES ('asd3', 'pa3', '사용자3', '박철수', '1993-02-10', '남성', '010-5555-7777', '부산시 해운대구', 'user3@example.com', '대여가능',0 , 0);
+INSERT INTO 회원 VALUES ('asd4', 'pa4', '사용자4', '정영희', '1980-12-25', '여성', '010-2222-8888', '인천시 남동구', 'user4@example.com', '대여중',0 , 0);
+INSERT INTO 회원 VALUES ('asd5', 'pa5', '사용자5', '이철수', '1975-07-30', '남성', '010-3333-9999', '대구시 중구', 'user5@example.com', '대여가능',0 , 0);
+INSERT INTO 회원 (아이디, 비밀번호, 별명, 이름, 생년월일, 성별, 전화번호, 주소, 이메일, 대여상태, 관리자여부, 마일리지)
+VALUES ('asd6', 'pa6', '사용자6', '박지영', '1992-03-08', '여성', '010-4444-6666', '서울시 송파구', 'user6@example.com', '대여중',0 , 0);
+INSERT INTO 회원 (아이디, 비밀번호, 별명, 이름, 생년월일, 성별, 전화번호, 주소, 이메일, 대여상태, 관리자여부, 마일리지)
+VALUES ('asd7', 'pa7', '사용자7', '김민수', '1995-07-22', '남성', '010-7777-8888', '서울시 마포구', 'user7@example.com', '대여중',0 , 0);
+INSERT INTO 회원 (아이디, 비밀번호, 별명, 이름, 생년월일, 성별, 전화번호, 주소, 이메일, 대여상태, 관리자여부, 마일리지)
+VALUES ('asd8', 'pa8', '사용자8', '이수연', '1987-09-10', '여성', '010-9999-0000', '경기도 성남시', 'user8@example.com', '대여중',0 , 0);
+INSERT INTO 회원 (아이디, 비밀번호, 별명, 이름, 생년월일, 성별, 전화번호, 주소, 이메일, 대여상태, 관리자여부, 마일리지)
+VALUES ('asd9', 'pa9', '사용자9', '박영호', '1998-11-25', '남성', '010-1234-5678', '인천광역시 부평구', 'user9@example.com', '대여중',0 , 0);
+INSERT INTO 회원 (아이디, 비밀번호, 별명, 이름, 생년월일, 성별, 전화번호, 주소, 이메일, 대여상태, 관리자여부, 마일리지)
+VALUES ('asd10', 'pa10', '사용자10', '김수현', '1990-05-15', '남성', '010-1234-5678', '대전광역시 중구', 'user10@example.com', '대여중',0 , 0);
+
+
+
+-- 물품 데이터 더미
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 대여상태, 안심번호, 대여자, 소유주, 첨부)
+VALUES (물품_seq.NEXTVAL, '전자기기', '노트북', TO_DATE('2023-10-25', 'YYYY-MM-DD'), 'Dell XPS 15', 3000, 50, '대여중', NULL, 'asd4', 'asd1', 'src/images/dell_xps_15.jpg');
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 대여상태, 안심번호, 대여자, 소유주)
+VALUES (물품_seq.NEXTVAL, '전자기기', '냉장고', TO_DATE('2023-10-20', 'YYYY-MM-DD'), 'Samsung RS27T5200', 4000, 60, '대여가능', NULL, NULL, 'asd2');
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 대여상태, 안심번호, 대여자, 소유주)
+VALUES (물품_seq.NEXTVAL, '패션잡화', '드레스', TO_DATE('2023-10-28', 'YYYY-MM-DD'), 'Elegant Evening Gown', 2500, 30, '대여중', NULL, 'asd1', 'asd3');
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 대여상태, 안심번호, 대여자, 소유주)
+VALUES (물품_seq.NEXTVAL, '스포츠/레져', '자전거', TO_DATE('2023-10-22', 'YYYY-MM-DD'), 'Trek FX 3 Disc', 2000, 25, '대여가능', NULL, NULL, 'asd4');
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 대여상태, 안심번호, 대여자, 소유주)
+VALUES (물품_seq.NEXTVAL, '도서', '소설책', TO_DATE('2023-10-27', 'YYYY-MM-DD'), 'The Great Gatsby', 1500, 20, '대여가능', NULL, 'asd5', 'asd5');
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 설명, 소유주, 대여상태, 안심번호, 첨부)
+VALUES (물품_seq.NEXTVAL, '전자기기', '노트북', TO_DATE('2023-10-25', 'YYYY-MM-DD'), 'Dell XPS 15', 3000, 50, '15인치 노트북, 인텔 12세대 i7, 16GB RAM, 1TB SSD', 'asd1', '대여가능', NULL, 'src/images/dell_xps_15.jpg');
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 설명, 소유주, 대여상태, 안심번호, 첨부)
+VALUES (물품_seq.NEXTVAL, '전자기기', '냉장고', TO_DATE('2023-10-20', 'YYYY-MM-DD'), 'Samsung RS27T5200S8', 4000, 60, '272리터 냉장고, 냉동실 138리터, 냉장실 134리터', 'asd2', '대여가능', NULL, NULL);
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 설명, 소유주, 대여상태, 안심번호, 첨부)
+VALUES (물품_seq.NEXTVAL, '패션잡화', '드레스', TO_DATE('2023-10-28', 'YYYY-MM-DD'), 'Elegant Evening Gown', 2500, 30, '레이스 장식의 우아한 이브닝 드레스', 'asd3', '대여중', NULL, NULL);
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 설명, 소유주, 대여상태, 안심번호, 첨부)
+VALUES (물품_seq.NEXTVAL, '스포츠/레저', '자전거', TO_DATE('2023-10-27', 'YYYY-MM-DD'), 'Trek Domane AL 2', 3500, 50, '알루미늄 프레임의 입문용 로드바이크', 'asd4', '대여가능', NULL, NULL);
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 설명, 소유주, 대여상태, 안심번호, 첨부)
+VALUES (물품_seq.NEXTVAL, '스포츠/레저', '축구공', TO_DATE('2023-10-26', 'YYYY-MM-DD'), 'Nike Merlin', 1500, 20, '나이키의 대표적인 축구공', 'asd5', '대여중', NULL, NULL);
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 설명, 소유주, 대여상태, 안심번호, 첨부)
+VALUES (물품_seq.NEXTVAL, '도서', '소설', TO_DATE('2023-10-29', 'YYYY-MM-DD'), '해리 포터와 불사조 기사단', 1000, 15, 'J.K. 롤링의 베스트셀러 판타지 소설', 'asd6', '대여가능', NULL, NULL);
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 설명, 소유주, 대여상태, 안심번호, 첨부)
+VALUES (물품_seq.NEXTVAL, '도서', '컴퓨터과학', TO_DATE('2023-10-30', 'YYYY-MM-DD'), '객체지향 프로그래밍', 2000, 30, '객체지향 프로그래밍의 기초를 다루는 책', 'asd7', '반납완료', NULL, NULL);
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 설명, 소유주, 대여상태, 안심번호, 첨부)
+VALUES (물품_seq.NEXTVAL, '전자기기', '스마트폰', TO_DATE('2023-10-31', 'YYYY-MM-DD'), 'iPhone 14 Pro Max', 10000, 150, '애플의 최신 플래그십 스마트폰', 'asd5', '대여가능', NULL, NULL);
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 설명, 소유주, 대여상태, 안심번호, 첨부)
+VALUES (물품_seq.NEXTVAL, '패션잡화', '신발', TO_DATE('2023-11-01', 'YYYY-MM-DD'), 'Nike Air Jordan 1 High OG', 6000, 100, '나이키의 대표적인 농구화', 'asd3', '대여중', NULL, NULL);
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 설명, 소유주, 대여상태, 안심번호, 첨부)
+VALUES (물품_seq.NEXTVAL, '스포츠/레저', '캠핑용품', TO_DATE('2023-11-02', 'YYYY-MM-DD'), 'Coleman 4-Person Tent', 5000, 100, '콜맨의 4인용 텐트', 'asd2', '대여가능', NULL, NULL);
+INSERT INTO 물품목록 (물품코드, 카테고리, 물품명, 렌트기한, 모델명, 대여료, 보증금, 설명, 소유주, 대여상태, 안심번호, 첨부)
+VALUES (물품_seq.NEXTVAL, '도서', '만화', TO_DATE('2023-11-03', 'YYYY-MM-DD'), '원피스 104권', 1500, 20, '일본의 인기 만화', 'asd3', '반납완료', NULL, NULL);
+
+
+-- 대여기록 데이터 더미
+INSERT INTO 대여기록 (대여번호, 물품코드, 물품명, 대여시작날짜, 대여반납예정일, 소유자, 대여자, 반납상태)
+VALUES (대여_seq.NEXTVAL , 1, '노트북', TO_DATE('2023-10-15', 'YYYY-MM-DD'), TO_DATE('2023-10-25', 'YYYY-MM-DD'), 'asd1', 'asd4', '대여중');
+INSERT INTO 대여기록 (대여번호, 물품코드, 물품명, 대여시작날짜, 대여반납예정일, 소유자, 대여자, 반납상태)
+VALUES (대여_seq.NEXTVAL , 3, '드레스', TO_DATE('2023-10-18', 'YYYY-MM-DD'), TO_DATE('2023-10-28', 'YYYY-MM-DD'), 'asd3', 'asd4', '대여중');
+INSERT INTO 대여기록 (대여번호, 물품코드, 물품명, 대여시작날짜, 대여반납예정일, 소유자, 대여자, 반납상태)
+VALUES (대여_seq.NEXTVAL , 5, '소설책', TO_DATE('2023-10-17', 'YYYY-MM-DD'), TO_DATE('2023-10-27', 'YYYY-MM-DD'), 'asd5', 'asd1', '대여중');
+INSERT INTO 대여기록 (대여번호, 물품코드, 물품명, 대여시작날짜, 대여반납예정일, 소유자, 대여자, 반납상태)
+VALUES (대여_seq.NEXTVAL, 4, '자전거', TO_DATE('2023-10-19', 'YYYY-MM-DD'), TO_DATE('2023-10-29', 'YYYY-MM-DD'), 'asd4', 'asd2', '대여중');
+INSERT INTO 대여기록 (대여번호, 물품코드, 물품명, 대여시작날짜, 대여반납예정일, 소유자, 대여자, 반납상태)
+VALUES (대여_seq.NEXTVAL, 6, '노트북', TO_DATE('2023-10-20', 'YYYY-MM-DD'), TO_DATE('2023-10-30', 'YYYY-MM-DD'), 'asd1', 'asd5', '대여중');
+INSERT INTO 대여기록 (대여번호, 물품코드, 물품명, 대여시작날짜, 대여반납예정일, 소유자, 대여자, 반납상태)
+VALUES (대여_seq.NEXTVAL, 2, '냉장고', TO_DATE('2023-10-22', 'YYYY-MM-DD'), TO_DATE('2023-10-27', 'YYYY-MM-DD'), 'asd2', 'asd1', '대여중');
+INSERT INTO 대여기록 (대여번호, 물품코드, 물품명, 대여시작날짜, 대여반납예정일, 소유자, 대여자, 반납상태)
+VALUES (대여_seq.NEXTVAL, 8, '스마트폰', TO_DATE('2023-10-22', 'YYYY-MM-DD'), TO_DATE('2023-10-27', 'YYYY-MM-DD'), 'asd2', 'asd1', '대여중');
+INSERT INTO 대여기록 (대여번호, 물품코드, 물품명, 대여시작날짜, 대여반납예정일, 소유자, 대여자, 반납상태)
+VALUES (대여_seq.NEXTVAL, 7, '가방', TO_DATE('2023-10-23', 'YYYY-MM-DD'), TO_DATE('2023-10-28', 'YYYY-MM-DD'), 'asd9', 'asd8', '대여중');
+INSERT INTO 대여기록 (대여번호, 물품코드, 물품명, 대여시작날짜, 대여반납예정일, 소유자, 대여자, 반납상태)
+VALUES (대여_seq.NEXTVAL, 9, '게임기', TO_DATE('2023-10-24', 'YYYY-MM-DD'), TO_DATE('2023-10-29', 'YYYY-MM-DD'), 'asd10', 'asd9', '대여중');
+
+
+-- 신고 기록 추가
+INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지, 작성자, 답변)
+VALUES (신고_seq.NEXTVAL, 2, '냉장고', '파손된 물품', '처리완료', '물품 파손 신고', 'asd1', '2');
+INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지, 작성자, 답변)
+VALUES (신고_seq.NEXTVAL, 4, '자전거', '허위물품', '처리중', '허위 물품 신고합니다!', 'asd2', '2');
+INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지, 작성자, 답변)
+VALUES (신고_seq.NEXTVAL, 5, '소설', '연락두절', '처리완료', '연락두절!', 'asd3', '2');
+INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지, 작성자, 답변)
+VALUES (신고_seq.NEXTVAL, 2, '냉장고', '기타', '처리중', '냉장고에 음식물쓰레기 있습니다.', 'asd4', '2');
+INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지, 작성자, 답변)
+VALUES (신고_seq.NEXTVAL, 1, '노트북', '과한금액/보증금', '신청', '적혀있는 금액보다 더 달라고 합니다.', 'asd5', '2');
+INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지, 작성자, 답변)
+VALUES (신고_seq.NEXTVAL, 8, '냉장고', '파손된 물품', '처리중', '냉장고가 깨졌습니다.', 'asd1', NULL);
+INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지, 작성자, 답변)
+VALUES (신고_seq.NEXTVAL, 7, '노트북', '분실물', '처리완료', '노트북을 분실했습니다.', 'asd2', '100만원 보상 지급 완료');
+INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지, 작성자, 답변)
+VALUES (신고_seq.NEXTVAL, 9, '드레스', '과한금액/보증금', '신청', '보증금이 너무 비쌉니다.', 'asd3', NULL);
+INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지, 작성자, 답변)
+VALUES (신고_seq.NEXTVAL, 6, '소설책', '기타', '처리완료', '소설책이 찢어졌습니다.', 'asd4', '소설책 수리 후 재대여 완료');
+INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지, 작성자, 답변)
+VALUES (신고_seq.NEXTVAL, 3, '드레스', '파손된 물품', '처리중', '드레스가 찢어져 있습니다.', 'asd5', NULL);
+INSERT INTO 신고기록 (신고번호, 물품코드, 물품명, 신고분류, 처리상태, 신고메세지, 작성자, 답변)
+VALUES (신고_seq.NEXTVAL, 4, '자전거', '허위물품', '처리완료', '자전거가 존재하지 않습니다.', 'asd6', '신고자와 대여자의 대화 내용 확인 결과 허위 신고로 판단되어 처리 완료하였습니다.');
+
+
+
+COMMIT;
+
+
+
+
+
+-- 대여기록 행 하나 추가되면 그 행의 대여자를 가져와서 그 대여자 회원의 마일리지 컬럼 5씩 증가 되게 
+CREATE OR REPLACE TRIGGER 대여기록_트리거
+AFTER INSERT ON 대여기록
+FOR EACH ROW
+DECLARE
+BEGIN
+    -- 대여자의 마일리지 5씩 증가
+    UPDATE 회원
+    SET 마일리지 = 마일리지 + 5
+    WHERE 아이디 = :NEW.대여자;
+END;
+
+
+
+-- 회원 삭제 될때 신고 관리 대여 테이블 삭제
+CREATE OR REPLACE TRIGGER 회원삭제
+BEFORE DELETE
+ON 회원
+FOR EACH ROW
+DECLARE
+    v_id 회원.아이디%TYPE;
+BEGIN
+    -- 해당 회원의 아이디 저장
+    v_id := :OLD.아이디;
+
+    -- 신고기록 테이블에서 삭제
+    UPDATE 신고기록 SET 작성자 = '탈퇴계정' WHERE 작성자 = v_id;
+    
+
+    -- 대여기록 테이블에서 삭제
+    UPDATE 대여기록 SET 대여자 = '탈퇴계정' WHERE 대여자 = v_id;
+    
+     -- 물품목록 테이블에서 삭제
+    --DELETE FROM 물품목록 WHERE 소유주 = v_id;
+    UPDATE 물품목록 SET 소유주 = '탈퇴계정' WHERE 소유주 = v_id;
+    UPDATE 물품목록 SET 대여자 = '탈퇴계정' WHERE 대여자 = v_id;
+
+END;
+
+commit;
