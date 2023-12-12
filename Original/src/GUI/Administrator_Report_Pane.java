@@ -182,6 +182,7 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 			Answer_ta.setLocation((getWidth()-Answer_ta.getWidth())/2 - 5,
 					Detail.getY()+Detail.getHeight() +20);
 			Answer_ta.setFont(font);
+			Answer_ta.setText(report.getAnswer());
 			Answer_ta.setLineWrap(true);
 			
 			

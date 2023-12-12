@@ -1,11 +1,14 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import JDBC.ItemDAO;
@@ -30,17 +33,20 @@ public class Administrator_Products_Pane extends Administrator_pane  {
 		scrollPane.setBackground(Color.white);
 		add(scrollPane);
 
+		Action act =  new Action();
 
 		revise = new JButton("수정");
 		revise.setBounds(close_bt.getX(), scrollPane.getY(),
 					close_bt.getWidth(), close_bt.getHeight());
 		revise.setBackground(null);
+		revise.addActionListener(act);
 		add(revise);
 
 		delete = new JButton("삭제");
 		delete.setBounds(close_bt.getX(), revise.getY()+revise.getHeight()+20,
 				close_bt.getWidth(), close_bt.getHeight());
 		delete.setBackground(null);
+		delete.addActionListener(act);
 		add(delete);
 		
 		
@@ -75,6 +81,22 @@ public class Administrator_Products_Pane extends Administrator_pane  {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	class Action implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {			
+			
+			if(e.getSource() == delete) {
+				dao.deleteItem(Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()));
+				
+			}
+			if(e.getSource() == revise) {
+				//물품 프로필 오픈
+			}
+			
+		}
 	}
 
 }
