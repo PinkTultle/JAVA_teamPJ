@@ -161,7 +161,7 @@ public class ItemDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null; // 결과 담는 곳
-		String sql = " SELECT 물품코드, 모델명, 렌트기한, 대여료, 보증금, 전화번호, 설명, 첨부, 물품명, 별명, 아이디, 물품목록.대여상태, 대여자, 물품목록.안심번호 "
+		String sql = " SELECT 물품코드, 모델명, 렌트기한, 대여료, 보증금, 전화번호, 설명, 물품명, 카테고리, 별명, 아이디, 물품목록.대여상태, 대여자, 물품목록.안심번호 "
 				+ " FROM 물품목록 " + " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 " + " WHERE 물품코드 = ? ";
 		try {
 			con = getConn();
@@ -180,9 +180,9 @@ public class ItemDAO {
 				itemdto.setItemname(rs.getString("물품명"));
 				itemdto.setNickname(rs.getString("별명"));
 				itemdto.setPerson(rs.getString("아이디"));
-				itemdto.setImage(rs.getString("첨부"));
 				itemdto.setRentdate(rs.getString("렌트기한"));
 				itemdto.setLender(rs.getString("대여자"));
+				itemdto.setCategory(rs.getString("카테고리"));
 				itemdto.setSafeTEL(rs.getString("안심번호") != null);
 				itemdto.setState(rs.getString("대여상태"));
 			}

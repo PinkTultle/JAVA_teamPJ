@@ -16,7 +16,6 @@ public class ItemDTO {
 	private String explanation; // 설명
 	private String state; // 대여상태
 	private String phonenumber; // 전화번호
-	private String image; // 이미지
 	private String lender; // 대여자
 	private boolean safeTEL;
 
@@ -60,14 +59,6 @@ public class ItemDTO {
 
 	public String getLender() {
 		return lender;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
 	}
 
 	public int getItemnumber() {
