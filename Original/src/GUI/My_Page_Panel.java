@@ -16,7 +16,7 @@ public class My_Page_Panel extends JPanel {
 	private ProfilePanel profile;
 	private Report_Details_1 reportHistory;
 	private RentHistory rentHistory;
-	private My_Writing myWrite;
+	private My_Writing_History myWrite;
 	private JPanel rentAlarm;
 	private Rent_Notification rentnotifi;
 
@@ -31,14 +31,14 @@ public class My_Page_Panel extends JPanel {
 
 		UserDAO userDAO;
 		userDAO = new UserDAO();
-		userInfo_cur = userDAO.userSelect();
+		userInfo_cur = userDAO.userSelect(userDAO.user_cur);
 
 		myPage = new My_Page(this, Administrator);
 		this.add(myPage);
 
 		rentHistory = new RentHistory(this);
 		// rentAlarm = new
-		myWrite = new My_Writing(this);
+		myWrite = new My_Writing_History(this);
 		reportHistory = new Report_Details_1(this);
 		profile = new ProfilePanel(this);
 		rentnotifi = new Rent_Notification(this);
@@ -104,8 +104,9 @@ public class My_Page_Panel extends JPanel {
 		myPage.setVisible(false);
 		rentHistory.setVisible(false);
 		// rentAlarm.setVisible(false);
-		My_Writing tmp = (My_Writing) myWrite;
-		tmp.refresh();
+		/*
+		 * My_Writing tmp = (My_Writing) myWrite; tmp.refresh();
+		 */
 		myWrite.setVisible(true);
 		reportHistory.setVisible(false);
 		profile.setVisible(false);

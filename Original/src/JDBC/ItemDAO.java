@@ -18,8 +18,8 @@ import javax.swing.table.DefaultTableModel;
 public class ItemDAO {
 
 	// String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
-	// String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
-	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
+	String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
+	// String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
 
 	String user = "ABC"; // db 사용자 이름
 	String password = "1234"; // db
@@ -83,17 +83,18 @@ public class ItemDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = " SELECT 물품목록.물품코드, 물품목록.카테고리, 물품목록.물품명, 회원.별명, (SELECT 물품목록.렌트기한 - TRUNC(SYSDATE) FROM DUAL ) as 렌트기한, 물품목록.대여상태 "
-				+ " FROM 물품목록 "
-				+ " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 WHERE 렌트기한 > SYSDATE AND 물품목록.대여상태 <> '삭제' ORDER BY 물품목록.물품코드 ASC ";
+				+ " FROM 물품목록 " + " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 WHERE 렌트기한 > SYSDATE AND 물품목록.대여상태 <> '삭제'";
 		if (category != null) {
 			sql += "AND 물품목록.카테고리 = '" + category + "'";
 		}
-		if (itemName != null) {
+		if (itemName != null && !itemName.equals("")) {
 			sql += "AND 물품목록.물품명 LIKE '%" + itemName + "%'";
 		}
 		if (status != null) {
 			sql += "AND 물품목록.대여상태 = '" + status + "'";
 		}
+
+		sql += "ORDER BY 물품목록.물품코드 ASC";
 
 		System.out.println(sql);
 
@@ -161,7 +162,7 @@ public class ItemDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null; // 결과 담는 곳
-		String sql = " SELECT 물품코드, 모델명, 렌트기한, 대여료, 보증금, 전화번호, 설명, 첨부, 물품명, 별명, 아이디, 물품목록.대여상태, 대여자, 물품목록.안심번호 "
+		String sql = " SELECT 물품코드, 모델명, 렌트기한, 대여료, 보증금, 전화번호, 설명, 물품명, 카테고리, 별명, 아이디, 물품목록.대여상태, 대여자, 물품목록.안심번호 "
 				+ " FROM 물품목록 " + " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 " + " WHERE 물품코드 = ? ";
 		try {
 			con = getConn();
@@ -180,9 +181,9 @@ public class ItemDAO {
 				itemdto.setItemname(rs.getString("물품명"));
 				itemdto.setNickname(rs.getString("별명"));
 				itemdto.setPerson(rs.getString("아이디"));
-				itemdto.setImage(rs.getString("첨부"));
 				itemdto.setRentdate(rs.getString("렌트기한"));
 				itemdto.setLender(rs.getString("대여자"));
+				itemdto.setCategory(rs.getString("카테고리"));
 				itemdto.setSafeTEL(rs.getString("안심번호") != null);
 				itemdto.setState(rs.getString("대여상태"));
 			}

@@ -10,8 +10,8 @@ import java.util.Vector;
 public class ReportDAO {
 
 	// String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
-	// String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
+	String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	// String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
 
 	String user = "ABC"; // db 사용자 이름
 	String password = "1234"; // db
@@ -39,7 +39,7 @@ public class ReportDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null; // 결과 담는 곳
 
-		String sql = "SELECT * FROM 신고기록";
+		String sql = "select * from 신고기록 order by (CASE WHEN 처리상태 = '신청' THEN 1 WHEN 처리상태 = '처리중' THEN 2 END), 신고번호 asc";
 
 		try {
 			con = getConn();
@@ -88,7 +88,7 @@ public class ReportDAO {
 			pstmt.setInt(1, Integer.parseInt(v.get(0)));
 			pstmt.setString(2, v.get(1));
 			pstmt.setString(3, v.get(2));
-			pstmt.setString(4, "처리중");
+			pstmt.setString(4, "신청");
 			pstmt.setString(5, v.get(3));
 			pstmt.setString(6, UserDAO.user_cur);
 
@@ -164,7 +164,8 @@ public class ReportDAO {
 				data.setCategory(rs.getString("신고분류"));
 				data.setStatus(rs.getString("처리상태"));
 				data.setReportDetail(rs.getString("신고메세지"));
-				data.setReportComment(rs.getString("답변"));
+				data.setAnswer(rs.getString("답변"));
+
 			}
 
 		} catch (Exception e) {
@@ -174,4 +175,38 @@ public class ReportDAO {
 
 		return data;
 	}
+
+	public boolean report_add_Answer(ReportDTO dto) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		int up_row;
+		String sql = "UPDATE 신고기록 SET 답변 = ? where 신고번호 = ?";
+
+		try {
+
+			con = getConn();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, dto.getAnswer());
+			pstmt.setInt(2, dto.getReportNum());
+
+			up_row = pstmt.executeUpdate();
+
+			con.close();
+			pstmt.close();
+
+			if (up_row == 1)
+				return true;
+			else
+				throw (null);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+
+	}
+
 }

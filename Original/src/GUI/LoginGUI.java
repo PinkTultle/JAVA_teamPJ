@@ -129,22 +129,15 @@ public class LoginGUI extends JFrame implements ActionListener {
 		txtId = new MyJT("Id");
 		txtId.setFont(new Font("맑은 고딕", Font.PLAIN, 23));
 		txtId.setBounds(30, 49, 370, 50);
+		txtId.addKeyListener(new enter_listen());
 		panel_1_1.add(txtId);
-		txtId.setColumns(10);
 
 		txtPassword = new MyPT("Password");
 		txtPassword.setFont(new Font("맑은 고딕", Font.PLAIN, 23));
 		txtPassword.setColumns(10);
 		txtPassword.setBounds(30, 109, 370, 50);
 		txtPassword.setEchoChar((char) 0);
-		txtPassword.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					Login();
-				}
-			}
-		});
+		txtPassword.addKeyListener(new enter_listen());
 		panel_1_1.add(txtPassword);
 
 		removefirstfocus = new JTextField();
@@ -223,4 +216,14 @@ public class LoginGUI extends JFrame implements ActionListener {
 		} // 로그인 확인
 
 	}
+
+	class enter_listen extends KeyAdapter {
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				btnNewButton.doClick();
+			}
+		}
+	}
+
 }

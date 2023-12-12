@@ -12,8 +12,8 @@ import javax.swing.table.DefaultTableModel;
 public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 	// String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
-	// String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
-	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
+	String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
+	// String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
 
 	String user = "ABC"; // db 사용자 이름
 	String password = "1234"; // db
@@ -207,7 +207,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		return rs; // 프로필 수정
 	}
 
-	public UserDTO userSelect() {
+	public UserDTO userSelect(String ID) {
 		UserDTO userDTO = new UserDTO();
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -217,7 +217,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		try {
 			con = getConn();
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, user_cur);
+			pstmt.setString(1, ID);
 			rs = pstmt.executeQuery();
 
 			rs.next();
@@ -236,6 +236,10 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			TEL = temp.substring(0, 3) + temp.substring(4, 8) + temp.substring(9, 13);
 			userDTO.setTel(Integer.parseInt(TEL));
 			userDTO.setEmail(rs.getString("이메일"));
+			if (rs.getString("관리자여부") != null)
+				userDTO.setAdministrator(1);
+			else
+				userDTO.setAdministrator(0);
 
 			// 계좌번호 추가 필요
 
@@ -273,22 +277,24 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			ResultSet rs = stmt.executeQuery(query);
 
 			while (rs.next()) {
-
+				System.out.println(rs.getString("아이디"));
 				String id = rs.getString("아이디");
 				String name = rs.getString("이름");
 				String tel = rs.getString("전화번호");
 				int admin = rs.getInt("관리자여부");
 
 				model.addRow(new Object[] { id, name, tel, admin });
+
 			}
+			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public int milerege(String id)  {
-		
-		
+
+	public int milerege(String id) throws SQLException, ClassNotFoundException {
+
 		int m = 0;
 		String sql = " SELECT 마일리지 FROM 회원 WHERE 아이디 = ? ";
 
@@ -312,59 +318,53 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			
 			return m;
 
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-			return m;
-		}
-		
+		con.close();
+		pstmt.close();
+		rs.close();
+
+		return m;
 	}
-	
-	
+
 	public boolean milerege_sum(String id) {
-				
+
 		String sql = "UPdate 회원 set 마일리지 = 마일리지+5 where 아이디 = ?";
-		
+
 		try {
 			con = getConn();
-			
+
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
-			
+
 			pstmt.executeUpdate();
-			
+
 			con.close();
 			pstmt.close();
-						
+
 			return true;
-			
-		}catch(Exception e) {
+
+		} catch (Exception e) {
 			return false;
 		}
 	}
-	
-	public boolean milerege_init(String id) {
-		
-		String sql = "UPdate 회원 set 마일리지 = 0 where 아이디 = ?";
-		
+
+	public boolean admin_user_delete(String id) {
+
+		String sql = "DELETE FROM 회원 WHERE 아이디 = ?";
+		Connection con = null;
 		try {
 			con = getConn();
-			
+
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
-			
+
 			pstmt.executeUpdate();
-			
-			con.close();
+
 			pstmt.close();
-						
+			con.close();
+
 			return true;
-			
-		}catch(Exception e) {
-			e.printStackTrace();
+		} catch (Exception e) {
 			return false;
 		}
 	}
-	
-	
 }

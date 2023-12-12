@@ -285,7 +285,7 @@ public class C_Component {
 		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 		renderer.setHorizontalAlignment(renderer.CENTER);
 		jt.setDefaultRenderer(String.class, renderer); // 중앙 정렬
-		jt.setRowHeight((height) / rowCount); // JTable의 헤더의 높이는 25임
+		jt.setRowHeight(height / rowCount); // JTable의 헤더의 높이는 25임
 		jt.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 		jt.setSelectionBackground(new Color(106, 172, 208));
 		jt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -313,8 +313,7 @@ public class C_Component {
 
 	static class MyTA extends JTable implements BaseTableComponent {
 		/*
-		 * JTable 에 사용자 기능들을 추가한 클래스 
-		 * goDetail : 클릭 이벤트 또는 enter 이벤트 발생 시 해당 메소드를 실행함
+		 * JTable 에 사용자 기능들을 추가한 클래스 goDetail : 클릭 이벤트 또는 enter 이벤트 발생 시 해당 메소드를 실행함
 		 * focusLost : focus 가 사라지는 경우 Select 된 행을 초기화
 		 */
 		protected int itemNumIdx = 0;
@@ -346,8 +345,8 @@ public class C_Component {
 
 	static class MyTA_report extends MyTA implements BaseTableComponent {
 		/*
-		 * reportDetailTable를 위해서 goDetail을 재정의한 테이블
-		 * 이 테이블은 선택 항목에 대해서 Report_Window_Read 를 표시한다.
+		 * reportDetailTable를 위해서 goDetail을 재정의한 테이블 이 테이블은 선택 항목에 대해서
+		 * Report_Window_Read 를 표시한다.
 		 */
 
 		@Override
@@ -362,8 +361,7 @@ public class C_Component {
 
 	static class MyTA_Offer extends MyTA implements BaseTableComponent {
 		/*
-		 * itemSlot_offer를 위해서 goDetail을 재정의한 테이블
-		 * 이 테이블은 선택 항목에 대해서 설정된 모드에 따라 
+		 * itemSlot_offer를 위해서 goDetail을 재정의한 테이블 이 테이블은 선택 항목에 대해서 설정된 모드에 따라
 		 * checkOffer / ItemDetail을 표시한다.
 		 */
 		boolean mode;
@@ -389,10 +387,9 @@ public class C_Component {
 
 	static class base_itemSlot extends JScrollPane {
 		/*
-		 * JTable 을 사용하는 클래스들의 기본 상속 클래스 
-		 * table : 실제로 화면에 표시될 JTable | 사용자 기능들을 추가한 MyTA 클래스를 이용함 | C_Component: 276 
-		 * setItem : table 의 행을 설정하는 메소드
-		 * setHeaderColor : table 의 Header 의 색을 변경함
+		 * JTable 을 사용하는 클래스들의 기본 상속 클래스 table : 실제로 화면에 표시될 JTable | 사용자 기능들을 추가한 MyTA
+		 * 클래스를 이용함 | C_Component: 276 setItem : table 의 행을 설정하는 메소드 setHeaderColor :
+		 * table 의 Header 의 색을 변경함
 		 */
 		MyTA table;
 
@@ -415,9 +412,8 @@ public class C_Component {
 
 	static class itemSlot_list extends base_itemSlot {
 		/*
-		 *	목록 패널에 사용될 JTable
-		 *	생성자의 count 의 값에 따라 동시에 보여주는 항목의 개수를 설정
-		 *	
+		 * 목록 패널에 사용될 JTable 생성자의 count 의 값에 따라 동시에 보여주는 항목의 개수를 설정
+		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -532,10 +528,9 @@ public class C_Component {
 
 	static public class itemSlot_myWriting extends itemSlot_list {
 		/*
-		 * 나의 글 패널에 사용될 JTable
-		 * itemSlot_list 를 상속받아 같은 형식으로 생성됨
-		 * setPage를 오버로딩하여서 현재 접속된 계정의 물품만 불러옴
-		*/
+		 * 나의 글 패널에 사용될 JTable itemSlot_list 를 상속받아 같은 형식으로 생성됨 setPage를 오버로딩하여서 현재 접속된
+		 * 계정의 물품만 불러옴
+		 */
 
 		public itemSlot_myWriting(int x, int y, int width, int height, int count) {
 			super(x, y, width, height, count);
@@ -569,8 +564,7 @@ public class C_Component {
 
 	static public class itemSlot_offer extends base_itemSlot {
 		/*
-		 * 신청 관리 패널에 사용될 JTable
-		 * mode 입력에 따라서 서로 다른 동작을 함
+		 * 신청 관리 패널에 사용될 JTable mode 입력에 따라서 서로 다른 동작을 함
 		 */
 		private static final long serialVersionUID = 1L;
 		private MyTA_Offer p_t;
@@ -637,8 +631,7 @@ public class C_Component {
 
 	static public class itemSlot_history extends base_itemSlot {
 		/*
-		 * 렌트 내역 패널에 사용될 JTable
-		 * 다른 테이블과 boolean 값을 추가로 가짐
+		 * 렌트 내역 패널에 사용될 JTable 다른 테이블과 boolean 값을 추가로 가짐
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -783,9 +776,7 @@ public class C_Component {
 
 	static public class myPageTable extends base_itemSlot {
 		/*
-		 *	마이페이지 패널에 사용될 JTable
-		 *	대여기간이 짧게 남은
-		 *	항목을 최대 2개까지 보여줌 
+		 * 마이페이지 패널에 사용될 JTable 대여기간이 짧게 남은 항목을 최대 2개까지 보여줌
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -868,7 +859,7 @@ public class C_Component {
 
 	static public class reportDetailTable extends base_itemSlot {
 		/*
-		 *	신고 내역 패널에 사용될 JTable 
+		 * 신고 내역 패널에 사용될 JTable
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -884,7 +875,7 @@ public class C_Component {
 					return columnTypes[columnIndex];
 				}
 
-				boolean[] columnEditables = new boolean[] { true, false, false, false, false, false, false };
+				boolean[] columnEditables = new boolean[] { false, false, false, false, false, false, false };
 
 				public boolean isCellEditable(int row, int column) {
 					return columnEditables[column];
@@ -933,8 +924,7 @@ public class C_Component {
 
 	static class My_KL extends KeyAdapter {
 		/*
-		 * JTable 에서 Enter 입력을 변경
-		 * Enter 입력이 되었을 경우 goDetail 함수를 호출
+		 * JTable 에서 Enter 입력을 변경 Enter 입력이 되었을 경우 goDetail 함수를 호출
 		 */
 
 		boolean pressed = false;
@@ -962,8 +952,7 @@ public class C_Component {
 	static class My_ML extends MouseAdapter {
 
 		/*
-		 *  JTable 에서 MouseAdapter 를 추가
-		 *  더블 클릭을 통해서 해당 항목의 goDetail 함수를 호출
+		 * JTable 에서 MouseAdapter 를 추가 더블 클릭을 통해서 해당 항목의 goDetail 함수를 호출
 		 */
 
 		@Override

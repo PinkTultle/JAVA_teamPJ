@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -81,8 +83,7 @@ public class My_Writing_History extends JPanel implements ActionListener {
 		scrollPane.setBounds(68, 134, 890, 378);
 		add(scrollPane);
 		*/
-    DB연결 08
-*/
+  
 		/*
 		
 		JLabel[] labels = new JLabel[5];
