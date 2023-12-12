@@ -12,8 +12,8 @@ import javax.swing.table.DefaultTableModel;
 public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 	// String url = "jdbc:oracle:thin:@192.168.124.100:1521:xe";
-	String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
-	// String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
+	//String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 안되면 이걸로!
+	String url = "jdbc:oracle:thin:@115.140.208.29:1521:xe";
 
 	String user = "ABC"; // db 사용자 이름
 	String password = "1234"; // db
@@ -84,9 +84,9 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			System.out.print(e.getMessage());
 			return -2; // db 오류
 		} finally {
-			rs.close();
-			pstmt.close();
-			conn.close();
+			if(rs != null) rs.close();
+			if(pstmt!= null) pstmt.close();
+			if(conn != null)  conn.close();
 		}
 
 	}
@@ -293,7 +293,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 	}
 
 
-	public int milerege(String id) throws SQLException, ClassNotFoundException {
+	public int milerege() {
 
 		int m = 0;
 		String sql = " SELECT 마일리지 FROM 회원 WHERE 아이디 = ? ";
@@ -303,7 +303,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 			pstmt = con.prepareStatement(sql);
 
-			pstmt.setString(1, id);
+			pstmt.setString(1, user_cur);
 
 			rs = pstmt.executeQuery();
 
@@ -317,12 +317,11 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			rs.close();
 			
 			return m;
-
-		con.close();
-		pstmt.close();
-		rs.close();
-
-		return m;
+		}
+		catch(Exception e) {			
+			return m;
+		}
+		
 	}
 
 	public boolean milerege_sum(String id) {

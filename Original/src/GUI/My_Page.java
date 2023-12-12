@@ -66,8 +66,9 @@ public class My_Page extends JPanel implements ActionListener {
 		// 마일리지 점수
 		UserDAO dao;
 		dao = new UserDAO();
-		RankScore = dao.milerege("asd1")%101; // 이 부분 로그인한 id 가져와서 넣어야함@!@!@@@!@!@!@!@!
-
+		RankScore = dao.milerege() ; // 이 부분 로그인한 id 가져와서 넣어야함@!@!@@@!@!@!@!@!
+		RankScore = (RankScore>100)? 100: RankScore;
+		
 		Bt_profile = new RoundButton("프로필");
 		Bt_profile.setForeground(new Color(255, 255, 255));
 		Bt_profile.setColorNormal(new Color(41, 76, 121));
@@ -267,7 +268,7 @@ public class My_Page extends JPanel implements ActionListener {
 			UserDAO dao;
 			UserDTO dto = new UserDTO();
 			dao = new UserDAO();
-			int return_mile = dao.milerege("asd1");
+			int return_mile = dao.milerege();
 			
 			dao.milerege_sum("asd1"); // 마일리지 +5
 			//dao.milerege_init("asd1"); // 마일리지 0 초기화	
@@ -292,7 +293,7 @@ public class My_Page extends JPanel implements ActionListener {
 	// 랭크점수가 증가함에 따른 라벨 내용 업데이트 메소드
 	private void updatelabel(int RankScore) {
 		String nextRank = "";
-		RankScore %= 101;
+		RankScore = RankScore > 100 ? 100 : RankScore;
 		if (RankScore < 30) {
 			Rank = "없음";
 			Rank_lb2.setText("<html><font color='red'>" + String.valueOf(30 - RankScore) + "</font>점 남았습니다!");

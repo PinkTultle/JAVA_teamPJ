@@ -13,9 +13,11 @@ import java.time.ZoneId;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 import javax.swing.SwingConstants;
@@ -34,7 +36,7 @@ import JDBC.ItemDTO;
 import JDBC.UserDAO;
 import JDBC.UserDTO;
 
-public class Product_Register extends JDialog {
+public class Product_Register extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,7 +55,7 @@ public class Product_Register extends JDialog {
 	private LocalDate date;
 	private String phoneNum;
 
-	public Product_Register() {
+	public Product_Register(){
 		// 패널 크기 및 배경색
 		getContentPane().setBackground(new Color(250, 250, 250));
 		setBounds(Main_frame.mainFrame.getX() + 118, Main_frame.mainFrame.getY() + 100, 823, 669);
@@ -282,7 +284,6 @@ public class Product_Register extends JDialog {
 		setVisible(true);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == Cancel_btn) {
 			int result = JOptionPane.showConfirmDialog(null, "나가시겠습니까?", "경고", JOptionPane.YES_NO_OPTION,
