@@ -46,33 +46,6 @@ public class My_Writing_History extends JPanel implements ActionListener {
 		btn_back.addActionListener(this);
 		add(btn_back);
 
-		/*
-		 * JLabel[] labels = new JLabel[5]; String[] productInfo = { "물품코드", "카테고리",
-		 * "물품명", "반납기한", "처리상태" }; Font slotFont = new Font("맑은 고딕", Font.PLAIN, 20);
-		 * int[] xLoc = { 76, 240, 440, 640, 840 };
-		 * 
-		 * for (int i = 0; i < labels.length; i++) { labels[i] = new
-		 * JLabel(productInfo[i]); labels[i].setFont(slotFont);
-		 * labels[i].setHorizontalAlignment(SwingConstants.CENTER);
-		 * labels[i].setBounds(xLoc[i], 110, 110, 50); add(labels[i]); }
-		 * 
-		 * /* // 표 -> db 연결 Object[] columnNames = {"Name", "Age", "Gender"}; Object[][]
-		 * data = { {"John", 28, "Male"}, {"Anna", 22, "Female"}, {"Bob", 35, "Male"} };
-		 * model = new DefaultTableModel(data, columnNames);
-		 * 
-		 * table = new JTable(model); JScrollPane scrollPane = new JScrollPane(table);
-		 * scrollPane.setBounds(68, 134, 890, 378); add(scrollPane);
-		 */
-
-		/*
-		 * 
-		 * JLabel[] labels = new JLabel[5]; int[] xLoc = { 76, 240, 440, 640, 840};
-		 * 
-		 * for (int i = 0; i < labels.length; i++) { labels[i] = new
-		 * JLabel(productInfo[i]); labels[i].setFont(slotFont);
-		 * labels[i].setHorizontalAlignment(SwingConstants.CENTER);
-		 * labels[i].setBounds(xLoc[i], 110, 110, 50); add(labels[i]); }
-		 */
 		select();
 		int n1 = v2.size();
 		int cnt = 0;
