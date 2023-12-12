@@ -39,7 +39,7 @@ public class ReportDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null; // 결과 담는 곳
 
-		String sql = "SELECT * FROM 신고기록";
+		String sql = "select * from 신고기록 order by (CASE WHEN 처리상태 = '신청' THEN 1 WHEN 처리상태 = '처리중' THEN 2 END), 신고번호 asc";
 
 		try {
 			con = getConn();
@@ -181,9 +181,8 @@ public class ReportDAO {
 		PreparedStatement pstmt = null;
 		
 		int up_row;
-		String sql = "UPDATE 신고기록 SET 답변 = ? where 신고번호 = ?;";
+		String sql = "UPDATE 신고기록 SET 답변 = ? where 신고번호 = ?";
 
-		System.out.println(dto.getReportNum() + "의 답변 : " + dto.getAnswer());
 		try {
 			
 			con = getConn();
@@ -191,7 +190,7 @@ public class ReportDAO {
 			pstmt.setString(1, dto.getAnswer());
 			pstmt.setInt(2, dto.getReportNum());
 			
-			up_row = pstmt.executeUpdate(sql);
+			up_row = pstmt.executeUpdate();
 			
 			con.close();
 			pstmt.close();

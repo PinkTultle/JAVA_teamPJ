@@ -81,10 +81,6 @@ public class Administrator_pane extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-		
 	}
 
 	

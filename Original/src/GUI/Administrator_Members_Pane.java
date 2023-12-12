@@ -69,6 +69,9 @@ public class Administrator_Members_Pane extends Administrator_pane {
 		*/
 		dao = new UserDAO();
 		dao.userAll(model);
+		
+        revalidate();
+        repaint();
 
 	}
 

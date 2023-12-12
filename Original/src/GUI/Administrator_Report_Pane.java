@@ -5,6 +5,11 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.lang.reflect.Member;
 import java.util.Arrays;
 import java.util.Vector;
@@ -13,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -43,6 +49,16 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 
 		Refresh_table();
 		set_table();
+		
+		table.addMouseListener(new MouseAdapter() {
+			
+		    public void mouseClicked(MouseEvent e) {
+		    	if(e.getClickCount()%2 ==0) {
+		    		approve.doClick();
+		    	}
+		    }
+			
+		});	
 		
 		scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(18, 30, 460, 344);
@@ -115,33 +131,104 @@ public class Administrator_Report_Pane extends Administrator_pane  {
 	class Answer extends JDialog{
 		
 		private JTextArea Detail, Answer_ta; 
-		private JButton OK, cancle;
-		
+		private JButton OK_bt, cancle_bt;
+		private JLabel title, complainant, Classification;
+		private Font font = new Font("굴림", Font.PLAIN, 14);
 		
 		public Answer(ReportDTO report) {
 			
 			setModal(true);
-			setSize(300, 300);
+			setSize(400, 550);
 			setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			setResizable(false);
+			
+			setLocationRelativeTo(null);
+			
 			
 			Container c = getContentPane();
 			c.setLayout(null);
 			
-			//			텍스트 에이리어
-			//			텍스트 에이리어
-			// 			벝느 1, 버튼 2
+			title = new JLabel("신고답변");
+			title.setFont(new Font("굴림",Font.BOLD + Font.PLAIN, 20));
+			title.setSize(100, 40);
+			title.setLocation((getWidth()-title.getWidth())/2, 15);
+			
+			complainant = new JLabel("신고자 : "+report.getPostID());
+			complainant.setSize(200, 30);
+			complainant.setFont(font);
+			complainant.setLocation(((getWidth()/2)-(complainant.getWidth()-50))/2,
+						title.getY()+title.getHeight()+10);
+			
+			Classification = new JLabel("신고유형 : "+ report.getCategory());
+			Classification.setSize(200, 30);
+			Classification.setFont(font);
+			Classification.setLocation(((getWidth()/2)-(Classification.getWidth()-50))/2,
+						complainant.getY()+complainant.getHeight());
 			
 			
 			
+			Detail = new JTextArea(10, 20);
+			Detail.setSize(350, 150);
+			Detail.setLocation((getWidth()-Detail.getWidth())/2 - 5,
+					Classification.getY()+Classification.getHeight() +10);
+			Detail.setFont(font);
+			Detail.setEditable(false);
+			Detail.setText("신고 내용 \n--------------------------------------\n\n"+report.getReportDetail());
+			Detail.setLineWrap(true);
+			
+			
+			Answer_ta = new JTextArea(10,20);
+			Answer_ta.setSize(350, 150);
+			Answer_ta.setLocation((getWidth()-Answer_ta.getWidth())/2 - 5,
+					Detail.getY()+Detail.getHeight() +20);
+			Answer_ta.setFont(font);
+			Answer_ta.setLineWrap(true);
+			
+			
+			
+			OK_bt = new JButton("완료");
+			OK_bt.setFont(font);
+			OK_bt.setSize(100, 30);
+			OK_bt.setLocation(75, Answer_ta.getY()+Answer_ta.getHeight()+10);
+			
+			OK_bt.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					report.setAnswer(Answer_ta.getText());					
+					if(dao.report_add_Answer(report)) {
+						JOptionPane.showMessageDialog(null, "처리되었습니다.","답변 완료",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+					
+					
+				}
+			});
+			
+			
+			cancle_bt = new JButton("닫기");
+			cancle_bt.setFont(font);
+			cancle_bt.setSize(100, 30);
+			cancle_bt.setLocation(OK_bt.getX()+OK_bt.getWidth() + 50,
+							OK_bt.getY());
+			cancle_bt.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
+			
+			
+			c.add(OK_bt);
+			c.add(cancle_bt);
+			c.add(Classification);
+			c.add(complainant);
+			c.add(Detail);
+			c.add(Answer_ta);
+			c.add(title);
 			
 			
 			setVisible(true);
-		}
-		
-	}
-	
-	public static void main(String[] args) {
-		new Answer(null);
+		}		
 	}
 	
 }
