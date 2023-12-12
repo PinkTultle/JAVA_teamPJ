@@ -18,9 +18,17 @@ public class ItemDTO {
 	private String phonenumber; // 전화번호
 	private String image; // 이미지
 	private String lender; // 대여자
-	private String bookingGuest; // 예약자
-	private int rentNum;
+	private boolean safeTEL;
 
+	public boolean getSafeTEL() {
+		return safeTEL;
+	}
+
+	public void setSafeTEL(boolean safeTEL) {
+		this.safeTEL = safeTEL;
+	}
+
+	private int rentNum;
 
 	public void setRentNum(int n) {
 		rentNum = n;
@@ -29,7 +37,7 @@ public class ItemDTO {
 	public int getRentNum() {
 		return rentNum;
 	}
-	
+
 	public String getRentdate_end() {
 		return rentdate_end;
 	}
@@ -44,14 +52,6 @@ public class ItemDTO {
 
 	public void setRentdate_start(String s) {
 		rentdate_start = s;
-	}
-
-	public void setBookingGuest(String s) {
-		bookingGuest = s;
-	}
-
-	public String getBookingGuest() {
-		return bookingGuest;
 	}
 
 	public void setLender(String s) {

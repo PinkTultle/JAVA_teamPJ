@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -24,7 +23,7 @@ import JDBC.UserDAO;
 public class My_Page extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 5812757489846205649L;
-	private myPageTable table;
+	myPageTable table;
 	String[] Column_Name = { "거래번호", "물품명", "반납기한" };
 	String[][] Test = { { "data1", "data2", "data3" }, { "data1-1", "data2-1", "data3-1" } };
 	private RoundButton Bt_profile;
@@ -43,7 +42,7 @@ public class My_Page extends JPanel implements ActionListener {
 	private JLabel Rank_lb1;
 	private JLabel Rank_lb2;
 	private JButton Bt_Test;
-	private String name = "KJH";
+	private String name;
 	private JLabel lb_image;
 	private ImageIcon resizeIcon3_TOP;
 	private ImageIcon resizeIcon2_TOP;
@@ -56,20 +55,20 @@ public class My_Page extends JPanel implements ActionListener {
 		setBounds(0, 150, 1050, 800);
 		setLayout(null);
 
-		JLabel Label_NickName = new JLabel("KJH");
+		name = My_Page_Panel.userInfo_cur.getNickname();
+		JLabel Label_NickName = new JLabel(name);
 
 		Label_NickName.setFont(new Font("굴림", Font.BOLD, 19));
 		Label_NickName.setBounds(50, 18, 112, 46); // 원래 좌표 -> 131, 198
 		add(Label_NickName);
-		
+
 		// 마일리지 점수
 		UserDAO dao;
 		try {
 			dao = new UserDAO();
 			RankScore = dao.milerege("asd1"); // 이 부분 로그인한 id 가져와서 넣어야함@!@!@@@!@!@!@!@!
-			
+
 		} catch (SQLException | ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -109,12 +108,11 @@ public class My_Page extends JPanel implements ActionListener {
 		Bt_temp1.setFont(new Font("굴림", Font.BOLD, 16));
 		Bt_temp1.setBounds(41, 394, 141, 130);
 		Bt_temp1.addActionListener(this);
-		
+
 		add(Bt_temp1);
-		
+
 		Bt_temp1.setVisible(Administrator);
-		
-		
+
 		JLabel lblNewLabel_1 = new JLabel("렌트 알림");
 		lblNewLabel_1.setFont(new Font("굴림", Font.BOLD, 16));
 		lblNewLabel_1.setBounds(587, 426, 72, 32);
@@ -138,21 +136,6 @@ public class My_Page extends JPanel implements ActionListener {
 		Label_Return_Deadline.setFont(new Font("굴림", Font.PLAIN, 12));
 		Label_Return_Deadline.setBounds(888, 464, 60, 23);
 		add(Label_Return_Deadline);
-
-		Bt_More = new JButton("더보기 >");
-		Bt_More.setFont(new Font("굴림", Font.BOLD, 9));
-		Bt_More.setBackground(new Color(255, 255, 255));
-		Bt_More.setForeground(new Color(0, 0, 0));
-		Bt_More.setBounds(910, 441, 48, 15);
-		Bt_More.setMargin(new Insets(2, 2, 2, 2));
-		Bt_More.setContentAreaFilled(false); // 버튼 눌렀을 때 버튼영역 표시가 나지 않게
-		Bt_More.setBorderPainted(false); // 버튼 윤곽선 삭제
-		Bt_More.setFocusPainted(false); // 클릭했을 때의 윤곽선 삭제
-		Bt_More.addActionListener(this);
-		add(Bt_More);
-		
-		
-		
 
 		// FIXME - 원하는 이미지로 경로 수정
 		ImageIcon image = new ImageIcon(My_Page.class.getResource("../images/MEDAL.png"));
@@ -260,7 +243,7 @@ public class My_Page extends JPanel implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e){
+	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == Bt_profile) {
 			System.out.println("프로필 창 호출");
 			mpp.Open_profile();
@@ -280,7 +263,7 @@ public class My_Page extends JPanel implements ActionListener {
 			// 신고/접수 내역 창 호출
 			mpp.Open_reportHistory();
 			System.out.println("신고 접수/내역 창 호출");
-			
+
 			Main_frame.Changepane("신고내역");
 		} else if (e.getSource() == Bt_More) {
 
@@ -292,17 +275,13 @@ public class My_Page extends JPanel implements ActionListener {
 			try {
 				dao = new UserDAO();
 				RankScore = dao.milerege("asd1"); // 이 부분 로그인한 id 가져와서 넣어야함@!@!@@@!@!@!@!@!
-				
+
 			} catch (SQLException | ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
-			
-			//RankScore += 5; // TODO: 게시물 작성, 신고완료 등의 활동에 따라 등급 점수 부여
-			
-			
-			
+
+			// RankScore += 5; // TODO: 게시물 작성, 신고완료 등의 활동에 따라 등급 점수 부여
+
 			if (RankScore > 100)
 				RankScore -= (RankScore - 100);
 			jpb.setValue(RankScore);
@@ -311,14 +290,14 @@ public class My_Page extends JPanel implements ActionListener {
 			updatelabel();
 			updateImage();
 
-		} else if(e.getSource() == Bt_temp1) {
+		} else if (e.getSource() == Bt_temp1) {
 			try {
 				new Administrator();
 			} catch (ClassNotFoundException e1) {
 				e1.printStackTrace();
 			}
-			//관리자 창 연결 함수
-			
+			// 관리자 창 연결 함수
+
 		}
 	}
 

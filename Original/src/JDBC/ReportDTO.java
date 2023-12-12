@@ -9,6 +9,15 @@ public class ReportDTO {
 	private String category;
 	private String status;
 	private String reportdetail;
+	private String reportComment;
+
+	public String getReportComment() {
+		return reportComment;
+	}
+
+	public void setReportComment(String reportComment) {
+		this.reportComment = reportComment;
+	}
 
 	public String getPostID() {
 		return postid;
