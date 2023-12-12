@@ -789,7 +789,7 @@ public class C_Component {
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public myPageTable(int x, int y, int width, int height) {
+		public myPageTable(int x, int y, int width, int height,int item_count) {
 			setBounds(x, y, width, height);
 			getViewport().setBackground(Color.white);
 
@@ -808,11 +808,13 @@ public class C_Component {
 					return columnEditables[column];
 				}
 			});
-
+			
 			table.setRowHeight(70); // 각 행의 높이 설정
-
-			initJTableStyle(table, height, 2, false);
-
+			
+			initJTableStyle(table, height, item_count, false);
+			if (item_count != 2) // 렌트 알림의 테이블이라면 행 높이 재설정
+				table.setRowHeight(30);
+			
 			// 테이블 내 텍스트 가운데 정렬
 			DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 			centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER); // 수평 가운데 정렬
@@ -821,7 +823,7 @@ public class C_Component {
 				table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
 			}
 
-			setItem();
+			setItem(item_count);
 
 			setSize(getWidth(), getHeight() + 3);
 			this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -829,11 +831,11 @@ public class C_Component {
 			this.setViewportView(table);
 		}
 
-		public void refresh() {
-			setItem();
+		public void refresh(int item_count) {
+			setItem(item_count);
 		}
 
-		public void setItem() {
+		public void setItem(int item_count) {
 			try {
 				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 				int rowCount = tableModel.getRowCount();
@@ -844,7 +846,7 @@ public class C_Component {
 				Vector<ItemDTO> data = new Vector<>();
 				ItemDAO itemDAO = new ItemDAO();
 				data = itemDAO.itemRental();
-				for (int i = 0, j = 0; i < 2; j++) {
+				for (int i = 0, j = 0; i < item_count; j++) {
 					if (data.size() == j) {
 						System.out.println(i + " " + j);
 						break;

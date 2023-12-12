@@ -31,7 +31,6 @@ public class My_Page extends JPanel implements ActionListener {
 	private JButton Bt_Rent_Alarm;
 	private JButton Bt_My_Post;
 	private JButton Bt_Report_History;
-	private JButton Bt_More;
 	private JButton Bt_temp1;
 	private JButton Bt_temp2;
 	private JProgressBar jpb;
@@ -118,8 +117,8 @@ public class My_Page extends JPanel implements ActionListener {
 		lblNewLabel_1.setBounds(587, 426, 72, 32);
 		add(lblNewLabel_1);
 
-		table = new myPageTable(587, 495, 389, 144);
-		table.setItem();
+		table = new myPageTable(587, 495, 389, 144,2);
+		table.setItem(2);
 		add(table);
 
 		JLabel Label_Trade_Num = new JLabel("거래번호");
@@ -221,7 +220,8 @@ public class My_Page extends JPanel implements ActionListener {
 		resizeIcon2_TOP = new ImageIcon(change2_TOP);
 		Image change1_TOP = image1.getScaledInstance(90, 90, Image.SCALE_SMOOTH);
 		resizeIcon1_TOP = new ImageIcon(change1_TOP);
-
+		
+		updateImage();
 	}
 
 	public My_Page(My_Page_Panel mpp, boolean Administrator) {
@@ -265,30 +265,29 @@ public class My_Page extends JPanel implements ActionListener {
 			System.out.println("신고 접수/내역 창 호출");
 
 			Main_frame.Changepane("신고내역");
-		} else if (e.getSource() == Bt_More) {
-
-			// 더보기 창 호출
-			System.out.println("더보기 창 호출");
 		} else if (e.getSource() == Bt_Test && RankScore < 100) {
+			
+			//FIXME 버튼 점수 증가 버튼이 안먹음
 			previousRank = Rank;
 			UserDAO dao;
-			try {
+			try { 
 				dao = new UserDAO();
 				RankScore = dao.milerege("asd1"); // 이 부분 로그인한 id 가져와서 넣어야함@!@!@@@!@!@!@!@!
-
-			} catch (SQLException | ClassNotFoundException e1) {
-				e1.printStackTrace();
-			}
-
-			// RankScore += 5; // TODO: 게시물 작성, 신고완료 등의 활동에 따라 등급 점수 부여
-
+			  
+			  } catch (SQLException | ClassNotFoundException e1) {
+				  e1.printStackTrace(); 
+			  }
+			  
+			  // RankScore += 5; // TODO: 게시물 작성, 신고완료 등의 활동에 따라 등급 점수 부여
+			
 			if (RankScore > 100)
 				RankScore -= (RankScore - 100);
 			jpb.setValue(RankScore);
-			jpb.setString(String.valueOf(RankScore) + "점");
-			System.out.println(RankScore);
+			jpb.setString(String.valueOf(RankScore)+"점");
 			updatelabel();
 			updateImage();
+			 
+			
 
 		} else if (e.getSource() == Bt_temp1) {
 			try {

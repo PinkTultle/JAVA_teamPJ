@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Vector;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,19 +14,37 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
+import GUI.C_Component.myPageTable;
+import JDBC.ItemDAO;
+import JDBC.ItemDTO;
+
 public class Rent_Notification extends JPanel implements ActionListener{ // 렌트 알림 창
 	private static final long serialVersionUID = 1L;
 
 	Vector<String> columnNames;
 	Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 	
-	private JTable table;
+	private myPageTable table;
 	private RoundButton Bt_Back;
 	protected My_Page_Panel mpp;
 	JLabel[] columnLbl = new JLabel[4];
-	int[] xLoc = { 135, 460, 785 };
+	int[] xLoc = { 170, 465, 755 };
+	int item_count = 0;
 	
 	public Rent_Notification() {
+		
+		ItemDAO dao = new ItemDAO();
+		
+		Vector<ItemDTO> v = new Vector<ItemDTO>();
+		try {
+			v= dao.itemRental();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		for (int i=0;i<v.size();i++) {
+			item_count +=1;
+		}
 		
 		setBackground(new Color(255, 255, 255));
 		setBounds(0, 150, 1050, 800);
@@ -46,39 +65,8 @@ public class Rent_Notification extends JPanel implements ActionListener{ // 렌�
 			add(columnLbl[i]);
 		}
 		
-		// 임시 데이터
-//		  columnNames = new Vector<String>(); columnNames.add("거래번호");
-//		  columnNames.add("물품명"); columnNames.add("반납 기한"); Vector<Object> row1 = new
-//		  Vector<>(); row1.add("1"); row1.add("Item 1"); row1.add("2023-12-31");
-//		  data.add(row1);
-//		  
-//		  Vector<Object> row2 = new Vector<>(); row2.add("2"); row2.add("Item 2");
-//		  row2.add("2023-11-15"); data.add(row2);
-		 
-		   
-		
-		/* 
-		 * TODO: 테이블 내용(data 벡터)을 DB랑 연동
-		*/
-		
-		
-		NonEditableTableModel nonEditableModel = new NonEditableTableModel(data, columnNames);
-		table = new JTable();
-		table.setBackground(new Color(192, 192, 192));
-		table.setModel(nonEditableModel);
-		table.setShowVerticalLines(false);
-		table.setRowSelectionAllowed(false);
-		table.setBounds(30, 150, 975, 480);
-		table.setRowHeight(60); // 각 행의 높이 설정
-		table.getTableHeader().setReorderingAllowed(false); // 열 위치 드래그해서 바꿔지는 기능 비활성화
-		
-		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-		centerRenderer.setHorizontalAlignment(JLabel.CENTER); // 수평 가운데 정렬
-		TableColumnModel columnModel = table.getColumnModel();
-		for (int i = 0; i < columnModel.getColumnCount(); i++) {
-			table.getColumnModel().getColumn(i).setPreferredWidth(128); // setPreferredWidth() 열 너비 설정 메소드
-			columnModel.getColumn(i).setCellRenderer(centerRenderer);
-		}
+		table = new myPageTable(81, 160, 878, 436,item_count);
+		table.setItem(item_count);
 		add(table);
 		
 		Bt_Back = new RoundButton("뒤로");
