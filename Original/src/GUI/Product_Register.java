@@ -2,7 +2,6 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Font;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -386,9 +385,10 @@ public class Product_Register extends JFrame implements ActionListener {
 		// DB 연결 없이
 		result = itemDAO.insertItem(itemDTO);
 
-
 		if (result == 0) {
 			JOptionPane.showMessageDialog(null, "등록했습니다.");
+			ListPanel lp = (ListPanel) Main_frame.P2;
+			lp.refresh();
 			dispose();
 		} else if (result == 1) {
 			JOptionPane.showMessageDialog(null, "오류 발생");

@@ -169,4 +169,10 @@ public class ListPanel extends JPanel implements ActionListener {
 		System.out.println("search| " + category + " " + itemName + " " + status);
 		is.setPage(category, itemName, status);
 	}
+
+	public void refresh() {
+		clear();
+		searchCategory("전체");
+		repaint();
+	}
 }
