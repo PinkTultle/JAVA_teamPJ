@@ -31,7 +31,7 @@ public class My_Page_Panel extends JPanel {
 
 		UserDAO userDAO;
 		userDAO = new UserDAO();
-		userInfo_cur = userDAO.userSelect();
+		userInfo_cur = userDAO.userSelect(userDAO.user_cur);
 
 		myPage = new My_Page(this, Administrator);
 		this.add(myPage);

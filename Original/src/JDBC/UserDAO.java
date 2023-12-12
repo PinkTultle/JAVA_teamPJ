@@ -207,7 +207,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		return rs; // 프로필 수정
 	}
 
-	public UserDTO userSelect() {
+	public UserDTO userSelect(String ID) {
 		UserDTO userDTO = new UserDTO();
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -217,7 +217,7 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		try {
 			con = getConn();
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, user_cur);
+			pstmt.setString(1, ID);
 			rs = pstmt.executeQuery();
 
 			rs.next();
@@ -236,6 +236,10 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			TEL = temp.substring(0, 3) + temp.substring(4, 8) + temp.substring(9, 13);
 			userDTO.setTel(Integer.parseInt(TEL));
 			userDTO.setEmail(rs.getString("이메일"));
+			if (rs.getString("관리자여부") != null)
+				userDTO.setAdministrator(1);
+			else
+				userDTO.setAdministrator(0);
 
 			// 계좌번호 추가 필요
 
