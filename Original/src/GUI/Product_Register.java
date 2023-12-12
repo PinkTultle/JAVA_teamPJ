@@ -1,7 +1,6 @@
 package GUI;
 
 import java.awt.Color;
-
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,11 +14,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
-
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
@@ -36,7 +33,8 @@ import JDBC.ItemDTO;
 import JDBC.UserDAO;
 import JDBC.UserDTO;
 
-public class Product_Register extends JDialog implements ActionListener {
+public class Product_Register extends JFrame implements ActionListener {
+
 
 	private static final long serialVersionUID = 1L;
 
@@ -370,5 +368,5 @@ public class Product_Register extends JDialog implements ActionListener {
 		result = itemDAO.insertItem(itemDTO);
 
 	}
-	
+
 }
