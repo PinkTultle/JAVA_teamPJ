@@ -33,8 +33,7 @@ public class Administrator_Products_Pane extends Administrator_pane {
 		Action act = new Action();
 
 		revise = new JButton("조회");
-		revise.setBounds(close_bt.getX(), scrollPane.getY(),
-					close_bt.getWidth(), close_bt.getHeight());
+		revise.setBounds(close_bt.getX(), scrollPane.getY(), close_bt.getWidth(), close_bt.getHeight());
 		revise.setBackground(null);
 		revise.addActionListener(act);
 		add(revise);
@@ -62,7 +61,8 @@ public class Administrator_Products_Pane extends Administrator_pane {
 			}
 		};
 
-		table = new JTable(model);
+		if (table == null)
+			table = new JTable(model);
 
 		table.getColumn("물품코드").setPreferredWidth(30);
 		table.getColumn("대여상태").setPreferredWidth(40);
@@ -76,6 +76,7 @@ public class Administrator_Products_Pane extends Administrator_pane {
 			e.printStackTrace();
 		}
 
+		table.setModel(model);
 	}
 
 	class Action implements ActionListener {
@@ -85,7 +86,10 @@ public class Administrator_Products_Pane extends Administrator_pane {
 
 			if (e.getSource() == delete) {
 				dao.deleteItem(Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()));
-
+				Refresh_table();
+				table.repaint();
+				revalidate();
+				repaint();
 			}
 			if (e.getSource() == revise) {
 				new Administrator_ItemInfo_frame(

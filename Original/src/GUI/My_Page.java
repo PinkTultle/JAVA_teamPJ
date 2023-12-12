@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -35,7 +34,7 @@ public class My_Page extends JPanel implements ActionListener {
 	private JButton Bt_temp1;
 	private JButton Bt_temp2;
 	private JProgressBar jpb;
-	protected int RankScore; 
+	protected int RankScore;
 	private String Rank;
 	private JLabel lb_MyRank;
 	private String previousRank;
@@ -48,7 +47,6 @@ public class My_Page extends JPanel implements ActionListener {
 	private ImageIcon resizeIcon2_TOP;
 	private ImageIcon resizeIcon1_TOP;
 	protected My_Page_Panel mpp;
-	
 
 	public My_Page(boolean Administrator) {
 
@@ -66,7 +64,8 @@ public class My_Page extends JPanel implements ActionListener {
 		// 마일리지 점수
 		UserDAO dao;
 		dao = new UserDAO();
-		RankScore = dao.milerege("asd1")%101; // 이 부분 로그인한 id 가져와서 넣어야함@!@!@@@!@!@!@!@!
+		RankScore = dao.milerege();
+		RankScore = (RankScore > 100) ? 100 : RankScore;
 
 		Bt_profile = new RoundButton("프로필");
 		Bt_profile.setForeground(new Color(255, 255, 255));
@@ -114,7 +113,7 @@ public class My_Page extends JPanel implements ActionListener {
 		lblNewLabel_1.setBounds(587, 426, 72, 32);
 		add(lblNewLabel_1);
 
-		table = new myPageTable(587, 495, 389, 144,2);
+		table = new myPageTable(587, 495, 389, 144, 2);
 		table.setItem(2);
 		add(table);
 
@@ -202,7 +201,6 @@ public class My_Page extends JPanel implements ActionListener {
 		Rank_lb1.setBounds(582, 70, 397, 120);
 		add(Rank_lb1);
 
-		
 		lb_image = new JLabel("");
 		lb_image.setFont(new Font("굴림", Font.BOLD, 13));
 		lb_image.setHorizontalAlignment(SwingConstants.CENTER);
@@ -216,7 +214,7 @@ public class My_Page extends JPanel implements ActionListener {
 		resizeIcon2_TOP = new ImageIcon(change2_TOP);
 		Image change1_TOP = image1.getScaledInstance(90, 90, Image.SCALE_SMOOTH);
 		resizeIcon1_TOP = new ImageIcon(change1_TOP);
-		
+
 		updatelabel(RankScore);
 		updateImage(RankScore);
 	}
@@ -262,20 +260,20 @@ public class My_Page extends JPanel implements ActionListener {
 			System.out.println("신고 접수/내역 창 호출");
 
 			Main_frame.Changepane("신고내역");
-		} else if (e.getSource() == Bt_Test ) {
+		} else if (e.getSource() == Bt_Test) {
 
 			UserDAO dao;
 			UserDTO dto = new UserDTO();
 			dao = new UserDAO();
-			int return_mile = dao.milerege("asd1");
-			
-			dao.milerege_sum("asd1"); // 마일리지 +5
-			//dao.milerege_init("asd1"); // 마일리지 0 초기화	
-			
-			jpb.setValue(return_mile%101);
-			jpb.setString(String.valueOf(return_mile%101) + "점");
+			dao.milerege_sum(); // 마일리지 +5
+			int return_mile = dao.milerege();
+
+			return_mile = (return_mile > 100) ? 100 : return_mile;
+
+			jpb.setValue(return_mile);
+			jpb.setString(String.valueOf(return_mile) + "점");
 			System.out.println(return_mile);
-			
+
 			updatelabel(return_mile);
 			updateImage(return_mile);
 		} else if (e.getSource() == Bt_temp1) {
