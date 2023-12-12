@@ -9,15 +9,7 @@ public class ReportDTO {
 	private String category;
 	private String status;
 	private String reportdetail;
-	private String reportComment;
-
-	public String getReportComment() {
-		return reportComment;
-	}
-
-	public void setReportComment(String reportComment) {
-		this.reportComment = reportComment;
-	}
+	private String Answer;
 
 	public String getPostID() {
 		return postid;
@@ -73,6 +65,14 @@ public class ReportDTO {
 
 	public void setReportDetail(String s) {
 		reportdetail = s;
+	}
+
+	public String getAnswer() {
+		return Answer;
+	}
+
+	public void setAnswer(String answer) {
+		this.Answer = answer;
 	}
 
 }

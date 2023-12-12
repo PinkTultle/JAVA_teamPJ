@@ -32,8 +32,11 @@ public class Administrator extends JFrame {
 
 	
 	public Administrator() throws ClassNotFoundException {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 500);
+		
+		
+		
 		// 사이즈 조절 off
 		setResizable(false);
 		// 화면 중앙에 출력
