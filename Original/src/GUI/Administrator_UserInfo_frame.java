@@ -168,5 +168,7 @@ public class Administrator_UserInfo_frame extends JDialog {
 			}
 		});
 		contentPane.add(btnNewButton);
+
+		setVisible(true);
 	}
 }
