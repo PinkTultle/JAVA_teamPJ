@@ -180,7 +180,7 @@ public class ProfilePanel extends JPanel implements ActionListener {
 	public void setPanel() {
 		try {
 			UserDAO userDAO = new UserDAO();
-			UserDTO data = userDAO.userSelect();
+			UserDTO data = userDAO.userSelect(UserDAO.user_cur);
 			passwordField.clear();
 			textFields[0].setInit(data.getId());
 			textFields[1].setInit(data.getNickname());
@@ -209,16 +209,8 @@ public class ProfilePanel extends JPanel implements ActionListener {
 		setEditable(false);
 	}
 	/*
-	 * textField 번호 
-	 * 0: ID / 비활성화 
-	 * 1: Password 
-	 * 2: 별명 
-	 * 3: 이름 
-	 * 4: 생년원일 
-	 * 5: 주소 
-	 * 6: e-mail 
-	 * 7: 은행 / 비활성화 
-	 * 8: 계좌번호 / 비활성화
+	 * textField 번호 0: ID / 비활성화 1: Password 2: 별명 3: 이름 4: 생년원일 5: 주소 6: e-mail 7:
+	 * 은행 / 비활성화 8: 계좌번호 / 비활성화
 	 */
 
 	@Override

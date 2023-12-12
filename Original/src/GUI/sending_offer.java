@@ -148,8 +148,13 @@ public class sending_offer extends JFrame implements ActionListener {
 				msg = "날짜를 확인해주세요.";
 			else if (d1.isBefore(d2)) {
 				ItemDAO itemDAO = new ItemDAO();
-				if (itemDAO.sendingOffer(data, d1, d2) == 0) {
-					msg = "예약 성공했습니다.";
+				ItemDTO d = itemDAO.itemdetail(itemNum);
+				if (d.getState().equals("대여가능")) {
+					if (itemDAO.sendingOffer(data, d1, d2) == 0) {
+						msg = "예약 성공했습니다.";
+					}
+				} else {
+					msg = "대여가능 상태가 아닙니다.";
 				}
 			}
 

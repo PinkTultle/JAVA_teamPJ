@@ -58,7 +58,7 @@ public class Product_Register extends JFrame implements ActionListener {
 		getContentPane().setLayout(null);
 
 		UserDAO userDAO = new UserDAO();
-		UserDTO userData = userDAO.userSelect();
+		UserDTO userData = userDAO.userSelect(UserDAO.user_cur);
 
 		String tmp = "0" + Integer.toString(userData.getTel());
 		phoneNum = tmp.substring(0, 3) + "-" + tmp.substring(3, 7) + "-" + tmp.substring(7, 11);
