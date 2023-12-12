@@ -88,7 +88,6 @@ public class RentHistory extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnNewButton) { // 연장 요청 동작
-			System.out.println(((JButton) (e.getSource())).getText());
 			if (is.getSelectItemNum() != -1) {
 				// 거래 번호 추가 필요
 				JFrame eO = new extendOffer(is.getSelectRentNum());
@@ -96,18 +95,16 @@ public class RentHistory extends JPanel implements ActionListener {
 			}
 
 		} else if (e.getSource() == btnNewButton_1) { // 반납 동작
-			System.out.println(((JButton) (e.getSource())).getText());
 			returnItem();
-			if (is.getSelectItemNum() != -1)
-				System.out.println("물품 번호: " + is.getSelectItemNum());
+			if (is.getSelectItemNum() != -1);
 		} else if (e.getSource() == btnNewButton_2) { // 뒤로 동작
-			System.out.println(((JButton) (e.getSource())).getText());
 			is.clear();
 			mpp.Open_My_Page();
 		}
 		this.refresh();
 		this.repaint();
 	}
+
 
 	int returnItem() {
 		if (is.getSelectItemNum() != -1 && is.getSelectState() != null) {

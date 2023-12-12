@@ -102,7 +102,6 @@ public class Main_frame extends JFrame {
 			switch (text) {
 
 			case "홈":
-				System.out.println("홈 패널 교체 호출");
 				// 패널교체
 				if (!P4.Close_profile())
 					break;
@@ -113,7 +112,6 @@ public class Main_frame extends JFrame {
 				break;
 
 			case "목록":
-				System.out.println("목록 패널 교체 호출");
 				// 패널교체
 				if (!P4.Close_profile())
 					break;
@@ -126,7 +124,6 @@ public class Main_frame extends JFrame {
 				break;
 
 			case "신청관리":
-				System.out.println("신청관리 패널 교체 호출");
 				// 패널교체
 				if (!P4.Close_profile())
 					break;
@@ -139,13 +136,11 @@ public class Main_frame extends JFrame {
 				break;
 
 			case "메인 검색":
-				System.out.println("메인 프레임 검색 기능 호출");
 
 				// 패널교체 및 검색
 				break;
 
 			case "마이페이지":
-				System.out.println("마이페이지 패널 교체 호출");
 				// 패널교체
 				if (!P4.Close_profile())
 					break;
@@ -166,8 +161,6 @@ public class Main_frame extends JFrame {
 	public static void Category(String category) {
 
 		// 목록배너 호출 및 카테고리값으로 겂색하는 긴능 추가부
-		System.out.println("카테고리 버튼 클릭");
-		System.out.println("클릭된 버튼 : " + category);
 
 		P1.setVisible(false);
 		P2.setVisible(true);
@@ -176,8 +169,7 @@ public class Main_frame extends JFrame {
 	}
 
 	public static void itemName(String itemName) {
-		System.out.println("검색 버튼 클릭");
-		System.out.println("검색어 : " + itemName);
+		
 
 		P1.setVisible(false);
 		P2.setVisible(true);

@@ -133,7 +133,6 @@ public class My_Writing_History extends JPanel implements ActionListener {
 	public void select() {
 		MyHistoryDTO data = new MyHistoryDTO();
 		v2 = data.select();
-		System.out.println(v2.size());
 	}
 	 
 }

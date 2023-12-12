@@ -240,24 +240,19 @@ public class My_Page extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == Bt_profile) {
-			System.out.println("프로필 창 호출");
 			mpp.Open_profile();
 		} else if (e.getSource() == Bt_Rent_History) {
 			// 렌트 내역 창 호출
-			System.out.println("렌트 내역 창 호출");
 			mpp.Open_rentHistory();
 		} else if (e.getSource() == Bt_Rent_Alarm) {
 			// 렌트 알림 창 호출
-			System.out.println("렌트 알림 호출");
 			mpp.Open_rentnotifi();
 		} else if (e.getSource() == Bt_My_Post) {
 			// 나의 글 창 호출
-			System.out.println("나의 글 창 호출");
 			mpp.Open_myWrite();
 		} else if (e.getSource() == Bt_Report_History) {
 			// 신고/접수 내역 창 호출
 			mpp.Open_reportHistory();
-			System.out.println("신고 접수/내역 창 호출");
 
 			Main_frame.Changepane("신고내역");
 		} else if (e.getSource() == Bt_Test) {
@@ -274,7 +269,6 @@ public class My_Page extends JPanel implements ActionListener {
 			jpb.setValue(return_mile);
 			jpb.setString(String.valueOf(return_mile) + "점");
 
-			System.out.println(return_mile);
 
 			updatelabel(return_mile);
 			updateImage(return_mile);

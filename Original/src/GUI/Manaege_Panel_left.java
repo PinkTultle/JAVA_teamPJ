@@ -81,7 +81,6 @@ public class Manaege_Panel_left extends JPanel {
 
       	        if (row >= 0 && col >= 0) {
       	        	Object value = table.getValueAt(row, col); // 선택된 셀의 값을 value에 저장
-      	            System.out.println("클릭된 셀의 값: " + value);
       	            // TODO 셀 선택시 해당 글 페이지로 연결
       	          
       	        }

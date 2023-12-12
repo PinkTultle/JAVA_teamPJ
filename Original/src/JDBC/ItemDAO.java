@@ -32,10 +32,7 @@ public class ItemDAO {
 
 			conn = DriverManager.getConnection(url, user, password);
 
-			// System.out.println("로그인 성공");
-
 		} catch (SQLException e) {
-			System.out.println("DB 로그인 실패");
 		}
 		return conn; // 오라클 로그인 연결 정보
 	}
@@ -76,7 +73,6 @@ public class ItemDAO {
 	}
 
 	public Vector<ItemDTO> searchItemData(String category, String itemName, String status) throws SQLException {
-		System.out.println("searchItemData");
 		Vector<ItemDTO> list = new Vector<ItemDTO>();
 
 		Connection con = null;
@@ -95,8 +91,6 @@ public class ItemDAO {
 		}
 
 		sql += "ORDER BY 물품목록.물품코드 ASC";
-
-		System.out.println(sql);
 
 		try {
 			con = getConn();
@@ -123,7 +117,6 @@ public class ItemDAO {
 	}
 
 	public Vector<ItemDTO> searchItemData_MY() {
-		System.out.println("searchItemData");
 		Vector<ItemDTO> list = new Vector<ItemDTO>();
 
 		Connection con = null;
@@ -133,7 +126,6 @@ public class ItemDAO {
 				+ " FROM 물품목록 "
 				+ " INNER JOIN 회원 ON 물품목록.소유주 = 회원.아이디 WHERE 물품목록.대여상태 <> '삭제' AND 물품목록.소유주 = ? ORDER BY 물품목록.물품코드 ASC ";
 
-		System.out.println(sql);
 
 		try {
 			con = getConn();
@@ -208,7 +200,6 @@ public class ItemDAO {
 			con = getConn();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, UserDAO.user_cur); // 로그인된 아이디 가져오기
-			System.out.println(sql + UserDAO.user_cur);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -366,8 +357,7 @@ public class ItemDAO {
 						|| changeDate(data1.get(data1.size() - 1).getRentdate_end()).isBefore(d1)) {
 					// 기존의 대여와 관계가 없는 경우
 					// 삽입 연산 필요
-					System.out.println(data1.get(0).getRentdate_start() + " " + d2 + " "
-							+ changeDate(data1.get(0).getRentdate_start()).isAfter(d2));
+					
 					return 0;
 				}
 				for (int i = 0; i < data1.size() - 1; i++) {
@@ -379,7 +369,6 @@ public class ItemDAO {
 					if (e.isBefore(d1) & s.isAfter(d2)) {
 						// 다른 대여들 사이에 들어갈수 있는 경우
 						// 삽입 연산 필요
-						System.out.println("사이");
 						return 0;
 					}
 				}
@@ -387,7 +376,6 @@ public class ItemDAO {
 			}
 			// 다른 대여자가 없는 상황
 			// 삽입 연산 필요
-			System.out.println("없음");
 			return 0;
 
 		} catch (Exception e) {
@@ -596,8 +584,6 @@ public class ItemDAO {
 			} else {
 				pstmt.setNull(12, java.sql.Types.NULL);
 			}
-
-			System.out.println(sql);
 
 			pstmt.executeQuery();
 

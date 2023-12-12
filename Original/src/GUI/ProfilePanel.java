@@ -216,7 +216,6 @@ public class ProfilePanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == button) { // 회원탈퇴 동작
-			System.out.println(((JButton) (e.getSource())).getText());
 			int sel = JOptionPane.showConfirmDialog(null, "계정을 삭제하시겠습니까?", "경고", JOptionPane.YES_NO_OPTION,
 					JOptionPane.WARNING_MESSAGE);
 			if (sel == JOptionPane.YES_OPTION) {
@@ -231,10 +230,8 @@ public class ProfilePanel extends JPanel implements ActionListener {
 				}
 			}
 		} else if (e.getSource() == button_1) { // 변경 동작
-			System.out.println(((JButton) (e.getSource())).getText());
 			changeMode(true);
 		} else if (e.getSource() == button_2) { // 취소 동작
-			System.out.println(((JButton) (e.getSource())).getText());
 			if (mpp.Close_profile())
 				mpp.Open_My_Page();
 		}
@@ -276,7 +273,6 @@ public class ProfilePanel extends JPanel implements ActionListener {
 	void update() {
 		try {
 			UserDAO userDAO = new UserDAO();
-			System.out.println("profilePanel | update");
 			String[] data = new String[8];
 			if (!tglbtnNewToggleButton.isSelected() && !tglbtnNewToggleButton_1.isSelected()) {
 				data[7] = null;
@@ -303,7 +299,6 @@ public class ProfilePanel extends JPanel implements ActionListener {
 						data[i] = null;
 					} else {
 						String bir = textFields[i].getString();
-						System.out.println(bir);
 						data[i] = bir.substring(0, 4) + "-" + bir.substring(4, 6) + "-" + bir.substring(6, 8);
 						textFields[i].setInit(textFields[i].getText());
 						textFields[i].isTyped = false;

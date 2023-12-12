@@ -24,7 +24,6 @@ public class My_Page_Panel extends JPanel {
 
 	public My_Page_Panel(boolean Administrator) {
 
-		System.out.print(Administrator);
 		setLayout(null);
 		setBounds(0, 150, 1050, 700);
 		setBackground(new Color(255, 255, 255));

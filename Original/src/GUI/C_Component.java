@@ -619,7 +619,6 @@ public class C_Component {
 			ItemDAO itemDAO = new ItemDAO();
 			data = itemDAO.item_receive_sending(s);
 			for (ItemDTO item : data) {
-				System.out.println(s + " " + item.getItemnumber());
 				if (p_t.mode)
 					p_t.offerNum.add(item.getRentNum());
 				tableModel.addRow(new Object[] { "" + item.getItemnumber(), item.getItemname(), item.getRentdate() });
@@ -839,7 +838,6 @@ public class C_Component {
 				data = itemDAO.itemRental();
 				for (int i = 0, j = 0; i < item_count; j++) {
 					if (data.size() == j) {
-						System.out.println(i + " " + j);
 						break;
 					}
 					ItemDTO item = data.get(j);
