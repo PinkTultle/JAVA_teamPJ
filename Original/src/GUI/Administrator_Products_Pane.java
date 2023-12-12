@@ -15,20 +15,15 @@ public class Administrator_Products_Pane extends Administrator_pane  {
 	
 	private JButton revise, delete;
 	private String colNames[] = {"물품코드","카테고리","물품명","소유주", "대여상태"};  // 테이블 컬럼 값들
-    private DefaultTableModel model = new DefaultTableModel(colNames, 0);
-    private JTable table ;
+
     private ItemDAO dao;
 	
 	public Administrator_Products_Pane(JFrame master){
 		super(master);
-		table = new JTable(model);
-		dao = new ItemDAO();
-		try {
-			dao.itemAll(model);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		Refresh_table();
+		set_table();
+		
 		
 		scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(18, 30, 460, 344);
@@ -53,5 +48,33 @@ public class Administrator_Products_Pane extends Administrator_pane  {
 		setBackground(Color.white);
 		
 	}
+	
+	private void Refresh_table() {
 		
+		model = new DefaultTableModel(colNames, 0) {
+			 public boolean isCellEditable(int row, int column) {
+			    	if(column >= 0) {
+			    		return false;
+			    	}else {
+			    		return true;
+			    	}
+			    }
+		};
+		
+		table = new JTable(model);
+		
+		table.getColumn("물품코드").setPreferredWidth(30); 
+		table.getColumn("대여상태").setPreferredWidth(40); 
+		table.getColumn("소유주").setPreferredWidth(50);		
+		
+		dao = new ItemDAO();
+		try {
+			dao.itemAll(model);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
 }
