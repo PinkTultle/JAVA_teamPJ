@@ -59,7 +59,7 @@ public class My_Page_Panel extends JPanel {
 
 	void Open_My_Page() {
 		myPage.setVisible(true);
-		myPage.table.refresh();
+		myPage.table.refresh(2);
 		rentHistory.setVisible(false);
 		// rentAlarm.setVisible(false);
 		myWrite.setVisible(false);

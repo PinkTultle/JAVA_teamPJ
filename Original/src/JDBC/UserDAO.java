@@ -292,23 +292,31 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 		}
 	}
 
+
 	public int milerege(String id) throws SQLException, ClassNotFoundException {
 
 		int m = 0;
 		String sql = " SELECT 마일리지 FROM 회원 WHERE 아이디 = ? ";
 
-		con = getConn();
+		try {
+			con = getConn();
 
-		pstmt = con.prepareStatement(sql);
+			pstmt = con.prepareStatement(sql);
 
-		pstmt.setString(1, id);
+			pstmt.setString(1, id);
 
-		rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
-		if (rs.next()) {
-			m = rs.getInt("마일리지");
-			System.out.println("마일리지 점수 : " + m);
-		}
+			if (rs.next()) {
+				m = rs.getInt("마일리지");
+				System.out.println("마일리지 점수 : " + m);
+			}
+			
+			con.close();
+			pstmt.close();
+			rs.close();
+			
+			return m;
 
 		con.close();
 		pstmt.close();

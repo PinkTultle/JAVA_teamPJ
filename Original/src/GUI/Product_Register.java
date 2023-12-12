@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Color;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,9 +14,10 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
@@ -32,9 +34,10 @@ import JDBC.ItemDTO;
 import JDBC.UserDAO;
 import JDBC.UserDTO;
 
-public class Product_Register extends JFrame implements ActionListener {
+public class Product_Register extends JDialog {
 
 	private static final long serialVersionUID = 1L;
+
 	private MyJT PdName_text;
 	private JLabel LentDate_text;
 	private MyJT Model_text;
@@ -91,8 +94,8 @@ public class Product_Register extends JFrame implements ActionListener {
 		getContentPane().add(Modelname_Label);
 
 		JLabel Percent_Label = new JLabel("%");
-		Percent_Label.setHorizontalAlignment(SwingConstants.CENTER);
 		Percent_Label.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+
 		Percent_Label.setBounds(590, 130, 25, 32);
 		getContentPane().add(Percent_Label);
 
@@ -232,8 +235,9 @@ public class Product_Register extends JFrame implements ActionListener {
 
 		Register_btn = new RoundButton("등록");
 		Register_btn.setForeground(new Color(255, 255, 255));
-		Register_btn.setColorNormal(new Color(41, 76, 121));
+		Register_btn.setBackground(new Color(41, 76, 121));
 		Register_btn.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+
 		Register_btn.setBounds(555, 571, 83, 42);
 		Register_btn.addActionListener(this);
 		getContentPane().add(Register_btn);
@@ -364,13 +368,6 @@ public class Product_Register extends JFrame implements ActionListener {
 		// DB 연결 없이
 		result = itemDAO.insertItem(itemDTO);
 
-		if (result == 0) {
-			JOptionPane.showMessageDialog(null, "등록했습니다.");
-			ListPanel lp = (ListPanel) Main_frame.P2;
-			lp.refresh();
-			dispose();
-		} else if (result == 1) {
-			JOptionPane.showMessageDialog(null, "오류 발생");
-		}
 	}
+	
 }

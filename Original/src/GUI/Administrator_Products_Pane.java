@@ -32,8 +32,9 @@ public class Administrator_Products_Pane extends Administrator_pane {
 
 		Action act = new Action();
 
-		revise = new JButton("수정");
-		revise.setBounds(close_bt.getX(), scrollPane.getY(), close_bt.getWidth(), close_bt.getHeight());
+		revise = new JButton("조회");
+		revise.setBounds(close_bt.getX(), scrollPane.getY(),
+					close_bt.getWidth(), close_bt.getHeight());
 		revise.setBackground(null);
 		revise.addActionListener(act);
 		add(revise);
