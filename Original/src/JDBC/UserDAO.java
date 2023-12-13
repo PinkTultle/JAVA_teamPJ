@@ -31,7 +31,6 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 			conn = DriverManager.getConnection(url, user, password);
 
-			System.out.println("DB 로그인 성공");
 
 		} catch (SQLException e) {
 			System.out.println("DB 로그인 실패");
@@ -48,7 +47,6 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 			conn = DriverManager.getConnection(url, user, password);
 
-			System.out.println("DB 로그인 성공");
 
 		} catch (SQLException | ClassNotFoundException e) {
 			System.out.println("DB 로그인 실패");
@@ -277,7 +275,6 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 			ResultSet rs = stmt.executeQuery(query);
 
 			while (rs.next()) {
-				System.out.println(rs.getString("아이디"));
 				String id = rs.getString("아이디");
 				String name = rs.getString("이름");
 				String tel = rs.getString("전화번호");
@@ -309,7 +306,6 @@ public class UserDAO implements AutoCloseable { // 회원 관련 db 기능
 
 			if (rs.next()) {
 				m = rs.getInt("마일리지");
-				System.out.println("마일리지 점수 : " + m);
 			}
 
 			con.close();

@@ -119,21 +119,15 @@ public class ListPanel extends JPanel implements ActionListener {
 			// textField : 검색어 텍스트 필드 객체
 			search(comboBox.getSelectedItem().toString(), textField.getText(), comboBox_1.getSelectedItem().toString());
 			if (textField.isTyped) { // textField 의 입력 확인
-				System.out.println(textField.getText());
 			}
 		} else if (e.getSource() == btnNewButton_1) { // 상품 등록하기 동작
-			System.out.println(((JButton) (e.getSource())).getText());
 			new Product_Register();
 		} else if (e.getSource() == btnNewButton_2) { // 이전 페이지 동작
-			System.out.println(((JButton) (e.getSource())).getText());
 			lblNewLabel_1.setText(String.valueOf(is.prevPage()));
 		} else if (e.getSource() == btnNewButton_3) { // 다음 페이지 동작
-			System.out.println(((JButton) (e.getSource())).getText());
 			lblNewLabel_1.setText(String.valueOf(is.nextPage()));
 		} else if (e.getSource() == comboBox) { // 카테고리 콤보박스 동작
-			System.out.println(((JComboBox<?>) (e.getSource())).getSelectedItem().toString());
 		} else if (e.getSource() == comboBox_1) { // 처리상태 콤보박스 동작
-			System.out.println(((JComboBox<?>) (e.getSource())).getSelectedItem().toString());
 		}
 	}
 
@@ -166,7 +160,6 @@ public class ListPanel extends JPanel implements ActionListener {
 			itemName = null;
 		if (status == null || status.equals("전체"))
 			status = null;
-		System.out.println("search| " + category + " " + itemName + " " + status);
 		is.setPage(category, itemName, status);
 	}
 

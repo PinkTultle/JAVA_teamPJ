@@ -132,7 +132,6 @@ public class Report_Details extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == Bt_Back) {
-			System.out.println("뒤로가기");
 
 			Main_frame.Changepane("마이페이지");
 		}

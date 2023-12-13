@@ -275,6 +275,8 @@ public class C_Component {
 	static void initJTableStyle(JTable jt, int height, int rowCount, boolean isHeader) { // JTable 클래스들의 기본 설정
 		final Border DEFAULT_BORDER = new EmptyBorder(1, 1, 1, 1);
 
+		My_ML ml = new My_ML();
+		
 		// Enter 키 이벤트 제거
 		InputMap iMap = jt.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 		KeyStroke stroke = KeyStroke.getKeyStroke("ENTER");
@@ -291,7 +293,7 @@ public class C_Component {
 		jt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jt.setDefaultRenderer(String.class, new ProxyCellRenderer(jt.getDefaultRenderer(String.class)));
 		jt.setDefaultRenderer(Boolean.class, new ProxyCellRenderer(jt.getDefaultRenderer(Boolean.class)));
-		jt.addMouseListener(new My_ML());
+		jt.addMouseListener(ml);
 		jt.addKeyListener(new My_KL());
 		jt.setShowVerticalLines(false);
 
@@ -619,7 +621,6 @@ public class C_Component {
 			ItemDAO itemDAO = new ItemDAO();
 			data = itemDAO.item_receive_sending(s);
 			for (ItemDTO item : data) {
-				System.out.println(s + " " + item.getItemnumber());
 				if (p_t.mode)
 					p_t.offerNum.add(item.getRentNum());
 				tableModel.addRow(new Object[] { "" + item.getItemnumber(), item.getItemname(), item.getRentdate() });
@@ -839,7 +840,6 @@ public class C_Component {
 				data = itemDAO.itemRental();
 				for (int i = 0, j = 0; i < item_count; j++) {
 					if (data.size() == j) {
-						System.out.println(i + " " + j);
 						break;
 					}
 					ItemDTO item = data.get(j);

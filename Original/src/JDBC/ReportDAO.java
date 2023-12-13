@@ -24,7 +24,6 @@ public class ReportDAO {
 
 			conn = DriverManager.getConnection(url, user, password);
 
-			// System.out.println("로그인 성공");
 
 		} catch (SQLException e) {
 			System.out.println("DB 로그인 실패");
@@ -112,7 +111,6 @@ public class ReportDAO {
 
 		String sql = "SELECT * FROM 신고기록 WHERE 작성자 = ?";
 
-		System.out.println(sql + UserDAO.user_cur);
 		try {
 			con = getConn();
 			pstmt = con.prepareStatement(sql);
@@ -149,7 +147,6 @@ public class ReportDAO {
 
 		String sql = "SELECT * FROM 신고기록 WHERE 신고번호 = ?";
 
-		System.out.println(sql + reportNum);
 		try {
 			con = getConn();
 			pstmt = con.prepareStatement(sql);

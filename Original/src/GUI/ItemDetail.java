@@ -61,8 +61,6 @@ public class ItemDetail extends JFrame implements ActionListener {
 		} else {
 
 			isWriter = itemdto.getPerson().equals(UserDAO.user_cur);
-			System.out.println(itemdto.getPerson());
-			System.out.println(UserDAO.user_cur);
 
 			setBounds(100, 100, 1050, 570);
 			contentPane = new JPanel();
@@ -280,19 +278,15 @@ public class ItemDetail extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnNewButton) { // 뒤로 버튼 동작
-			System.out.println(((JButton) (e.getSource())).getText());
 			dispose();
 		} else if (e.getSource() == btnNewButton_1) { // 수정/신고 버튼 동작
 			if (isWriter) { // 수정 버튼 동작
-				System.out.println(((JButton) (e.getSource())).getText());
 			} else { // 신고 버튼 동작
-				System.out.println(((JButton) (e.getSource())).getText());
 				Report_Window_Write rw = new Report_Window_Write(lbl[2].getText(), lbl[1].getText());
 
 			}
 		} else if (e.getSource() == btnNewButton_2) { // 삭제/예약 버튼 동작
 			if (isWriter) { // 삭제 버튼 동작
-				System.out.println(((JButton) (e.getSource())).getText());
 				if (delete()) {
 					// 삭제 확인한 경우 | DB 에서 DELETE 필요
 					ItemDAO itemDAO = new ItemDAO();
@@ -304,7 +298,6 @@ public class ItemDetail extends JFrame implements ActionListener {
 					}
 				}
 			} else { // 예약 버튼 동작
-				System.out.println(((JButton) (e.getSource())).getText());
 				sending_offer so = new sending_offer(itemdto);
 				so.setVisible(true);
 			}
