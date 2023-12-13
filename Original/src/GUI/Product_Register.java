@@ -12,7 +12,6 @@ import java.time.ZoneId;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -35,7 +34,6 @@ import JDBC.UserDTO;
 
 public class Product_Register extends JFrame implements ActionListener {
 
-
 	private static final long serialVersionUID = 1L;
 
 	private MyJT PdName_text;
@@ -53,7 +51,7 @@ public class Product_Register extends JFrame implements ActionListener {
 	private LocalDate date;
 	private String phoneNum;
 
-	public Product_Register(){
+	public Product_Register() {
 		// 패널 크기 및 배경색
 		getContentPane().setBackground(new Color(250, 250, 250));
 		setBounds(Main_frame.mainFrame.getX() + 118, Main_frame.mainFrame.getY() + 100, 823, 669);
@@ -235,7 +233,7 @@ public class Product_Register extends JFrame implements ActionListener {
 
 		Register_btn = new RoundButton("등록");
 		Register_btn.setForeground(new Color(255, 255, 255));
-		//Register_btn.setBackground(new Color(41, 76, 121));
+		// Register_btn.setBackground(new Color(41, 76, 121));
 		Register_btn.setColorNormal(new Color(41, 76, 121));
 		Register_btn.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 
@@ -294,12 +292,12 @@ public class Product_Register extends JFrame implements ActionListener {
 
 			if (result == 0) {
 				insert();
-				
-				JOptionPane.showMessageDialog(null, "물품 등록이 완료되었습니다!","상품등록",
-						JOptionPane.DEFAULT_OPTION);
-				
+
+				JOptionPane.showMessageDialog(null, "물품 등록이 완료되었습니다!", "상품등록", JOptionPane.DEFAULT_OPTION);
+				ListPanel lp = (ListPanel) Main_frame.P2;
+				lp.refresh();
 				dispose();
-				
+
 			}
 
 		}
