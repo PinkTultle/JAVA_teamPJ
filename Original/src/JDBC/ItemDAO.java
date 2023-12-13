@@ -146,12 +146,16 @@ public class ItemDAO {
 				dto.setCategory(rs.getString("카테고리"));
 				dto.setItemname(rs.getString("물품명"));
 				dto.setPerson(rs.getString("별명"));
-				dto.setRentdate(rs.getString("렌트기한"));
-				dto.setState(rs.getString("대여상태"));
+				String temp_date = rs.getString("렌트기한"), temp_state = rs.getString("대여상태");
+				if (Integer.parseInt(temp_date) < 0) {
+					temp_date = "";
+					temp_state = "대여 기간 지남";
+				}
+				dto.setRentdate(temp_date);
+				dto.setState(temp_state);
 				list.add(dto); // 리스트에 한줄 추가
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return list;
