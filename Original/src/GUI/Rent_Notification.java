@@ -65,7 +65,7 @@ public class Rent_Notification extends JPanel implements ActionListener{ // ë Œí
 			add(columnLbl[i]);
 		}
 		
-		table = new myPageTable(81, 160, 878, 436,item_count);
+		table = new myPageTable(81, 160, 878, 436,10);
 		table.setItem(item_count);
 		add(table);
 		
